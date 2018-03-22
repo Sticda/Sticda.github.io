@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>20180319 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一个表单里包含多个提交按钮，分别提交给不同的控制逻辑，和上周方法不同的方法是，将一个Action处理类定义成多个逻辑Action，在struts.xml中配置action的时候可以指定method属性来让action调用特定的方法处理，而不是默认使用execute方法，这些方法必须具有相似的方法签名，形参列表为空，方法返回值为String。 在struts.xml中配置action允许在指定nam">
+<meta name="keywords" content="笔记,Struts">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20180319">
+<meta property="og:url" content="http://yoursite.com/2018/03/19/20180319 struts/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一个表单里包含多个提交按钮，分别提交给不同的控制逻辑，和上周方法不同的方法是，将一个Action处理类定义成多个逻辑Action，在struts.xml中配置action的时候可以指定method属性来让action调用特定的方法处理，而不是默认使用execute方法，这些方法必须具有相似的方法签名，形参列表为空，方法返回值为String。 在struts.xml中配置action允许在指定nam">
+<meta property="og:updated_time" content="2018-03-22T03:16:52.916Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="20180319">
+<meta name="twitter:description" content="一个表单里包含多个提交按钮，分别提交给不同的控制逻辑，和上周方法不同的方法是，将一个Action处理类定义成多个逻辑Action，在struts.xml中配置action的时候可以指定method属性来让action调用特定的方法处理，而不是默认使用execute方法，这些方法必须具有相似的方法签名，形参列表为空，方法返回值为String。 在struts.xml中配置action允许在指定nam">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-20180319 struts" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/19/20180319 struts/" class="article-date">
+  <time datetime="2018-03-19T00:37:12.000Z" itemprop="datePublished">2018-03-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      20180319
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一个表单里包含多个提交按钮，分别提交给不同的控制逻辑，和上周方法不同的方法是，将一个Action处理类定义成多个逻辑Action，在struts.xml中配置action的时候可以指定method属性来让action调用特定的方法处理，而不是默认使用execute方法，这些方法必须具有相似的方法签名，形参列表为空，方法返回值为String。</p>
+<p>在struts.xml中配置action允许在<strong>指定name属性</strong>时使用模式字符串（用*代表一个或者多个任意字符），接下来就可以在class、method和result元素中使用{N}的形式代表前面第N个星号（*）所匹配的子串</p>
+<pre><code>&lt;action name=&quot;*Action&quot; class=&quot;cc.LoginRegistAction&quot; method=&quot;{1}&quot;
+</code></pre><p>上面的这段代码其实就是根据传入的action名称选择method，也可以在类名里面使用{N}，没有为Action指定class属性，该action使用ActionSupport作为处理类，而且因为该ActionSupport类的execute方法默认返回success字符串</p>
+<p>如果有URL为abcAction.action的请求，如果struts.xml文件中有名为abcAction的action，则一定由该action处理用户请求，如果struts.xml文件中没有名为abcAction的action，则搜寻第一个个能够匹配abcAction的Action，例如*Action和*，*Action并不会比*匹配的优先级高，先找到那个Action就由哪个Action处理请求。所以说name=“*”的Action一般配置在最后。</p>
+<p>配置默认Action通过&lt;default-action-ref…../&gt; ，struts.xml文件中使用&lt;result…./&gt;元素配置结果，根据&lt;result…/&gt;元素所在位置的不同，struts2提供了两种结果，局部结果（result作为action的子元素）和全局结果（result作为global-results的子元素），配置result元素的时候通常要指定两个属性name和type，Struts2默认的结果类型就是dispatcher，所以在配置result的时候可以省略type元素，默认name是success，没有指定location参数，会把&lt;result….&gt;………中间的字符串当成实际视图资源。</p>
+<p>如果result的type是plainText的话将会返回网页源代码，指定location和charSet（处理字符集）；result的结果如果是redirect；类型，将产生新的请求，所有的请求参数、请求属性、Action实例和Action中封装的属性全部丢失。使用redirect类型的结果时，不能重定向到/WEB-INF/路径下任何资源，因为<strong>web应用的/WEB-INF/路径下的所有资源是受保护对象</strong>；redirectAction结果类型和redirect都是重新生成全新的请求，配置redirectAction的时候需要指定两个参数actionName和namespace。</p>
+<p>配置result元素的时候，不仅可以使用${0}表达式形式来指定视图资源，还可以使用${属性名}的方法指定，属性名就是对应的Action实例里的属性，<strong>OGNL表达式就是${属性名.属性名.属性名…….}</strong>，如果result放在global-results元素中配置的话，该result元素就是全局结果，对所有的Action都有效，但是局部结果会覆盖全局结果。</p>
+<p>PreResultListener是一个监听器接口，他在Action完成控制处理之后，系统转入实际的物理视图之间被回调，可以为Action和拦截器添加这个监听器，监听器中一个方法叫做beforeResult。</p>
+<h3 id="struts2-异常处理"><a href="#struts2-异常处理" class="headerlink" title="struts2 异常处理"></a>struts2 异常处理</h3><p>在execute中处理异常的比较麻烦的，最好的处理异常的方法是通过声明式的方式管理异常处理。因为如果写在代码里异常发生变化需要重新修改代码。struts2的异常处理机制需要一个拦截器，但是默认已经开启。</p>
+<p>异常处理实在struts.xml中配置exception-mapping元素完成的，配置该元素的时候需要制定两个属性，一个是exception，一个是result，根据exception-mapping出现的位置可以分为全局异常映射和局部异常映射，同样，局部异常映射会覆盖全局异常映射。</p>
+<p>在struts2中可以通过如下标签输出异常信息</p>
+<pre><code>&lt;s:property value=&quot;exception&quot;/&gt;：输出异常对象信息
+&lt;s:property value=&quot;exceptionStack&quot;/&gt;：输出异常堆栈信息   
+</code></pre><h3 id="Convention插件与“约定”支持"><a href="#Convention插件与“约定”支持" class="headerlink" title="Convention插件与“约定”支持"></a>Convention插件与“约定”支持</h3><p>约定优于配置，只需要按照约定开发，不需要进行配置，只需要把convention的jar包导入到lib中。</p>
+<p>Convention插件会把所有实现了com.opensymphony.xowrk2.Action的java类和所有类名以Action结尾的Java类作为Action处理。默认值只会处理action、actions、struts、struts2包下的java类，这个插件还可以设置不扫描哪些包下的java类，以及新增需要扫描的包，以及设置包搜索开始的根包。根命名空间就是上面说过的默认的扫描文件，下面的子包则被映射成对应的命名空间。</p>
+<p>Action的name属性根据Action类的类名映射，如果该Action类名中包含Action后缀，就将Action去掉，将剩余的驼峰写法（每个单词首字母大写）转成中划线写法（所有字母小写，单词与单词之间以中划线隔开），在使用这个action的时候应该是<strong>命名空间/Action名称</strong></p>
+<p>按照约定映射Result，默认情况下，Convention总会到Web应用的WEB-INF/content，定位资源的约定是ActionName+resultCode+suffix（后缀），找不到对应资源的时候会使用actionname+suffix作为资源，action的url中是带着命名空间的，那么在content中也需要带上命名空间。</p>
+<p>如果希望一个Action结束处理后进入另一个Action形成Action链，那么就不能包含第一个Action逻辑视图字符串对应的视图资源，而且第一个Action和第二个Action处于同一个包之下，第二个Action映射的URL为第一个action的名称和resultcode，例如名为FirstAction的Action返回了值为second的resultcode，那么第二个Action的类名是FirstSecondAction</p>
+<p>Convention插件支持自动重加载机制，需要设置struts.devMode为true，以及struts.convention.classes.reload为true</p>
+<h3 id="使用Struts2的标签库"><a href="#使用Struts2的标签库" class="headerlink" title="使用Struts2的标签库"></a>使用Struts2的标签库</h3><p>标签库的标签不依赖于任何表现层技术，struts2的标签都定义在URI为“/struts-tags”的空间下</p>
+<p>Ajax（Asynchronous JavaScript And XML）</p>
+<h4 id="OGNL（struts2标签库的语法）"><a href="#OGNL（struts2标签库的语法）" class="headerlink" title="OGNL（struts2标签库的语法）"></a>OGNL（struts2标签库的语法）</h4><p>Struts2可以直接从对象中获取属性，会自动搜寻Stack Context的所有实体，从栈顶到栈底 ，知道找到与求值表达式匹配的属性，Stack Context的根对象是ValueStack，除此之外还包括了命名对象，struts2还提供了命名对象，访问这些对象需要使用#前缀来指明，parameters对象（访问http请求参数）、request对象、session对象、application对象、attr对象（该对象将依次搜索如下对象：PageContext、HttpServletRequest、HttpSession、ServletContext中的属性）</p>
+<p>可以在任意页面增加&lt;s:debug/&gt;标签，该标签将生成一个链接，可以进行调试。</p>
+<p>直接创建List类型集合的语法：{e1,e2,e3………}；直接生成Map类型集合的语法是#{key1:value1,key2:value2,…………}；in和not in可以用来判断某个元素是不是在指定集合中。</p>
+<p>OGNL还允许通过某个规则取得集合的子集，？（取出所有符合选择逻辑的元素）、^（取出符合选择逻辑的第一个元素）、$(取出符合所有选择逻辑的最后一个元素)。preson.relatives.{? #this.gender==’male’}直接在集合后紧跟.{}运算符勇于取出该集合的子集，#this代表集合里的元素。</p>
+<p>struts2提供了访问静态成员的方法，但默认是关闭的，需要设置struts.ognl.allowStaticMethodAccess设置为true。可以通过@className@staticField和@className@staitcMethod（val） </p>
+<p>OGNL支持基本的Lambda表达式语法，可以使用函数</p>
+<p>&lt;s:iterator…./&gt;标签有三个属性：value指定被迭代的集合。id是集合里元素的id（迭代变量）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/19/20180319 struts/" data-id="cjf28yp8j0010w8huxd37qgf4" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Struts/">Struts</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/22/20171110/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          20171110
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/13/20180313 struts/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">20180313</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts/">Struts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后台/">后台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Struts/" style="font-size: 12px;">Struts</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/jsp/" style="font-size: 16px;">jsp</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/servlet/" style="font-size: 10px;">servlet</a> <a href="/tags/后台/" style="font-size: 14px;">后台</a> <a href="/tags/数据库/" style="font-size: 18px;">数据库</a> <a href="/tags/笔记/" style="font-size: 20px;">笔记</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/22/markdown语法/">markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/22/20171110/">20171110</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/19/20180319 struts/">20180319</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/13/20180313 struts/">20180313</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/18/JavaEE/">JavaEE</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Propulsé par <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

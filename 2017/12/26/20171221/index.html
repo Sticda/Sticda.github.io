@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>20171226 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="JSPJSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误 不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20171226">
+<meta property="og:url" content="http://yoursite.com/2017/12/26/20171221/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JSPJSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误 不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候">
+<meta property="og:updated_time" content="2017-12-22T06:34:22.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="20171226">
+<meta name="twitter:description" content="JSPJSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误 不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-20171221" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/26/20171221/" class="article-date">
+  <time datetime="2017-12-26T01:54:40.000Z" itemprop="datePublished">2017-12-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      20171226
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>JSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误</p>
+<p>不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候做一些事情，可以选择重写JSPInit（）和jspDestroy（）。</p>
+<h2 id="指示元素"><a href="#指示元素" class="headerlink" title="指示元素"></a>指示元素</h2><p>&lt;%@ 指示类型  [属性=“值”] <em> %&gt;（[属性=“值”] </em>是正则表达式）</p>
+<p>常用的指示类型：page（告知容器如何转译目前的jsp网页）、include（将其他的jsp页面包括进来进行转译）、taglib（告知容器如何转译这个页面中的标签库）</p>
+<p>include将其他页面包含的时候是一种静态的包含方式，就是把包含的文件直接拼接在一起。</p>
+<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>在&lt;%!与%&gt;之间声明的程序代码，都将转译为Servlet中的类成员或者方法。也就是说把<strong>所有的成员变量声明和方法声明的java代码</strong>都写在这个&lt;%!与%&gt;之间，容器会使用同一个Servlet来服务不同用户的请求，每个请求就是一个线程，声明 变量的时候必须小心数据共享与线程安全的问题，使用该方法声明的变量是类成员变量，JSPInit（）和JSPDestroy（）就需要使用这种方式重写。</p>
+<h2 id="Scriptlet元素"><a href="#Scriptlet元素" class="headerlink" title="Scriptlet元素"></a>Scriptlet元素</h2><p>&lt;%  java语句  %&gt;所有的内容将被转译到Servlet源代码中的_JSPService（），可以利用java语句的注释方式进行注释（//或者/<em>········</em>/)</p>
+<h2 id="表达式元素"><a href="#表达式元素" class="headerlink" title="表达式元素"></a>表达式元素</h2><p>&lt;%= java 表达式&gt;表达式元素不用加分号，表达式元素中的表达式会直接转译成out对象输出时的指定内容。</p>
+<p>因此在jsp中输出&lt;%或者%&gt;符号，要将角括号置换为替代字符，&lt;%可以换成&lt;%  ，%&gt; 可以换成%&gt;或者%>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/12/26/20171221/" data-id="cjf28yp8c000nw8hugwqd4k9z" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/12/26/20171226/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          20171226
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/12/15/20171219/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">20171219</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts/">Struts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后台/">后台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Struts/" style="font-size: 12px;">Struts</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/jsp/" style="font-size: 16px;">jsp</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/servlet/" style="font-size: 10px;">servlet</a> <a href="/tags/后台/" style="font-size: 14px;">后台</a> <a href="/tags/数据库/" style="font-size: 18px;">数据库</a> <a href="/tags/笔记/" style="font-size: 20px;">笔记</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/22/markdown语法/">markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/22/20171110/">20171110</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/19/20180319 struts/">20180319</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/13/20180313 struts/">20180313</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/18/JavaEE/">JavaEE</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Propulsé par <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

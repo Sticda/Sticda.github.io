@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>2017122702 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="JSTLJSTL（JavaServer Pages Standard Tag Library）来替换JSP页面中用来实现页面逻辑的scriptlet。 提供的标签库可以分为五类，核心标签库、格式标签库、SQL标签库、XML标签库、函数标签库。 要使用JSTL标签库，必须在网页上使用taglib指示元素定义前置名称与uri引用，JSTL的jar包需要手动添加到项目的WEB-INF/lib文件夹中，惯">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2017122702">
+<meta property="og:url" content="http://yoursite.com/2017/12/27/2017122702/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JSTLJSTL（JavaServer Pages Standard Tag Library）来替换JSP页面中用来实现页面逻辑的scriptlet。 提供的标签库可以分为五类，核心标签库、格式标签库、SQL标签库、XML标签库、函数标签库。 要使用JSTL标签库，必须在网页上使用taglib指示元素定义前置名称与uri引用，JSTL的jar包需要手动添加到项目的WEB-INF/lib文件夹中，惯">
+<meta property="og:updated_time" content="2018-03-04T03:45:00.719Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2017122702">
+<meta name="twitter:description" content="JSTLJSTL（JavaServer Pages Standard Tag Library）来替换JSP页面中用来实现页面逻辑的scriptlet。 提供的标签库可以分为五类，核心标签库、格式标签库、SQL标签库、XML标签库、函数标签库。 要使用JSTL标签库，必须在网页上使用taglib指示元素定义前置名称与uri引用，JSTL的jar包需要手动添加到项目的WEB-INF/lib文件夹中，惯">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-2017122702" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/27/2017122702/" class="article-date">
+  <time datetime="2017-12-27T01:54:40.000Z" itemprop="datePublished">2017-12-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      2017122702
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JSTL"><a href="#JSTL" class="headerlink" title="JSTL"></a>JSTL</h1><p>JSTL（JavaServer Pages Standard Tag Library）来替换JSP页面中用来实现页面逻辑的scriptlet。</p>
+<p>提供的标签库可以分为五类，核心标签库、格式标签库、SQL标签库、XML标签库、函数标签库。</p>
+<p>要使用JSTL标签库，必须在网页上使用taglib指示元素定义前置名称与uri引用，JSTL的jar包需要手动添加到项目的WEB-INF/lib文件夹中，惯例上使用JSTL核心标签库的时候，会使用c作为前置名称，URI引用则告知容器如何引用JSTL标签库实现。</p>
+<pre><code>&lt;%@taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt; 
+</code></pre><p>&lt;c:if&gt;就相当于java中一个单一的if语句</p>
+<p>&lt;c:choose&gt;、&lt;c:otherwise&gt;、&lt;c:when&gt;搭配使用就相当于java中ifelse语句以及该语句的嵌套</p>
+<p>&lt;c:foreach&gt;就是轮询某个集合或者数组，里面的var属性就是轮询变量，items就是数组或者Collection变量</p>
+<p>&lt;c:fortoken&gt;的主要作用就是为了将字符串按照指定的分隔符分为多个字符串，var属性表示轮询变量，delims表示分隔符，items仍然表示字符串。</p>
+<h2 id="错误处理标签"><a href="#错误处理标签" class="headerlink" title="错误处理标签"></a>错误处理标签</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/12/27/2017122702/" data-id="cjf28yp8h000ww8humpaigbyr" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/08/20180108/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          20180108
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/12/27/20171227/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">20171227</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts/">Struts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后台/">后台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Struts/" style="font-size: 12px;">Struts</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/jsp/" style="font-size: 16px;">jsp</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/servlet/" style="font-size: 10px;">servlet</a> <a href="/tags/后台/" style="font-size: 14px;">后台</a> <a href="/tags/数据库/" style="font-size: 18px;">数据库</a> <a href="/tags/笔记/" style="font-size: 20px;">笔记</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/22/markdown语法/">markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/22/20171110/">20171110</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/19/20180319 struts/">20180319</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/13/20180313 struts/">20180313</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/18/JavaEE/">JavaEE</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Propulsé par <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

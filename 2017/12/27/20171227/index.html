@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>20171227 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="表达式语言（EL）替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断 EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换 可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置标签为true，不使用EL。两种">
+<meta name="keywords" content="笔记,jsp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20171227">
+<meta property="og:url" content="http://yoursite.com/2017/12/27/20171227/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="表达式语言（EL）替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断 EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换 可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置标签为true，不使用EL。两种">
+<meta property="og:updated_time" content="2018-01-16T01:23:53.502Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="20171227">
+<meta name="twitter:description" content="表达式语言（EL）替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断 EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换 可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置标签为true，不使用EL。两种">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-20171227" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/27/20171227/" class="article-date">
+  <time datetime="2017-12-27T01:06:34.000Z" itemprop="datePublished">2017-12-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      20171227
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="表达式语言（EL）"><a href="#表达式语言（EL）" class="headerlink" title="表达式语言（EL）"></a>表达式语言（EL）</h1><p>替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断</p>
+<p>EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换</p>
+<p>可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置<el-ignored>标签为true，不使用EL。两种方式以前者为主</el-ignored></p>
+<p>EL的应用实例</p>
+<pre><code>&lt;h1&gt;${user.name}&lt;/h1&gt;&lt;%--按照page、request、session、application
+的顺序来寻找EL中指定的属性&gt;--%
+&lt;h1&gt;${user[&quot;name&quot;]}&lt;/h1&gt;&lt;%--和上面的效果相同--%&gt;
+</code></pre><p>如果数组元素被设置的索引为array，setAttribute（索引，内容），List也可以使用下面的方法访问。</p>
+<pre><code>${array[0]}&lt;%--第一个元素--%&gt;
+${array[1]}&lt;%--第二个元素--%&gt;
+${array[2]}&lt;%--第三个元素--%&gt;
+</code></pre><ol>
+<li>点运算符左边可以是JavaBean或者Map对象</li>
+<li>如果使用[]运算符，则左边可以是JavaBean、Map、数组或者List对象</li>
+</ol>
+<p>当左边是map对象的时候，推荐使用[]运算符，因为map对象的key有可能是空白或者带有点运算符的，取值的时候两个点运算符在一起会引起错误。[]运算符内部可以进行嵌套</p>
+<pre><code>${login[&quot;user name&quot;]}
+${login[&quot;pass.word&quot;]}
+</code></pre><h2 id="EL隐含对象"><a href="#EL隐含对象" class="headerlink" title="EL隐含对象"></a>EL隐含对象</h2><p>11个隐含对象，pageContext对应PageContext，其他的隐含对象都对应Map类型。</p>
+<ol>
+<li>pageContext：PageContext本身就是JavaBean</li>
+<li>与属性相关的隐含对象</li>
+<li>与请求参数相关的隐含对象： param与paranValues，param可以取得某个参数的值，paramValues可以取得所有请求参数，返回值是数组</li>
+<li>与标头（header）相关的隐含对象：header或者headerValues</li>
+<li>cookie隐含对象：取得用户设置的cookie值</li>
+<li>初始参数隐含对象：initParam可以用来取得web.xml中设置的ServletContext初始参数。</li>
+</ol>
+<h2 id="EL运算符"><a href="#EL运算符" class="headerlink" title="EL运算符"></a>EL运算符</h2><p>%和mod都是求余运算符，关系运算符都有相应的符号和英文简称，比如&lt;以及lt（less than）、&gt;与gt（greater than）、!=与ne（not equal）</p>
+<h2 id="自定义EL函数"><a href="#自定义EL函数" class="headerlink" title="自定义EL函数"></a>自定义EL函数</h2><p>第一步：编写类，这个类必须是公开类，想调用的方法必须是公开的且为静态方法。第二步：web容器必须知道如何将这个类中的方法当作EL函数使用，必须编写一个标签链接库描述文件（TLD）文件，tld文件中需要指明自定义的函数名称，对应到的类和对应到的那个类的具体方法，以及特定的URI，使用的jsp中&lt;%@taglib uri=””  prefix=””%&gt;uri是为了能够快速找到tld文件，prefix的作用是为了避免当jsp中有多个来自不同设计者的EL自定义函数会出现名称冲突。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/12/27/20171227/" data-id="cjf28yp8d000pw8hucjqo0uq8" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jsp/">jsp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/12/27/2017122702/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          2017122702
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/12/26/20171226/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">20171226</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts/">Struts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后台/">后台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Struts/" style="font-size: 12px;">Struts</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/jsp/" style="font-size: 16px;">jsp</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/servlet/" style="font-size: 10px;">servlet</a> <a href="/tags/后台/" style="font-size: 14px;">后台</a> <a href="/tags/数据库/" style="font-size: 18px;">数据库</a> <a href="/tags/笔记/" style="font-size: 20px;">笔记</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/22/markdown语法/">markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/22/20171110/">20171110</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/19/20180319 struts/">20180319</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/13/20180313 struts/">20180313</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/18/JavaEE/">JavaEE</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Propulsé par <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

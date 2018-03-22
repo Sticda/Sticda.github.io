@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>个人项目服务器端之数据库部分 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="写在前面这个项目目前的剩余任务是android客户端的编写和java端服务器基本功能的完善，聊天记录，断点续传文件之类的先要等我把聊天的基本功能实现之后，android都好久没写了，有点怕怕的。 正文这个项目的主要目的是为了用一下学到的java se的基础知识，所以会用到很多不同的东西来实现功能，也许这种实现方式并不是最优解。  只为了完成基础的功能模块，所以先定义了两个表，一个是user，另一个">
+<meta name="keywords" content="java,数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="个人项目服务器端之数据库部分">
+<meta property="og:url" content="http://yoursite.com/2017/08/07/个人项目服务器端之数据库部分/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="写在前面这个项目目前的剩余任务是android客户端的编写和java端服务器基本功能的完善，聊天记录，断点续传文件之类的先要等我把聊天的基本功能实现之后，android都好久没写了，有点怕怕的。 正文这个项目的主要目的是为了用一下学到的java se的基础知识，所以会用到很多不同的东西来实现功能，也许这种实现方式并不是最优解。  只为了完成基础的功能模块，所以先定义了两个表，一个是user，另一个">
+<meta property="og:updated_time" content="2017-12-22T06:34:22.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="个人项目服务器端之数据库部分">
+<meta name="twitter:description" content="写在前面这个项目目前的剩余任务是android客户端的编写和java端服务器基本功能的完善，聊天记录，断点续传文件之类的先要等我把聊天的基本功能实现之后，android都好久没写了，有点怕怕的。 正文这个项目的主要目的是为了用一下学到的java se的基础知识，所以会用到很多不同的东西来实现功能，也许这种实现方式并不是最优解。  只为了完成基础的功能模块，所以先定义了两个表，一个是user，另一个">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-个人项目服务器端之数据库部分" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/08/07/个人项目服务器端之数据库部分/" class="article-date">
+  <time datetime="2017-08-07T02:57:17.000Z" itemprop="datePublished">2017-08-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      个人项目服务器端之数据库部分
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>这个项目目前的剩余任务是android客户端的编写和java端服务器基本功能的完善，聊天记录，断点续传文件之类的先要等我把聊天的基本功能实现之后，android都好久没写了，有点怕怕的。</p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>这个项目的主要目的是为了用一下学到的java se的基础知识，所以会用到很多不同的东西来实现功能，也许这种实现方式并不是最优解。</p>
+<ol>
+<li><strong>只为了完成基础的功能模块</strong>，所以先定义了两个表，一个是user，另一个是friendgroup。</li>
+<li>在服务器端维护了一个所有在线用户的列表，除此之外，数据库对于好友关系表的设计我在网上查了查，两种方案，一种是新建好友关系表，用户id和好友id对应（用户id小于好友id），强好友关系中减少冗余，另一种是用逗号分隔隔开所有的好友id，第二种设计起来比较简单，但是感觉有点蠢，第一种就是数据关系比较清晰，但是数据操作可能比较负责，所以好友关系选择了第一种，群组关系采用第二种。</li>
+<li>在客户端和服务器的信息传送使用了udp协议，主要是为了后期群聊的实现可以使用MulticastSocket实现群发消息的功能。本来是想传送xml文件顺便用一下dom4j，但是感觉略蠢，后面可能会用java写爬虫，到时候再试也不迟，就还是用datagrampacket的构造参数byte[]发送消息，现阶段不考虑安全性，反正我也是玩玩，安全性后面再说，虽然这种不加密传输我自己也感觉不爽，哈哈哈</li>
+<li>消息传输的协议百度了之后决定采用类似qq的操作，嘿嘿。</li>
+</ol>
+<p>数据库中的一些问题</p>
+<ul>
+<li>利用modify修改列的时候需要加上列的类型，即使列类型不变也需要加入。</li>
+<li>不能插入中文需要modify要插入中文的列的字符集为gbk,具体操作是alter table table_name modify column_name column_type character set gbk;</li>
+<li>statement和preparedstatement的用法上有一些差异，statement的创建过程不需要SQL语句，而preparedstatement需要预编译带有占位符的sql语句，执行execute的时候就不需要参数了。</li>
+<li>一些数值类型后面都有括号，并且其中还有数字，比如说int（10），int（4）等等，这些都是可选的参数，表示的是显示的宽度，并不能影响int类型的数值范围，比如说int就是4个字节，不会发生变化，但是在zerofill的情况下，int（4）是0001，把这个数字放到int（10）类型的列中，就会变成0000000001.</li>
+</ul>
+<h2 id="一些之前没注意过的地方"><a href="#一些之前没注意过的地方" class="headerlink" title="一些之前没注意过的地方 "></a>一些之前没注意过的地方 </h2><ol>
+<li>java中byte和int包括其他基本类型的转换中需要与上0xFF，这是需要保证补码的一致性，因为字节数比较小的类型向大的类型转换时会自动补位，正数补0，负数补1，所以需要与上0xff，才能保证补码的一致性。</li>
+<li>java中DatagramSocket起到了一个快递接收点的作用，他只能发送包，但不知道包去哪里了，而快递DatagramPacket在构造的时候加入了目的地的地址和端口，DatagramSocket使用什么端口是无所谓的，只要在DatagramPacket中加入正确的端口。</li>
+<li></li>
+</ol>
+<p>一些小技巧</p>
+<pre><code>public static native void arraycopy(Object src,int srcPos,Object dest, int destPos,int length);  
+</code></pre><p>src：源数组；srcPos：源数组要复制的起始位置；dest：目的数组；destPos：目的数组放置的起始位置；length：要复制的长度</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/08/07/个人项目服务器端之数据库部分/" data-id="cjf28yp8p0019w8hukgkdppbu" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/09/11/20170911/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          惭愧
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/08/03/20170802/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">算是个开始吧</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts/">Struts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后台/">后台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Struts/" style="font-size: 12px;">Struts</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/jsp/" style="font-size: 16px;">jsp</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/servlet/" style="font-size: 10px;">servlet</a> <a href="/tags/后台/" style="font-size: 14px;">后台</a> <a href="/tags/数据库/" style="font-size: 18px;">数据库</a> <a href="/tags/笔记/" style="font-size: 20px;">笔记</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/22/markdown语法/">markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/22/20171110/">20171110</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/19/20180319 struts/">20180319</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/13/20180313 struts/">20180313</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/18/JavaEE/">JavaEE</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Propulsé par <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

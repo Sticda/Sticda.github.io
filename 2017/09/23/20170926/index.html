@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>20170926 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》， 虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。  程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。 虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI">
+<meta name="keywords" content="笔记,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20170926">
+<meta property="og:url" content="http://yoursite.com/2017/09/23/20170926/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》， 虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。  程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。 虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI">
+<meta property="og:updated_time" content="2017-12-22T06:34:22.101Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="20170926">
+<meta name="twitter:description" content="额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》， 虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。  程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。 虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-20170926" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/09/23/20170926/" class="article-date">
+  <time datetime="2017-09-23T02:19:44.000Z" itemprop="datePublished">2017-09-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      20170926
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》，</p>
+<p>虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。</p>
+<ol>
+<li>程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。</li>
+<li>虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI编写的方法，这里就要说到虚拟机栈和本地方法栈中的内容了，首先这两个栈肯定也是线程私有的，因为每一个线程都有自己调用的不同方法，虚拟机栈和本地方法栈中的最小单元是栈帧，栈帧也就是每一个方法产生的结构，每一个栈帧中都有局部变量表、操作数栈、动态连接和返回地址，局部变量表的最小单位是slot，一般情况下只有float和double需要两个slot存放，操作数栈也是，操作数栈和局部变量表的大小在java代码编译之后就已经写入class文件中了，动态连接的内容是运行时常量池这个方法的一个引用，因为在方法执行过程中可能需要动态连接，所以要在栈帧中保持这个信息，返回地址肯定是需要的，因为每一个栈帧代表一个方法，这个方法执行完成之后肯定需要回到原来的地方，所以就需要每个栈帧拥有自己的返回地址。</li>
+<li>方法区和堆是线程共享的，方法区里面包含类的信息，版本，以及经过的编译的代码，方法区内部有运行时常量池，运行时常量池中存放着class编译期生成的各种字面量和符号引用所转变出来的直接引用，堆的主要内容是新建的对象，线程需要使用的时候，从堆里把内容拿出来，然后对照着方法区里类的格式区分堆里对象每一个部分代表的意义。</li>
+</ol>
+<p>class文件中存放的是经过编译的内容，常量池，字段表，方法表，属性表。常量池里面是一些字面量和符号引用，字段表的主要内容是访问标志、名称索引、描述符索引、属性数量和属性值。方法表的内容也是和字段表差不多。<br>另外一块内容是java的垃圾收集器和内存分配策略。java的GC机制算是java的一大特色了。垃圾回收主要有三个主要的问题，判断对象是否已经废弃，怎么回收，何时回收。</p>
+<ol>
+<li>对象是否已死有两种办法，引用计数算法和可达性分析算法。引用计数算法是为每一个对象保留一个引用计数器，如果这个对象被引用就加1，被引用的对象被销毁就减1，不能解决相互引用的问题，比如说ab相互引用，但ab已经不会被用到了，所以就不能被回收。所以主流算法采用的方法都是可达性分析算法，一般选择GC Roots，当一个对象和GC roots之间不能可达的时候就说明这个对象已经死了。但是真正要回收一个对象所占的内存，还需要观察这个对象是否需要有必要执行finalize()方法，方法区也需要回收</li>
+<li>垃圾回收算法有三个：标记清除算法。复制算法。标记清除算法；标记清除就是标记已死亡的内存然后直接清理。复制算法是有两块半区，一块满了就把所有未死亡的对象复制到另一块上，把原先的那块全部清除。。标记整理算法是把标记已死亡的内存都清理，然后把活着的对象都向一端移动，直接清除活着的对象之外的所有的内存。</li>
+<li>算法执行在安全点或者安全区，安全点就是程序长时间执行的地方。</li>
+</ol>
+<p>垃圾收集器的种类。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/09/23/20170926/" data-id="cjf28yp7z000aw8hud6vav2zv" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/09/20171009/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          20171009
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/11/第二周学习成果/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">第二周学习成果</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts/">Struts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后台/">后台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Struts/" style="font-size: 12px;">Struts</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/jsp/" style="font-size: 16px;">jsp</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/servlet/" style="font-size: 10px;">servlet</a> <a href="/tags/后台/" style="font-size: 14px;">后台</a> <a href="/tags/数据库/" style="font-size: 18px;">数据库</a> <a href="/tags/笔记/" style="font-size: 20px;">笔记</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/22/markdown语法/">markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/22/20171110/">20171110</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/19/20180319 struts/">20180319</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/13/20180313 struts/">20180313</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/18/JavaEE/">JavaEE</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Propulsé par <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

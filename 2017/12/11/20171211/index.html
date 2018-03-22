@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>20171211 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近太忙了，期末了各种作业. 客户端也可以通过js进行窗体验证，用来节省服务器的运算资源，但是客户端验证只针对格式等与安全无关的部分进行验证，用户可以选择跳过客户端窗体验证。 利用forward（）请求转发的时候浏览器并不知道在服务器上发生了转发，可以获得WEB_INF中的数据，sendRedirect（）要求浏览器重定向请求其他的数据，这个函数可以使用相对或者绝对URL 在使用sendRedir">
+<meta name="keywords" content="后台">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20171211">
+<meta property="og:url" content="http://yoursite.com/2017/12/11/20171211/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="最近太忙了，期末了各种作业. 客户端也可以通过js进行窗体验证，用来节省服务器的运算资源，但是客户端验证只针对格式等与安全无关的部分进行验证，用户可以选择跳过客户端窗体验证。 利用forward（）请求转发的时候浏览器并不知道在服务器上发生了转发，可以获得WEB_INF中的数据，sendRedirect（）要求浏览器重定向请求其他的数据，这个函数可以使用相对或者绝对URL 在使用sendRedir">
+<meta property="og:updated_time" content="2017-12-22T06:34:22.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="20171211">
+<meta name="twitter:description" content="最近太忙了，期末了各种作业. 客户端也可以通过js进行窗体验证，用来节省服务器的运算资源，但是客户端验证只针对格式等与安全无关的部分进行验证，用户可以选择跳过客户端窗体验证。 利用forward（）请求转发的时候浏览器并不知道在服务器上发生了转发，可以获得WEB_INF中的数据，sendRedirect（）要求浏览器重定向请求其他的数据，这个函数可以使用相对或者绝对URL 在使用sendRedir">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-20171211" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/12/11/20171211/" class="article-date">
+  <time datetime="2017-12-11T09:04:12.000Z" itemprop="datePublished">2017-12-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      20171211
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近太忙了，期末了各种作业.</p>
+<p>客户端也可以通过js进行窗体验证，用来节省服务器的运算资源，但是客户端验证只针对格式等与安全无关的部分进行验证，用户可以选择跳过客户端窗体验证。</p>
+<p>利用forward（）请求转发的时候浏览器并不知道在服务器上发生了转发，可以获得WEB_INF中的数据，sendRedirect（）要求浏览器重定向请求其他的数据，这个函数可以使用相对或者绝对URL</p>
+<p><strong>在使用sendRedirect（）的时候，最好使用绝对路径，比如说<a href="http://localhost:8080/exercise/index,我们现在想利用该函数到某个页面，在该页面的前面加上当前web应用的上下文路径，也就是exercise" target="_blank" rel="noopener">http://localhost:8080/exercise/index,我们现在想利用该函数到某个页面，在该页面的前面加上当前web应用的上下文路径，也就是exercise</a></strong></p>
+<p>请求转发(forward)<br>Servlet（源组件）先对客户请求做一些预处理操作，然后把请求转发给其他Web组件（目标组件）来完成包括生成响应结果在内的后续操作；<br>请求包含(include)<br>Servlet（源组件）把其他Web组件（目标组件）生成的响应结果包含到自身的响应结果中；</p>
+<ol>
+<li>转发和包含路径</li>
+</ol>
+<p>以“/”开头：相对当前项目路径，即默认为<a href="http://localhost:8080/项目名/" target="_blank" rel="noopener">http://localhost:8080/项目名/</a></p>
+<p>不以“/”开头：相对当前Servlet路径。eg:在Aservlet中写“Bservlet”，Aservlet的路径为： <a href="http://localhost:8080/项目名/servlet/Aservlet" target="_blank" rel="noopener">http://localhost:8080/项目名/servlet/Aservlet</a> ，那么Bservlet的路径为：<a href="http://localhost:8080/项目名/servlet/Bservlet" target="_blank" rel="noopener">http://localhost:8080/项目名/servlet/Bservlet</a></p>
+<ol>
+<li>重定向路径（客户端路径）： </li>
+</ol>
+<p>以“/”开头：相对当前主机（端口号之后），即默认为<a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a></p>
+<p>不以“/”开头：相对当前Servlet路径</p>
+<p><strong>ServletConfig</strong>是容器根据web.xml的内容生成的Servlet的设置的实例对象，和每一个Servlet对应，在实例化Servlet的时候，容器还没有调用init（）方法传入ServletConfig，所以不会有servletConfig实例，也就是说ServletConfig必须在web容器将Servlet实例化以后，调用有参数的init（）方法再将之传入，所以在继承HttpServlet后通常会重写<strong>无参数的init（）方法【最适合读取初始参数的地方】</strong>来获取Servlet的初始参数。</p>
+<p>初始参数通常用作常数来设置，可以将一些Servlet程序中不想写死的信息放到初始参数中，一个<init-param>定义一组<param-name>和<param-value></param-value></param-name></init-param></p>
+<p><strong>ServletContext</strong>是<strong>整个web应用程序</strong>运行后的代表对象，通过ServletConfig的getServletContext（）方法来获得，之后就可以利用ServletContext来取得web应用程序的相关资源或信息</p>
+<p>以“/”开头的路径称为环境相对路径，没有以“/”作为开头则称为请求相对路径</p>
+<p>getResourceAsStream()的参数路径必须以“/”作为开头，表示相对应于应用程序环境根目录，运行结果会返回InputStream实例，如果在java EE中使用java.io下的File、FileReader等等与文件读取相关的类时，可以指定绝对路径和相对路径，绝对路径是文件在服务器上的真实路径，相对路径相对的是启动web容器时的命令执行目录，比如说Tomcat的根目录</p>
+<p><strong>ServletContextListener</strong>可以知道web应用程序何时初始化或者何时结束销毁，并在web.xml中设置告知web容器，在web应用程序初始化后或者即将结束销毁之前，调用ServletContextListener实现类的相对应的contextInitialized（）或contextDestroyed()。{在web.xml中配置某个Servlet的Listener，并且重写这个listener的contextInitialized（）}</p>
+<p>在整个web应用程序生命周期内，Servlet所需共享的数据可以设置为ServletContext属性</p>
+<hr>
+<h1 id="会话管理："><a href="#会话管理：" class="headerlink" title="会话管理："></a><strong>会话管理</strong>：</h1><p>此次请求和之后请求的关系</p>
+<p><strong>隐藏字段</strong></p>
+<p>服务器不会记得两次请求之间的关系，需要浏览器在每次请求的时候告诉服务器这些请求之间的关系，服务器只需要处理就好了。服务器把上一次请求的结果以<strong>隐藏字段</strong>的方式存储在下一页的窗体中响应给浏览器，然后浏览器把上一次的结果和这一次的结果都发给服务器<br>具体使用是 “&lt;input type=”hidden” name=””  value=””> “，但是右键查看源码是可以看见这些隐藏字段的值，所以不适合用于隐秘性 较高的数据。</p>
+<p><strong>Cookie的使用</strong></p>
+<p>Cookie类，使用HttpServletResponse的addCookie（）方法在响应中添加Cookie，setMaxAge（）可以用来设置Cookie的有效期限，利用HTTPServletRequest的getCookies（）方法可以获得该网页所属域的所有cookie，cookie类的getName和getValue方法可以用来取得cookie的值</p>
+<p><strong>getAttribute（）获取的是request在web容器内部转发的数据，而getParameter（）获取的是从web客户端传送来的数据</strong></p>
+<p><strong>URL重写的使用</strong></p>
+<p>get请求参数的应用，当服务器响应的浏览器的上一次请求时，将某些相关信息以超链接方式响应给浏览器，get请求参数长度有限，因此大量的客户端信息保留并不适合使用URL重写。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/12/11/20171211/" data-id="cjf28yp87000iw8hu9xpkjs6k" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/后台/">后台</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/12/15/20171219/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          20171219
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/24/20171201/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">20171201</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts/">Struts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后台/">后台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Struts/" style="font-size: 12px;">Struts</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/jsp/" style="font-size: 16px;">jsp</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/servlet/" style="font-size: 10px;">servlet</a> <a href="/tags/后台/" style="font-size: 14px;">后台</a> <a href="/tags/数据库/" style="font-size: 18px;">数据库</a> <a href="/tags/笔记/" style="font-size: 20px;">笔记</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/22/markdown语法/">markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/22/20171110/">20171110</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/19/20180319 struts/">20180319</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/13/20180313 struts/">20180313</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/18/JavaEE/">JavaEE</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Propulsé par <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

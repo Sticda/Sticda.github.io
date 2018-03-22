@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>20171110 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MySQL索引普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、单列索引、多列索引、空间索引（只有 MyISAM支持，只能建立在空间数据类型上）。 create table 表名( 属性名 数据类型[约束条件]， ………… [UNIQUE|FULLTEXT|SPATIAL] INDEX KEY">
+<meta name="keywords" content="笔记,数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20171110">
+<meta property="og:url" content="http://yoursite.com/2018/03/22/20171110/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="MySQL索引普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、单列索引、多列索引、空间索引（只有 MyISAM支持，只能建立在空间数据类型上）。 create table 表名( 属性名 数据类型[约束条件]， ………… [UNIQUE|FULLTEXT|SPATIAL] INDEX KEY">
+<meta property="og:updated_time" content="2017-12-22T06:34:22.101Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="20171110">
+<meta name="twitter:description" content="MySQL索引普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、单列索引、多列索引、空间索引（只有 MyISAM支持，只能建立在空间数据类型上）。 create table 表名( 属性名 数据类型[约束条件]， ………… [UNIQUE|FULLTEXT|SPATIAL] INDEX KEY">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-20171110" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/22/20171110/" class="article-date">
+  <time datetime="2018-03-22T08:18:03.719Z" itemprop="datePublished">2018-03-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      20171110
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MySQL索引"><a href="#MySQL索引" class="headerlink" title="MySQL索引"></a>MySQL索引</h1><p>普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、单列索引、多列索引、空间索引（只有 MyISAM支持，只能建立在空间数据类型上）。</p>
+<pre><code>create table 表名(
+属性名 数据类型[约束条件]，
+…………
+[UNIQUE|FULLTEXT|SPATIAL] INDEX KEY
+[别名] (属性名[(长度)] [ASC|DESC])
+);
+</code></pre><p>举个栗子</p>
+<pre><code>create table student（
+id int not null primary key auto_increment,
+abd varchar(50),
+index hahaha(id)）;
+</code></pre><p>索引名是hahaha，索引的内容是id列，哈哈哈是别名，如果不指定别名将直接使用列名作为索引名</p>
+<hr>
+<p>在已有表上新建索引</p>
+<pre><code>CREATE [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name 
+ON table_name(属性 [(length)] [ASC | DESC]);
+</code></pre><p>修改表结构添加索引</p>
+<pre><code>alter table 表名 ADD [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name (属性 [(length)] [ASC | DESC]);
+</code></pre><p>注意上面两种的区别，主要需要注意的地方是前者是表名+列名“table_name(属性 [(length)] [ASC | DESC])”，后者是索引名+列名“INDEX index_name (属性 [(length)] [ASC | DESC])”。<br>用show create table 表名可以查看该表的定义</p>
+<h1 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h1><pre><code>delimiter //
+create procedure 存储过程名（参数的输入输出类型 参数名 参数类型，………）
+begin 
+SQL语句
+end//
+</code></pre><p><strong>sql语句中用“；”作为结束标志，所以在定义存储过程之前应该将语句结束标志换成其他字符，更改结束标志可以用关键字“delimiter”。  </strong></p>
+<h1 id="存储函数"><a href="#存储函数" class="headerlink" title="存储函数"></a>存储函数</h1><pre><code>delimiter //
+create function 存储函数名（参数名 参数类型，………）
+returns 返回值类型 
+begin 
+SQL语句
+end//
+</code></pre><p><strong>这个地方需要注意的是返回值类型前面的是returns</strong></p>
+<h2 id="局部变量声明"><a href="#局部变量声明" class="headerlink" title="局部变量声明"></a>局部变量声明</h2><p>declare 变量名 变量类型；<br>局部变量只在某个begin······end块内有效</p>
+<h2 id="会话变量"><a href="#会话变量" class="headerlink" title="会话变量"></a>会话变量</h2><p>会话变量不必声明，可以直接使用，会话变量名以“@”为起始字符。</p>
+<h3 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h3><ol>
+<li>declare 变量名 变量类型 default 默认值；</li>
+<li>set 变量名=值；</li>
+<li>select 字段1名  INTO 变量名 FROM 表名 where condition 。。。。将表中满足condition的部分的字段1的内容赋值给变量。这种方式只能在begin和end之间使用。</li>
+</ol>
+<h2 id="游标"><a href="#游标" class="headerlink" title="游标"></a>游标</h2><p>有时候查询语句的结果是多条语句，使用游标必须先声明</p>
+<pre><code>declare 游标名 cursor for SELECT_STATEMENT
+</code></pre><p>使用游标之前必须“open 游标名”，游标在顺利打开之后可以使用FETCH·····INTO语句来读取数据。</p>
+<pre><code>FETCH 游标名 INTO 变量名········
+</code></pre><p>变量名必须提前定义好，使用完毕之后要关闭游标 “close 游标名”</p>
+<h2 id="流程控制语句"><a href="#流程控制语句" class="headerlink" title="流程控制语句"></a>流程控制语句</h2><h3 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h3><pre><code>IF condition THEN
+ELSE condition THEN
+······
+ELSE
+······
+ENDIF;
+</code></pre><p>CASE语句</p>
+<pre><code>case 变量名
+    when value THEN······
+    when value THEN······
+    else （和switch里面的default类似，默认语句）
+end case;
+</code></pre><h3 id="while循环语句"><a href="#while循环语句" class="headerlink" title="while循环语句"></a>while循环语句</h3><pre><code>while condition do
+·······
+end while; 
+</code></pre><h3 id="loop循环语句"><a href="#loop循环语句" class="headerlink" title="loop循环语句"></a>loop循环语句</h3><pre><code>loop循环名:loop
+·······
+满足条件  leave loop循环名;
+end loop;
+</code></pre><h3 id="repeat循环"><a href="#repeat循环" class="headerlink" title="repeat循环"></a>repeat循环</h3><pre><code>repeat 
+······
+until condition
+end repeat
+</code></pre><p>前面的三种循环中可以使用“iterate label”，和java中的continue关键字同样的作用，直接开始下一次循环</p>
+<h2 id="调用存储过程"><a href="#调用存储过程" class="headerlink" title="调用存储过程"></a>调用存储过程</h2><p>”call 存储过程名（存储过程的参数）;“，在命令行下，这里的参数如果是输入参数就直接输入值，如果是输出参数则使用全局变量，再通过select 输出变量值。</p>
+<h2 id="调用存储函数"><a href="#调用存储函数" class="headerlink" title="调用存储函数"></a>调用存储函数</h2><p>存储函数和MySQL内部函数的使用方法基本相同，“select 存储函数名（存储函数参数）;”</p>
+<h2 id="查看存储过程和函数"><a href="#查看存储过程和函数" class="headerlink" title="查看存储过程和函数"></a>查看存储过程和函数</h2><pre><code>show { procedure | function } status [like &apos;pattern&apos;]
+和
+show create{ procedure | function } 存储过程和函数的名字
+</code></pre><p>第一种只能用like关键字匹配存储过程和函数名称。如果要查看详细定义，需要使用show create语句。</p>
+<p>目前MySQL还不提供对已存在的存储过程和函数的代码进行修改，如果一定要修改只能删除后重新定义。现在只能修改对于存储过程和函数的权限和解释。</p>
+<pre><code>ALTER {PROCEDURE | FUNCTION} sp_name [characteristic……]
+</code></pre><p>参数说明<br>Sp_name，表示存储过程或函数的名称<br>characteristic，表示要修改存储过程的哪个部分<br>Characteristic的取值如下 </p>
+<p>CONTAINS SQL，表示子程序包含SQL语句，但是，不包含读或写数据的语句<br>NO SQL，表示子程序中，不包含SQL语句<br>READS SQL DATA，表示子程序中，包含读数据的语句<br>MODIFIES DATA，表示子程序中，包含写数据的语句<br>SQL SECURITY {DEFINER | INVOKER}，指明谁有权限来执行<br>DEFINER，表示只有定义者，自己才能够执行<br>INVOKER，表示调用者可以执行<br>COMMENT’string’，表示注释信息  </p>
+<h2 id="捕获存储过程中的错误"><a href="#捕获存储过程中的错误" class="headerlink" title="捕获存储过程中的错误"></a>捕获存储过程中的错误</h2><p>预测程序在执行过程中可能出现或遇到的问题<br>先用declare语句定义条件，语法格式如下</p>
+<pre><code>declare 条件名称 CONDITION FOR condition_value
+</code></pre><p>condition_value：SQLSTATE sqlstate_value | mysql_error_code，其实这里类似于给condition_value起了个别名,其实并不是很需要这一步。</p>
+<p>定义处理程序</p>
+<pre><code>declare handler_type handler for condition_value[,...] sp_statement  
+</code></pre><p>其中, handler_type的取值范围：continue | exit<br>这个语句指定每个可以处理一个或多个条件的处理程序。如果产生一个或多个条件，指定的语句被执行。 对一个continue处理程序，当前子程序的执行在执行处理程序语句之后继续。对于exit处理程序，当前begin…end复合语句的执行被终止。</p>
+<p>condition_value的取值范围：sqlstate [value] sqlstate_value | condition_name | sqlwarning | not found | sqlexception | mysql_error_code  </p>
+<p>SQLWARNING是对所有以01开头的SQLSTATE代码的速记。<br>NOT FOUND是对所有以02开头的SQLSTATE代码的速记。<br>SQLEXCEPTION是对所有没有被SQLWARNING或NOT FOUND捕获的SQLSTATE代码的速记。</p>
+<p>sp_statement  是错误处理代码</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/22/20171110/" data-id="cjf28yp86000gw8hupjqdy7tg" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/22/markdown语法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          markdown语法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/19/20180319 struts/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">20180319</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts/">Struts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后台/">后台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Struts/" style="font-size: 12px;">Struts</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/jsp/" style="font-size: 16px;">jsp</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/servlet/" style="font-size: 10px;">servlet</a> <a href="/tags/后台/" style="font-size: 14px;">后台</a> <a href="/tags/数据库/" style="font-size: 18px;">数据库</a> <a href="/tags/笔记/" style="font-size: 20px;">笔记</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/22/markdown语法/">markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/22/20171110/">20171110</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/19/20180319 struts/">20180319</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/13/20180313 struts/">20180313</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/18/JavaEE/">JavaEE</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Propulsé par <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

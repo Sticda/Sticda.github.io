@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>20171120 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http中get请求一般用于幂等操作（请求数据但不改变服务器上的数据），post用于非幂等操作（改变服务器上的数据，上传文件等），过长的请求参数也需要使用post 容器是java的一个应用程序，负责和服务器沟通，容器会把jsp网页转译成Servlet，加载到容器中进行管理，最后的所有jsp都会以servlet的实例中存在于容器中。每次有请求进来时，都是使用同一个容器进行处理，由容器开启一个线程，并">
+<meta name="keywords" content="后台">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20171120">
+<meta property="og:url" content="http://yoursite.com/2017/11/20/20171120/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="http中get请求一般用于幂等操作（请求数据但不改变服务器上的数据），post用于非幂等操作（改变服务器上的数据，上传文件等），过长的请求参数也需要使用post 容器是java的一个应用程序，负责和服务器沟通，容器会把jsp网页转译成Servlet，加载到容器中进行管理，最后的所有jsp都会以servlet的实例中存在于容器中。每次有请求进来时，都是使用同一个容器进行处理，由容器开启一个线程，并">
+<meta property="og:updated_time" content="2018-03-13T03:15:17.002Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="20171120">
+<meta name="twitter:description" content="http中get请求一般用于幂等操作（请求数据但不改变服务器上的数据），post用于非幂等操作（改变服务器上的数据，上传文件等），过长的请求参数也需要使用post 容器是java的一个应用程序，负责和服务器沟通，容器会把jsp网页转译成Servlet，加载到容器中进行管理，最后的所有jsp都会以servlet的实例中存在于容器中。每次有请求进来时，都是使用同一个容器进行处理，由容器开启一个线程，并">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-20171120" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/20/20171120/" class="article-date">
+  <time datetime="2017-11-20T13:32:53.000Z" itemprop="datePublished">2017-11-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      20171120
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>http中get请求一般用于幂等操作（请求数据但不改变服务器上的数据），post用于非幂等操作（改变服务器上的数据，上传文件等），过长的请求参数也需要使用post</p>
+<p>容器是java的一个应用程序，负责和服务器沟通，容器会把jsp网页转译成Servlet，加载到容器中进行管理，最后的所有jsp都会以servlet的实例中存在于容器中。每次有请求进来时，都是使用同一个容器进行处理，由容器开启一个线程，并决定是哪个Servlet来处理，如果有多个请求就启动多个线程来处理</p>
+<p>当请求来到http服务器的时候，服务器将请求转交给容器，容器会根据请求的参数建立一个代表当次请求的httpServletRequest对象，同时创建一个httpServletResponse对象，接着根据web.xml的设置，找出处理该请求的Servlet，调用他的service方法初始化。</p>
+<p>对于 <a href="http://localhost:8080/FirstServlet/hello.do?name=cate" target="_blank" rel="noopener">http://localhost:8080/FirstServlet/hello.do?name=cate</a> 来说，web容器会根据请求的逻辑名称（在前面这个链接就是hello.do来查找哪个Servlet可以处理这个链接的请求），找到Servlet之后根据servlet的名字和物理类名称的对应关系处理请求，调用Servlet的service（）方法，将所创建的HttpServletRequest对象和HttpServletResponse对象传入作为参数，service（）方法会根据http请求的方式调用不同的方法</p>
+<p>不要在Servlet程序中夹杂着HTML的页面输出，JSP网页中的HTML中也不要夹杂Java程序逻辑</p>
+<h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p>MVC就是Model，View，Controller</p>
+<p>Model负责控制逻辑部分，View负责与用户的页面交互，Controller负责收集用户请求，并转发给相对应的模型</p>
+<p>MVC模型中，http服务器没办法在服务器状态更新的情况下要求浏览器主动查询更新页面（http是基于请求响应的通信协议）在Web应用程序中，将MVC模型经过更新形成Model 2架构</p>
+<p>控制器收集请求相关信息，并不从事业务逻辑处理Servlet，控制器只顺序调用函数实现跳转<br>模型通常是一个纯粹的java对象  ，页面的逻辑都在java对象中实现<br>视图进行页面的组织，由JSP技术实现</p>
+<p>html页面中\n不能正常显示，要换行必须要页面中用&lt;br>&lt;/br>包含</p>
+<h1 id="Http请求、响应处理"><a href="#Http请求、响应处理" class="headerlink" title="Http请求、响应处理"></a>Http请求、响应处理</h1><p>http请求中的所有信息都封装在HttpServletRequest中，这个接口实现了ServletRequest接口</p>
+<p>浏览器接受到相应的html必须知道怎么正确解释文字编码，HttpServletResponse有一个setContentType的方法可以设置，除此之外也可以使用字符串的getbytes方法重新编码字符串。</p>
+<p>利用下面的方法可以实现跳转请求，由其他的servlet和jsp负责处理，其中的request和response可以通过ServletRequeatWrapper、ServletResponseWrapper或者其子类将容器产生的request和respond重新包裹</p>
+<pre><code>request.getRequestDispatcher(&quot;相对url&quot;).forward(request, response)
+</code></pre><p>在执行forward（）之前不能给浏览器确切的回应。执行完forward还会回到原来的servlet/jsp，但是没有办法继续响应（http协议的特性）</p>
+<p>如果打算在目前的servlet/JSP中进行一些对浏览器的响应，而中间想将其他Servlet/JSP包括进来回应，则可以执行RequestDispatcher的include（）方法</p>
+<h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>突然感觉自己好像有点啰嗦，我看书的时候把一些小点记在博客上，但是感觉打字太慢，所以以后需要降低在博客上记载书上已有知识的篇幅</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/11/20/20171120/" data-id="cjf28yp89000kw8huz9mukchm" class="article-share-link">Partager</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/后台/">后台</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/11/24/20171201/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          20171201
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/14/20171114/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">20171114</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts/">Struts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后台/">后台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Struts/" style="font-size: 12px;">Struts</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/jsp/" style="font-size: 16px;">jsp</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/servlet/" style="font-size: 10px;">servlet</a> <a href="/tags/后台/" style="font-size: 14px;">后台</a> <a href="/tags/数据库/" style="font-size: 18px;">数据库</a> <a href="/tags/笔记/" style="font-size: 20px;">笔记</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/22/markdown语法/">markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/22/20171110/">20171110</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/19/20180319 struts/">20180319</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/13/20180313 struts/">20180313</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/18/JavaEE/">JavaEE</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Propulsé par <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>20171114 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="触发器触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即表的操作事件触发表上的触发器的执行。 CREATE TRIGGER trigger_name trigger_time trigger_event ON tbl_name FOR EACH ROW trigger_stmt1 其中： trigger_name：标识触发器名称，用户自行指定；trigger_t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20171114">
+<meta property="og:url" content="http://yoursite.com/2017/11/14/20171114/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="触发器触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即表的操作事件触发表上的触发器的执行。 CREATE TRIGGER trigger_name trigger_time trigger_event ON tbl_name FOR EACH ROW trigger_stmt1 其中： trigger_name：标识触发器名称，用户自行指定；trigger_t">
+<meta property="og:updated_time" content="2017-12-22T06:34:22.101Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="20171114">
+<meta name="twitter:description" content="触发器触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即表的操作事件触发表上的触发器的执行。 CREATE TRIGGER trigger_name trigger_time trigger_event ON tbl_name FOR EACH ROW trigger_stmt1 其中： trigger_name：标识触发器名称，用户自行指定；trigger_t">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-20171114" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/14/20171114/" class="article-date">
+  <time datetime="2017-11-14T01:21:07.000Z" itemprop="datePublished">2017-11-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      20171114
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h1><p>触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即<strong>表的操作事件触发表上的触发器的执行</strong>。</p>
+<pre><code>CREATE TRIGGER trigger_name
+trigger_time
+trigger_event ON tbl_name
+FOR EACH ROW
+trigger_stmt1
+</code></pre><p>其中：</p>
+<p>trigger_name：标识触发器名称，用户自行指定；<br>trigger_time：标识触发时机，取值为 BEFORE 或 AFTER；<br>trigger_event：标识触发事件，取值为 INSERT、UPDATE 或 DELETE；<br>tbl_name：标识建立触发器的表名，即在哪张表上建立触发器；<br>trigger_stmt：触发器程序体，可以是一句SQL语句，或者用 BEGIN 和 END 包含的多条语句。  </p>
+<p>由此可见，可以建立6种触发器，即：BEFORE INSERT、BEFORE UPDATE、BEFORE DELETE、AFTER INSERT、AFTER UPDATE、AFTER DELETE。</p>
+<p>另外有一个限制是<strong>不能同时在一个表上建立2个相同类型的触发器</strong>，因此在一个表上最多建立6个触发器。</p>
+<p><strong>select语句返回的是结果集，就算最终的结果是表中的一个具体部分，也是一个结果集</strong></p>
+<h3 id="查看触发器"><a href="#查看触发器" class="headerlink" title="查看触发器"></a>查看触发器</h3><p>show triggers 查看数据库中所有的触发器</p>
+<p>select * from information_schema.triggers where trigger_name = ’触发器名称‘</p>
+<h1 id="视图（view）"><a href="#视图（view）" class="headerlink" title="视图（view）"></a>视图（view）</h1><p>数据库中只存放了视图的定义，没有视图的数据，所以每次使用视图获得的都是最新的数据，主要作用是保证了应用程序和数据库表的逻辑数据独立性，以及安全性<br>新建视图前先检查是否具有权限。</p>
+<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
+view 视图名（属性清单）
+as select语句
+[with [CASCADED | LOCAL ] check option];
+</code></pre><p>or replace的意思是如果存在的话进行修改，如果不存在的话创建视图</p>
+<p>algorithm表示视图选择的算法</p>
+<p>with check option是可选参数，表示更新视图时要保证在该视图的权限范围内。<br>创建视图时指定了witch check option关键字，这也就是说，更新后的每一条数据仍然要满足创建视图时指定的where条件。通过视图进行的修改，必须也能通过该视图看到修改后的结果<br>如果有with check option的话，默认关键字是cascade</p>
+<p>select语句中不能包含from子句中的子查询</p>
+<p>不能将触发程序和视图关联在一起。</p>
+<p>视图是建立在数据库上的</p>
+<h2 id="查看视图"><a href="#查看视图" class="headerlink" title="查看视图"></a>查看视图</h2><ol>
+<li>DESCRIBE（desc）视图名；</li>
+<li>show table status like ‘视图名’；(不带like就是展示目前数据库中的表和视图)</li>
+<li>show create view 视图名；</li>
+</ol>
+<h2 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h2><ol>
+<li>create or replace</li>
+<li><p>和定义时类似，将create改成alter</p>
+<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
+view 视图名（属性清单）
+as select语句
+[with [CASCADED | LOCAL ] check option];
+</code></pre><h2 id="更新视图（insert、update）"><a href="#更新视图（insert、update）" class="headerlink" title="更新视图（insert、update）"></a>更新视图（insert、update）</h2></li>
+</ol>
+<p>由于视图是一个虚表，所以通过视图的更新都将通过转化为基本的表操作，更新时必须保证拥有权限，更新时将视图看做普通的表。</p>
+<p>有几种情况更新视图是不能成功的。</p>
+<ol>
+<li>视图中包括了count、sum、max、min等函数</li>
+<li>视图中包含了union、UNION all 、distinct、group by、having等关键字</li>
+<li>select中包含了常量或者有子查询。</li>
+<li>由不可能更新的视图产生的视图。</li>
+<li>创建视图时算法为temptable类型。</li>
+<li>视图对应的表上存在没有默认值的非空列，并且这一列也不在视图中，所以插入失败。</li>
+</ol>
+<p>drop view if <strong>exists</strong> 视图名 [restrict | cascade ]</p>
+<h1 id="事务（transaction）"><a href="#事务（transaction）" class="headerlink" title="事务（transaction）"></a>事务（transaction）</h1><p>ACID：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）</p>
+<p>start transaction；后面紧跟由begin和end包含的一些sql语句<br>commit提交事务，rollback回滚事务。<br>事务不支持嵌套功能</p>
+<ol>
+<li>自动提交：autocommit，该变量为1时自动向数据库提交结果，用户在操作数据库的时候不需要start transaction等，如果设置为0，则需要用户输入commit才会将数据表中的资料提交到数据库中(set autocommit=0)；</li>
+<li>事务的孤立级：不同的用户通过不同的会话执行不同的事务，为了保证事务互不影响，保证数据库性能不受到影响，采用事务的孤立级是十分必要的。 </li>
+</ol>
+<p>MySQL提供4种孤立级：<br>serializable（序列化）以序列的形式对事务进行处理，只有当事务提交后用户才能从数据库中查看数据的变化<br>repeatable read（可重读 ）不会被看成序列，提交之后才能看到结果<br>read commited（提交后读）用户可以看到其他事务添加的新记录，在同一事务的不同时间内，应用查询语句可能会得到不同的结果<br>read uncommited（未提交读）容易产生虚幻读操作，其他用户可以在该孤立级上看到未提交的事务。</p>
+<p>修改事务的孤立级：（set  事务名 transaction isolation level 孤立级；）<br>select @@tx_isolation；</p>
+<h2 id="MySQL伪事务"><a href="#MySQL伪事务" class="headerlink" title="MySQL伪事务"></a>MySQL伪事务</h2><p>MyISAM类型表不支持事务，所以采用表锁定替代事务</p>
+<pre><code>lock tables 表名 lock_type；
+unlock tables；
+</code></pre><p>lock_type包括只读和只写</p>
+<h1 id="其他相关知识"><a href="#其他相关知识" class="headerlink" title="其他相关知识"></a>其他相关知识</h1><h2 id="数据库备份"><a href="#数据库备份" class="headerlink" title="数据库备份"></a>数据库备份</h2><p>备份一个数据库中的若干表</p>
+<pre><code>mysqldump  -u username -p 数据库名 数据表名 (可以是多个表，没有该参数默认备份整个数据库) &gt;  备份文件名.sql
+</code></pre><p>备份多个数据库</p>
+<pre><code>mysqldump -u username -p --databases 数据库名1 数据库名2  &gt;备份文件名.sql
+</code></pre><p>备份所有数据库</p>
+<pre><code>mysqldump -u username -p --all -databases &gt; 备份文件名.sql
+</code></pre><p>数据库查询的时候利用索引会加快查询速度，可以用explain和describe来分析查询语句，之后可以看到查询所需要的查询行数</p>
+<p>插入记录时，索引和唯一性校验都会影响到插入记录的速度</p>
+<ol>
+<li>alter table 表名 disable keys；</li>
+<li>alter table 表名 enable keys；</li>
+</ol>
+<p>唯一性校验set unique_check=0/1;</p>
+<h2 id="分析、检查、优化表"><a href="#分析、检查、优化表" class="headerlink" title="分析、检查、优化表"></a>分析、检查、优化表</h2><pre><code>analyze/check/optimize table 表名
+</code></pre><p>如果一个表中使用了TEXT或者BLOB这样的数据类型，那么更新删除等操作就会造成磁盘空间的浪费，所以需要使用optimize进行优化</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/11/14/20171114/" data-id="cjf28yp7x0008w8hu94nb9ven" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/11/20/20171120/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          20171120
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/09/正则/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">正则表达式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Mot-clés</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts/">Struts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jsp/">jsp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/servlet/">servlet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/后台/">后台</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Nuage de mot-clés</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Struts/" style="font-size: 12px;">Struts</a> <a href="/tags/java/" style="font-size: 16px;">java</a> <a href="/tags/jsp/" style="font-size: 16px;">jsp</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/servlet/" style="font-size: 10px;">servlet</a> <a href="/tags/后台/" style="font-size: 14px;">后台</a> <a href="/tags/数据库/" style="font-size: 18px;">数据库</a> <a href="/tags/笔记/" style="font-size: 20px;">笔记</a> <a href="/tags/随笔/" style="font-size: 14px;">随笔</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/22/markdown语法/">markdown语法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/22/20171110/">20171110</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/19/20180319 struts/">20180319</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/13/20180313 struts/">20180313</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/18/JavaEE/">JavaEE</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Propulsé par <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
