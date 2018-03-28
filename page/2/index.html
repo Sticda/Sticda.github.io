@@ -210,6 +210,115 @@
 
 
   
+    <article id="post-20171226" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/26/20171226/">20171226</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/26/20171226/" class="archive-article-date">
+  	<time datetime="2017-12-26T01:54:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>JSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误</p>
+<p>不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候做一些事情，可以选择重写JSPInit（）和jspDestroy（）。</p>
+<h2 id="指示元素"><a href="#指示元素" class="headerlink" title="指示元素"></a>指示元素</h2><p>&lt;%@ 指示类型  [属性=“值”] <em> %&gt;（[属性=“值”] </em>是正则表达式）</p>
+<p>常用的指示类型：page（告知容器如何转译目前的jsp网页）、include（将其他的jsp页面包括进来进行转译）、taglib（告知容器如何转译这个页面中的标签库）</p>
+<p>include将其他页面包含的时候是一种静态的包含方式，就是把包含的文件直接拼接在一起。</p>
+<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>在&lt;%!与%&gt;之间声明的程序代码，都将转译为Servlet中的类成员或者方法。也就是说把<strong>所有的成员变量声明和方法声明的java代码</strong>都写在这个&lt;%!与%&gt;之间，容器会使用同一个Servlet来服务不同用户的请求，每个请求就是一个线程，声明 变量的时候必须小心数据共享与线程安全的问题，使用该方法声明的变量是类成员变量，JSPInit（）和JSPDestroy（）就需要使用这种方式重写。</p>
+<h2 id="Scriptlet元素"><a href="#Scriptlet元素" class="headerlink" title="Scriptlet元素"></a>Scriptlet元素</h2><p>&lt;%  java语句  %&gt;所有的内容将被转译到Servlet源代码中的_JSPService（），可以利用java语句的注释方式进行注释（//或者/<em>········</em>/)</p>
+<h2 id="表达式元素"><a href="#表达式元素" class="headerlink" title="表达式元素"></a>表达式元素</h2><p>&lt;%= java 表达式&gt;表达式元素不用加分号，表达式元素中的表达式会直接转译成out对象输出时的指定内容。</p>
+<p>因此在jsp中输出&lt;%或者%&gt;符号，要将角括号置换为替代字符，&lt;%可以换成&lt;%  ，%&gt; 可以换成%&gt;或者%>。</p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>JSP有自己专用的注释，即&lt;%–与–%&gt;，容器在转译JSP到Servlet的时候，会忽略两者之间包括的文字。</p>
+<hr>
+<p>Scriptlet中的一些类似于out和request的对象，转译成Servlet之后会对应到Servlet中的某个对象，request对应HttpServletRequest，像request和out的对象就被称为隐含对象。</p>
+<p>pageContext转译后对应PageContext对象，提供了jsp页面资源的封装，page对应this</p>
+<p>out并不直接对应于有HttpServletResponse得到的PrintWriter对象，out对应JSPWriter对象，该对象模拟了BufferedWriter与PrintWriter的功能。jspWriter具有缓冲区功能，这时候就决定于页面是否具有缓冲区的功能了，如果没有则会立即输出，有的话只有在清空缓冲区才会输出，page指示元素的buffer属性设置缓冲区的大小，满了之后的行为采用autoFlush属性决定。</p>
+<p>可以通过PageContext获得所有的隐含对象，除了封装所有的jsp页面信息之外 ，还可以使用pageContext来设置页面范围属性setAttribute、getAttribute、removeAttribute</p>
+<p>在jsp页面中设置属性的方式有两种，一种是通过pageContext获得HttpServletRequest、ServletContext、HttpSession，另一种是利用pageContext统一提供的接口。getAttribute（String name，int Scope），setAttribute（String name，Object value,int scope）,remove(String name, int scope)，Scope是标识不同的范围，pageContext提供了findAttribute（），从页面，请求，会话到应用程序范围以此寻找。</p>
+<h2 id="错误页面"><a href="#错误页面" class="headerlink" title="错误页面"></a>错误页面</h2><p>使用page指示元素，设置errorPage属性便可以指定错误处理的JSP页面。错误页面的page指示元素的isErrorPage属性设置为true。</p>
+<h2 id="标准标签"><a href="#标准标签" class="headerlink" title="标准标签"></a>标准标签</h2><p>主要作用是减少scriptlet的使用，include指示元素可以把另一个JSP页面包含进来转移成一个Servlet类，无法在运行时动态调整想要的页面。如果想要在运行时依条件动态调整想要包括的JSP页面，则可以使用&lt;jsp：include&gt;标签，可以动态包括要给该页面的请求参数</p>
+<p>转发页面可以使用&lt;jsp：forward&gt;，与前者的使用方法相同。</p>
+<pre><code>&lt;jsp:forward page=&apos;&quot;add.jsp&quot;&gt;
+    &lt;jsp:param name=&quot;a&quot; value=&quot;1&quot;&gt;
+    &lt;jsp:param name=&quot;a&quot; value=&quot;2&quot;&gt;
+&lt;/jsp:forward&gt;
+</code></pre><p><strong><a href="jsp:useBean" target="_blank" rel="noopener">jsp:useBean</a>、<a href="jsp:setProperty" target="_blank" rel="noopener">jsp:setProperty</a>、<a href="jsp:getProperty" target="_blank" rel="noopener">jsp:getProperty</a></strong></p>
+<p>JavaBean指的是满足以下条件的java对象，必须实现了Java.io.Serializable接口，没有公开的类变量，具有无参数的构造函数，具有公开的设值方法和取值方法，setter和getter，可以直接使用标签在页面中赋值</p>
+<pre><code>&lt;jsp:useBean id=&quot;名称（类实例变量名称）&quot; class=&quot;包名.类名&quot; 
+scope=&quot;page、request、session、application&quot;
+type=&quot;想要指定的类型&quot;/&gt;
+&lt;jsp:setProperty name=&quot;类实例变量名&quot; property=&quot;属性值&quot;/&gt;
+</code></pre><p>setProperty标签的property为“*”时，表示将自动寻找符合JavaBean中设值方法名称的请求参数值，如果请求参数的名称为xxx，就将请求参数值使用setXxx（）方法设置给JavaBean实例。</p>
+<p>在jsp中就可以写直接 调用id.方法（），赋值可以直接写&lt;jsp:getProperty name=”变量名” property=”属性名”&gt;</p>
+<p>赋值的时候可以通过&lt;jsp:setProperty name=”user” property=”password” value=”123456”/&gt;</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/26/20171226/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20171219" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -997,91 +1106,6 @@ limit count
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/11/01/20171105/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20171019" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/16/20171019/">20171019</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/16/20171019/" class="archive-article-date">
-  	<time datetime="2017-10-16T02:12:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。</li>
-<li>java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器（Application ClassLoader），自定义类加载器（User ClassLoader），前者是后者的父加载器，应用程序类加载器负责加载用户类路径（Classpath）上所指定的类库。</li>
-<li>CAS操作是指当且仅当内存位置V符合旧的预期值A时，处理器才会用新值B更新V 的值，否则他就不执行更新，但是无论是否更新了V 的值，都会返回V的旧值。</li>
-</ol>
-<p>17号早上《深入理解java虚拟机》这本书基本上看完了，第四部分没看，第四部分是程序编译与代码优化，具体内容是早期编译期优化和晚期运行期优化，最终也就是第四章，第五章，第九章没有看。看完之后可能还是有点懵逼，有一些部分还不是很清楚，但总算是了解了一些，今天刚好有点时间，总结一下这本书里大概学到的知识点。</p>
-<ol>
-<li>java内存区域和内存溢出异常：每次打开一个java程序就会打开一个java虚拟机实例，也就是每一个运行main函数就会生成一个java虚拟机的实例，这每一个java虚拟机上运行的每一个线程都有自己的程序计数器，虚拟机栈和本地方法栈。程序计数器是当前程序运行的字节码的行号指示器，虚拟机栈和本地方法栈简单来说一个运行的是java方法，一个是本地的方法，也就是JNI方法，java的每一个方法都是以栈帧的方法执行的（栈帧的内容就是局部变量表、操作数栈、动态链接、方法返回地址）。堆和方法区是共享部分，java堆中都是新建的对象实例，但是只有存储的数据，对于里面数据的解读则要到方法区中查询。方法区中存储的是被虚拟机加载的类信息，常量和静态常量、即时编译器编译后的代码等数据，方法区中有运行时常量池，用于存放编译器生成的各种字面量和符号引用</li>
-<li>垃圾收集器和内存分配策略：【哪些内存需要回收？什么时候回收？如何回收？ 判断内存需要回收使用的算法是引用计数算法和可达性分析算法，java使用的是可达性分析算法（GC roots 的选取），回收的时间选择安全点或者安全区，就是在这部分区域里进行垃圾回收。垃圾收集算法一共有三种，复制算法，标记整理算法和标记清除算法。垃圾收集器的种类：Serial收集器（新生代复制算法），Serial Old（老年代标记整理算法）、ParNew收集器（Serial收集器的多线程版本）Parallel Scavenge收集器（新生代收集器，与CMS的不同在于控制吞吐量，而不是缩短停顿时间）Parallel Old收集器（Parallel Scavenge的老年版本）Parallel Scavenge只能和Serial Old、Parallel Old搭配，CMS收集器和G1收集器】【对象在堆上分配，堆上有一个Eden和两个Survivor，对象优先在Eden上分配，大对象直接进入老年代、长期存活的对象将进入老年代、动态对象年龄判定】</li>
-<li>类文件结构以及类加载机制：每个class类文件都需要被加载，加载的时候就按照类文件里的定义直接加载到方法区中。类文件里对于每个模块的定义以及内容之间的联系。这部分内容有自定义的类加载器以及双亲委派模型和双亲委派模型被破坏的情况。</li>
-<li>java内存模型与线程安全：java的主内存和线程的工作内存，工作内存之间的数据交换只能通过主内存，java内存模型在执行时必须满足一些特定的规则【不允许一个变量从主内存读取但工作内存不接受、从工作内存发起回写但主内存不接受、变量在发生了更改之后必须把该变化同步到主内存中、不允许毫无理由的把工作内存中的数据同步到主内存、新变量只能在主内存之中产生、一个变量同一时刻只允许一条线程对其进行lock操作、对一个变量执行lock操作将会清空工作内存中 的值、没有被lock就不能被unlock、执行unlock操作之前必须把此变量同步回主内存中】线程安全的实现方法包括利用Synchronized和ReentrantLock【自旋锁、自适应自旋锁、轻量级锁、偏向锁】</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/16/20171019/">展开全文 >></a>
         </p>
       
 

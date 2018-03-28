@@ -139,6 +139,117 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180326-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/26/20180326-struts/">20180326 struts</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/26/20180326-struts/" class="archive-article-date">
+  	<time datetime="2018-03-26T01:28:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="数据标签"><a href="#数据标签" class="headerlink" title="数据标签"></a>数据标签</h3><p><strong>Action标签</strong>里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。</p>
+<p><strong>bean标签</strong>的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置JavaBean的属性值只能通过bean属性的子标签</p>
+<p><strong>date标签</strong>的var属性也会把格式化后的字符串放入Stack Context，并放入requestScope中</p>
+<p><strong>include标签</strong>用于将jsp页面或者servlet包含到本页面，value属性指定被包含的页面，要传入参数的话需要利用param子标签。<strong>param这个标签</strong>就是name和value参数。可以省略value标签，用param标签把value包在里面</p>
+<p><strong>push标签</strong>的主要作用就是把某个值放到ValueStack的栈顶，只有在push标签内，被push标签放入VaLueStack中的对象才存在，一旦离开了push标签，刚刚放入的对象就会被立刻溢出ValueStack。</p>
+<p><strong>set标签</strong>用于将某个值放入指定范围内。属性有scope、value(未指定的话就是ValueStack栈顶的值)、var（指定属性后将该值放入ValueStack）</p>
+<p><strong>url标签</strong>用于生成URL地址（value属性指定要输出的属性值，要是没有指定，则默认输出ValueStack）</p>
+<p>Struts 2允许在同一个视图界面使用不同的主题，如果需要改变表单的主题需要改变表单标签的theme属性，如果需要让某次用户会话使用特定的主题，可以通过在session中设置一个theme的变量，如果需要改变某个应用的主题，则可以通过修改struts.ui.theme实现。</p>
+<h3 id="Struts2-的类型转换机制"><a href="#Struts2-的类型转换机制" class="headerlink" title="Struts2 的类型转换机制"></a>Struts2 的类型转换机制</h3><p>Struts2提供了类型转化机制，http请求参数都是字符串类型，所以需要转化为自定义类型，字符串与基本类型之间的转化struts2已经实现。</p>
+<p>如果在Action的定义文件中直接指定了某些集合变量的泛型，就可以直接在jsp文件中写明某个参数的name是集合变量的哪个元素的哪个属性。</p>
+<p>将一个字符串转换为一个复合对象，需要重写DefaultTypeConverter类的convertValue（Map context，Object value，Class toType）方法，这个方法需要完成双向转化，也就是要根据toType的类型转换，value是需要转换的东西，必须要注意的是字符串向自定义类型转换的时候value是一个字符串数组，因为请求参数类型就是一个字符串数组，如果只有一个请求参数那么获得的就是长度为1的数组</p>
+<p>简化版的DefaultTypeConverter是StrutsTypeConverter抽象类，两个方法分别是convertFromString和convertToString。</p>
+<p>如果说开发者没有在定义Action的时候指明集合元素的类型，也可以使用<strong>局部类型转换文件</strong>指定集合元素的类型，文件名为ActionName-conversion.properties形式</p>
+<p>对于某个具体的action起作用的类型转换器就可以在该action的局部类型转换文件中写明。如果properties文件中包含了非西欧字符则需要使用native2ascii命令处理该文件。</p>
+<p>注册全局类型转换器需要提供xwork-conversion.properties文件，放在WEB-INF/classes文件夹下，内容就是某个类的全限定名=某个转换器的全限定名。</p>
+<p>Action中一般不使用set，因为set中的元素都是无序状态，但是如果为这些元素指定了索引属性，就不存在这个问题了。 索引属性必须是set集合中元素的属性，除了在局部类型转换文件中通过代码明确set集合中元素的索引属性之外，还需要在set中的元素的定义中重写equals和hascode方法来确保索引属性是某个元素。</p>
+<p>在OGNL表达式中访问set元素使用的是圆括号，但对于数组、list和map，则通过方括号访问指定元素。struts2位转换类型错误注册了名为conversionError的拦截器，处理异常之后系统会跳转到名为input的逻辑视图中。想要输出类型转换错误可以使用&lt;s:fielderror/&gt;，如果特定的字段类型转换出现了问题想要输出特定的提示信息，则可以在局部类型文件中设置。</p>
+<pre><code>&lt;s:textfield name=&quot;users[%{#stat.index}]&quot;&gt;和
+&lt;s:property name=&quot;#user.name&quot;&gt;
+两个的区别是前面那个users里面是字符索引，
+如果直接写users[#stat.index]会出错，
+因为struts不能把里面的部分识别为OGNL，加上%{}的作用就是为了告诉系统stat.index是OGNL表达式
+</code></pre><h3 id="struts的国际化"><a href="#struts的国际化" class="headerlink" title="struts的国际化"></a>struts的国际化</h3><p>国际化步骤：1.让系统加载国际化资源文件；2输出国际化。</p>
+<p>加载国际化资源的方式有两种：Action范围的和包范围的国际化可以自动加载；jsp范围、全局范围的国际化资源文件分别使用标签和配置常量的方式。<br>输出国际化的方式也有两种：struts的标签、ActionSupport类中的getText（）方法</p>
+<p>在JSP页面中指定国际化资源需要&lt;s:i18n&gt;，作为输出标签的父标签会好一点，因为会自动加载国际化资源文件。text标签可以利用name属性从资源文件中取值，如果是form标签则利用key属性取值。</p>
+<p>可以单独为Action定义一个国际化资源文件，在Action类文件所在的路径建立ActionName_language_country.properties的文件，可以自动加载</p>
+<p>包范围内的国际化资源文件也可以自动加载，package_<language>_<country>.properties，该包下的所有action都可以使用这些资源文件。当包范围和Action范围的资源文件同时存在的时候，系统将优先使用Action范围的资源文件。</country></language></p>
+<p><strong>在实际项目中推荐使用Action范围的国际化资源</strong>，所有的action的资源文件放在一起管理会很复杂</p>
+<p>在struts.xml或者struts.properties文件中配置常量只需要配置struts.custom.i18n.resources常量即可加载全局国际化资源文件，全局国际化资源文件中只保存对于全局有效的东西，如果把所有的国际化资源消息放在一个文件里，很难维护</p>
+<p>JSP页面中对应的国际化资源文件中有占位符，也就是说消息类似于“welcome={0}，您好！”在text标签中指定name为welcome来展示这条消息，需要利用param子标签为该占位符提供参数。在Action中通过getText获取国际化消息资源，所以现在通过getText里面增加参数来完成占位符的填充；还可以直接在国际化资源文件中使用EL表达式。</p>
+<p>某个XXXAction加载资源文件的顺序是先加载baseName为XXXAction的资源文件，找不到的话找父类Action的baseName同名资源文件，再找不到就找XXXAction实现接口 的资源文件，还找不到就找XXXAction所在的包下的资源文件，找不到就不断上溯，到顶层包还没找到就查找struts.custom.i18n.resources常量指定的baseName的资源文件。再找不到就只能输出key的值了。</p>
+<p>在JSP中访问国际化消息，使用&lt;s:i18n…/&gt;作为text和form标签的父标签，直接会从i18n指定的资源文件中查找key对应的消息，找不到就在struts.custom.i18n.resources中查找，找不到就直接输出key的值</p>
+<h3 id="输入校验"><a href="#输入校验" class="headerlink" title="输入校验"></a>输入校验</h3><p>struts2提供了基于框架的输入校验，不需要编写代码，只需要编写简单的配置文件，每个Action都有自己的校验文件，ActionName-validation.xml中配置校验规则，保存在同路径下，&lt;validators…./&gt;元素可以包含field-validator（字段校验器）或者validator元素（非字段校验器），如果校验失败（不符合校验规则）也会重新返回到“input” 的逻辑视图中。</p>
+<p>类型转换失败的提示信息和输入校验失败的提示信息都被封装成FieldError，并被放入Action Context，并且使用&lt;S:fielderror&gt;标签输出提示信息，如果开发者使用了Struts2的表单标签生成表单，那么表单标签会自动输出错误提示。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/26/20180326-struts/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-markdown语法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1295,115 +1406,6 @@ ${login[&quot;pass.word&quot;]}
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/12/27/20171227/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20171226" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/26/20171226/">20171226</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/26/20171226/" class="archive-article-date">
-  	<time datetime="2017-12-26T01:54:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>JSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误</p>
-<p>不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候做一些事情，可以选择重写JSPInit（）和jspDestroy（）。</p>
-<h2 id="指示元素"><a href="#指示元素" class="headerlink" title="指示元素"></a>指示元素</h2><p>&lt;%@ 指示类型  [属性=“值”] <em> %&gt;（[属性=“值”] </em>是正则表达式）</p>
-<p>常用的指示类型：page（告知容器如何转译目前的jsp网页）、include（将其他的jsp页面包括进来进行转译）、taglib（告知容器如何转译这个页面中的标签库）</p>
-<p>include将其他页面包含的时候是一种静态的包含方式，就是把包含的文件直接拼接在一起。</p>
-<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>在&lt;%!与%&gt;之间声明的程序代码，都将转译为Servlet中的类成员或者方法。也就是说把<strong>所有的成员变量声明和方法声明的java代码</strong>都写在这个&lt;%!与%&gt;之间，容器会使用同一个Servlet来服务不同用户的请求，每个请求就是一个线程，声明 变量的时候必须小心数据共享与线程安全的问题，使用该方法声明的变量是类成员变量，JSPInit（）和JSPDestroy（）就需要使用这种方式重写。</p>
-<h2 id="Scriptlet元素"><a href="#Scriptlet元素" class="headerlink" title="Scriptlet元素"></a>Scriptlet元素</h2><p>&lt;%  java语句  %&gt;所有的内容将被转译到Servlet源代码中的_JSPService（），可以利用java语句的注释方式进行注释（//或者/<em>········</em>/)</p>
-<h2 id="表达式元素"><a href="#表达式元素" class="headerlink" title="表达式元素"></a>表达式元素</h2><p>&lt;%= java 表达式&gt;表达式元素不用加分号，表达式元素中的表达式会直接转译成out对象输出时的指定内容。</p>
-<p>因此在jsp中输出&lt;%或者%&gt;符号，要将角括号置换为替代字符，&lt;%可以换成&lt;%  ，%&gt; 可以换成%&gt;或者%>。</p>
-<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>JSP有自己专用的注释，即&lt;%–与–%&gt;，容器在转译JSP到Servlet的时候，会忽略两者之间包括的文字。</p>
-<hr>
-<p>Scriptlet中的一些类似于out和request的对象，转译成Servlet之后会对应到Servlet中的某个对象，request对应HttpServletRequest，像request和out的对象就被称为隐含对象。</p>
-<p>pageContext转译后对应PageContext对象，提供了jsp页面资源的封装，page对应this</p>
-<p>out并不直接对应于有HttpServletResponse得到的PrintWriter对象，out对应JSPWriter对象，该对象模拟了BufferedWriter与PrintWriter的功能。jspWriter具有缓冲区功能，这时候就决定于页面是否具有缓冲区的功能了，如果没有则会立即输出，有的话只有在清空缓冲区才会输出，page指示元素的buffer属性设置缓冲区的大小，满了之后的行为采用autoFlush属性决定。</p>
-<p>可以通过PageContext获得所有的隐含对象，除了封装所有的jsp页面信息之外 ，还可以使用pageContext来设置页面范围属性setAttribute、getAttribute、removeAttribute</p>
-<p>在jsp页面中设置属性的方式有两种，一种是通过pageContext获得HttpServletRequest、ServletContext、HttpSession，另一种是利用pageContext统一提供的接口。getAttribute（String name，int Scope），setAttribute（String name，Object value,int scope）,remove(String name, int scope)，Scope是标识不同的范围，pageContext提供了findAttribute（），从页面，请求，会话到应用程序范围以此寻找。</p>
-<h2 id="错误页面"><a href="#错误页面" class="headerlink" title="错误页面"></a>错误页面</h2><p>使用page指示元素，设置errorPage属性便可以指定错误处理的JSP页面。错误页面的page指示元素的isErrorPage属性设置为true。</p>
-<h2 id="标准标签"><a href="#标准标签" class="headerlink" title="标准标签"></a>标准标签</h2><p>主要作用是减少scriptlet的使用，include指示元素可以把另一个JSP页面包含进来转移成一个Servlet类，无法在运行时动态调整想要的页面。如果想要在运行时依条件动态调整想要包括的JSP页面，则可以使用&lt;jsp：include&gt;标签，可以动态包括要给该页面的请求参数</p>
-<p>转发页面可以使用&lt;jsp：forward&gt;，与前者的使用方法相同。</p>
-<pre><code>&lt;jsp:forward page=&apos;&quot;add.jsp&quot;&gt;
-    &lt;jsp:param name=&quot;a&quot; value=&quot;1&quot;&gt;
-    &lt;jsp:param name=&quot;a&quot; value=&quot;2&quot;&gt;
-&lt;/jsp:forward&gt;
-</code></pre><p><strong><a href="jsp:useBean" target="_blank" rel="noopener">jsp:useBean</a>、<a href="jsp:setProperty" target="_blank" rel="noopener">jsp:setProperty</a>、<a href="jsp:getProperty" target="_blank" rel="noopener">jsp:getProperty</a></strong></p>
-<p>JavaBean指的是满足以下条件的java对象，必须实现了Java.io.Serializable接口，没有公开的类变量，具有无参数的构造函数，具有公开的设值方法和取值方法，setter和getter，可以直接使用标签在页面中赋值</p>
-<pre><code>&lt;jsp:useBean id=&quot;名称（类实例变量名称）&quot; class=&quot;包名.类名&quot; 
-scope=&quot;page、request、session、application&quot;
-type=&quot;想要指定的类型&quot;/&gt;
-&lt;jsp:setProperty name=&quot;类实例变量名&quot; property=&quot;属性值&quot;/&gt;
-</code></pre><p>setProperty标签的property为“*”时，表示将自动寻找符合JavaBean中设值方法名称的请求参数值，如果请求参数的名称为xxx，就将请求参数值使用setXxx（）方法设置给JavaBean实例。</p>
-<p>在jsp中就可以写直接 调用id.方法（），赋值可以直接写&lt;jsp:getProperty name=”变量名” property=”属性名”&gt;</p>
-<p>赋值的时候可以通过&lt;jsp:setProperty name=”user” property=”password” value=”123456”/&gt;</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/26/20171226/">展开全文 >></a>
         </p>
       
 
