@@ -159,7 +159,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="数据标签"><a href="#数据标签" class="headerlink" title="数据标签"></a>数据标签</h3><p><strong>Action标签</strong>里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。</p>
+        <h2 id="数据标签"><a href="#数据标签" class="headerlink" title="数据标签"></a>数据标签</h2><p><strong>Action标签</strong>里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。</p>
 <p><strong>bean标签</strong>的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置JavaBean的属性值只能通过bean属性的子标签</p>
 <p><strong>date标签</strong>的var属性也会把格式化后的字符串放入Stack Context，并放入requestScope中</p>
 <p><strong>include标签</strong>用于将jsp页面或者servlet包含到本页面，value属性指定被包含的页面，要传入参数的话需要利用param子标签。<strong>param这个标签</strong>就是name和value参数。可以省略value标签，用param标签把value包在里面</p>
@@ -167,7 +167,7 @@
 <p><strong>set标签</strong>用于将某个值放入指定范围内。属性有scope、value(未指定的话就是ValueStack栈顶的值)、var（指定属性后将该值放入ValueStack）</p>
 <p><strong>url标签</strong>用于生成URL地址（value属性指定要输出的属性值，要是没有指定，则默认输出ValueStack）</p>
 <p>Struts 2允许在同一个视图界面使用不同的主题，如果需要改变表单的主题需要改变表单标签的theme属性，如果需要让某次用户会话使用特定的主题，可以通过在session中设置一个theme的变量，如果需要改变某个应用的主题，则可以通过修改struts.ui.theme实现。</p>
-<h3 id="Struts2-的类型转换机制"><a href="#Struts2-的类型转换机制" class="headerlink" title="Struts2 的类型转换机制"></a>Struts2 的类型转换机制</h3><p>Struts2提供了类型转化机制，http请求参数都是字符串类型，所以需要转化为自定义类型，字符串与基本类型之间的转化struts2已经实现。</p>
+<h2 id="Struts2-的类型转换机制"><a href="#Struts2-的类型转换机制" class="headerlink" title="Struts2 的类型转换机制"></a>Struts2 的类型转换机制</h2><p>Struts2提供了类型转化机制，http请求参数都是字符串类型，所以需要转化为自定义类型，字符串与基本类型之间的转化struts2已经实现。</p>
 <p>如果在Action的定义文件中直接指定了某些集合变量的泛型，就可以直接在jsp文件中写明某个参数的name是集合变量的哪个元素的哪个属性。</p>
 <p>将一个字符串转换为一个复合对象，需要重写DefaultTypeConverter类的convertValue（Map context，Object value，Class toType）方法，这个方法需要完成双向转化，也就是要根据toType的类型转换，value是需要转换的东西，必须要注意的是字符串向自定义类型转换的时候value是一个字符串数组，因为请求参数类型就是一个字符串数组，如果只有一个请求参数那么获得的就是长度为1的数组</p>
 <p>简化版的DefaultTypeConverter是StrutsTypeConverter抽象类，两个方法分别是convertFromString和convertToString。</p>
@@ -181,7 +181,7 @@
 两个的区别是前面那个users里面是字符索引，
 如果直接写users[#stat.index]会出错，
 因为struts不能把里面的部分识别为OGNL，加上%{}的作用就是为了告诉系统stat.index是OGNL表达式
-</code></pre><h3 id="struts的国际化"><a href="#struts的国际化" class="headerlink" title="struts的国际化"></a>struts的国际化</h3><p>国际化步骤：1.让系统加载国际化资源文件；2输出国际化。</p>
+</code></pre><h2 id="struts的国际化"><a href="#struts的国际化" class="headerlink" title="struts的国际化"></a>struts的国际化</h2><p>国际化步骤：1.让系统加载国际化资源文件；2输出国际化。</p>
 <p>加载国际化资源的方式有两种：Action范围的和包范围的国际化可以自动加载；jsp范围、全局范围的国际化资源文件分别使用标签和配置常量的方式。<br>输出国际化的方式也有两种：struts的标签、ActionSupport类中的getText（）方法</p>
 <p>在JSP页面中指定国际化资源需要&lt;s:i18n&gt;，作为输出标签的父标签会好一点，因为会自动加载国际化资源文件。text标签可以利用name属性从资源文件中取值，如果是form标签则利用key属性取值。</p>
 <p>可以单独为Action定义一个国际化资源文件，在Action类文件所在的路径建立ActionName_language_country.properties的文件，可以自动加载</p>
@@ -191,8 +191,9 @@
 <p>JSP页面中对应的国际化资源文件中有占位符，也就是说消息类似于“welcome={0}，您好！”在text标签中指定name为welcome来展示这条消息，需要利用param子标签为该占位符提供参数。在Action中通过getText获取国际化消息资源，所以现在通过getText里面增加参数来完成占位符的填充；还可以直接在国际化资源文件中使用EL表达式。</p>
 <p>某个XXXAction加载资源文件的顺序是先加载baseName为XXXAction的资源文件，找不到的话找父类Action的baseName同名资源文件，再找不到就找XXXAction实现接口 的资源文件，还找不到就找XXXAction所在的包下的资源文件，找不到就不断上溯，到顶层包还没找到就查找struts.custom.i18n.resources常量指定的baseName的资源文件。再找不到就只能输出key的值了。</p>
 <p>在JSP中访问国际化消息，使用&lt;s:i18n…/&gt;作为text和form标签的父标签，直接会从i18n指定的资源文件中查找key对应的消息，找不到就在struts.custom.i18n.resources中查找，找不到就直接输出key的值</p>
-<h3 id="输入校验"><a href="#输入校验" class="headerlink" title="输入校验"></a>输入校验</h3><p>struts2提供了基于框架的输入校验，不需要编写代码，只需要编写简单的配置文件，每个Action都有自己的校验文件，ActionName-validation.xml中配置校验规则，保存在同路径下，&lt;validators…./&gt;元素可以包含field-validator（字段校验器）或者validator元素（非字段校验器），如果校验失败（不符合校验规则）也会重新返回到“input” 的逻辑视图中。</p>
-<p>类型转换失败的提示信息和输入校验失败的提示信息都被封装成FieldError，并被放入Action Context，并且使用&lt;S:fielderror&gt;标签输出提示信息，如果开发者使用了Struts2的表单标签生成表单，那么表单标签会自动输出错误提示。</p>
+<h2 id="输入校验"><a href="#输入校验" class="headerlink" title="输入校验"></a>输入校验</h2><p>struts2提供了基于框架的输入校验，不需要编写代码，只需要编写简单的配置文件，每个Action都有自己的校验文件，ActionName-validation.xml中配置校验规则，保存在同路径下，&lt;validators…./&gt;元素可以包含field-validator（字段校验器）或者validator元素（非字段校验器），如果校验失败（不符合校验规则）也会重新返回到“input” 的逻辑视图中。</p>
+<p>类型转换失败的提示信息和输入校验失败的提示信息都被封装成FieldError，并被放入Action Context，并且使用“&lt;s:fielderror&gt;”标签输出提示信息，如果开发者使用了Struts2的表单标签生成表单，那么表单标签会自动输出错误提示。客户端校验只需要把输入页面的表单使用struts2标签生成，除此之外为form元素增加validate=“true”属性。</p>
+<p>客户端校验支持的种类有限，浏览者不能够直接访问启用了客户端校验的表单页，可以放在WEB-INF下，客户端使用全局的国际化资源文件，不能使用Action范围的国际化资源文件。</p>
 
       
 
