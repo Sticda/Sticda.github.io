@@ -14,7 +14,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/02/20180402-Hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计） ORM的全称是Object/Relation Mapping（对象/关系数据库映">
-<meta property="og:updated_time" content="2018-04-03T07:45:40.760Z">
+<meta property="og:updated_time" content="2018-04-04T07:51:11.500Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180402 Hibernate">
 <meta name="twitter:description" content="Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计） ORM的全称是Object/Relation Mapping（对象/关系数据库映">
@@ -166,6 +166,18 @@
 <p>ORM的全称是Object/Relation Mapping（对象/关系数据库映射），ORM的唯一作用就是：把对持久化对象的保存、删除、修改等操作转换成对数据库的操作，数据库表中每一行是一个实例，某一行的列是这个实例的属性。</p>
 <p>PO=POJO（普通的，传统的Java对象） +持久化注解</p>
 <p>连接数据库的信息都是配置信息，配置信息使用 *.properties属性文件，也可以使用XML文件配置。</p>
+<p>Hibernate配置文件的默认文件名是hibernate.cfg.xml，当程序调用configuration对象的configure方法时，会自动加载该文件。根元素是&lt;hibernate-configuration…./&gt;，子元素是&lt;session-factory…../&gt;，其中可以使用property配置很多hibernate连接数据的必要信息。Hibernate为了保证性能推荐使用C3P0数据源（维持一个数据连接池）。在配置文件名中要把需要持久化的类名通过mapping子标签指明，属性是class。</p>
+<p>为了使用Hibernate进行持久化操作，通常有以下操作步骤：</p>
+<ol>
+<li>开发持久化类（POJO+持久化注解）</li>
+<li>获取Configuration</li>
+<li>获取SessionFactory</li>
+<li>获取Session，开始事务</li>
+<li>面向对象操作数据库，session.save(特定对象)</li>
+<li>事务提交，关闭session和sessionFactory。</li>
+</ol>
+<p>SessionFactory是数据库编译之后的内存镜像，通常一个应用对应一个SessionFactory对象，SessionFactory对象由Configuration对象生成，Configuration对象负责加载Hibernate配置文件。</p>
+<p>只有处于session管理下的POJO才有持久化操作的能力 </p>
 
       
 
