@@ -139,6 +139,73 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180402-Hibernate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/02/20180402-Hibernate/">20180402 Hibernate</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/02/20180402-Hibernate/" class="archive-article-date">
+  	<time datetime="2018-04-02T08:31:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。</p>
+<p>Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计）</p>
+<p>ORM的全称是Object/Relation Mapping（对象/关系数据库映射），ORM的唯一作用就是：把对持久化对象的保存、删除、修改等操作转换成对数据库的操作，数据库表中每一行是一个实例，某一行的列是这个实例的属性。</p>
+<p>PO=POJO（普通的，传统的Java对象） +持久化注解</p>
+<p>连接数据库的信息都是配置信息，配置信息使用 *.properties属性文件，也可以使用XML文件配置。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/02/20180402-Hibernate/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180402-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1399,76 +1466,6 @@ self.score=score
 
 
   
-    <article id="post-2017122702" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/27/2017122702/">2017122702</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/27/2017122702/" class="archive-article-date">
-  	<time datetime="2017-12-27T01:54:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="JSTL"><a href="#JSTL" class="headerlink" title="JSTL"></a>JSTL</h1><p>JSTL（JavaServer Pages Standard Tag Library）来替换JSP页面中用来实现页面逻辑的scriptlet。</p>
-<p>提供的标签库可以分为五类，核心标签库、格式标签库、SQL标签库、XML标签库、函数标签库。</p>
-<p>要使用JSTL标签库，必须在网页上使用taglib指示元素定义前置名称与uri引用，JSTL的jar包需要手动添加到项目的WEB-INF/lib文件夹中，惯例上使用JSTL核心标签库的时候，会使用c作为前置名称，URI引用则告知容器如何引用JSTL标签库实现。</p>
-<pre><code>&lt;%@taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt; 
-</code></pre><p>&lt;c:if&gt;就相当于java中一个单一的if语句</p>
-<p>&lt;c:choose&gt;、&lt;c:otherwise&gt;、&lt;c:when&gt;搭配使用就相当于java中ifelse语句以及该语句的嵌套</p>
-<p>&lt;c:foreach&gt;就是轮询某个集合或者数组，里面的var属性就是轮询变量，items就是数组或者Collection变量</p>
-<p>&lt;c:fortoken&gt;的主要作用就是为了将字符串按照指定的分隔符分为多个字符串，var属性表示轮询变量，delims表示分隔符，items仍然表示字符串。</p>
-<h2 id="错误处理标签"><a href="#错误处理标签" class="headerlink" title="错误处理标签"></a>错误处理标签</h2>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/27/2017122702/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1554,11 +1551,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1574,15 +1571,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
             
             <div class="clearfix"></div>
