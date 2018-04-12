@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>20171019 | Sticda</title>
+  <title>20180409 Hibernate | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。 java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器">
-<meta name="keywords" content="笔记">
+  <meta name="description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeT">
+<meta name="keywords" content="笔记,hibernate">
 <meta property="og:type" content="article">
-<meta property="og:title" content="20171019">
-<meta property="og:url" content="http://yoursite.com/2017/10/16/20171019/index.html">
+<meta property="og:title" content="20180409 Hibernate">
+<meta property="og:url" content="http://yoursite.com/2018/04/09/20180409-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。 java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器">
-<meta property="og:updated_time" content="2017-12-22T06:34:22.101Z">
+<meta property="og:description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeT">
+<meta property="og:updated_time" content="2018-04-12T03:10:50.568Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20171019">
-<meta name="twitter:description" content="volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。 java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器">
+<meta name="twitter:title" content="20180409 Hibernate">
+<meta name="twitter:description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeT">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -142,38 +142,46 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-20171019" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-20180409-hibernate" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      20171019
+      20180409 Hibernate
     </h1>
   
 
         
-        <a href="/2017/10/16/20171019/" class="archive-article-date">
-  	<time datetime="2017-10-16T02:12:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
+        <a href="/2018/04/09/20180409-hibernate/" class="archive-article-date">
+  	<time datetime="2018-04-09T08:46:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li>volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。</li>
-<li>java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器（Application ClassLoader），自定义类加载器（User ClassLoader），前者是后者的父加载器，应用程序类加载器负责加载用户类路径（Classpath）上所指定的类库。</li>
-<li>CAS操作是指当且仅当内存位置V符合旧的预期值A时，处理器才会用新值B更新V 的值，否则他就不执行更新，但是无论是否更新了V 的值，都会返回V的旧值。</li>
-</ol>
-<p>17号早上《深入理解java虚拟机》这本书基本上看完了，第四部分没看，第四部分是程序编译与代码优化，具体内容是早期编译期优化和晚期运行期优化，最终也就是第四章，第五章，第九章没有看。看完之后可能还是有点懵逼，有一些部分还不是很清楚，但总算是了解了一些，今天刚好有点时间，总结一下这本书里大概学到的知识点。</p>
-<ol>
-<li>java内存区域和内存溢出异常：每次打开一个java程序就会打开一个java虚拟机实例，也就是每一个运行main函数就会生成一个java虚拟机的实例，这每一个java虚拟机上运行的每一个线程都有自己的程序计数器，虚拟机栈和本地方法栈。程序计数器是当前程序运行的字节码的行号指示器，虚拟机栈和本地方法栈简单来说一个运行的是java方法，一个是本地的方法，也就是JNI方法，java的每一个方法都是以栈帧的方法执行的（栈帧的内容就是局部变量表、操作数栈、动态链接、方法返回地址）。堆和方法区是共享部分，java堆中都是新建的对象实例，但是只有存储的数据，对于里面数据的解读则要到方法区中查询。方法区中存储的是被虚拟机加载的类信息，常量和静态常量、即时编译器编译后的代码等数据，方法区中有运行时常量池，用于存放编译器生成的各种字面量和符号引用</li>
-<li>垃圾收集器和内存分配策略：【哪些内存需要回收？什么时候回收？如何回收？ 判断内存需要回收使用的算法是引用计数算法和可达性分析算法，java使用的是可达性分析算法（GC roots 的选取），回收的时间选择安全点或者安全区，就是在这部分区域里进行垃圾回收。垃圾收集算法一共有三种，复制算法，标记整理算法和标记清除算法。垃圾收集器的种类：Serial收集器（新生代复制算法），Serial Old（老年代标记整理算法）、ParNew收集器（Serial收集器的多线程版本）Parallel Scavenge收集器（新生代收集器，与CMS的不同在于控制吞吐量，而不是缩短停顿时间）Parallel Old收集器（Parallel Scavenge的老年版本）Parallel Scavenge只能和Serial Old、Parallel Old搭配，CMS收集器和G1收集器】【对象在堆上分配，堆上有一个Eden和两个Survivor，对象优先在Eden上分配，大对象直接进入老年代、长期存活的对象将进入老年代、动态对象年龄判定】</li>
-<li>类文件结构以及类加载机制：每个class类文件都需要被加载，加载的时候就按照类文件里的定义直接加载到方法区中。类文件里对于每个模块的定义以及内容之间的联系。这部分内容有自定义的类加载器以及双亲委派模型和双亲委派模型被破坏的情况。</li>
-<li>java内存模型与线程安全：java的主内存和线程的工作内存，工作内存之间的数据交换只能通过主内存，java内存模型在执行时必须满足一些特定的规则【不允许一个变量从主内存读取但工作内存不接受、从工作内存发起回写但主内存不接受、变量在发生了更改之后必须把该变化同步到主内存中、不允许毫无理由的把工作内存中的数据同步到主内存、新变量只能在主内存之中产生、一个变量同一时刻只允许一条线程对其进行lock操作、对一个变量执行lock操作将会清空工作内存中 的值、没有被lock就不能被unlock、执行unlock操作之前必须把此变量同步回主内存中】线程安全的实现方法包括利用Synchronized和ReentrantLock【自旋锁、自适应自旋锁、轻量级锁、偏向锁】</li>
-</ol>
+        <h2 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h2><p>关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。</p>
+<h3 id="单向N-1关联"><a href="#单向N-1关联" class="headerlink" title="单向N-1关联"></a>单向N-1关联</h3><p>对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeType.ALL（所有的持久化操作）、MERGE（指定Hibernate将merge操作级联到关联实体）、PERSIST、REFRESH、REMOVE，fetch属性包括FetchType.EAGER（立即抓取关联实体）\LAZY（延迟抓取关联实体），targetEntity属性指定关联实体的类名。</p>
+<p>对于无连接表的N-1关联，<strong>程序只需要在N的一端增加外键，使用@joinColumn来修饰代表关联实体的属性。相当于也是1-1的外键，所以应该添加unique属性为true。这个外键列会映射到当前表中。</strong></p>
+<p><strong>ThreadLocal在每个线程中对该变量会创建一个副本，即每个线程内部都会有一个该变量，且在线程内部任何地方都可以使用，线程之间互不影响</strong></p>
+<p>A类里面有B类变量，当A类需要持久化的时候，B类变量还没有被保存，这时候有两种情况可能发生，抛出TransientObjectException异常，另一种是先插入主表记录，再插入从表记录。</p>
+<p>对于需要使用连接表映射的N-1关联，程序必须显式使用@JoinTable注解来映射连接表。属性有name，joinColumns（当前实体对应表的主键列）和inverseJoinColumns（当前实体的关联实体对应表的主键列）。后两个属性中都可以指定@JoinColumn，里面的referencedColumnName，指定的是该列参照的主键列的列名。</p>
+<h3 id="单向1-1关联"><a href="#单向1-1关联" class="headerlink" title="单向1-1关联"></a>单向1-1关联</h3><p>对于基于外键的1-1关联而言，要使用@OneToOne注解，再使用@JoinColumn映射外键列，由于是1-1关联，因此还应该在@JoinColumn中添加unique=true。这个注解中还有一个属性是orphanRemoval（是否删除“孤儿”实体，如果某个实体所关联的父实体不存在，该实体就是所谓的孤儿实体）如果是基于连接表映射同样应该是用@JoinTable注解。</p>
+<h3 id="单向1-N"><a href="#单向1-N" class="headerlink" title="单向1-N"></a>单向1-N</h3><p>在1的一端需要增加set类型的成员变量。@OneToMany注解属性有cascade、fetch、orphanRemoval，targetEntity</p>
+<p><strong>同样在1的一端添加@JoinColumn映射外键列，但此处的外键列会添加到关联实体对应的数据表中</strong>，少用单向1-N关联，性能不好。</p>
+<p>有连接表的1-N和N-1中unique索引的添加方法，1-N和N-1两种关联关系中，1-N的意思是1个A对象可以关联N个B对象，所以这个unique索引应该在B对象的列声明中。</p>
+<p>单向的N-N关联和1-N关联比较类似，@ManyToMany注解，并且去掉了N端的unique属性即可完成使用连接表的N-N关联。</p>
+<h3 id="双向1-N关联"><a href="#双向1-N关联" class="headerlink" title="双向1-N关联"></a>双向1-N关联</h3><p>Hibernate推荐使用N的一端控制关联关系，无连接表的双向1-N关联在N的一端使用@ManyToOne，在1的一端使用@OneToMany。</p>
+<p>在N的一端数据表中增加一个外键列，使用@ManyToOne注解的同时，使用@JoinColumn映射外键列。为了让在1的一端不能控制关联关系，在1的一端的注解@OneToMany中指定mappedBy属性为关联实体，表明当前实体不能控制关联关系，在这种情况下先持久化1一端的实体，才能持久化N一端的实体，因为在持久化N一端的实体时，需要插入对应的外键列的键值。当@OneToMany、@ManyToMany、@OneToOne所在的实体放弃控制关联关系之后，就不能使用@JoinColumn或者@JoinTable修饰代表关联实体的属性了；有连接表的双向1-N关联在N的一端使用@JoinTable映射连接表。如果想让1的一端控制关联关系，只需要把mappedBy删除，然后配合@JoinTable，只是1和N的两端的键值列要对应。这时候就不要考虑先持久化哪个实体了。</p>
+<h3 id="双向N-N关联"><a href="#双向N-N关联" class="headerlink" title="双向N-N关联"></a>双向N-N关联</h3><p>双向N-N关联只能使用有连接表的关联方式，在两边都使用@ManyToMany注解修饰Set集合属性，使用@JoinTable显式映射连接表，在两端映射连接表的时候，表名应该相同，两端使用@JoinTable指定的外键列的列名也应该是相互对应的。</p>
+<h3 id="双向1-1关联"><a href="#双向1-1关联" class="headerlink" title="双向1-1关联"></a>双向1-1关联</h3><p>双向1-1关联需要让两个持久化类都增加引用关联实体的属性，并为该属性提供setter和getter方法，本来双向1-1是平等的关联关系，当某一边使用了@OneToOne注解和@JoinColumn之后，这一端就变成了从表，因为这个表的外键列对应另一个表的主键列，为了保持两个持久化类的平等关系，需要在主表一端的@OneToOne注解中指定mappedBy属性，这样就表明该实体不管理关联关系。</p>
+<p>有连接表的1-1关联不建议使用，和之前是很类似的，使用@OneToOne注解和@JoinTable，@JoinTable里面指定JoinColumns和inverseJoinColumns属性，这两个属性都是用@JoinColumn定义的。<strong>在@JoinColumn的属性里面referencedColumnName的值就是对应的具体表里的列名，而name属性就只是在连接表里的列名</strong></p>
+<p><strong>单向1-N和N-1都是在前面的实体添加@JoinColumn，但是最后的外键列都会添加到后面的实体对应的表中。</strong></p>
+<h3 id="组件属性包含的关联实体"><a href="#组件属性包含的关联实体" class="headerlink" title="组件属性包含的关联实体"></a>组件属性包含的关联实体</h3><p>组件属性类里面包括了一个组件属性，包含了一个set类型的组件属性，是关联实体，仍然和之前的关联是差不多的，如果是不带关联表，则使用@OneToMany和@JoinColumn，如果是带关联表，则使用@OneToMany和@JoinTable。</p>
+<h3 id="基于复合主键的关联关系"><a href="#基于复合主键的关联关系" class="headerlink" title="基于复合主键的关联关系"></a>基于复合主键的关联关系</h3><p>基于复合主键的关联关系是在对应的另一端使用@JoinColumns，在这个里面使用@JoinColumn分别映射复合主键</p>
+<p>Hibernate默认不使用实体到其他关联实体之间的级联操作。当程序希望某个操作能被级联传播到关联实体，则可以在配置@OneToMany、@OneToOne、@ManyToMany时通过cascade属性指定，还有一个特殊的级联策略，删除孤儿记录（@OneToMany、@OneToOne的orphanRemoval属性），只针对1的一端，如果程序切断了主表和从表的联系，那么从表就是孤儿记录了，会被删除掉</p>
 
       
 
@@ -210,6 +218,10 @@
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hibernate</a>
+        		</li>
       		
 		</ul>
 	</div>
@@ -227,18 +239,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/11/01/20171105/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          20171105
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/10/09/20171009/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">20171009</div>
+    <a href="/2018/04/02/20180402-hibernate/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">20180402 Hibernate</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -265,7 +268,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#关联关系"><span class="toc-number">1.</span> <span class="toc-text">关联关系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单向N-1关联"><span class="toc-number">1.1.</span> <span class="toc-text">单向N-1关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单向1-1关联"><span class="toc-number">1.2.</span> <span class="toc-text">单向1-1关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单向1-N"><span class="toc-number">1.3.</span> <span class="toc-text">单向1-N</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双向1-N关联"><span class="toc-number">1.4.</span> <span class="toc-text">双向1-N关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双向N-N关联"><span class="toc-number">1.5.</span> <span class="toc-text">双向N-N关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双向1-1关联"><span class="toc-number">1.6.</span> <span class="toc-text">双向1-1关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组件属性包含的关联实体"><span class="toc-number">1.7.</span> <span class="toc-text">组件属性包含的关联实体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于复合主键的关联关系"><span class="toc-number">1.8.</span> <span class="toc-text">基于复合主键的关联关系</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -279,7 +282,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="20171019" data-title="20171019" data-url="http://yoursite.com/2017/10/16/20171019/"></div>
+	<div class="ds-thread" data-thread-key="20180409-hibernate" data-title="20180409 Hibernate" data-url="http://yoursite.com/2018/04/09/20180409-hibernate/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -302,8 +305,8 @@
   <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 <script>
   var cloudTieConfig = {
-    url: "http://yoursite.com/2017/10/16/20171019/", 
-    sourceId: "20171019",
+    url: "http://yoursite.com/2018/04/09/20180409-hibernate/", 
+    sourceId: "20180409-hibernate",
     productKey: "true",
     target: "cloud-tie-wrapper"
   };

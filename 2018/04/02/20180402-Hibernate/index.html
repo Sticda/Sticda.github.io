@@ -9,12 +9,13 @@
   <title>20180402 Hibernate | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计） ORM的全称是Object/Relation Mapping（对象/关系数据库映">
+<meta name="keywords" content="笔记,hibernate">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20180402 Hibernate">
-<meta property="og:url" content="http://yoursite.com/2018/04/02/20180402-Hibernate/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/04/02/20180402-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计） ORM的全称是Object/Relation Mapping（对象/关系数据库映">
-<meta property="og:updated_time" content="2018-04-08T06:52:45.791Z">
+<meta property="og:updated_time" content="2018-04-10T01:22:50.016Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180402 Hibernate">
 <meta name="twitter:description" content="Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计） ORM的全称是Object/Relation Mapping（对象/关系数据库映">
@@ -141,7 +142,7 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-20180402-Hibernate" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-20180402-hibernate" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -153,7 +154,7 @@
   
 
         
-        <a href="/2018/04/02/20180402-Hibernate/" class="archive-article-date">
+        <a href="/2018/04/02/20180402-hibernate/" class="archive-article-date">
   	<time datetime="2018-04-02T08:31:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-02</time>
 </a>
         
@@ -229,7 +230,7 @@
 </ol>
 <h3 id="映射属性"><a href="#映射属性" class="headerlink" title="映射属性"></a>映射属性</h3><p>默认情况下，使用@Entity注解的持久化类的所有属性都将被映射到底层数据库，为了指定某个属性对应的列的信息，需要使用@Column修饰该属性。@Access用于改变对该属性的访问策略。@Formula用于指定某个属性是根据value指定的表达式动态生成的，这个属性不会被保存到数据库中。@Generated用于指定该属性的值是否由数据库生成，接受的三个值是GenerationTime.INSERT（只在insert的时候生成）、GenerationTime.Never、Generation.ALWAYS（insert和update都会生成）</p>
 <p>@Formula的value属性就是计算的表达式，这个表达式就是一个sql语句，value=“（SQL语句）”，如果需要使用参数就直接写，hibernate会自己调用参数值。</p>
-<p>使用@Transient修饰的属性不会被持久化保存。</p>
+<p>使用@Transient修饰的属性不会被持久化保存。@EmbeddedId可以修饰自定义类作为主键。</p>
 <p>使用@Enumerated修饰枚举类型，这个注解的value属性负责指定保存到数据库中的内容，EnumType.ORDINAL保存的是枚举值的序号，EnumType.STRING保存的是枚举值的名称。</p>
 <p>数据库中经常需要存放比较大的数据，当持久化类的属性是byte[]、Byte[]和java.io.Serializable类型时，@Lob修饰的属性将映射为底层的Blob，当@Lob修饰的属性是char[]、Character[]和java.lang.String时，会被映射成Clob列。</p>
 <p>对于超大类型的数据属性可能不需要每次都加载这个属性，所以存在延迟加载这个方式，使用@Basic修饰该属性，@BASIC有两个属性，fetch有两个值：FetchType.LAZY（延迟加载）、FetchType.EAGER（立即加载），另外一个属性是optional，指明该属性对应的数据列是否可以为空</p>
@@ -243,6 +244,7 @@
 <h4 id="映射自定义类属性"><a href="#映射自定义类属性" class="headerlink" title="映射自定义类属性"></a>映射自定义类属性</h4><p>对于自定义类用@Embeddable修饰，告诉hibernate这个类将作为持久化类的属性，hibernate会把自定义类的每个属性都当做是数据列的一列进行储存。可以通过@Column指定这些属性对应的数据列；还有一种策略是在持久化类中使用@Embedded注解修饰组件属性，如果需要为组件属性所包含的子属性指定列名，则可以使用@AttributedOverrides和@AttributedOverride注解，@AtrributedOverride注解有name和Column两个属性，name指定针对组件类的哪个属性。</p>
 <p>组件类中有集合的注解方法和映射集合属性一样，但是集合属性的元素中有自定义类就需要额外的处理，程序不再使用@Column映射保存集合元素的数据列，不能用单独的数据列保存集合元素，只能利用@Embeddable在自定义类中@Column注解将组件类的属性映射到底层数据表中。自定义类作为Map的key元素的时候需要重写自定义类的equals和hashcode两个方法。</p>
 <p>持久化类选择多列作为联合主键的条件是有无参数的构造器，实现java.io.Serializable接口；重写equals和hashcode方法，指定多列作为联合主键的方法就是使用@Id注解。</p>
+<p>使用@ElementCollection修饰的集合属性都会新建表来存储这个集合，原表中将不会存储这个集合的值，这两个表相关联的部分只有外键列。当自定义类作为Map的key的时候，可以使用@Column修饰该集合属性，新表中就有了使用@Column设置的列、外键列以及自定义类的属性。</p>
 
       
 
@@ -272,6 +274,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hibernate</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -284,6 +301,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/04/09/20180409-hibernate/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          20180409 Hibernate
+        
+      </div>
+    </a>
   
   
     <a href="/2018/04/02/20180402-struts/" id="article-nav-older" class="article-nav-link-wrap">
@@ -328,7 +354,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="20180402-Hibernate" data-title="20180402 Hibernate" data-url="http://yoursite.com/2018/04/02/20180402-Hibernate/"></div>
+	<div class="ds-thread" data-thread-key="20180402-hibernate" data-title="20180402 Hibernate" data-url="http://yoursite.com/2018/04/02/20180402-hibernate/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -351,8 +377,8 @@
   <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 <script>
   var cloudTieConfig = {
-    url: "http://yoursite.com/2018/04/02/20180402-Hibernate/", 
-    sourceId: "20180402-Hibernate",
+    url: "http://yoursite.com/2018/04/02/20180402-hibernate/", 
+    sourceId: "20180402-hibernate",
     productKey: "true",
     target: "cloud-tie-wrapper"
   };
@@ -443,11 +469,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -468,6 +494,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
               </li>
              
               <li class="article-tag-list-item">
