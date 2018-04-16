@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/09/20180409-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeT">
-<meta property="og:updated_time" content="2018-04-12T08:44:47.625Z">
+<meta property="og:updated_time" content="2018-04-15T13:53:37.046Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180409 Hibernate">
 <meta name="twitter:description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeT">
@@ -195,7 +195,22 @@
 <p>第三种映射策略就和他的名字一样，每个类用自己的表存起来，从所有的表上基本上看不出来这些类之间的继承关系，只有它们的主键值具有一定的连续性，因此不能让数据库自动生成主键值，不能使用GenerationType.IDENTITY、AUTO两种主键生成策略。</p>
 <p>利用@GenericGenerator定义自己的主键生成器，name属性和strategy属性。</p>
 <p><strong>批量插入记录</strong>的时候，如果记录太多一般会在某个时候抛出异常，因为hibernate的session持有一个必选的一级缓存，没有写入数据库的时候都是存在session的缓存里的，大量的数据肯定会抛出内存异常，所以需要对于session执行flush和clear。这种情况下最好关闭二级缓存，因为session的二级缓存也可能出现这样的问题。</p>
-<h2 id="使用HQL查询"><a href="#使用HQL查询" class="headerlink" title="使用HQL查询"></a>使用HQL查询</h2>
+<h2 id="使用HQL查询"><a href="#使用HQL查询" class="headerlink" title="使用HQL查询"></a>使用HQL查询</h2><p>Hibernate Query Language，SQL操作对象是数据表、列等数据库对象，而HQL操作对象是类、实例、属性等。</p>
+<p>HQL查询依赖于Query类，每个query实例对应于一个查询对象。</p>
+<ol>
+<li>获取hibernate Session。</li>
+<li>编写HQL语句，并且作为参数调用session的createQuery方法</li>
+<li>如果HQL里面有参数则使用Query的setXxx方法</li>
+<li>调用Query对象的list（）或者uniqueResult方法返回查询结果。</li>
+</ol>
+<p>HQL既可以使用英文问号+索引的占位符形式（？N），也可以使用有名字的占位符，使用有名字的占位符的时候应该在占位符名字之前增加英文冒号（:）。</p>
+<p>HQL区分大小写，query对象可以为HQL参数多次赋值，因为query的setXxx方法返回的是Query本身。Query调用list方法得到结果，Query本身还包括如下两个方法，setFirstResult，设置返回的记录从第几条记录开始，setMaxResults，设置本次查询返回的结果数目。</p>
+<p>HQL支持两种关联连接：隐式和显式，隐式连接就是通过”.”来实现的MySQL的交叉连接，隐式连接形式不使用join关键字，显式连接使用Xxx join关键字，MySQL中的连接和HQL中的关键字的对应方式是inner join（join）、left outer join（left join）、right outer join（right join），使用显式连接的时候可以使用HQL的with关键字提供额外的连接条件。</p>
+<p>如果关联实体是单个实体或者单个的组件属性，HQL依然可以使用英文点号来隐式连接关联实体或者组件，但如果关联实体是集合（包括1-N。N-N和集合元素是组件），则必须使用xxx join来显式连接关联实体或者组件，如果说某个组件的加载策略是延迟加载，在查询的时候可以使用join fetch采用立即加载的方式。</p>
+<p>使用select语句查询得到的结果是集合，集合元素是select以后的实例、属性等组成的数组，如果后面只有一项，查询到的集合元素就是持久化实例或者属性，如果select后面有多项，则每个集合元素都是选出的多项组成的数组。也可以将select选择的属性封装到一个list中，这个select语句返回的结果是集合，集合元素是list，select new list（属性），还可以使用构造器直接生成类的实例。</p>
+<p>HQL的聚集函数和SQL类似，有min、max、avg、count、sum。</p>
+<p>HQL 的查询语句可以执行多态查询，不仅会查询出满足条件的from后面的持久化类，还会查询出满足条件的持久化类的子类。HQL支持在from子句中指定任何java类和接口，查询会返回继承了该类的持久化类的实例或者返回实现了该接口的持久化类的实例</p>
+
       
 
       
