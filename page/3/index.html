@@ -1018,11 +1018,11 @@ limit count
 <h2 id="一些之前没注意过的地方"><a href="#一些之前没注意过的地方" class="headerlink" title="一些之前没注意过的地方 "></a>一些之前没注意过的地方 </h2><ol>
 <li>java中byte和int包括其他基本类型的转换中需要与上0xFF，这是需要保证补码的一致性，因为字节数比较小的类型向大的类型转换时会自动补位，正数补0，负数补1，所以需要与上0xff，才能保证补码的一致性。</li>
 <li>java中DatagramSocket起到了一个快递接收点的作用，他只能发送包，但不知道包去哪里了，而快递DatagramPacket在构造的时候加入了目的地的地址和端口，DatagramSocket使用什么端口是无所谓的，只要在DatagramPacket中加入正确的端口。</li>
-<li></li>
+<li><p>一些小技巧</p>
+<p>public static native void arraycopy(Object src,int srcPos,Object dest, int destPos,int length);  </p>
+</li>
 </ol>
-<p>一些小技巧</p>
-<pre><code>public static native void arraycopy(Object src,int srcPos,Object dest, int destPos,int length);  
-</code></pre><p>src：源数组；srcPos：源数组要复制的起始位置；dest：目的数组；destPos：目的数组放置的起始位置；length：要复制的长度</p>
+<p>src：源数组；srcPos：源数组要复制的起始位置；dest：目的数组；destPos：目的数组放置的起始位置；length：要复制的长度</p>
 
       
 
