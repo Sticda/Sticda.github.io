@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Sticda</title>
+  <title>20180416 hibernate | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Sticda">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
+<meta name="keywords" content="笔记,hibernate">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20180416 hibernate">
+<meta property="og:url" content="http://yoursite.com/2018/04/16/20180416-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
+<meta property="og:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
+<meta property="og:updated_time" content="2018-04-16T09:58:45.724Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Sticda">
+<meta name="twitter:title" content="20180416 hibernate">
+<meta name="twitter:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -137,36 +142,88 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-20180416-hibernate" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      20180416 hibernate
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/16/20180416-hibernate/" class="archive-article-date">
+
+        
+        <a href="/2018/04/16/20180416-hibernate/" class="archive-article-date">
   	<time datetime="2018-04-16T00:58:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-16</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/16/20180416-hibernate/">20180416 hibernate</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="HQL"><a href="#HQL" class="headerlink" title="HQL"></a>HQL</h2><p>where子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。</p>
+<p><strong>当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。</strong></p>
+<p>因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discriminator Value），嵌入where子句的java类名，将被作为该类的辨别值。当where子句的运算符只支持基本类型和字符串类型的时候，where子句中的属性表达式应该以基本类型或者字符串结尾，不要使用组件类型属性结尾。</p>
+<p>size可以返回一个集合的大小，对于有序集合，可以使用minindex与maxindex两个函数代表最小与最大的索引序数，也可以使用minelement（）与maxelement（）函数代表集合中最小和最大的元素，elements()和indices（）函数返回指定集合的所有元素和所有索引。这些东西只能在where子句中使用。</p>
+<p>在where子句中，有序集合（数组，list，map）的元素可以通过[]运算符访问。</p>
+<p>order by 可以根据类或者组件属性的任何属性进行排序。asc或者desc关键字指定升序或者降序的排序规则。默认升序规则，group by之后用having子句对分组进行过滤。<strong>HQL子查询只能出现在select子句或者where子句中。</strong></p>
+<h3 id="命名查询"><a href="#命名查询" class="headerlink" title="命名查询"></a>命名查询</h3><p>Hibernate支持使用@NamedQuery注解来配置命名查询，两个属性，name、query。在程序中使用session的getNamedQuery（String name）函数获得Query对象。</p>
+<h3 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h3><p>条件查询通过以下三个类来完成，Criteria（代表一次查询）、Criterion（代表查询条件）、Restrictions（产生criterion的工具类）使用HQL条件查询的顺序是：</p>
+<ol>
+<li>利用session的方法创建criteria对象</li>
+<li>通过Restrictions的静态方法创建一系列的criterion</li>
+<li>把创建的criterion全部添加到criteria</li>
+<li>执行criteria对象的list或者uniqueResult方法返回结果。</li>
+</ol>
+<p>Session调用createCriteria(Class clazz)方法创建针对某个具体持久化类的条件查询实例。Criteria和Query类似有两个用于完成查询分页的方法，除此之外还有add和addOrder。Order实例代表一个排序标准，Order有两个静态方法asc和desc，参数是参照的属性的名称。</p>
+<p>如果需要使用关联实体的属性来增加查询条件，可以对属性再次使用createCriteria方法。返回的结果依然是原本的持久化类的实例。createCriteria有四个重载版本，参数中固有的部分是associationpath属性的名称，可以随机添加的是关联的方式JoinType、关联实体的别名alias、自定义的连接条件withClause。</p>
+<p>createAlias和createCriteria的参数和效果差不多，createAlias的参数也固定了alias参数。Criteria的setFetchMode()方法接受一个FetchMode枚举类型的值，</p>
+<p>Hibernate中使用Projection代表投影运算，Projections是Projection的工厂，负责产生Projection，Criteria提供了setProjection方法绑定projection，ProjectionList类是Projection类的子类，因此可以作为setProjection的参数，ProjectionList也算是一个List，可以使用add的方法增加元素。</p>
+<p>SQL和HQL中的分组函数先执行，然后执行聚集函数，也就是先执行group by，再执行各种聚集函数。</p>
+<p><strong>增加了投影运算后的条件查询，查询返回的结果是数组，数组的前N个元素依次是投影运算的结果，最后一个数组元素才是条件查询得到的实体。</strong></p>
+<p>HQL中分组之后如果还需要排序的话，就需要为投影运算指定一 个别名，指定别名有三种方法，Projections有名为alias的静态方法，可以指定别名，并返回原Projection对象；add的时候也可以指定别名；如果条件查询使用的投影运算是SimpleProjection及其子类，则可以直接使用该投影对象的as方法为自身指定别名。</p>
+<p>Hibernate还提供了Property执行投影预算，Property类似于select，条件查询的结果只有被Property投影的列才会被选出。Property的静态方法forName就可以选出我们想要的列。  </p>
+<p>条件查询的离线查询通过DetachedCriteria来实现，允许在一个session范围之外创建一个查询，并且可以使用任意Session执行。通过DetachedCriteria的静态方法forClass获得离线查询，当DetachedCriteria被传入Criteria作为查询条件的时候，就是子查询。</p>
+<p>如果程序使用Session的getExecutableCriteria方法执行DetachedCriteria对象，那么这个对象就是离线查询，如果使用了Property或者Subqueries的系列方法来操作DetachedCriteria对象，则他被当成子查询使用。</p>
+<h2 id="SQL查询"><a href="#SQL查询" class="headerlink" title="SQL查询"></a>SQL查询</h2><p>Hibernate支持原生SQl查询，SQL查询是通过SQLQuery接口实现的，这个SQLQuery是Query接口的子接口。因此完全可以调用Query接口的方法。</p>
+<p>SQLQuery比Query多了两个方法，一个是addEntity（查询到的记录与特定实体关联），一个是addScalar（查询到的记录关联成标量值）</p>
+<p>执行SQL查询的步骤：</p>
+<ol>
+<li>调用Session的createSQLQuery方法创建查询对象。</li>
+<li>调用SQLQuery对象的addScalar或者addEntity方法将选出的结果与标量值或实体进行关联，分别用于进行标量查询或者实体查询。</li>
+<li>如果SQL语句包含参数，调用Query的setXxx方法赋值。</li>
+<li>调用query的list或者uniqueResult方法返回查询的结果集。</li>
+</ol>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -182,370 +239,96 @@
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/09/20180409-hibernate/" class="archive-article-date">
-  	<time datetime="2018-04-09T08:46:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-09</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/09/20180409-hibernate/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">20180409 Hibernate</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/09/20180409-hibernate/">20180409 Hibernate</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hibernate</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HQL"><span class="toc-number">1.</span> <span class="toc-text">HQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名查询"><span class="toc-number">1.1.</span> <span class="toc-text">命名查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件查询"><span class="toc-number">1.2.</span> <span class="toc-text">条件查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL查询"><span class="toc-number">2.</span> <span class="toc-text">SQL查询</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/02/20180402-hibernate/" class="archive-article-date">
-  	<time datetime="2018-04-02T08:31:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-02</time>
-</a>
-        </div>
-    	 
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="20180416-hibernate" data-title="20180416 hibernate" data-url="http://yoursite.com/2018/04/16/20180416-hibernate/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/02/20180402-hibernate/">20180402 Hibernate</a>
-    </h1>
+  
+  
+  <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: "http://yoursite.com/2018/04/16/20180416-hibernate/", 
+    sourceId: "20180416-hibernate",
+    productKey: "true",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="//img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hibernate</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/02/20180402-struts/" class="archive-article-date">
-  	<time datetime="2018-04-02T00:49:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/02/20180402-struts/">20180402 struts</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/26/20180326-struts/" class="archive-article-date">
-  	<time datetime="2018-03-26T01:28:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/26/20180326-struts/">20180326 struts</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/22/markdown语法/" class="archive-article-date">
-  	<time datetime="2018-03-22T08:18:03.915Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/22/markdown语法/">markdown语法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/22/20171110/" class="archive-article-date">
-  	<time datetime="2018-03-22T08:18:03.719Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/22/20171110/">20171110</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/19/20180319-struts/" class="archive-article-date">
-  	<time datetime="2018-03-19T00:37:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/19/20180319-struts/">20180319</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/13/20180313-struts/" class="archive-article-date">
-  	<time datetime="2018-03-13T00:55:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/13/20180313-struts/">20180313</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/01/18/JavaEE/" class="archive-article-date">
-  	<time datetime="2018-01-18T08:10:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/18/JavaEE/">JavaEE</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><a class="page-number" href="/archives/page/4/">4</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -569,8 +352,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

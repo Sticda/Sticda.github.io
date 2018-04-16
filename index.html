@@ -139,6 +139,116 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180416-hibernate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/16/20180416-hibernate/">20180416 hibernate</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/16/20180416-hibernate/" class="archive-article-date">
+  	<time datetime="2018-04-16T00:58:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="HQL"><a href="#HQL" class="headerlink" title="HQL"></a>HQL</h2><p>where子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。</p>
+<p><strong>当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。</strong></p>
+<p>因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discriminator Value），嵌入where子句的java类名，将被作为该类的辨别值。当where子句的运算符只支持基本类型和字符串类型的时候，where子句中的属性表达式应该以基本类型或者字符串结尾，不要使用组件类型属性结尾。</p>
+<p>size可以返回一个集合的大小，对于有序集合，可以使用minindex与maxindex两个函数代表最小与最大的索引序数，也可以使用minelement（）与maxelement（）函数代表集合中最小和最大的元素，elements()和indices（）函数返回指定集合的所有元素和所有索引。这些东西只能在where子句中使用。</p>
+<p>在where子句中，有序集合（数组，list，map）的元素可以通过[]运算符访问。</p>
+<p>order by 可以根据类或者组件属性的任何属性进行排序。asc或者desc关键字指定升序或者降序的排序规则。默认升序规则，group by之后用having子句对分组进行过滤。<strong>HQL子查询只能出现在select子句或者where子句中。</strong></p>
+<h3 id="命名查询"><a href="#命名查询" class="headerlink" title="命名查询"></a>命名查询</h3><p>Hibernate支持使用@NamedQuery注解来配置命名查询，两个属性，name、query。在程序中使用session的getNamedQuery（String name）函数获得Query对象。</p>
+<h3 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h3><p>条件查询通过以下三个类来完成，Criteria（代表一次查询）、Criterion（代表查询条件）、Restrictions（产生criterion的工具类）使用HQL条件查询的顺序是：</p>
+<ol>
+<li>利用session的方法创建criteria对象</li>
+<li>通过Restrictions的静态方法创建一系列的criterion</li>
+<li>把创建的criterion全部添加到criteria</li>
+<li>执行criteria对象的list或者uniqueResult方法返回结果。</li>
+</ol>
+<p>Session调用createCriteria(Class clazz)方法创建针对某个具体持久化类的条件查询实例。Criteria和Query类似有两个用于完成查询分页的方法，除此之外还有add和addOrder。Order实例代表一个排序标准，Order有两个静态方法asc和desc，参数是参照的属性的名称。</p>
+<p>如果需要使用关联实体的属性来增加查询条件，可以对属性再次使用createCriteria方法。返回的结果依然是原本的持久化类的实例。createCriteria有四个重载版本，参数中固有的部分是associationpath属性的名称，可以随机添加的是关联的方式JoinType、关联实体的别名alias、自定义的连接条件withClause。</p>
+<p>createAlias和createCriteria的参数和效果差不多，createAlias的参数也固定了alias参数。Criteria的setFetchMode()方法接受一个FetchMode枚举类型的值，</p>
+<p>Hibernate中使用Projection代表投影运算，Projections是Projection的工厂，负责产生Projection，Criteria提供了setProjection方法绑定projection，ProjectionList类是Projection类的子类，因此可以作为setProjection的参数，ProjectionList也算是一个List，可以使用add的方法增加元素。</p>
+<p>SQL和HQL中的分组函数先执行，然后执行聚集函数，也就是先执行group by，再执行各种聚集函数。</p>
+<p><strong>增加了投影运算后的条件查询，查询返回的结果是数组，数组的前N个元素依次是投影运算的结果，最后一个数组元素才是条件查询得到的实体。</strong></p>
+<p>HQL中分组之后如果还需要排序的话，就需要为投影运算指定一 个别名，指定别名有三种方法，Projections有名为alias的静态方法，可以指定别名，并返回原Projection对象；add的时候也可以指定别名；如果条件查询使用的投影运算是SimpleProjection及其子类，则可以直接使用该投影对象的as方法为自身指定别名。</p>
+<p>Hibernate还提供了Property执行投影预算，Property类似于select，条件查询的结果只有被Property投影的列才会被选出。Property的静态方法forName就可以选出我们想要的列。  </p>
+<p>条件查询的离线查询通过DetachedCriteria来实现，允许在一个session范围之外创建一个查询，并且可以使用任意Session执行。通过DetachedCriteria的静态方法forClass获得离线查询，当DetachedCriteria被传入Criteria作为查询条件的时候，就是子查询。</p>
+<p>如果程序使用Session的getExecutableCriteria方法执行DetachedCriteria对象，那么这个对象就是离线查询，如果使用了Property或者Subqueries的系列方法来操作DetachedCriteria对象，则他被当成子查询使用。</p>
+<h2 id="SQL查询"><a href="#SQL查询" class="headerlink" title="SQL查询"></a>SQL查询</h2><p>Hibernate支持原生SQl查询，SQL查询是通过SQLQuery接口实现的，这个SQLQuery是Query接口的子接口。因此完全可以调用Query接口的方法。</p>
+<p>SQLQuery比Query多了两个方法，一个是addEntity（查询到的记录与特定实体关联），一个是addScalar（查询到的记录关联成标量值）</p>
+<p>执行SQL查询的步骤：</p>
+<ol>
+<li>调用Session的createSQLQuery方法创建查询对象。</li>
+<li>调用SQLQuery对象的addScalar或者addEntity方法将选出的结果与标量值或实体进行关联，分别用于进行标量查询或者实体查询。</li>
+<li>如果SQL语句包含参数，调用Query的setXxx方法赋值。</li>
+<li>调用query的list或者uniqueResult方法返回查询的结果集。</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hibernate</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/16/20180416-hibernate/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180409-hibernate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1320,236 +1430,9 @@ mvn exec:java -Dexec.mainClass=&quot;org.fkjava.mavenqs.App&quot;
 
 
   
-    <article id="post-20180116" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/11/20180116/">20180116</a>
-    </h1>
-  
-
-        
-        <a href="/2018/01/11/20180116/" class="archive-article-date">
-  	<time datetime="2018-01-11T08:40:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Web容器安全管理"><a href="#Web容器安全管理" class="headerlink" title="Web容器安全管理"></a>Web容器安全管理</h1><pre><code>&lt;login-config&gt;
-    &lt;auth-method&gt;BASIC&lt;/auth-method&gt;&lt;!--定义验证方式,basic是基本验证方式--&gt;
-&lt;/login-config&gt;
-&lt;security-role&gt;
-    &lt;role-name&gt;admin&lt;/role-name&gt;
-&lt;/security-role&gt;
-&lt;security-role&gt;
-    &lt;role-name&gt;manager&lt;/role-name&gt;
-&lt;/security-role&gt;
-&lt;security-constraint&gt;
-    &lt;web-resource-collection&gt;
-        &lt;web-resource-name&gt;Admin&lt;/web-resource-name&gt;
-        &lt;url-pattern&gt;/admin/*&lt;/url-pattern&gt;
-        &lt;http-method&gt;GET&lt;/http-method&gt;&lt;!--可以添加多个，只能分开写,默认设置代表所有的http方法都会受到限制--&gt;
-    &lt;/web-resource-collection&gt;
-    &lt;auth-constraint&gt;
-        &lt;role-name&gt;admin&lt;/role-name&gt;
-    &lt;/auth-constraint&gt;
-&lt;/security-constraint&gt;
-</code></pre><p>BASIC的验证方式只能通过对话框输入名称和密码，使用基本验证时无法自定义登录页面，如果需要自定义登录界面和登陆错误的页面，则可以改用容器所提供窗体验证。</p>
-<pre><code>&lt;login-config&gt;
-        &lt;auth-method&gt;FORM&lt;/auth-method&gt;
-        &lt;form-login-config&gt;
-            &lt;form-error-page&gt;登录错误页面&lt;/form-error-page&gt;
-            &lt;form-login-page&gt;登录页面（路径必须从应用程序的根目录开始）&lt;/form-login-page&gt;
-        &lt;/form-login-config&gt;
-&lt;/login-config&gt;
-</code></pre><p>这种FORM的方式在容器验证成功之后会在HttpSession中设置登录字符，所以可以通过检查字段的方式确实是否登录以及完成注销机制的设计。发送的URL、发送名称的请求参数和发送密码的请求参数都是固定不变的。</p>
-<p>除了BASIC和FORM之外，还可以设置DIGEST（摘要验证，在网络上传输的是密码的MD5值）和CLIENT-CERT（采用证书的安全机制）</p>
-<p>web应用程序采用HTTP over SSL是比较安全的方式，也就是HTTPS，在web.xml中的<security-constraint>设置</security-constraint></p>
-<pre><code>&lt;user-data-constraint&gt;
-    &lt;transport-guarantee&gt;CONFIDENTIAL&lt;/transport-guarantee&gt;
-&lt;/user-data-constraint&gt;
-</code></pre><p><transport-guarantee>的默认值是NONE，还可以设置为CONFIDENTIAL（机密性），INTEGRAL（完整性），两个效果都是一样的</transport-guarantee></p>
-<p>request.isUserInRole方法可以判断登录用户的角色。</p>
-<h1 id="整合数据库"><a href="#整合数据库" class="headerlink" title="整合数据库"></a>整合数据库</h1><ol>
-<li>加载JDBC驱动程序：通过java.lang.Class类的forName，动态加载驱动程序类，Class.forName(“com.mysql.jdbc.Driver”)，不同的数据加载不同的类。</li>
-<li>提供JDBC URL，JDBC URL定义了连接数据库时的协议等标识。。jdbc：mysql:://主机名称：连接端口/数据库名称？参数=值&amp;参数=值，参数包括用户名、密码、useUnicode（是否使用unicode）、character-Encoding（字符编码方式），<strong>xml文件中不能出现“&amp;”，所以用“&amp;amp；”代替</strong>。</li>
-<li>取得Connection实例：coon=DriverManager.getConnection（url），url是第二部里面的URL；当数据库管理人员不想告诉开发人员数据库的密码和用户名时，开发者可以通过JNDI的方式获得Connection</li>
-</ol>
-<h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><ol>
-<li>Template Method模式（Gof设计模式）：父类会定义服务流程的方法，子类继承或者覆写实现具体的流程。</li>
-<li>Intercepting Filter模式（Java EE设计模式）：过滤器</li>
-<li>Model-View-Controller模式（架构模式）：MVC以及Model 2 模式</li>
-<li>Business Delegate模式： Business Delegate是中间件，它接收到请求之后交给其他部分处理并由其他部分返回结果，降低耦合度。</li>
-<li>Service Locator模式：类似于前一个，隐藏复杂的操作。</li>
-<li>Transfer Object模式：可以把一些信息封装在某个类中，传输类，比如说图书管理系统里的图书类或者用户类。</li>
-<li>Front Controller模式：FrontController负责了集中管理所有与请求相关的动作，处理完毕之后委托给其他对象（不建议）</li>
-</ol>
-<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>看到今天，这本Servlet与Jsp终于看完了，java web的路线还有spring、struts和MyBatis，Hibernate，这几个准备在暑假看看有没有实战的项目，设计模式现在不准备深入研究，只是先通过项目学习一下。以后也不一定就一定搞这个，但是干一行精一行还是很有必要地~~~~下次准备把一本书的内容都写在一起，每周分开就好了，之前这本书看的太乱，大概写了十几个md文件。</p>
-<hr>
-<h1 id="python"><a href="#python" class="headerlink" title="python"></a>python</h1><ol>
-<li>从raw_input()读取的内容永远以字符串的形式返回。</li>
-<li>list是可变列表，tuple是不变元组，变不变指的是内存指向。</li>
-<li>dict相当于其他语言里的map，python里面在交互式命令行模式下当返回None的时候不显示结果。dict里的key是不可变对象。</li>
-<li>set是集合，没有重复元素。可以重复添加，但没有效果。两个集合可以利用“&amp;“和”|“做数学意义上的交集和并集。</li>
-<li>在Python中，定义一个函数要使用def语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用return语句返回。</li>
-<li><p>python里面函数不需要写明返回值的类型，可以返回多个值，但实际上仍然是一个tuple。函数的默认参数写在定义函数的地方。</p>
-<p> def enroll(name, gender, age=6, city=’Beijing’):</p>
-<pre><code>enroll(&apos;Sarah&apos;, &apos;F&apos;) 
-enroll(&apos;Bob&apos;, &apos;M&apos;, 7)
-enroll(&apos;Adam&apos;, &apos;M&apos;, city=&apos;Tianjin&apos;)`
-</code></pre></li>
-</ol>
-<ol>
-<li>默认参数必须指向不变对象。</li>
-<li><p>可变参数传入函数的时候会自动组装成一个tuple.</p>
-<p> def calc(*numbers):</p>
-<pre><code>sum=0
-for n in numbers
-    sum=sum+n*n
-return sum
-</code></pre></li>
-<li><p>可变参数允许你传入0个或任意个参数，这些可变参数在函数调用时自动组装为一个tuple。而关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个dict。</p>
-</li>
-<li><p>关键字参数有什么用？它可以扩展函数的功能。</p>
-<p>def person(name,age,**kw): #kw是关键字参数</p>
-</li>
-<li><p>参数定义的顺序必须是：必选参数、默认参数、可变参数和关键字参数。</p>
-</li>
-<li>尾递归是指在函数返回的时候，调用自身本身，并且，return语句不能包含表达式，理论上可以防止栈溢出，但是Python标准的解释器没有针对尾递归做优化，任何递归函数都存在栈溢出的问题。</li>
-<li>字符串、元组、列表切片[起始元素:终止元素:步长]，步长省略时为1，起始元素从0开始，不包括终止元素。</li>
-<li>默认情况下，dict迭代的是key。如果要迭代value，可以用for value in d.itervalues()，如果要同时迭代key和value，可以用for k, v in d.iteritems()</li>
-<li>如何判断一个对象是可迭代对象呢？方法是通过collections模块的Iterable类型判断，isinstance(‘abc’, Iterable) # str是否可迭代</li>
-<li><p>列表生成式 [要生成的元素 for 迭代元素 in 迭代的集合或者列表等等一切可以迭代的东西)]</p>
-<p>>&gt;&gt;L=[x*x for x in range(10)]<br>>&gt;&gt;L<br>[0,1,4,9,16,25,36,49,64,81]</p>
-</li>
-<li><p>创建一个generator，只要把一个列表生成式的[]改成()，就创建了一个generator，通过for循环迭代所有的内容。</p>
-</li>
-<li>如果一个函数定义中包含yield关键字，那么这个函数就不再是一个普通函数，而是一个generator。</li>
-<li>函数名也是变量，函数名也可以赋值给其他变量，一个函数就可以接收另一个函数作为参数，这种函数就称之为<strong>高阶函数</strong>。</li>
-<li>map()函数接收两个参数，一个是函数，一个是序列，map将传入的函数依次作用到序列的每个元素，并把结果作为新的list返回。</li>
-<li>reduce把一个函数作用在一个序列[x1, x2, x3…]上，这个函数必须接收两个参数，reduce把结果继续和序列的下一个元素做累积计算</li>
-<li>字典的定义是用大花括号{}，集合set的输出结果中[]并不代表是列表。</li>
-<li>Python内建的filter()函数用于过滤序列。filter()接收一个函数和一个序列。和map()不同的时，filter()把传入的函数依次作用于每个元素，然后根据返回值是True还是False决定保留还是丢弃该元素。</li>
-<li>通常规定，对于两个元素x和y，如果认为x &lt; y，则返回-1，如果认为x == y，则返回0，如果认为x &gt; y，则返回1。</li>
-<li>sorted()函数也是一个高阶函数，它还可以接收一个比较函数来实现自定义的排序。</li>
-<li>高阶函数除了可以接受函数作为参数外，还可以把函数作为结果值返回。</li>
-<li>在函数lazy_sum中又定义了函数sum，并且，内部函数sum可以引用外部函数lazy_sum的参数和局部变量，当lazy_sum返回函数sum时，相关参数和变量都保存在返回的函数中，这种称为<strong>“闭包（Closure）”</strong>的程序结构拥有极大的威力。<strong>返回闭包时牢记的一点就是：返回函数不要引用任何循环变量，或者后续会发生变化的变量</strong>。如果一定要引用循环变量怎么办？方法是再创建一个函数，用该函数的参数绑定循环变量当前的值，无论该循环变量后续如何更改，已绑定到函数参数的值不变。</li>
-<li>关键字lambda表示匿名函数，冒号前面的x表示函数参数。匿名函数有个限制，就是只能有一个表达式，不用写return，返回值就是该表达式的结果。匿名函数也是函数。</li>
-<li>在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）</li>
-<li>把@log放到now()函数的定义处，相当于执行了语句：now = log(now)</li>
-<li>functools.partial的作用就是，把一个函数的某些参数给固定住（也就是设置默认值），返回一个新的函数，调用这个新函数会更简单.</li>
-<li>每一个包目录下面都会有一个<strong>init</strong>.py的文件，这个文件是必须存在的，否则，Python就把这个目录当成普通目录，而不是一个包。<strong>init</strong>.py可以是空文件，也可以有Python代码，因为<strong>init</strong>.py本身就是一个模块。</li>
-</ol>
-<hr>
-<p>今天决定python只学习自己需要的部分，所以不准备所有都看了，之前看的一些高级特性都没搞明白。</p>
-<ol>
-<li><p>当我们在命令行运行模块文件时，Python解释器把一个特殊变量<strong>name</strong>置为<strong>main</strong>，而如果在其他地方导入该模块时，if判断将失败。</p>
-<p> if <strong>name</strong>=’<strong>main</strong>‘:</p>
-<pre><code>test()
-</code></pre></li>
-<li><p>外部不需要引用的函数全部定义成private，只有外部需要引用的函数才定义为public，类似_xxx和__xxx这样的函数或变量就是非公开的（private），不应该被直接引用。</p>
-</li>
-<li><p>安装第三方库的时候使用“pip install  模块名” 。</p>
-</li>
-<li><p>定义类，<strong>init</strong>方法的第一个参数永远是self，表示创建的实例本身，因此，在<strong>init</strong>方法内部，就可以把各种属性绑定到self，因为self就指向创建的实例本身</p>
-<p> class Student(object):</p>
-<p> def <strong>init</strong>(self,name,score):</p>
-<pre><code>self.name=name
-self.score=score
-</code></pre></li>
-<li><p>和普通的函数相比，在类中定义的函数只有一点不同，就是第一个参数永远是实例变量self，并且，调用时，不用传递该参数。</p>
-</li>
-<li>当我们认为某些代码可能会出错时，就可以用try来运行这段代码，如果执行出错，则后续代码不会继续执行，而是直接跳转至错误处理代码，即except语句块，执行完except后，如果有finally语句块，则执行finally语句块，至此，执行完毕。</li>
-<li>如果错误没有被捕获，它就会一直往上抛，最后被Python解释器捕获，打印一个错误信息，然后程序退出。</li>
-<li>如果不捕获错误，自然可以让Python解释器来打印出错误堆栈，但程序也被结束了。既然我们能捕获错误，就可以把错误堆栈打印出来，然后分析错误原因，同时，让程序继续执行下去。Python内置的logging模块可以非常容易地记录错误信息。</li>
-<li>可以捕获错误之后打印错误又把错误抛出，因为当前函数可能不能处理，raise语句如果不带参数，就会把当前错误原样抛出。此外，在except中raise一个Error，还可以把一种类型的错误转化成另一种类型。 </li>
-<li>调试的方法有以下几种：用print发现错误的地方、用assert发现错误的地方、用logging记录错误的地方、启动Python的调试器pdb。</li>
-<li>pdb.set_trace()是用来调试比较简单的部分，只需要import pdb，然后，在可能出错的地方放一个pdb.set_trace()，就可以设置一个断点，程序会自动在pdb.set_trace()暂停并进入pdb调试环境，可以用命令p查看变量，或者用命令c继续运行。</li>
-<li>要以读文件的模式打开一个文件对象，使用Python内置的open()函数，传入文件名和标示符。文件对象必须close，但是“with open(‘/path/to/file’, ‘r’) as f：  ”，使用前面这种方式打开就不必调用f.close()方法，<strong>调用read()会一次性读取文件的全部内容，可以反复调用read(size)方法，每次最多读取size个字节的内容。调用readline()可以每次读取一行内容，调用readlines()一次读取所有内容并按行返回list</strong>。</li>
-<li>要读取二进制文件，比如图片、视频等等，用’rb’模式打开文件即可。</li>
-<li>multiprocessing模块提供了一个Process类来代表一个进程对象，创建子进程时，只需要传入一个执行函数和函数的参数，创建一个Process实例，用start()方法启动。</li>
-<li>如果要启动大量的子进程，可以用进程池的方式批量创建子进程。</li>
-<li>启动一个线程就是把一个函数传入并创建Thread实例，然后调用start()开始执行。</li>
-<li>多线程和多进程最大的不同在于，多进程中，同一个变量，各自有一份拷贝存在于每个进程中，互不影响，而多线程中，所有变量都由所有线程共享，<strong>多线程需要考虑同步的问题。</strong></li>
-<li>线程同步的时候需要用到lock， lock.acquire()， lock.release()，当多个线程同时执行lock.acquire()时，只有一个线程能成功地获取锁，然后继续执行代码，其他线程就继续等待直到获得锁为止。用try…finally来确保锁一定会被释放。</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/11/20180116/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1632,11 +1515,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1652,6 +1535,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
@@ -1661,10 +1548,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
             
             <div class="clearfix"></div>

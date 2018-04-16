@@ -139,6 +139,144 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20171114" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/14/20171114/">20171114</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/14/20171114/" class="archive-article-date">
+  	<time datetime="2017-11-14T01:21:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h1><p>触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即<strong>表的操作事件触发表上的触发器的执行</strong>。</p>
+<pre><code>CREATE TRIGGER trigger_name
+trigger_time
+trigger_event ON tbl_name
+FOR EACH ROW
+trigger_stmt1
+</code></pre><p>其中：</p>
+<p>trigger_name：标识触发器名称，用户自行指定；<br>trigger_time：标识触发时机，取值为 BEFORE 或 AFTER；<br>trigger_event：标识触发事件，取值为 INSERT、UPDATE 或 DELETE；<br>tbl_name：标识建立触发器的表名，即在哪张表上建立触发器；<br>trigger_stmt：触发器程序体，可以是一句SQL语句，或者用 BEGIN 和 END 包含的多条语句。  </p>
+<p>由此可见，可以建立6种触发器，即：BEFORE INSERT、BEFORE UPDATE、BEFORE DELETE、AFTER INSERT、AFTER UPDATE、AFTER DELETE。</p>
+<p>另外有一个限制是<strong>不能同时在一个表上建立2个相同类型的触发器</strong>，因此在一个表上最多建立6个触发器。</p>
+<p><strong>select语句返回的是结果集，就算最终的结果是表中的一个具体部分，也是一个结果集</strong></p>
+<h3 id="查看触发器"><a href="#查看触发器" class="headerlink" title="查看触发器"></a>查看触发器</h3><p>show triggers 查看数据库中所有的触发器</p>
+<p>select * from information_schema.triggers where trigger_name = ’触发器名称‘</p>
+<h1 id="视图（view）"><a href="#视图（view）" class="headerlink" title="视图（view）"></a>视图（view）</h1><p>数据库中只存放了视图的定义，没有视图的数据，所以每次使用视图获得的都是最新的数据，主要作用是保证了应用程序和数据库表的逻辑数据独立性，以及安全性<br>新建视图前先检查是否具有权限。</p>
+<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
+view 视图名（属性清单）
+as select语句
+[with [CASCADED | LOCAL ] check option];
+</code></pre><p>or replace的意思是如果存在的话进行修改，如果不存在的话创建视图</p>
+<p>algorithm表示视图选择的算法</p>
+<p>with check option是可选参数，表示更新视图时要保证在该视图的权限范围内。<br>创建视图时指定了witch check option关键字，这也就是说，更新后的每一条数据仍然要满足创建视图时指定的where条件。通过视图进行的修改，必须也能通过该视图看到修改后的结果<br>如果有with check option的话，默认关键字是cascade</p>
+<p>select语句中不能包含from子句中的子查询</p>
+<p>不能将触发程序和视图关联在一起。</p>
+<p>视图是建立在数据库上的</p>
+<h2 id="查看视图"><a href="#查看视图" class="headerlink" title="查看视图"></a>查看视图</h2><ol>
+<li>DESCRIBE（desc）视图名；</li>
+<li>show table status like ‘视图名’；(不带like就是展示目前数据库中的表和视图)</li>
+<li>show create view 视图名；</li>
+</ol>
+<h2 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h2><ol>
+<li>create or replace</li>
+<li><p>和定义时类似，将create改成alter</p>
+<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
+view 视图名（属性清单）
+as select语句
+[with [CASCADED | LOCAL ] check option];
+</code></pre><h2 id="更新视图（insert、update）"><a href="#更新视图（insert、update）" class="headerlink" title="更新视图（insert、update）"></a>更新视图（insert、update）</h2></li>
+</ol>
+<p>由于视图是一个虚表，所以通过视图的更新都将通过转化为基本的表操作，更新时必须保证拥有权限，更新时将视图看做普通的表。</p>
+<p>有几种情况更新视图是不能成功的。</p>
+<ol>
+<li>视图中包括了count、sum、max、min等函数</li>
+<li>视图中包含了union、UNION all 、distinct、group by、having等关键字</li>
+<li>select中包含了常量或者有子查询。</li>
+<li>由不可能更新的视图产生的视图。</li>
+<li>创建视图时算法为temptable类型。</li>
+<li>视图对应的表上存在没有默认值的非空列，并且这一列也不在视图中，所以插入失败。</li>
+</ol>
+<p>drop view if <strong>exists</strong> 视图名 [restrict | cascade ]</p>
+<h1 id="事务（transaction）"><a href="#事务（transaction）" class="headerlink" title="事务（transaction）"></a>事务（transaction）</h1><p>ACID：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）</p>
+<p>start transaction；后面紧跟由begin和end包含的一些sql语句<br>commit提交事务，rollback回滚事务。<br>事务不支持嵌套功能</p>
+<ol>
+<li>自动提交：autocommit，该变量为1时自动向数据库提交结果，用户在操作数据库的时候不需要start transaction等，如果设置为0，则需要用户输入commit才会将数据表中的资料提交到数据库中(set autocommit=0)；</li>
+<li>事务的孤立级：不同的用户通过不同的会话执行不同的事务，为了保证事务互不影响，保证数据库性能不受到影响，采用事务的孤立级是十分必要的。 </li>
+</ol>
+<p>MySQL提供4种孤立级：<br>serializable（序列化）以序列的形式对事务进行处理，只有当事务提交后用户才能从数据库中查看数据的变化<br>repeatable read（可重读 ）不会被看成序列，提交之后才能看到结果<br>read commited（提交后读）用户可以看到其他事务添加的新记录，在同一事务的不同时间内，应用查询语句可能会得到不同的结果<br>read uncommited（未提交读）容易产生虚幻读操作，其他用户可以在该孤立级上看到未提交的事务。</p>
+<p>修改事务的孤立级：（set  事务名 transaction isolation level 孤立级；）<br>select @@tx_isolation；</p>
+<h2 id="MySQL伪事务"><a href="#MySQL伪事务" class="headerlink" title="MySQL伪事务"></a>MySQL伪事务</h2><p>MyISAM类型表不支持事务，所以采用表锁定替代事务</p>
+<pre><code>lock tables 表名 lock_type；
+unlock tables；
+</code></pre><p>lock_type包括只读和只写</p>
+<h1 id="其他相关知识"><a href="#其他相关知识" class="headerlink" title="其他相关知识"></a>其他相关知识</h1><h2 id="数据库备份"><a href="#数据库备份" class="headerlink" title="数据库备份"></a>数据库备份</h2><p>备份一个数据库中的若干表</p>
+<pre><code>mysqldump  -u username -p 数据库名 数据表名 (可以是多个表，没有该参数默认备份整个数据库) &gt;  备份文件名.sql
+</code></pre><p>备份多个数据库</p>
+<pre><code>mysqldump -u username -p --databases 数据库名1 数据库名2  &gt;备份文件名.sql
+</code></pre><p>备份所有数据库</p>
+<pre><code>mysqldump -u username -p --all -databases &gt; 备份文件名.sql
+</code></pre><p>数据库查询的时候利用索引会加快查询速度，可以用explain和describe来分析查询语句，之后可以看到查询所需要的查询行数</p>
+<p>插入记录时，索引和唯一性校验都会影响到插入记录的速度</p>
+<ol>
+<li>alter table 表名 disable keys；</li>
+<li>alter table 表名 enable keys；</li>
+</ol>
+<p>唯一性校验set unique_check=0/1;</p>
+<h2 id="分析、检查、优化表"><a href="#分析、检查、优化表" class="headerlink" title="分析、检查、优化表"></a>分析、检查、优化表</h2><pre><code>analyze/check/optimize table 表名
+</code></pre><p>如果一个表中使用了TEXT或者BLOB这样的数据类型，那么更新删除等操作就会造成磁盘空间的浪费，所以需要使用optimize进行优化</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/14/20171114/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-正则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -174,11 +312,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -631,11 +769,11 @@ limit count
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
@@ -942,86 +1080,9 @@ limit count
 
 
   
-    <article id="post-20170802" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/03/20170802/">算是个开始吧</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/03/20170802/" class="archive-article-date">
-  	<time datetime="2017-08-03T03:17:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>进入了大学好几年，语文的作文功底真的都没有了，我都不敢说还给老师，估计我的功底老师都看不上了，写什么的时候也是想到哪里写到哪里，所以我准备记个从大学开始的流水账，反正随便写写，以后老了还能看，哈哈哈（滑稽脸）。</p>
-<h2 id="本科篇"><a href="#本科篇" class="headerlink" title="本科篇"></a>本科篇</h2><p>高考完之后就在家里待了两个月，基本上一个人没出过远门，虽然爷爷奶奶极力要求父母来送我，但是因为父母要上班也没人送我，我哥也开学了，一个人第一次坐火车，坐地铁，从西安来到了北京某211高校，报完名之后就被快拉到乡里了，哈哈，高中的时候虽然在学校也算是个学习不错的孩子，但是我知道天外有天，人外有人，所以我对自己在大学的学习成绩啥的也不在意，只要不挂科就可以了，事实证明我做到了，我也没准备在大学好好学习，哈哈哈哈，可能是高中被压迫太久了，军训的时候就给班里的一个妹子表白，那个妹子和我一样高，虽然身高不是最重要的原因，反正最后也失败了，而且关系尴尬了四年，大一第一学期就是很不习惯，那时候也没买电脑，玩玩手机，无聊了就去自习，成绩也还行，反正差不多能看得过去，每天其实挺无聊的，认识的人都是宿舍的，因为高中的时候不怎么和不熟的人交流导致比较害羞（现在认识我的人听了估计想打人），就每天吃的比较多，然后从不到100飙升到120，从矮子变成矮胖子了（真的心疼自己），那时候参加了学校的志愿者协会还有社团，慢慢的变得大方并且能说会道，不断bb，大二回到城里之后，就给一个妹子表白了，我从那时候就觉得自己在这方面的情商为0了，妹子也没拒绝我，但是也没正式答应我，感觉那意思就是让我追她，我这个人也是有点懒，但是妹子都这样了，说明有戏啊，然后妹子和闺蜜一起喝酒之后，我问要不要去接妹子，妹子的闺蜜接了电话怼了我之后，我就知道这事估计没戏了，因为我知道闺蜜要是这样子，结果也不会好，所以就自动放弃了（妹子估计觉得我是个傻子），强迫自己去想别的，和别人一起玩，娱乐生活还比较多了，搞搞老乡聚会啊之类的，周围的人也比较多了，用上了某著名yp软件，从此打开了新世界,算是变得越来越不要脸了，大二得了奖学金小小的挥霍了之后就觉得钱是个好东西，所以大三就去兼职，实习，基本上整个大三都在实习，但是没找什么正经公司，也算是个小遗憾吧，大三下思考完人生之后就决定考研了，主要还是觉得自己学的一般般，本科出去估计也找不到好工作，所以就下定决心考上了研究生。</p>
-<h2 id="研0篇"><a href="#研0篇" class="headerlink" title="研0篇"></a>研0篇</h2><p>刚进实验室的时候就想着要做安卓安全方面的工作，所以ycx师兄就建议我在github上搭个博客，把自己学习到的一些不错的东西写下来，一个是别人可以看，另一个是自己也可以时不时地复习，这个博客就搭了一两个月，刚开始撘不成功，在本地上可以看，但是不能上传到github，隔了一个月之后又想要自己做个项目，所以就想写点东西，所以又开始搭，这一次是在本地上不能打开，但是能上传到github，发现可以了，然后主题又换不了，自己折腾了好久最后一切都成功了，所以没什么搭建的教程，因为我tm也不明白到底怎么就成功了，哪天申请个域名这事就算完了，今天就想写点东西，还能练练markdown的常用语法,赶紧让我说说废话，不然我要憋死了，因为能聊的基友要不就回家了，要不就退学重新念高三了，感觉自己这个人有毒。</p>
-<p>（睡了一晚上感觉bb的愿望不强了）从大四下进实验室到现在也有三个多月了，经历了很多，所以也有很多想说刚开始信誓旦旦地觉得自己本科是信息安全，研究生就想做网络安全相关的研究，研究生的专业也是网络空间安全，梦想着做个黑客，然而却没有想过，大学四年其实有无数的机会进入这个方向，但是自己都想过，也怯弱过，因为做一个黑客技术流，如果催动的兴趣不是很强，在这条路上可能很难长久地走下去，所以尽管研究生的时候想要去钻研安卓安全，但是自己好像对这方面真的不感兴趣，我个人探索的兴趣貌似不太强烈，所以到现在我就准备学好java，原本准备写一些关于安卓安全的博客，目前看来要变成java和android开发了，结果最后还是变成了程序猿，就是因为对自己定位不明确，一直在摇摆，所以wb老师才会让我去跟着wch老师做社会工程学的项目吧，其实我想把研究生当技校上，但很明显是不科学的，以后要读的论文还多着呢，本科的时候从来都觉得自己从某211高校毕业了就要去工作，总是觉得三年的工作经验要比三年的研究生生涯更有用，可是那时候的事情谁说的准呢，因为研究生，我还认识了自己喜欢的那个ta，虽然整个过程都tm很魔幻，但总归是遇见了，希望能长久吧，之前也算是被伤害过的男人吧，也不想谈恋爱，总觉得两个人在一起很麻烦，拒绝了那么几个人，那时候还不想做程序猿，可是现在想想自己好像也只能做程序员，吹逼的能力还不能达到产品经理，刚开始说要做安卓安全，看了看smali和dex之后，就觉得搞安全都没什么方向，我这个人比较讨厌这种没有目标的事，让我觉得自己是个无头苍蝇，所以就在安卓安全和安卓开发或者java后台中纠结，到现在算是下定决心了，以后不会再搞安全了，先踏踏实实的深入学习java开发吧。<br>最近在做个完全是由于兴趣驱动的，其次是想要巩固一下之前的java se的一些开发知识，不能总是纸上谈兵，还有那些年开发过的渣渣安卓，感觉都很表层，准备拿出来深挖一下，目前这个暑假感觉也没什么活，就先做这个小项目吧，主要是安卓客户端和java服务器，一个类似于微信的东东，主要是自己想玩一下，自己做出来一个简易版微信还是很有成就感的，哈哈哈，最近可能会写这个吧，<strong>以后每周都准备写一篇，最少写一篇吧</strong>，这周的这篇就是这个了，哈哈，个人也是很懒的，虽然一直致力于成为一个勤快人，最近就先搞搞这个，然后再学习一下java的spring框架和java底层的东西吧，我现在都不知道spring是干嘛的，哈哈哈，就这样吧。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/03/20170802/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 
@@ -1104,11 +1165,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1124,6 +1185,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
@@ -1133,10 +1198,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
             
             <div class="clearfix"></div>
