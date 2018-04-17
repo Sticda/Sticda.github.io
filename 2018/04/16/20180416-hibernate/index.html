@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/16/20180416-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
-<meta property="og:updated_time" content="2018-04-16T09:58:45.724Z">
+<meta property="og:updated_time" content="2018-04-17T03:12:50.908Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180416 hibernate">
 <meta name="twitter:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
@@ -195,6 +195,13 @@
 <li>如果SQL语句包含参数，调用Query的setXxx方法赋值。</li>
 <li>调用query的list或者uniqueResult方法返回查询的结果集。</li>
 </ol>
+<p>SQLQuery的addScalar方法是可以选出指定列的数据，如果是仅仅希望Hibernate选出某个字段的值，但又不想明确的指出该字段的值，可以使用addScalar（String 列别名），但是推荐还是使用addScalar（String 列别名，Type 列数据类型）</p>
+<p>如果某一次查询返回的是某个类的全部数据列，那么就可以选择绑定到某个具体的实体，addEntity（Class clazz），最后的结果就会是实体的list，因为SQL中存在多表查询，所以可以为不同的表指定不同的别名，addEntity（String alias，Class entityClass）。除此之外，Hibernate还支持将查询结果转化为非持久化实体（JavaBean对象），需要在select语句中的列指定JavaBean里的属性的别名，除此之外还需要为SQLQuery指定一个Transformer对象，setResultTransformer（）对象，Transformer提供了一个方法，aliasToBean，  然后就可以使用。</p>
+<h3 id="处理关联和继承"><a href="#处理关联和继承" class="headerlink" title="处理关联和继承"></a>处理关联和继承</h3><p>Hibernate还提供把查询结果转化成关联实体，SQLQuery的addJoin(String alias，String path)，第一个参数是转化后的实体，第二个参数是持久化实体对于关联实体的引用方式。</p>
+<h3 id="命名SQL查询"><a href="#命名SQL查询" class="headerlink" title="命名SQL查询"></a>命名SQL查询</h3><p>使用@NamedNativeQuery来自定义命名SQL查询，如果有多个的话就是用@NamedNativeQueries注解，用于组合多个命名SQL查询，这里面的属性有name、query（SQL查询的字符串）、resultClass（查询的结果映射到实体类）、resultSetMapping（里面的值是@SQLResultSetMapping的name）</p>
+<p>@SqlResultSetMapping的作用就是将查询到的结果集转换为标量查询或者实体查询，属性有name（resultSetMapping里面需要使用的属性值）、columns的属性值是@ColumnResult注解数组，每一个都是标量查询addScalar()，entities的属性值是@EntityResult注解数组，每个都是实体查询addEntities()，还有一个classes属性，值是@ConstructorResult注解数组，每个都负责转化成非持久化类对象。相当于setResultTransformer（）。通过Session的getNamedQuery就可以直接获取到命名查询。实体这里有个需要注意的地方，如果持久化类的构造器只需要两个参数就可以，可以在@EntityResult中通过fields属性中@FieldResult指定name（实体属性）和column（查询中的列名）。</p>
+<h3 id="调用存储过程"><a href="#调用存储过程" class="headerlink" title="调用存储过程"></a>调用存储过程</h3><p>Hibernate可以通过命名SQL查询来调用存储过程或函数。需要先定义好存储过程，然后在命名SQL查询中，query的部分中调用存储过程</p>
+<p>使用@SQLInsert、@SQLUpdate、@SQLDelete、@SQLDeleteAll修饰某个类，那么这个类就在持久化的过程中就会使用上面几个注解的sql属性指定的语句执行任务。想要在sql属性中调用存储过程只需要在指定callable=true即可。</p>
 
       
 
@@ -281,7 +288,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HQL"><span class="toc-number">1.</span> <span class="toc-text">HQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名查询"><span class="toc-number">1.1.</span> <span class="toc-text">命名查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件查询"><span class="toc-number">1.2.</span> <span class="toc-text">条件查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL查询"><span class="toc-number">2.</span> <span class="toc-text">SQL查询</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HQL"><span class="toc-number">1.</span> <span class="toc-text">HQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名查询"><span class="toc-number">1.1.</span> <span class="toc-text">命名查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件查询"><span class="toc-number">1.2.</span> <span class="toc-text">条件查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL查询"><span class="toc-number">2.</span> <span class="toc-text">SQL查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#处理关联和继承"><span class="toc-number">2.1.</span> <span class="toc-text">处理关联和继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命名SQL查询"><span class="toc-number">2.2.</span> <span class="toc-text">命名SQL查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调用存储过程"><span class="toc-number">2.3.</span> <span class="toc-text">调用存储过程</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
