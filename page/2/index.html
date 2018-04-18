@@ -139,6 +139,170 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-JavaEE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/18/JavaEE/">JavaEE</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/18/JavaEE/" class="archive-article-date">
+  	<time datetime="2018-01-18T08:10:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-18</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java EE应用的分层模型大致有如下几层：</p>
+<ol>
+<li>Domain Object(领域对象层)：一些简单的java类，类内部包含了业务的实现逻辑。</li>
+<li>DAO（Data Access Object）：对数据库的操作。</li>
+<li>业务逻辑层：这些业务逻辑方法可能仅仅用于暴露Domain Object对象所实现的业务逻辑方法或者DAO组件的业务逻辑方法。</li>
+<li>控制器层：拦截用户请求，调用业务逻辑组件的方法。</li>
+<li>表现层：一系列页面组成，负责收集请求，并显示处理结果。最常见的技术是JSP（Velocity、FreeMarker和Tapestry）</li>
+</ol>
+<p><strong>保证业务逻辑方法的实现，与具体的持久层访问技术分离</strong>，持久层我的理解就是数据和物理设备之间的操作。</p>
+<p>JSP不能直接访问应用的底层状态，Java EE会使用选择JavaBean来传输数据，</p>
+<p>Struts是MVC框架，同时替代技术有Spring MVC和JSF</p>
+<p>JavaEE应用需要一种能够让Java以面对对象的方式操作关系数据库的技术，ORM（Object Relation Mapping），Hibernate框架是一种开源的、轻量级的ORM框架，他允许将普通的、传统的Java对象（POJO）映射成持久化类，允许应用程序以面向对象的方式才操作POJO，而Hibernate框架负责将这种操作转换成底层的SQL操作。Mybatis允许将SQL语句查询结果映射成对象，是Hibernate的替代技术。</p>
+<p>Spring框架里包含各种设计模式的应用，中间层容器，向上与MVC框架无缝融合，向下可以与各种持久层框架无缝整合。没有替代技术。</p>
+<p>在Tomcat中部署Web应用的方式有四种：</p>
+<ol>
+<li>利用Tomcat的自动部署。</li>
+<li>利用控制台</li>
+<li>增加自定义的web部署文件</li>
+<li>修改server.xml文件部署web应用</li>
+</ol>
+<p>Ant是java世界的Make，利用build.xml完成整个项目的编译，Ant工具会根据build文件中的配置进行整个项目的编译，project文件夹下包含了src（源文件、各种配置文件）、classes（编译后的class文件）、lib（第三方jar）、dist（项目打包和项目发布文件的文件夹）、build.xml（Ant生成文件）</p>
+<p>build文件中的根元素是project，每个项目下可以定义多个生成目标，每个生成目标用target标签来定义，target的属性有name（运行target的时候就是根据name属性确定目标）、depends（运行该target之前必须运行depends指定的target）、if（if属性指定一个属性，只有这个属性被设置了才会执行target）、unless（这个属性没被设置才会执行这个target）、description</p>
+<p>build文件中的property元素用来定义一个或者多个元素，该元素有name和value属性，而且该属性值不可改变，需要获取属性值，${property的name属性}，属性值的来源可以是属性文件的文件名、属性文件的资源名称、属性文件的url地址、系统环境变量、或者是属性文件的classpath。</p>
+<h1 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h1><p>maven常用的命令就是mvn。mvn的主要格式是mvn <plugin-prefix>:<goal> -D &lt;属性名&gt;=&lt;属性值&gt; ········<br>plugin-prefix是插件前缀，goal就是指定目标，-D就是用来指定属性名和属性值</goal></plugin-prefix></p>
+<p>使用<a href="http://maven.apache.org/plugins/index.html可以查看Maven插件的功能和用法，创建项目使用Maven的archetype插件" target="_blank" rel="noopener">http://maven.apache.org/plugins/index.html可以查看Maven插件的功能和用法，创建项目使用Maven的archetype插件</a></p>
+<p>用maven生成的项目中包含一个pom（project object model ）文件。该文件仅仅包含了一些项目的版本、groupID、artifactid等坐标信息</p>
+<pre><code>mvn archetype:generate -DinteractiveMode=false -DgroupId=org.fkjava -DartifactId=mavenQs -Dpackage=org.fkjava.mavenqs
+
+mvn compile
+
+mvn exec:java -Dexec.mainClass=&quot;org.fkjava.mavenqs.App&quot;
+</code></pre><p>即便该项目的POM文件中没有说明maven编译项目的具体过程，是因为当前项目的pom文件会被合并到上级pom文件中，上级的pom文件中定义了项目的大量默认设置。</p>
+<p>Maven的插件可以指定多个可执行的目标，对于软件构建过程，默认的生命周期是compile、test、package、install、deploy。POM为项目提供一个唯一标识符，这个就是Maven坐标，由groupID（该项目开发者的域名）、artifactid（项目名）、packaging（打包类型）、version（项目版本），Maven坐标可以精确定位一个项目。</p>
+<h1 id="Servlet-jsp回顾"><a href="#Servlet-jsp回顾" class="headerlink" title="Servlet/jsp回顾"></a>Servlet/jsp回顾</h1><p>web目录中的classes和lib文件夹都是用来保存web应用所需要的Java类文件，classes保存单个的class文件，而lib保存打包以后的jar文件</p>
+<ol>
+<li>java脚本 &lt;%  %&gt;</li>
+<li>jsp注释 &lt;%–    –%&gt;</li>
+<li>jsp声明 &lt;%!   %&gt;</li>
+<li>输出jsp表达式 &lt;%=表达式 %&gt;输出表达式语法后不能有分号</li>
+</ol>
+<p>JSP的3个编译指令&lt;% 编译指令名 属性名=“属性值”  %&gt; page\include\taglib</p>
+<p>jsp动作指令主要有如下7个：</p>
+<ol>
+<li>jsp:forward:页面转向</li>
+<li>jsp:param：传递参数（forward和include需要使用该指令）</li>
+<li>jsp:plugin：下载JavaBean或者applet到客户端执行</li>
+<li>jsp:useBean：创建javaBean</li>
+<li>jsp:setProperty：设置JavaBean的属性值</li>
+<li>jsp:getProperty：输出JavaBean的属性值</li>
+<li>jsp:include: 动态引入jsp页面（被导入页面的body内容插入本页面）</li>
+</ol>
+<p>通常不使用response直接响应，都是使用out对象，response常用于重定向，以及输出非字符对象。</p>
+<p>jsp和servlet之间的数据交换是通过四个map结构，application、session（会话）、request（请求）、page。请求就是一次点击，会话就是浏览器的一个标签页，application就是整个服务器上所有的jsp和servlet都可以交换信息。</p>
+<p>如果希望jsp页面可以获取web.xml配置文件中的配置信息，则必须通过为该jsp配置的路径访问该页面</p>
+<p>jsp中的9个内置对象：</p>
+<ol>
+<li>application</li>
+<li>config</li>
+<li>exception：只有在errorpage中才可以用</li>
+<li>out</li>
+<li>pageContext：可以访问page、request、session、application范围的变量，pageContext还可以用来获取其他内置对象。</li>
+<li>request</li>
+<li>response</li>
+<li>session</li>
+</ol>
+<p>GET方式发送的请求参数被附加到地址栏的URL之后，url?param1=value1&amp;param2=value2&amp;········paramN=valueN</p>
+<p>post请求中的非西欧字符可以通过设置request的编码字符集，但是get请求中的非西欧字符（包括中文字符）只能通过java.net.URLDecoder类</p>
+<p>使用request的getRequestDispatcher（String path）方法的时候，该path字符串必须以斜线开头。</p>
+<p>response的重定向会丢失所有的请求参数和request范围的属性，二forward将会保留所有的请求参数。</p>
+<p>一次用户会话的含义是：客户端浏览器链接服务器开始，到客户端浏览器与服务器断开为止，这个过程就是一次会话</p>
+<p>HttpServlet包含init方法和destroy方法，这两个方法无须重写，除非在初始化servlet时，完成某些资源初始化的方法，才考虑重写init方法，销毁servlet之前先完成对于某些资源的回收才需要重写destroy。</p>
+<p>为了让servlet响应用户请求，必须将servlet配置在web应用中，配置servlet有两种方式：1. 在servlet类中使用@WebServlet注解进行配置2.通过在web.xml文件中配置。</p>
+<p>metadata-complete=”true”，会在启动时不扫描注解（annotation）。如果不扫描注解的话，用注解进行的配置就无法生效</p>
+<p>有一种servlet在应用启动的时候就创建，用于某些后台服务的servlet或者是拦截请求的servlet。load-on-startup Servlet，配置的方式有两种：@WebServlet注解的loadOnStartup属性指定。或者是在web.xml中利用load-on-startup子元素进行配置，有一个整数值表示优先级，越小就越先实例化。</p>
+<p>在web.xml中写明的Servlet参数可以通过ServletConfig对象完成。ServletContext获得的是整个Web应用的配置参数。</p>
+<p>tld文件应该在WEB-INF的任意子路径下（tld文件是对自定义标签库的定义文件），tld文件中的uri是非常关键的，在使用自定义标签的时候需要明确uri才能找到指定的标签库</p>
+<p>getJspBody()可以获得自定义jsp标签里的标签体</p>
+<p>以“页面片段”为属性的标签需要在标签处理类中定义类型为JSPFragment的属性，这个属性代表“页面片段”，使用标签库的时候，通过<a href="jsp:attribute.../" target="_blank" rel="noopener">jsp:attribute.../</a>动作指令为标签的属性指定值。</p>
+<p>需要传入自定义标签的属性个数是不确定的，需要动态属性的标签，标签处理类需要实现DynamicAttributes接口，配置标签时通过<dynamic-attributes>子元素指定该标签支持动态属性。</dynamic-attributes></p>
+<p>Filter的种类：（filter的用法）</p>
+<ol>
+<li>用户授权的filter：检查用户请求</li>
+<li>日志filter：详细记录某些特殊的用户请求</li>
+<li>负责解码的filter：对非标准编码的请求编码</li>
+<li>能改变xml内容的XSLT Filter</li>
+</ol>
+<p>ServletContextListener、ServletContextAttributeListener、ServletRequestListener、ServletRequestAttributeListener、HttpSessionListener、HttpSessionAttributeListener</p>
+<p>Servlet底层的IO是通过ServletInputStream和ServletOutputStream支持的，ServletInputStream新增了setReadListener方法，允许非阻塞IO读取数据，输出流也有同样的方法。使用的方法是：</p>
+<ol>
+<li>调用ServletRequest的startAsync（）方法开启异步模式</li>
+<li>通过ServletRequest获取ServletInputStream，并为ServletInputStream设置监听器，实现ReadListener接口来实现监听器。</li>
+</ol>
+<h3 id="Tomcat-8-的WebSocket支持"><a href="#Tomcat-8-的WebSocket支持" class="headerlink" title="Tomcat 8 的WebSocket支持"></a>Tomcat 8 的WebSocket支持</h3><p>使用注解方式开发，被@ServerEndpoint修饰的java类饥渴作为WebSocket服务器，这个类中有四个需要定义的方法</p>
+<p>Tag File支持：通过建立Tag文件，利用Tag File代替了标签处理类，Tagfile有5个编译指令，分别是taglib、include、tag、attribute（类似于自定义标签处理类的属性）、variable，在使用自定义标签的时候需要先导入标签库，再使用标签，<strong>和tld文件的不同在于这里是prefix和tagdir</strong>，tagdir标签库路径下存放着很多Tag File。每个Tag File对应着一个标签。</p>
+<h3 id="Servlet3-0"><a href="#Servlet3-0" class="headerlink" title="Servlet3.0"></a>Servlet3.0</h3><ol>
+<li><p>异步处理是通过AsyncContext类来处理的，AsyncContext类的dispatch方法把请求dispatch到指定JSP页面，被异步请求dispatch的目标界面需要在指定session=false，这样新的页面才不会重新创建session，<strong>异步调用需要配置</strong>，异步调用有自己的监听器，监听器需要实现AsyncListener接口  ，这里的监听器不像是servlet那种只要配置了就会自动运行的监听器，这个异步监听器必须注册在某个异步调用上。</p>
+</li>
+<li><p>HttpServletRequest增加了对文件上传的支持</p>
+</li>
+<li>ServletContext可以通过编程的方式动态注册servlet和filter</li>
+</ol>
+<p>HttpServletRequest提供了获得part的方法，每个part对应一个文件，part也有write的方法可以将上传文件写入到服务器的磁盘里。在页面中就需要设置input type=file，并且需要将表单域的enctype属性设置为multipart/form-data。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/18/JavaEE/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180116" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -310,11 +474,11 @@ self.score=score
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -1161,96 +1325,6 @@ chain.doFilter(request,response);
 
 
   
-    <article id="post-20171120" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/20/20171120/">20171120</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/20/20171120/" class="archive-article-date">
-  	<time datetime="2017-11-20T13:32:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>http中get请求一般用于幂等操作（请求数据但不改变服务器上的数据），post用于非幂等操作（改变服务器上的数据，上传文件等），过长的请求参数也需要使用post</p>
-<p>容器是java的一个应用程序，负责和服务器沟通，容器会把jsp网页转译成Servlet，加载到容器中进行管理，最后的所有jsp都会以servlet的实例中存在于容器中。每次有请求进来时，都是使用同一个容器进行处理，由容器开启一个线程，并决定是哪个Servlet来处理，如果有多个请求就启动多个线程来处理</p>
-<p>当请求来到http服务器的时候，服务器将请求转交给容器，容器会根据请求的参数建立一个代表当次请求的httpServletRequest对象，同时创建一个httpServletResponse对象，接着根据web.xml的设置，找出处理该请求的Servlet，调用他的service方法初始化。</p>
-<p>对于 <a href="http://localhost:8080/FirstServlet/hello.do?name=cate" target="_blank" rel="noopener">http://localhost:8080/FirstServlet/hello.do?name=cate</a> 来说，web容器会根据请求的逻辑名称（在前面这个链接就是hello.do来查找哪个Servlet可以处理这个链接的请求），找到Servlet之后根据servlet的名字和物理类名称的对应关系处理请求，调用Servlet的service（）方法，将所创建的HttpServletRequest对象和HttpServletResponse对象传入作为参数，service（）方法会根据http请求的方式调用不同的方法</p>
-<p>不要在Servlet程序中夹杂着HTML的页面输出，JSP网页中的HTML中也不要夹杂Java程序逻辑</p>
-<h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p>MVC就是Model，View，Controller</p>
-<p>Model负责控制逻辑部分，View负责与用户的页面交互，Controller负责收集用户请求，并转发给相对应的模型</p>
-<p>MVC模型中，http服务器没办法在服务器状态更新的情况下要求浏览器主动查询更新页面（http是基于请求响应的通信协议）在Web应用程序中，将MVC模型经过更新形成Model 2架构</p>
-<p>控制器收集请求相关信息，并不从事业务逻辑处理Servlet，控制器只顺序调用函数实现跳转<br>模型通常是一个纯粹的java对象  ，页面的逻辑都在java对象中实现<br>视图进行页面的组织，由JSP技术实现</p>
-<p>html页面中\n不能正常显示，要换行必须要页面中用&lt;br>&lt;/br>包含</p>
-<h1 id="Http请求、响应处理"><a href="#Http请求、响应处理" class="headerlink" title="Http请求、响应处理"></a>Http请求、响应处理</h1><p>http请求中的所有信息都封装在HttpServletRequest中，这个接口实现了ServletRequest接口</p>
-<p>浏览器接受到相应的html必须知道怎么正确解释文字编码，HttpServletResponse有一个setContentType的方法可以设置，除此之外也可以使用字符串的getbytes方法重新编码字符串。</p>
-<p>利用下面的方法可以实现跳转请求，由其他的servlet和jsp负责处理，其中的request和response可以通过ServletRequeatWrapper、ServletResponseWrapper或者其子类将容器产生的request和respond重新包裹</p>
-<pre><code>request.getRequestDispatcher(&quot;相对url&quot;).forward(request, response)
-</code></pre><p>在执行forward（）之前不能给浏览器确切的回应。执行完forward还会回到原来的servlet/jsp，但是没有办法继续响应（http协议的特性）</p>
-<p>如果打算在目前的servlet/JSP中进行一些对浏览器的响应，而中间想将其他Servlet/JSP包括进来回应，则可以执行RequestDispatcher的include（）方法</p>
-<h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>突然感觉自己好像有点啰嗦，我看书的时候把一些小点记在博客上，但是感觉打字太慢，所以以后需要降低在博客上记载书上已有知识的篇幅</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/20/20171120/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1336,15 +1410,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
               </li>
              
               <li class="article-tag-list-item">

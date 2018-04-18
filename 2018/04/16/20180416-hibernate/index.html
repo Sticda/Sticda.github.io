@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/16/20180416-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
-<meta property="og:updated_time" content="2018-04-17T03:12:50.908Z">
+<meta property="og:updated_time" content="2018-04-18T07:25:10.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180416 hibernate">
 <meta name="twitter:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
@@ -202,6 +202,27 @@
 <p>@SqlResultSetMapping的作用就是将查询到的结果集转换为标量查询或者实体查询，属性有name（resultSetMapping里面需要使用的属性值）、columns的属性值是@ColumnResult注解数组，每一个都是标量查询addScalar()，entities的属性值是@EntityResult注解数组，每个都是实体查询addEntities()，还有一个classes属性，值是@ConstructorResult注解数组，每个都负责转化成非持久化类对象。相当于setResultTransformer（）。通过Session的getNamedQuery就可以直接获取到命名查询。实体这里有个需要注意的地方，如果持久化类的构造器只需要两个参数就可以，可以在@EntityResult中通过fields属性中@FieldResult指定name（实体属性）和column（查询中的列名）。</p>
 <h3 id="调用存储过程"><a href="#调用存储过程" class="headerlink" title="调用存储过程"></a>调用存储过程</h3><p>Hibernate可以通过命名SQL查询来调用存储过程或函数。需要先定义好存储过程，然后在命名SQL查询中，query的部分中调用存储过程</p>
 <p>使用@SQLInsert、@SQLUpdate、@SQLDelete、@SQLDeleteAll修饰某个类，那么这个类就在持久化的过程中就会使用上面几个注解的sql属性指定的语句执行任务。想要在sql属性中调用存储过程只需要在指定callable=true即可。</p>
+<h2 id="数据过滤"><a href="#数据过滤" class="headerlink" title="数据过滤"></a>数据过滤</h2><p>数据过滤和@Where注解不一样，数据过滤可以带参数，可以有选择的使用或者不使用，但是@Where注解一旦指定，就肯定会在抓取数据的时候执行，并且不能带参数。</p>
+<p>数据过滤器的定义方式是@FilterDef，如果需要定义多个过滤器，则使用@FilterDefs，使用过滤器时候应用@Filter元素应用过滤器，如果要应用多个过滤器的话可以使用@Filters，这个过滤器可以放置在某个持久化类或者该类的关联实体上以及集合属性上。系统默认不使用过滤器，必须使用session的enableFilter(String name )返回一个filter，利用filter的setParameter方法设置参数。不想使用过滤器的时候，调用session的disableFilter方法，<strong>如果只是临时的数据筛选还是使用常规查询比较好，如果很频繁的使用则可以使用过滤器</strong></p>
+<p>@FilterDef中可以指定的属性有name、defaultCondition（默认的sql语句）、parameters（SQL表达式中支持的参数），这个的主要作用就是定义过滤器，也就是只需要指定name和parameters两个属性，具体的SQL语句可以在使用的时候指定。parameters的具体值也是@parameter，属性有name和type，都是字符串。使用过滤器的地方就是@Filter注解，属性有name（要和使用的过滤器的定义对应起来）、condition（这里需要具体指定使用的SQL语句），这里面的参数在session中调用他的地方利用filter的setParameter方法指定。</p>
+<h2 id="事务控制"><a href="#事务控制" class="headerlink" title="事务控制"></a>事务控制</h2><p>ACID（Atomicity、Consistency、Isolation、Durablity）</p>
+<p><strong>几乎在所有情况下，都不要使用每个应用对应一次Hibernate Session，也尽量不要使用每次HTTP Session对应一个Hibernate Session</strong></p>
+<p>Hibernate的事务就是一次Transaction，通过session的beginTransaction方法开始一次事务。底层上看Transaction是由TransactionFactory产生的。SessionFactory是线程安全的，一旦创建了该对象，只有在应用退出时才会关闭SessionFactory。Session对象是轻量级的，也是线程不安全的。Session一般情况下只会在需要使用数据库的时候才会打开JDBC连接，因此长Session对于性能的影响不大，只要不长时间打开数据连接。Hibernate建议采用每个请求对应一次Session。</p>
+<p>应用程序长事务（打开一个Session并且需要长时间保持，最后还需要持久化）有三种方法：自动版本化、脱管对象、长生命周期Session</p>
+<p>Session需要一直处于打开状态，直到装入所有需要的集合或者代理，两种方法：使用过滤器（在用户请求结束、页面生成结束时关闭Session，也就是在视图显示层一直打开Session）、让业务逻辑层负责准备数据（在业务逻辑层返回数据之前，业务逻辑层对每个所需集合调用Hibernate.initialize方法（该静态方法可以强制初始化某个集合或者代理）或者使用带fetch的子句或者FetchMode.JOIN的查询，事先获得所有的数据。）</p>
+<p>Hibernate引入了CurrentSessionContext接口，并通过hibernate.current_session_context_class参数来管理上下文相关的Session的底层实现。这个接口有三个实现类：org.hibernate.context.JTASessionContext、org…………ThreadLocalSessionContext、org…………ManagedSessionContext。</p>
+<p>如果使用ThreadLSessionContext策略，Hibernate的Session会随着getCurrentSession方法自动打开，在容器中使用hibernate使用第一种方式。</p>
+<h2 id="二级缓存和查询缓存"><a href="#二级缓存和查询缓存" class="headerlink" title="二级缓存和查询缓存"></a>二级缓存和查询缓存</h2><p><strong>Hibernate默认启用一级缓存，可选的二级缓存。</strong></p>
+<p>SessionFactory的二级缓存是全局性的，应用的所有Session都共享这个二级缓存，开启二级缓存需要在hibernate.cfg.xml中指定hibernate.cache.use_second_level_cache参数的值为true。指定了开启二级缓存之外，还需要指定二级缓存的实现类hibernate.cache.region.factory_class。常用的实现类有EhCache和Infinispan，指定实现类的时候要求的是全限定名。对于EhCache需要一个ehcache.xml配置文件。设置对哪些类和类的集合属性启用二级缓存，有两种方法，第一种就是使用@Cache，第二种就是使用&lt;class-cache…./&gt;或者&lt;collection-cache…../&gt;，使用注解的方法比较多，但是在@Cache的时候需要指定usage属性，这个属性指的是缓存的策略。</p>
+<p>CacheConcurrencyStrategy.READ_ONLY\READ_WRITE：如果要在JTA环境中使用该缓存策略，必须指定hibernate.transaction.manager_lookup_class属性的值。如果要在集群环境中使用，必须保证底层的缓存实现支持锁定。NONSTRICT_READ_WRITE（非严格读写）\TRANSACTION（全事务的缓存支持，只能在JTA环境中）</p>
+<p>Session的evict(Object object)方法，可以将括号里的对象或集合从一级缓存中剔除。查询某个对象是否在一级缓存中使用contains方法，清除一级缓存里的所有对象使用clear。</p>
+<p>SessionFactory提供了一个getCache的方法，返回一个Cache对象，通过这个对象可以操作二级缓存。</p>
+<p>一级缓存和二级缓存都是对整个实体进行缓存的，不会缓存普通属性，如果想对普通属性进行缓存，则可以考虑使用查询缓存。</p>
+<h2 id="事件机制"><a href="#事件机制" class="headerlink" title="事件机制"></a>事件机制</h2><p>hibernate中的数据持久化操作对于用户是透明的，通过事件框架能够让应用程序响应特定的内部事件。事件框架由两个部分组成，拦截器机制（特定动作拦截回调）和事件系统（重写事件监听器）。</p>
+<p>通过继承EmptyInterceptor实现拦截器，通过SessionFactory的openSession（Interceptor in）打开一个带有局部拦截器的Session，通过Configuration的setInterceptor方法设置全局拦截器。</p>
+<p>Hibernate自己有自己默认的事件系统，Session接口的每个方法都有自己的时间，并且有对应的事件监听器，用户可以实现自己的监听器代替系统默认的事件监听器。</p>
+<p>自定义事件监听器的方法有三种：实现对应的监听器接口，继承事件适配器、继承事件监听器。前两种都需要程序员替代hibernate实现持久化的操作。一定要记得调用父类监听器的方法实现持久化操作。</p>
+<p>定义完事件监听器，hibernate提供了一个EventListenerRegistry接口，三个方法注册事件监听器，appendListeners（追加在默认监听器后面）、prependListeners（追加在默认监听器前面）、setListeners（替代默认监听器）。</p>
 
       
 
@@ -259,6 +280,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2018/04/18/20180418/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          20180418
+        
+      </div>
+    </a>
+  
   
     <a href="/2018/04/09/20180409-hibernate/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">20180409 Hibernate</div>
@@ -288,7 +318,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HQL"><span class="toc-number">1.</span> <span class="toc-text">HQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名查询"><span class="toc-number">1.1.</span> <span class="toc-text">命名查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件查询"><span class="toc-number">1.2.</span> <span class="toc-text">条件查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL查询"><span class="toc-number">2.</span> <span class="toc-text">SQL查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#处理关联和继承"><span class="toc-number">2.1.</span> <span class="toc-text">处理关联和继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命名SQL查询"><span class="toc-number">2.2.</span> <span class="toc-text">命名SQL查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调用存储过程"><span class="toc-number">2.3.</span> <span class="toc-text">调用存储过程</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HQL"><span class="toc-number">1.</span> <span class="toc-text">HQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名查询"><span class="toc-number">1.1.</span> <span class="toc-text">命名查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件查询"><span class="toc-number">1.2.</span> <span class="toc-text">条件查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL查询"><span class="toc-number">2.</span> <span class="toc-text">SQL查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#处理关联和继承"><span class="toc-number">2.1.</span> <span class="toc-text">处理关联和继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命名SQL查询"><span class="toc-number">2.2.</span> <span class="toc-text">命名SQL查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调用存储过程"><span class="toc-number">2.3.</span> <span class="toc-text">调用存储过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据过滤"><span class="toc-number">3.</span> <span class="toc-text">数据过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务控制"><span class="toc-number">4.</span> <span class="toc-text">事务控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二级缓存和查询缓存"><span class="toc-number">5.</span> <span class="toc-text">二级缓存和查询缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件机制"><span class="toc-number">6.</span> <span class="toc-text">事件机制</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -417,15 +447,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
               </li>
              
               <li class="article-tag-list-item">

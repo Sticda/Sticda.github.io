@@ -6,19 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>20180326 struts | Sticda</title>
+  <title>20180418 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="数据标签Action标签里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。 bean标签的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置Jav">
-<meta name="keywords" content="笔记,Struts">
-<meta property="og:type" content="article">
-<meta property="og:title" content="20180326 struts">
-<meta property="og:url" content="http://yoursite.com/2018/03/26/20180326-struts/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="20180418">
+<meta property="og:url" content="http://yoursite.com/2018/04/18/20180418/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="数据标签Action标签里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。 bean标签的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置Jav">
-<meta property="og:updated_time" content="2018-04-02T00:44:54.024Z">
+<meta property="og:updated_time" content="2018-04-18T07:25:41.691Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20180326 struts">
-<meta name="twitter:description" content="数据标签Action标签里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。 bean标签的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置Jav">
+<meta name="twitter:title" content="20180418">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -142,109 +138,27 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-20180326-struts" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-20180418" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      20180326 struts
+      20180418
     </h1>
   
 
         
-        <a href="/2018/03/26/20180326-struts/" class="archive-article-date">
-  	<time datetime="2018-03-26T01:28:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-26</time>
+        <a href="/2018/04/18/20180418/" class="archive-article-date">
+  	<time datetime="2018-04-18T07:25:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-18</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="数据标签"><a href="#数据标签" class="headerlink" title="数据标签"></a>数据标签</h2><p><strong>Action标签</strong>里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。</p>
-<p><strong>bean标签</strong>的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置JavaBean的属性值只能通过bean属性的子标签</p>
-<p><strong>date标签</strong>的var属性也会把格式化后的字符串放入Stack Context，并放入requestScope中</p>
-<p><strong>include标签</strong>用于将jsp页面或者servlet包含到本页面，value属性指定被包含的页面，要传入参数的话需要利用param子标签。<strong>param这个标签</strong>就是name和value参数。可以省略value标签，用param标签把value包在里面</p>
-<p><strong>push标签</strong>的主要作用就是把某个值放到ValueStack的栈顶，只有在push标签内，被push标签放入VaLueStack中的对象才存在，一旦离开了push标签，刚刚放入的对象就会被立刻溢出ValueStack。</p>
-<p><strong>set标签</strong>用于将某个值放入指定范围内。属性有scope、value(未指定的话就是ValueStack栈顶的值)、var（指定属性后将该值放入ValueStack）</p>
-<p><strong>url标签</strong>用于生成URL地址（value属性指定要输出的属性值，要是没有指定，则默认输出ValueStack）</p>
-<p>Struts 2允许在同一个视图界面使用不同的主题，如果需要改变表单的主题需要改变表单标签的theme属性，如果需要让某次用户会话使用特定的主题，可以通过在session中设置一个theme的变量，如果需要改变某个应用的主题，则可以通过修改struts.ui.theme实现。</p>
-<h2 id="Struts2-的类型转换机制"><a href="#Struts2-的类型转换机制" class="headerlink" title="Struts2 的类型转换机制"></a>Struts2 的类型转换机制</h2><p>Struts2提供了类型转化机制，http请求参数都是字符串类型，所以需要转化为自定义类型，字符串与基本类型之间的转化struts2已经实现。</p>
-<p>如果在Action的定义文件中直接指定了某些集合变量的泛型，就可以直接在jsp文件中写明某个参数的name是集合变量的哪个元素的哪个属性。</p>
-<p>将一个字符串转换为一个复合对象，需要重写DefaultTypeConverter类的convertValue（Map context，Object value，Class toType）方法，这个方法需要完成双向转化，也就是要根据toType的类型转换，value是需要转换的东西，必须要注意的是字符串向自定义类型转换的时候value是一个字符串数组，因为请求参数类型就是一个字符串数组，如果只有一个请求参数那么获得的就是长度为1的数组。</p>
-<p>简化版的DefaultTypeConverter是StrutsTypeConverter抽象类，两个方法分别是convertFromString和convertToString。</p>
-<p>如果说开发者没有在定义Action的时候指明集合元素的类型，也可以使用<strong>局部类型转换文件</strong>指定集合元素的类型，文件名为ActionName-conversion.properties形式。</p>
-<p>对于某个具体的action起作用的类型转换器就可以在该action的局部类型转换文件中写明。如果properties文件中包含了非西欧字符则需要使用native2ascii命令处理该文件。</p>
-<p>注册全局类型转换器需要提供xwork-conversion.properties文件，放在WEB-INF/classes文件夹下，内容就是某个类的全限定名=某个转换器的全限定名。</p>
-<p>Action中一般不使用set，因为set中的元素都是无序状态，但是如果为这些元素指定了索引属性，就不存在这个问题了。 索引属性必须是set集合中元素的属性，除了在局部类型转换文件中通过代码明确set集合中元素的索引属性之外，还需要在set中的元素的定义中重写equals和hascode方法来确保索引属性是某个元素。</p>
-<p>在OGNL表达式中访问set元素使用的是圆括号，但对于数组、list和map，则通过方括号访问指定元素。struts2位转换类型错误注册了名为conversionError的拦截器，处理异常之后系统会跳转到名为input的逻辑视图中。想要输出类型转换错误可以使用&lt;s:fielderror/&gt;，如果特定的字段类型转换出现了问题想要输出特定的提示信息，则可以在局部类型文件中设置。</p>
-<pre><code>&lt;s:textfield name=&quot;users[%{#stat.index}]&quot;&gt;和
-&lt;s:property name=&quot;#user.name&quot;&gt;
-两个的区别是前面那个users里面是字符索引，
-如果直接写users[#stat.index]会出错，
-因为struts不能把里面的部分识别为OGNL，加上%{}的作用就是为了告诉系统stat.index是OGNL表达式
-</code></pre><h2 id="struts的国际化"><a href="#struts的国际化" class="headerlink" title="struts的国际化"></a>struts的国际化</h2><p>国际化步骤：1.让系统加载国际化资源文件；2输出国际化。</p>
-<p>加载国际化资源的方式有两种：Action范围的和包范围的国际化可以自动加载；jsp范围、全局范围的国际化资源文件分别使用标签和配置常量的方式。<br>输出国际化的方式也有两种：struts的标签、ActionSupport类中的getText（）方法。</p>
-<p>在JSP页面中指定国际化资源需要&lt;s:i18n&gt;，作为输出标签的父标签会好一点，因为会自动加载国际化资源文件。text标签可以利用name属性从资源文件中取值，如果是form标签则利用key属性取值。</p>
-<p>可以单独为Action定义一个国际化资源文件，在Action类文件所在的路径建立ActionName_language_country.properties的文件，可以自动加载。</p>
-<p>包范围内的国际化资源文件也可以自动加载，package_<language>_<country>.properties，该包下的所有action都可以使用这些资源文件。当包范围和Action范围的资源文件同时存在的时候，系统将优先使用Action范围的资源文件。</country></language></p>
-<p><strong>在实际项目中推荐使用Action范围的国际化资源</strong>，所有的action的资源文件放在一起管理会很复杂。</p>
-<p>在struts.xml或者struts.properties文件中配置常量只需要配置struts.custom.i18n.resources常量即可加载全局国际化资源文件，全局国际化资源文件中只保存对于全局有效的东西，如果把所有的国际化资源消息放在一个文件里，很难维护。</p>
-<p>JSP页面中对应的国际化资源文件中有占位符，也就是说消息类似于“welcome={0}，您好！”在text标签中指定name为welcome来展示这条消息，需要利用param子标签为该占位符提供参数。在Action中通过getText获取国际化消息资源，所以现在通过getText里面增加参数来完成占位符的填充；还可以直接在国际化资源文件中使用EL表达式。</p>
-<p>某个XXXAction加载资源文件的顺序是先加载baseName为XXXAction的资源文件，找不到的话找父类Action的baseName同名资源文件，再找不到就找XXXAction实现接口 的资源文件，还找不到就找XXXAction所在的包下的资源文件，找不到就不断上溯，到顶层包还没找到就查找struts.custom.i18n.resources常量指定的baseName的资源文件。再找不到就只能输出key的值了。</p>
-<p>在JSP中访问国际化消息，使用&lt;s:i18n…/&gt;作为text和form标签的父标签，直接会从i18n指定的资源文件中查找key对应的消息，找不到就在struts.custom.i18n.resources中查找，找不到就直接输出key的值。</p>
-<h2 id="输入校验"><a href="#输入校验" class="headerlink" title="输入校验"></a>输入校验</h2><p>struts2提供了基于框架的输入校验，不需要编写代码，只需要编写简单的配置文件，每个Action都有自己的校验文件，ActionName-validation.xml中配置校验规则，保存在同路径下，&lt;validators…./&gt;元素可以包含field-validator（字段校验器）或者validator元素（非字段校验器），如果校验失败（不符合校验规则）也会重新返回到“input” 的逻辑视图中。</p>
-<p>类型转换失败的提示信息和输入校验失败的提示信息都被封装成FieldError，并被放入Action Context，并且使用“&lt;s:fielderror&gt;”标签输出提示信息，如果开发者使用了Struts2的表单标签生成表单，那么表单标签会自动输出错误提示。客户端校验只需要把输入页面的表单使用struts2标签生成，除此之外为form元素增加validate=“true”属性。</p>
-<p>客户端校验支持的种类有限，浏览者不能够直接访问启用了客户端校验的表单页，可以放在WEB-INF下，客户端使用全局的国际化资源文件，不能使用Action范围的国际化资源文件。</p>
-<p>校验规则的根元素是validators</p>
-<h4 id="字段校验器风格（推荐使用）"><a href="#字段校验器风格（推荐使用）" class="headerlink" title="字段校验器风格（推荐使用）"></a>字段校验器风格（推荐使用）</h4><pre><code>&lt;field name=&quot;被校验的字段&quot;&gt;
-    &lt;field-validator type=&quot;校验器名&quot;&gt;
-        &lt;!--此处需要为不同校验器指定数量不等的校验参数 --&gt;
-        &lt;param name=“参数名”&gt;参数值&lt;/param&gt;
-        ………………
-        &lt;!-- 校验失败后的提示信息，其中key指定国际化资源文件中的key --&gt;
-        &lt;message key=&quot;I18Nkey&quot;&gt;校验失败以后的提示信息&lt;/message&gt;
-    &lt;/field-validator&gt;
-    &lt;!-- 如果该字段需要满足多个规则，下面可以配置多个校验器--&gt;
-    ………………
-&lt;/field&gt;
-</code></pre><h4 id="非字段校验器风格"><a href="#非字段校验器风格" class="headerlink" title="非字段校验器风格"></a>非字段校验器风格</h4><pre><code>&lt;validator type=&quot;校验器名&quot;&gt;
-    &lt;param name=&quot;fieldName&quot;&gt;需要校验的字段名&lt;/param&gt;
-    &lt;param name=&quot;校验器需要的参数名&quot;&gt;参数值&lt;/param&gt;
-    ………………
-    &lt;!--校验失败以后的提示信息，其中key指定国际化信息的key --&gt;
-    &lt;message key=&quot;I18Nkey&quot;&gt;校验失败以后的提示信息，这里修改的是I18Nkey&lt;/message&gt;
-&lt;/validator&gt;
-</code></pre><h4 id="短路校验器"><a href="#短路校验器" class="headerlink" title="短路校验器"></a>短路校验器</h4><p>在指明过滤器类型的同时，还可以设置short-circuit属性（validator元素和field-validator元素），这个属性的默认值是false，设置为true之后的效果就是如果同一个字段排在前面的校验器校验失败，那么校验就会直接结束，返回失败信息。</p>
-<p>之前我们提到过每一个action都有自己的校验文件，但是某个action里面可能会通过method配置若干逻辑Action，这时候的校验文件名ActionName-ActionAliasName-validation.xml，这里的ActionAliasName就是在配置Action的时候指明的name属性。</p>
-<p>校验文件的查找规则是从上到下，先查找父类以及父类的别名检验文件，然后再查找本身以及本身别名的校验文件。如果出现冲突，后面的校验文件配置覆盖前面的。所有非字段校验器会优先于字段校验器执行；非字段校验器校验失败，所有的字段校验器将不会被执行；前面的某个非字段校验器校验失败，并不会影响其他的非字段校验器；如果某个字段校验器校验失败，那么之后的字段校验器也不会被执行。</p>
-<h3 id="struts2提供的校验器"><a href="#struts2提供的校验器" class="headerlink" title="struts2提供的校验器"></a>struts2提供的校验器</h3><p>如果开发者开发了一个自己的校验器，则可以通过添加一个validators.xml文件，放在classes目录下，validator元素里的name是校验器类型，class指定的是校验器的实现类（全限定名）,就可以注册自己的校验器了，而且存在的一个问题就是吐过struts2发现在WEB-INF/classes目录下有一个validators.xml的话就不会再去加载系统默认的default.xml文件了，所以需要把default.xml中的内容全部复制到自定义的validators.xml中。下面的校验器都可以直接添加message属性表示校验失败之后的输出信息。</p>
-<ol>
-<li>必填检验器：校验器名为required，要求指定字段必须有值</li>
-<li>必填字符串校验器：名称为requiredstring，trim参数默认为true（截断字符串前后的空白）</li>
-<li>整数校验器：可以为int、short、long，参数类型有min、max</li>
-<li>日期校验器：名称为date，参数有min、max，进行日期转换的时候默认使用struts.properties里面指定的Locale，或者系统默认的Locale的Date.SHORT格式进行日期转换。 </li>
-<li>表达式校验器：名称为expression，非字段校验器，不可以在字段校验器中使用，OGNL表达式返回结果为true表示校验通过，否则没有通过，这个逻辑表达式是基于ValueStack进行求值。</li>
-<li>字段表达式校验器：名称为fieldexpression，expression参数可以基于ValueStack指定一个逻辑表达式，true则验证通过。</li>
-<li>邮件地址校验器：名称为email，推荐使用正则表达式校验器实现功能。</li>
-<li>网址校验器：名称为url，推荐使用正则表达式校验器实现功能。</li>
-<li>Visitor校验器：可以校验一个比较复杂的field，比如说这个field是一个自定义类，我们要对类中的某一个字段进行校验，参数有context（指定校验文件的context）和appendPrefix（指定校验失败之后是否添加message指定的消息，这个参数的值是Boolean类型的），需要在自定义类的相同路径下添加“类名字+context（visitor校验器中需要指定)-validator.xml“，在这个文件中就是针对自定义类进行校验。</li>
-<li>转换校验器：名称是conversion，检查被校验字段在类型转换过程中是否出错，repopulateField参数表明类型转换失败之后返回input界面，表单域是否保留原来的错误输入（true是保留）。</li>
-<li>字符串长度校验器：名称是stringlength，要求被校验字段的长度必须在指定的范围之内，参数有minLength和maxLength，trim（检验该字段前是否截短字段值前后的空白）</li>
-<li>正则表达式校验器：名称是regex，检查被校验字段是否符合匹配一个正则表达式，参数中的regex就指明匹配用的正则表达式，caseSensitive是否区分大小写。</li>
-</ol>
-<p>可以通过在Action类中通过注解指定校验规则。需要使用验证器注解修饰Action里各成员变量对应的setter方法。</p>
-<h3 id="手动完成输入校验"><a href="#手动完成输入校验" class="headerlink" title="手动完成输入校验"></a>手动完成输入校验</h3><p>在Action定义过程中重写ActionSupport类的validate方法，除此之外，一个Action类里可以有很多逻辑Action，也就是通过不同的method指定的逻辑Action，validate会校验所有的处理逻辑，Action可以增加validateXXX（）方法，就可以处理相应的逻辑Action。某个Action类里先调用validateXxx方法，然后调用validate方法，如果说出错误信息，这种方式不会像标签那样自动输出错误提示信息，而是要显式的利用&lt;s:fielderror&gt;标签输出。</p>
-<h3 id="使用struts2控制文件上传"><a href="#使用struts2控制文件上传" class="headerlink" title="使用struts2控制文件上传"></a>使用struts2控制文件上传</h3><p>上传文件时需要将表单的method设置为post，并且将enctype设置为multipart/form-data。&lt;s:file&gt;可以提供一个用于生成一个文件上传域，这个文件上传的Action里面封装了3个变量，File upload（封装上传文件域）、String uploadContentType、String uploadFileName、String savepath（在struts.xml中配置Action的时候配置的变量），有时候需要对浏览者上传的文件进行过滤，</p>
-<ol>
-<li>在action中定义一个用来过滤文件的方法，这个方法的名字是任意的，它的作用就是在validate方法中被调用。</li>
-<li>为了可以动态的配置允许上传的文件类型，为该Action增加了一个allowTypes属性（在action类中的所有变量（都有setter和getter方法），如果页面中提交到Action的变量里有我们想要的变量，那就可以直接用，如果页面里没有，那么就需要在struts.xml中配置action的地方指明这些变量的值）。</li>
-<li>在validate方法中调用第一步中的方法，如果不符合要求，就需要把错误提示添加到FieldError中。</li>
-</ol>
-<p>可以通过拦截器实现文件过滤，struts2提供的文件上传的拦截器是fileUpload，这个拦截器需要指定两个参数，allowedType（多个文件类型中间用逗号）、maximumSize（单位是字节），除此之外还必须显示的配置defaultStack的拦截器引用。</p>
-<p>Struts2的文件下载：该Action需要提供一个返回InputStream流的方法（这个方法将作为被下载文件的入口，而且要用在配置stream类型结果时指定inputName参数，参数值就是这个参数去掉get前缀、首字母小写的字符串，主要利用ServletContext提供的getResourceAsStream方法），某个action类在struts.xml中配置返回结果的类型为stream，需要指定四个属性：contentType（文件类型）、inputName（之前定义的返回stream的方法的参数）、contentDisposition（指定下载的文件名）、bufferSize（缓冲大小）。</p>
-
+        
       
 
       
@@ -273,21 +187,6 @@
     <div class="article-info article-info-index">
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
       
 
       
@@ -301,18 +200,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/04/02/20180402-struts/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          20180402 struts
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/03/22/markdown语法/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">markdown语法</div>
+    <a href="/2018/04/16/20180416-hibernate/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">20180416 hibernate</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -339,7 +229,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据标签"><span class="toc-number">1.</span> <span class="toc-text">数据标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Struts2-的类型转换机制"><span class="toc-number">2.</span> <span class="toc-text">Struts2 的类型转换机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#struts的国际化"><span class="toc-number">3.</span> <span class="toc-text">struts的国际化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#输入校验"><span class="toc-number">4.</span> <span class="toc-text">输入校验</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#字段校验器风格（推荐使用）"><span class="toc-number">4.0.1.</span> <span class="toc-text">字段校验器风格（推荐使用）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#非字段校验器风格"><span class="toc-number">4.0.2.</span> <span class="toc-text">非字段校验器风格</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#短路校验器"><span class="toc-number">4.0.3.</span> <span class="toc-text">短路校验器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#struts2提供的校验器"><span class="toc-number">4.1.</span> <span class="toc-text">struts2提供的校验器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手动完成输入校验"><span class="toc-number">4.2.</span> <span class="toc-text">手动完成输入校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用struts2控制文件上传"><span class="toc-number">4.3.</span> <span class="toc-text">使用struts2控制文件上传</span></a></li></ol></li></ol>
+                    目录，不存在的…
                     </div>
                 </span>
             </div>
@@ -353,7 +243,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="20180326-struts" data-title="20180326 struts" data-url="http://yoursite.com/2018/03/26/20180326-struts/"></div>
+	<div class="ds-thread" data-thread-key="20180418" data-title="20180418" data-url="http://yoursite.com/2018/04/18/20180418/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -376,8 +266,8 @@
   <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 <script>
   var cloudTieConfig = {
-    url: "http://yoursite.com/2018/03/26/20180326-struts/", 
-    sourceId: "20180326-struts",
+    url: "http://yoursite.com/2018/04/18/20180418/", 
+    sourceId: "20180418",
     productKey: "true",
     target: "cloud-tie-wrapper"
   };

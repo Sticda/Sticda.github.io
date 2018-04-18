@@ -139,6 +139,96 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20171120" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/20/20171120/">20171120</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/20/20171120/" class="archive-article-date">
+  	<time datetime="2017-11-20T13:32:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>http中get请求一般用于幂等操作（请求数据但不改变服务器上的数据），post用于非幂等操作（改变服务器上的数据，上传文件等），过长的请求参数也需要使用post</p>
+<p>容器是java的一个应用程序，负责和服务器沟通，容器会把jsp网页转译成Servlet，加载到容器中进行管理，最后的所有jsp都会以servlet的实例中存在于容器中。每次有请求进来时，都是使用同一个容器进行处理，由容器开启一个线程，并决定是哪个Servlet来处理，如果有多个请求就启动多个线程来处理</p>
+<p>当请求来到http服务器的时候，服务器将请求转交给容器，容器会根据请求的参数建立一个代表当次请求的httpServletRequest对象，同时创建一个httpServletResponse对象，接着根据web.xml的设置，找出处理该请求的Servlet，调用他的service方法初始化。</p>
+<p>对于 <a href="http://localhost:8080/FirstServlet/hello.do?name=cate" target="_blank" rel="noopener">http://localhost:8080/FirstServlet/hello.do?name=cate</a> 来说，web容器会根据请求的逻辑名称（在前面这个链接就是hello.do来查找哪个Servlet可以处理这个链接的请求），找到Servlet之后根据servlet的名字和物理类名称的对应关系处理请求，调用Servlet的service（）方法，将所创建的HttpServletRequest对象和HttpServletResponse对象传入作为参数，service（）方法会根据http请求的方式调用不同的方法</p>
+<p>不要在Servlet程序中夹杂着HTML的页面输出，JSP网页中的HTML中也不要夹杂Java程序逻辑</p>
+<h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p>MVC就是Model，View，Controller</p>
+<p>Model负责控制逻辑部分，View负责与用户的页面交互，Controller负责收集用户请求，并转发给相对应的模型</p>
+<p>MVC模型中，http服务器没办法在服务器状态更新的情况下要求浏览器主动查询更新页面（http是基于请求响应的通信协议）在Web应用程序中，将MVC模型经过更新形成Model 2架构</p>
+<p>控制器收集请求相关信息，并不从事业务逻辑处理Servlet，控制器只顺序调用函数实现跳转<br>模型通常是一个纯粹的java对象  ，页面的逻辑都在java对象中实现<br>视图进行页面的组织，由JSP技术实现</p>
+<p>html页面中\n不能正常显示，要换行必须要页面中用&lt;br>&lt;/br>包含</p>
+<h1 id="Http请求、响应处理"><a href="#Http请求、响应处理" class="headerlink" title="Http请求、响应处理"></a>Http请求、响应处理</h1><p>http请求中的所有信息都封装在HttpServletRequest中，这个接口实现了ServletRequest接口</p>
+<p>浏览器接受到相应的html必须知道怎么正确解释文字编码，HttpServletResponse有一个setContentType的方法可以设置，除此之外也可以使用字符串的getbytes方法重新编码字符串。</p>
+<p>利用下面的方法可以实现跳转请求，由其他的servlet和jsp负责处理，其中的request和response可以通过ServletRequeatWrapper、ServletResponseWrapper或者其子类将容器产生的request和respond重新包裹</p>
+<pre><code>request.getRequestDispatcher(&quot;相对url&quot;).forward(request, response)
+</code></pre><p>在执行forward（）之前不能给浏览器确切的回应。执行完forward还会回到原来的servlet/jsp，但是没有办法继续响应（http协议的特性）</p>
+<p>如果打算在目前的servlet/JSP中进行一些对浏览器的响应，而中间想将其他Servlet/JSP包括进来回应，则可以执行RequestDispatcher的include（）方法</p>
+<h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>突然感觉自己好像有点啰嗦，我看书的时候把一些小点记在博客上，但是感觉打字太慢，所以以后需要降低在博客上记载书上已有知识的篇幅</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/20/20171120/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20171114" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -312,15 +402,15 @@ unlock tables；
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
         		</li>
       		
 		</ul>
@@ -454,11 +544,11 @@ limit count
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		
 		</ul>
@@ -980,106 +1070,6 @@ limit count
 
 
   
-    <article id="post-个人项目服务器端之数据库部分" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/07/个人项目服务器端之数据库部分/">个人项目服务器端之数据库部分</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/07/个人项目服务器端之数据库部分/" class="archive-article-date">
-  	<time datetime="2017-08-07T02:57:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>这个项目目前的剩余任务是android客户端的编写和java端服务器基本功能的完善，聊天记录，断点续传文件之类的先要等我把聊天的基本功能实现之后，android都好久没写了，有点怕怕的。</p>
-<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>这个项目的主要目的是为了用一下学到的java se的基础知识，所以会用到很多不同的东西来实现功能，也许这种实现方式并不是最优解。</p>
-<ol>
-<li><strong>只为了完成基础的功能模块</strong>，所以先定义了两个表，一个是user，另一个是friendgroup。</li>
-<li>在服务器端维护了一个所有在线用户的列表，除此之外，数据库对于好友关系表的设计我在网上查了查，两种方案，一种是新建好友关系表，用户id和好友id对应（用户id小于好友id），强好友关系中减少冗余，另一种是用逗号分隔隔开所有的好友id，第二种设计起来比较简单，但是感觉有点蠢，第一种就是数据关系比较清晰，但是数据操作可能比较负责，所以好友关系选择了第一种，群组关系采用第二种。</li>
-<li>在客户端和服务器的信息传送使用了udp协议，主要是为了后期群聊的实现可以使用MulticastSocket实现群发消息的功能。本来是想传送xml文件顺便用一下dom4j，但是感觉略蠢，后面可能会用java写爬虫，到时候再试也不迟，就还是用datagrampacket的构造参数byte[]发送消息，现阶段不考虑安全性，反正我也是玩玩，安全性后面再说，虽然这种不加密传输我自己也感觉不爽，哈哈哈</li>
-<li>消息传输的协议百度了之后决定采用类似qq的操作，嘿嘿。</li>
-</ol>
-<p>数据库中的一些问题</p>
-<ul>
-<li>利用modify修改列的时候需要加上列的类型，即使列类型不变也需要加入。</li>
-<li>不能插入中文需要modify要插入中文的列的字符集为gbk,具体操作是alter table table_name modify column_name column_type character set gbk;</li>
-<li>statement和preparedstatement的用法上有一些差异，statement的创建过程不需要SQL语句，而preparedstatement需要预编译带有占位符的sql语句，执行execute的时候就不需要参数了。</li>
-<li>一些数值类型后面都有括号，并且其中还有数字，比如说int（10），int（4）等等，这些都是可选的参数，表示的是显示的宽度，并不能影响int类型的数值范围，比如说int就是4个字节，不会发生变化，但是在zerofill的情况下，int（4）是0001，把这个数字放到int（10）类型的列中，就会变成0000000001.</li>
-</ul>
-<h2 id="一些之前没注意过的地方"><a href="#一些之前没注意过的地方" class="headerlink" title="一些之前没注意过的地方 "></a>一些之前没注意过的地方 </h2><ol>
-<li>java中byte和int包括其他基本类型的转换中需要与上0xFF，这是需要保证补码的一致性，因为字节数比较小的类型向大的类型转换时会自动补位，正数补0，负数补1，所以需要与上0xff，才能保证补码的一致性。</li>
-<li>java中DatagramSocket起到了一个快递接收点的作用，他只能发送包，但不知道包去哪里了，而快递DatagramPacket在构造的时候加入了目的地的地址和端口，DatagramSocket使用什么端口是无所谓的，只要在DatagramPacket中加入正确的端口。</li>
-<li><p>一些小技巧</p>
-<p>public static native void arraycopy(Object src,int srcPos,Object dest, int destPos,int length);  </p>
-</li>
-</ol>
-<p>src：源数组；srcPos：源数组要复制的起始位置；dest：目的数组；destPos：目的数组放置的起始位置；length：要复制的长度</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/07/个人项目服务器端之数据库部分/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1165,15 +1155,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
               </li>
              
               <li class="article-tag-list-item">
