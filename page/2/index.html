@@ -139,6 +139,112 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180313-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/13/20180313-struts/">20180313</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/13/20180313-struts/" class="archive-article-date">
+  	<time datetime="2018-03-13T00:55:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>eclipse生成部署Web项目的时候，会自动将src路径下除了*.java外的所有文件都复制到web应用的WEB-INF\classes路径下。</p>
+<p><strong>在WebContent下面的文件在配置中就是从根目录开始的，如果是WebContent下面的子文件夹，比如是WEB-INF中的content文件下的mo.jsp文件需要设置为/WEB-INF/content/mo.jsp</strong></p>
+<p>Struts2推荐把所有视图页面存放在WEB-INF目录下，避免直接向视图界面发送请求，struts.xml中配置了一个name=“*”的&lt;action……/&gt;，这个元素可以处理所有的请求，直接呈现WEB-INF/content目录下同名的jsp页面。</p>
+<h2 id="Struts2应用的开发步骤"><a href="#Struts2应用的开发步骤" class="headerlink" title="Struts2应用的开发步骤"></a>Struts2应用的开发步骤</h2><ol>
+<li>在web.xml中定义filter拦截用户请求</li>
+<li>如果以post方式提交请求，则需要定义包含表单数据的jsp页面，如果仅仅是get方式，则无需经过这一步。</li>
+<li>定义处理用户请求的Action类（Actionsupport）。Action是MVC里的C</li>
+<li>配置Action。指定哪个请求对应于哪个Action进行处理。Convention插件支持“约定优于配置”的思想，采用约定的方式来规定请求和action之间的对应关系。</li>
+<li>通常action处理用户请求之后会返回一个字符串，在struts.xml中可以配置这个字符串和物理视图（要返回给用户的界面）之间的对应关系</li>
+<li>如果action需要发送数据给试图自愿，可以借助DGNL表达式。</li>
+</ol>
+<p>Struts.xml通常放在web应用的类加载路径下，通常是放在WEB-INF/classes路径下，主要作用就是配置action和请求之间的对应关系，还可以使用struts.properties文件来管理常量，标准properties文件，key-value对。这些常量会对整个struts2应用起作用，同样放在WEB-INF/classes下。</p>
+<p>struts2会自动加载struts.xml（开发者自定义配置文件）、struts-default.xml（struts2自带配置文件）、struts-plugin.xml（struts2插件的配置文件）</p>
+<p>Struts2配置常量有三种方式：struts.properties\struts.xml\web.xml，在struts.xml中可以通过constant元素配置，在web.xml中配置StrutsPrepareAndExecute时也可以配置struts2常量，通过为filter配置初始参数的方法配置struts2常量</p>
+<p>struts2框架加载常量的顺序是struts-default.xml、struts-plugin.xml、struts.xml、struts.properties、web.xml，后面的重名常量会覆盖之前的常量。</p>
+<p>为了避免struts.xml文件过于庞大，所以可以通过include元素手动导入配置文件</p>
+<pre><code>&lt;s:textfield name=&quot;Xxx&quot; key=&quot;&quot;&gt;
+name是action定义类中的常量名称，key是显示在页面上的文字
+</code></pre><p>Action中的实例变量不仅可以封装请求参数，也可以用来封装处理结果</p>
+<p>Action接口规范中统一定义了5个字符串常量：ERROR、NONE、INPUT、LOGIN、SUCCESS，实现类ActionSupport</p>
+<p>Web应用中经常要用到HttpServletRequest、HttpSession、ServletContext，这三个分别是jsp内置对象中的request、session和application，Struts2提供了ActionContext</p>
+<p>Action直接访问Servlet API，实现三个接口就可以实现，ServletContextAware、ServletRequestAware、ServletResponseAware</p>
+<p>ServletContext是在服务器上共享的一片区域，而session则是每一个用户自有的一块区域。</p>
+<p>Struts2中的Action在一个包中，包用package配置，每个包里面有很多个Action和拦截器，package的name属性是引用该包的唯一标识。extend属性可以用来继承另一个包，还有抽象包的概念，抽象包不能有Action的定义。</p>
+<p>interceptors是拦截器，下面的这段代码的action的name是*，代表请求的网页是和action同名的jsp</p>
+<pre><code>&lt;action name=&quot;*&quot;&gt;
+    &lt;result&gt;/WEB-INF/content/{1}.jsp&lt;/result&gt;
+</code></pre><p>每次定义一个package元素的时候，都可以指定一个namespace属性，因为同一个web应用可能会包含同名Action，如果配置package的时候没有指定namespace，当某个包指定了命名空间，该包下所有的action处理的URL应该是命名空间+Action名，当系统收到请求时，会现在命名空间里查找，如果没有的话会去默认空间查找。</p>
+<p>同一个页面里的不同按钮想要交给不同的控制逻辑，也就是说一个jsp页面中的提交想要分别提交给action的不同方法处理，action=“actionName！MethodName”，通过一个jsp的函数在点击按钮之后利用onclick动态的改变了表单的action，这种方法就是动态调用，动态调用的方法除了函数名和execute方法不同之外，其他的都必须一样。使用动态调用必须要设置struts2允许动态调用，设置struts.enable.DynamicMethodInvocation常量为true。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/13/20180313-struts/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-JavaEE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -474,11 +580,11 @@ self.score=score
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -1244,87 +1350,6 @@ chain.doFilter(request,response);
 
 
   
-    <article id="post-20171201" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/24/20171201/">20171201</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/24/20171201/" class="archive-article-date">
-  	<time datetime="2017-11-24T07:58:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>在学习Servlet和JSP的过程中书里面要求开发一个在线书签。</p>
-<hr>
-<p>java中常用的输入输出流</p>
-<p>字节流 FileInputStream BufferedInputStream DataInputStream    |||| FileOutputStream  BufferedOutputStream PrintStream</p>
-<p>字符流  BufferedReader FileReader ||||||BufferedWriter FileWriter PrinterWriter</p>
-<p>使用HttpServletResponse的sendRedirect（）可以要求浏览器重新请求另一个URL，又称为重定向，使用时可指定绝对URL或者相对URL，和Dispatcher 的forward不一样，forward是服务器自己跳转，而sendredirect是让浏览器跳转</p>
-<p>可以通过在servletReuqest通过setAttribute（）设置属性，该对象只在此次请求范围内有效，在请求/响应之后该对象会被销毁</p>
-<p>同一个请求周期中，HttpServletResponse的getWriter（）和getOutputStream（）只能使用一个</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/24/20171201/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1410,7 +1435,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1418,7 +1443,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1439,6 +1464,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
