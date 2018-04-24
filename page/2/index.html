@@ -139,6 +139,119 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180319-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/19/20180319-struts/">20180319</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/19/20180319-struts/" class="archive-article-date">
+  	<time datetime="2018-03-19T00:37:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一个表单里包含多个提交按钮，分别提交给不同的控制逻辑，和上周方法不同的方法是，将一个Action处理类定义成多个逻辑Action，在struts.xml中配置action的时候可以指定method属性来让action调用特定的方法处理，而不是默认使用execute方法，这些方法必须具有相似的方法签名，形参列表为空，方法返回值为String。</p>
+<p>在struts.xml中配置action允许在<strong>指定name属性</strong>时使用模式字符串（用*代表一个或者多个任意字符），接下来就可以在class、method和result元素中使用{N}的形式代表前面第N个星号（*）所匹配的子串</p>
+<pre><code>&lt;action name=&quot;*Action&quot; class=&quot;cc.LoginRegistAction&quot; method=&quot;{1}&quot;
+</code></pre><p>上面的这段代码其实就是根据传入的action名称选择method，也可以在类名里面使用{N}，没有为Action指定class属性，该action使用ActionSupport作为处理类，而且因为该ActionSupport类的execute方法默认返回success字符串</p>
+<p>如果有URL为abcAction.action的请求，如果struts.xml文件中有名为abcAction的action，则一定由该action处理用户请求，如果struts.xml文件中没有名为abcAction的action，则搜寻第一个个能够匹配abcAction的Action，例如*Action和*，*Action并不会比*匹配的优先级高，先找到那个Action就由哪个Action处理请求。所以说name=“*”的Action一般配置在最后。</p>
+<p>配置默认Action通过&lt;default-action-ref…../&gt; ，struts.xml文件中使用&lt;result…./&gt;元素配置结果，根据&lt;result…/&gt;元素所在位置的不同，struts2提供了两种结果，局部结果（result作为action的子元素）和全局结果（result作为global-results的子元素），配置result元素的时候通常要指定两个属性name和type，Struts2默认的结果类型就是dispatcher，所以在配置result的时候可以省略type元素，默认name是success，没有指定location参数，会把&lt;result….&gt;………中间的字符串当成实际视图资源。</p>
+<p>如果result的type是plainText的话将会返回网页源代码，指定location和charSet（处理字符集）；result的结果如果是redirect；类型，将产生新的请求，所有的请求参数、请求属性、Action实例和Action中封装的属性全部丢失。使用redirect类型的结果时，不能重定向到/WEB-INF/路径下任何资源，因为<strong>web应用的/WEB-INF/路径下的所有资源是受保护对象</strong>；redirectAction结果类型和redirect都是重新生成全新的请求，配置redirectAction的时候需要指定两个参数actionName和namespace。</p>
+<p>配置result元素的时候，不仅可以使用${0}表达式形式来指定视图资源，还可以使用${属性名}的方法指定，属性名就是对应的Action实例里的属性，<strong>OGNL表达式就是${属性名.属性名.属性名…….}</strong>，如果result放在global-results元素中配置的话，该result元素就是全局结果，对所有的Action都有效，但是局部结果会覆盖全局结果。</p>
+<p>PreResultListener是一个监听器接口，他在Action完成控制处理之后，系统转入实际的物理视图之间被回调，可以为Action和拦截器添加这个监听器，监听器中一个方法叫做beforeResult。</p>
+<h3 id="struts2-异常处理"><a href="#struts2-异常处理" class="headerlink" title="struts2 异常处理"></a>struts2 异常处理</h3><p>在execute中处理异常的比较麻烦的，最好的处理异常的方法是通过声明式的方式管理异常处理。因为如果写在代码里异常发生变化需要重新修改代码。struts2的异常处理机制需要一个拦截器，但是默认已经开启。</p>
+<p>异常处理实在struts.xml中配置exception-mapping元素完成的，配置该元素的时候需要制定两个属性，一个是exception，一个是result，根据exception-mapping出现的位置可以分为全局异常映射和局部异常映射，同样，局部异常映射会覆盖全局异常映射。</p>
+<p>在struts2中可以通过如下标签输出异常信息</p>
+<pre><code>&lt;s:property value=&quot;exception&quot;/&gt;：输出异常对象信息
+&lt;s:property value=&quot;exceptionStack&quot;/&gt;：输出异常堆栈信息   
+</code></pre><h3 id="Convention插件与“约定”支持"><a href="#Convention插件与“约定”支持" class="headerlink" title="Convention插件与“约定”支持"></a>Convention插件与“约定”支持</h3><p>约定优于配置，只需要按照约定开发，不需要进行配置，只需要把convention的jar包导入到lib中。</p>
+<p>Convention插件会把所有实现了com.opensymphony.xowrk2.Action的java类和所有类名以Action结尾的Java类作为Action处理。默认值只会处理action、actions、struts、struts2包下的java类，这个插件还可以设置不扫描哪些包下的java类，以及新增需要扫描的包，以及设置包搜索开始的根包。根命名空间就是上面说过的默认的扫描文件，下面的子包则被映射成对应的命名空间。</p>
+<p>Action的name属性根据Action类的类名映射，如果该Action类名中包含Action后缀，就将Action去掉，将剩余的驼峰写法（每个单词首字母大写）转成中划线写法（所有字母小写，单词与单词之间以中划线隔开），在使用这个action的时候应该是<strong>命名空间/Action名称</strong></p>
+<p>按照约定映射Result，默认情况下，Convention总会到Web应用的WEB-INF/content，定位资源的约定是ActionName+resultCode+suffix（后缀），找不到对应资源的时候会使用actionname+suffix作为资源，action的url中是带着命名空间的，那么在content中也需要带上命名空间。</p>
+<p>如果希望一个Action结束处理后进入另一个Action形成Action链，那么就不能包含第一个Action逻辑视图字符串对应的视图资源，而且第一个Action和第二个Action处于同一个包之下，第二个Action映射的URL为第一个action的名称和resultcode，例如名为FirstAction的Action返回了值为second的resultcode，那么第二个Action的类名是FirstSecondAction</p>
+<p>Convention插件支持自动重加载机制，需要设置struts.devMode为true，以及struts.convention.classes.reload为true</p>
+<h3 id="使用Struts2的标签库"><a href="#使用Struts2的标签库" class="headerlink" title="使用Struts2的标签库"></a>使用Struts2的标签库</h3><p>标签库的标签不依赖于任何表现层技术，struts2的标签都定义在URI为“/struts-tags”的空间下</p>
+<p>Ajax（Asynchronous JavaScript And XML）</p>
+<h4 id="OGNL（struts2标签库的语法）"><a href="#OGNL（struts2标签库的语法）" class="headerlink" title="OGNL（struts2标签库的语法）"></a>OGNL（struts2标签库的语法）</h4><p>Struts2可以直接从对象中获取属性，会自动搜寻Stack Context的所有实体，从栈顶到栈底 ，知道找到与求值表达式匹配的属性，<strong>Stack Context的根对象是ValueStack，除此之外还包括了命名对象，struts2还提供了命名对象，访问这些对象需要使用#前缀来指明</strong>，parameters对象（访问http请求参数）、request对象、session对象、application对象、attr对象（该对象将依次搜索如下对象：PageContext、HttpServletRequest、HttpSession、ServletContext中的属性）</p>
+<p>可以在任意页面增加<strong>&lt;s:debug/&gt;</strong>标签，该标签将生成一个链接，可以进行调试。</p>
+<p>直接创建List类型集合的语法：{e1,e2,e3………}；直接生成Map类型集合的语法是#{key1:value1,key2:value2,…………}；in和not in可以用来判断某个元素是不是在指定集合中。</p>
+<p>OGNL还允许通过某个规则取得集合的子集，？（取出所有符合选择逻辑的元素）、^（取出符合选择逻辑的第一个元素）、$(取出符合所有选择逻辑的最后一个元素)。preson.relatives.{? #this.gender==’male’}直接在集合后紧跟.{}运算符勇于取出该集合的子集，#this代表集合里的元素。</p>
+<p>struts2提供了访问静态成员的方法，但默认是关闭的，需要设置struts.ognl.allowStaticMethodAccess设置为true。可以通过@className@staticField和@className@staitcMethod（val） </p>
+<p>OGNL支持基本的Lambda表达式语法，可以使用函数</p>
+<p>&lt;s:iterator…./&gt;标签有三个属性：value指定被迭代的集合。id是集合里元素的id（迭代变量）。</p>
+<p><strong>append标签</strong>的var属性指定生成的新集合的名字，该集合被放入Stack Context中，还有多个param子标签，每个标签的value属性指定一个需要拼接的集合。</p>
+<p>使用<strong>generator标签</strong>可以将指定字符串按照指定分隔符分割成多个子串，将子串转化为Iterator集合，临时生成的集合位于ValueStack的顶端，类似于String对象的split方法，count属性指定生成集合中元素的总数（前count个）；seperator指定用于解析字符串中的分隔符；val指定被解析的字符串，指定了var属性则会将生成的Iterator对象放入Stack Context中，converter属性指定转换器，负责将集合中的每个字符串转换成对象，继承Converter。</p>
+<p>Struts2 中的很多标签都可以指定var属性，类似于变量名的作用，指定了var属性之后会将新生成的值放入Stack Context中，就是可以通过#name的形式访问，如果不指定这个属性，新生成的值只能在这个标签的内部使用。</p>
+<p>append标签和<strong>merge标签</strong>的区别是：append会将若干集合直接串联在一起，merge是将若干集合的第一个元素放在一起，然后再按照顺序把所有集合的第二个元素放在一起，以此类推。</p>
+<p><strong>subset标签</strong>source属性、count属性（子集中元素的个数）、start属性（从源集合的第几个元素开始截取，下标从0开始），decider属性（自定义是否把这个元素加入子集，实现SubsetIteratorFilter.Decider接口）、var属性（设置为page范围的属性，需要注意的地方）</p>
+<p><strong>sort标签</strong>必须提供自己的排序规则，指定特定的Comparator，source属性（被排序的集合）、var属性（同样放入page范围）</p>
+<p>这些标签里面需要注意的两个点，sort和subset标签指定了var属性之后放入了page的属性范围，而其他的是放在了Stack Context的栈顶，第二点是如果不指定source属性的话，标签默认的source就是ValueStack栈顶的部分。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/19/20180319-struts/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180313-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -949,6 +1062,77 @@ ${login[&quot;pass.word&quot;]}
 
 
   
+    <article id="post-20171221" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/26/20171221/">20171226</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/26/20171221/" class="archive-article-date">
+  	<time datetime="2017-12-26T01:54:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>JSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误</p>
+<p>不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候做一些事情，可以选择重写JSPInit（）和jspDestroy（）。</p>
+<h2 id="指示元素"><a href="#指示元素" class="headerlink" title="指示元素"></a>指示元素</h2><p>&lt;%@ 指示类型  [属性=“值”] <em> %&gt;（[属性=“值”] </em>是正则表达式）</p>
+<p>常用的指示类型：page（告知容器如何转译目前的jsp网页）、include（将其他的jsp页面包括进来进行转译）、taglib（告知容器如何转译这个页面中的标签库）</p>
+<p>include将其他页面包含的时候是一种静态的包含方式，就是把包含的文件直接拼接在一起。</p>
+<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>在&lt;%!与%&gt;之间声明的程序代码，都将转译为Servlet中的类成员或者方法。也就是说把<strong>所有的成员变量声明和方法声明的java代码</strong>都写在这个&lt;%!与%&gt;之间，容器会使用同一个Servlet来服务不同用户的请求，每个请求就是一个线程，声明 变量的时候必须小心数据共享与线程安全的问题，使用该方法声明的变量是类成员变量，JSPInit（）和JSPDestroy（）就需要使用这种方式重写。</p>
+<h2 id="Scriptlet元素"><a href="#Scriptlet元素" class="headerlink" title="Scriptlet元素"></a>Scriptlet元素</h2><p>&lt;%  java语句  %&gt;所有的内容将被转译到Servlet源代码中的_JSPService（），可以利用java语句的注释方式进行注释（//或者/<em>········</em>/)</p>
+<h2 id="表达式元素"><a href="#表达式元素" class="headerlink" title="表达式元素"></a>表达式元素</h2><p>&lt;%= java 表达式&gt;表达式元素不用加分号，表达式元素中的表达式会直接转译成out对象输出时的指定内容。</p>
+<p>因此在jsp中输出&lt;%或者%&gt;符号，要将角括号置换为替代字符，&lt;%可以换成&lt;%  ，%&gt; 可以换成%&gt;或者%>。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/26/20171221/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20171226" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1029,77 +1213,6 @@ type=&quot;想要指定的类型&quot;/&gt;
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/12/26/20171226/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20171221" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/26/20171221/">20171226</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/26/20171221/" class="archive-article-date">
-  	<time datetime="2017-12-26T01:54:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>JSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误</p>
-<p>不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候做一些事情，可以选择重写JSPInit（）和jspDestroy（）。</p>
-<h2 id="指示元素"><a href="#指示元素" class="headerlink" title="指示元素"></a>指示元素</h2><p>&lt;%@ 指示类型  [属性=“值”] <em> %&gt;（[属性=“值”] </em>是正则表达式）</p>
-<p>常用的指示类型：page（告知容器如何转译目前的jsp网页）、include（将其他的jsp页面包括进来进行转译）、taglib（告知容器如何转译这个页面中的标签库）</p>
-<p>include将其他页面包含的时候是一种静态的包含方式，就是把包含的文件直接拼接在一起。</p>
-<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>在&lt;%!与%&gt;之间声明的程序代码，都将转译为Servlet中的类成员或者方法。也就是说把<strong>所有的成员变量声明和方法声明的java代码</strong>都写在这个&lt;%!与%&gt;之间，容器会使用同一个Servlet来服务不同用户的请求，每个请求就是一个线程，声明 变量的时候必须小心数据共享与线程安全的问题，使用该方法声明的变量是类成员变量，JSPInit（）和JSPDestroy（）就需要使用这种方式重写。</p>
-<h2 id="Scriptlet元素"><a href="#Scriptlet元素" class="headerlink" title="Scriptlet元素"></a>Scriptlet元素</h2><p>&lt;%  java语句  %&gt;所有的内容将被转译到Servlet源代码中的_JSPService（），可以利用java语句的注释方式进行注释（//或者/<em>········</em>/)</p>
-<h2 id="表达式元素"><a href="#表达式元素" class="headerlink" title="表达式元素"></a>表达式元素</h2><p>&lt;%= java 表达式&gt;表达式元素不用加分号，表达式元素中的表达式会直接转译成out对象输出时的指定内容。</p>
-<p>因此在jsp中输出&lt;%或者%&gt;符号，要将角括号置换为替代字符，&lt;%可以换成&lt;%  ，%&gt; 可以换成%&gt;或者%>。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/26/20171221/">展开全文 >></a>
         </p>
       
 
@@ -1246,110 +1359,6 @@ chain.doFilter(request,response);
 
 
   
-    <article id="post-20171211" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/11/20171211/">20171211</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/11/20171211/" class="archive-article-date">
-  	<time datetime="2017-12-11T09:04:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近太忙了，期末了各种作业.</p>
-<p>客户端也可以通过js进行窗体验证，用来节省服务器的运算资源，但是客户端验证只针对格式等与安全无关的部分进行验证，用户可以选择跳过客户端窗体验证。</p>
-<p>利用forward（）请求转发的时候浏览器并不知道在服务器上发生了转发，可以获得WEB_INF中的数据，sendRedirect（）要求浏览器重定向请求其他的数据，这个函数可以使用相对或者绝对URL</p>
-<p><strong>在使用sendRedirect（）的时候，最好使用绝对路径，比如说<a href="http://localhost:8080/exercise/index,我们现在想利用该函数到某个页面，在该页面的前面加上当前web应用的上下文路径，也就是exercise" target="_blank" rel="noopener">http://localhost:8080/exercise/index,我们现在想利用该函数到某个页面，在该页面的前面加上当前web应用的上下文路径，也就是exercise</a></strong></p>
-<p>请求转发(forward)<br>Servlet（源组件）先对客户请求做一些预处理操作，然后把请求转发给其他Web组件（目标组件）来完成包括生成响应结果在内的后续操作；<br>请求包含(include)<br>Servlet（源组件）把其他Web组件（目标组件）生成的响应结果包含到自身的响应结果中；</p>
-<ol>
-<li>转发和包含路径</li>
-</ol>
-<p>以“/”开头：相对当前项目路径，即默认为<a href="http://localhost:8080/项目名/" target="_blank" rel="noopener">http://localhost:8080/项目名/</a></p>
-<p>不以“/”开头：相对当前Servlet路径。eg:在Aservlet中写“Bservlet”，Aservlet的路径为： <a href="http://localhost:8080/项目名/servlet/Aservlet" target="_blank" rel="noopener">http://localhost:8080/项目名/servlet/Aservlet</a> ，那么Bservlet的路径为：<a href="http://localhost:8080/项目名/servlet/Bservlet" target="_blank" rel="noopener">http://localhost:8080/项目名/servlet/Bservlet</a></p>
-<ol>
-<li>重定向路径（客户端路径）： </li>
-</ol>
-<p>以“/”开头：相对当前主机（端口号之后），即默认为<a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a></p>
-<p>不以“/”开头：相对当前Servlet路径</p>
-<p><strong>ServletConfig</strong>是容器根据web.xml的内容生成的Servlet的设置的实例对象，和每一个Servlet对应，在实例化Servlet的时候，容器还没有调用init（）方法传入ServletConfig，所以不会有servletConfig实例，也就是说ServletConfig必须在web容器将Servlet实例化以后，调用有参数的init（）方法再将之传入，所以在继承HttpServlet后通常会重写<strong>无参数的init（）方法【最适合读取初始参数的地方】</strong>来获取Servlet的初始参数。</p>
-<p>初始参数通常用作常数来设置，可以将一些Servlet程序中不想写死的信息放到初始参数中，一个<init-param>定义一组<param-name>和<param-value></param-value></param-name></init-param></p>
-<p><strong>ServletContext</strong>是<strong>整个web应用程序</strong>运行后的代表对象，通过ServletConfig的getServletContext（）方法来获得，之后就可以利用ServletContext来取得web应用程序的相关资源或信息</p>
-<p>以“/”开头的路径称为环境相对路径，没有以“/”作为开头则称为请求相对路径</p>
-<p>getResourceAsStream()的参数路径必须以“/”作为开头，表示相对应于应用程序环境根目录，运行结果会返回InputStream实例，如果在java EE中使用java.io下的File、FileReader等等与文件读取相关的类时，可以指定绝对路径和相对路径，绝对路径是文件在服务器上的真实路径，相对路径相对的是启动web容器时的命令执行目录，比如说Tomcat的根目录</p>
-<p><strong>ServletContextListener</strong>可以知道web应用程序何时初始化或者何时结束销毁，并在web.xml中设置告知web容器，在web应用程序初始化后或者即将结束销毁之前，调用ServletContextListener实现类的相对应的contextInitialized（）或contextDestroyed()。{在web.xml中配置某个Servlet的Listener，并且重写这个listener的contextInitialized（）}</p>
-<p>在整个web应用程序生命周期内，Servlet所需共享的数据可以设置为ServletContext属性</p>
-<hr>
-<h1 id="会话管理："><a href="#会话管理：" class="headerlink" title="会话管理："></a><strong>会话管理</strong>：</h1><p>此次请求和之后请求的关系</p>
-<p><strong>隐藏字段</strong></p>
-<p>服务器不会记得两次请求之间的关系，需要浏览器在每次请求的时候告诉服务器这些请求之间的关系，服务器只需要处理就好了。服务器把上一次请求的结果以<strong>隐藏字段</strong>的方式存储在下一页的窗体中响应给浏览器，然后浏览器把上一次的结果和这一次的结果都发给服务器<br>具体使用是 “&lt;input type=”hidden” name=””  value=””> “，但是右键查看源码是可以看见这些隐藏字段的值，所以不适合用于隐秘性 较高的数据。</p>
-<p><strong>Cookie的使用</strong></p>
-<p>Cookie类，使用HttpServletResponse的addCookie（）方法在响应中添加Cookie，setMaxAge（）可以用来设置Cookie的有效期限，利用HTTPServletRequest的getCookies（）方法可以获得该网页所属域的所有cookie，cookie类的getName和getValue方法可以用来取得cookie的值</p>
-<p><strong>getAttribute（）获取的是request在web容器内部转发的数据，而getParameter（）获取的是从web客户端传送来的数据</strong></p>
-<p><strong>URL重写的使用</strong></p>
-<p>get请求参数的应用，当服务器响应的浏览器的上一次请求时，将某些相关信息以超链接方式响应给浏览器，get请求参数长度有限，因此大量的客户端信息保留并不适合使用URL重写。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/11/20171211/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1467,11 +1476,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
             
             <div class="clearfix"></div>
