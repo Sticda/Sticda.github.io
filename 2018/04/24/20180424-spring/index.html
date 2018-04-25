@@ -8,13 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>20180424 spring | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
+  <meta name="description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。，这个类">
+<meta name="keywords" content="笔记,spring">
+<meta property="og:type" content="article">
 <meta property="og:title" content="20180424 spring">
 <meta property="og:url" content="http://yoursite.com/2018/04/24/20180424-spring/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:updated_time" content="2018-04-24T07:39:27.341Z">
+<meta property="og:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。，这个类">
+<meta property="og:updated_time" content="2018-04-25T09:28:57.794Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180424 spring">
+<meta name="twitter:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。，这个类">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -158,7 +162,44 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h3 id="Spring3-0-提供的Java配置管理"><a href="#Spring3-0-提供的Java配置管理" class="headerlink" title="Spring3.0 提供的Java配置管理"></a>Spring3.0 提供的Java配置管理</h3><ol>
+<li>@Configuration：用于修饰一个Java配置类</li>
+<li>@Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean</li>
+<li>@Value：用于修饰一个field，相当于配置一个变量</li>
+</ol>
+<p>使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。，这个类提供了一个register方法可以动态添加Java配置类。这个java配置类要在类里新建依赖对象，并且自己通过构造函数完成依赖注入。</p>
+<p>@Import（当前Java配置类导入其他配置类）、@Scope（修饰一个方法，指定该方法对应的Bean的生命域）、@Lazy（修饰一个方法，指定该方法对应的Bean是否需要延迟加载）、@DependsOn（修饰一个方法，指定在初始化该方法对应的Bean之前需要初始化的Bean）@ImportResource（让Java配置类加载指定的xml文件）</p>
+<p><strong>调用者是A，属性对象是B，A依赖B，B被依赖</strong></p>
+<h2 id="创建Bean的3种方式"><a href="#创建Bean的3种方式" class="headerlink" title="创建Bean的3种方式"></a>创建Bean的3种方式</h2><ol>
+<li>构造器</li>
+<li>静态工厂方法</li>
+<li>实例工厂方法</li>
+</ol>
+<p>如果不采用构造注入，spring容器将使用默认的构造器创建Bean实例，所有基本类型为0或者false，引用类型为null，构造器创建Bean的方式就是构造器注入。</p>
+<p>静态工厂方法的时候，需要在配置文件中bean元素下面指定两个属性，一个是class：静态工厂类的类名，一个是factory-method：指定静态工厂方法，如果这个方法需要参数使用constructor-arg元素传入。主程序中获得spring容器的bean实例无需改变。</p>
+<p>实例工厂方法和静态工厂方法很类似，区别在于实例工厂方法不需要指定class，但是需要指定factory-bean属性，这个里面是工厂类的id，参数也是通过constructor-arg指定的。</p>
+<h2 id="深入理解Bean"><a href="#深入理解Bean" class="headerlink" title="深入理解Bean"></a>深入理解Bean</h2><p>抽象bean的配置就是通过指定abstract的值，抽象bean不会被spring实例化，而且在继承他的bean里面指定parent属性的值为父类抽象bean的id，子Bean只能继承父bean的参数值和依赖关系，并不能继承父类定义的时候的属性，比如dependson、autowire、scope等等，spring中的继承是实例之间的关系，java中的是类之间的关系，而且spring的继承不具备多态性。</p>
+<p>工厂Bean和之前看过的bean的创建方法中的工厂模式不太一样，这个工厂Bean的配置和其他的bean没什么异常，但是这个Bean的实现类要继承FactoryBean接口，这个接口有三个方法分别是getObject、getObjectType、isSingleton，继承了FactoryBean接口的bean元素spring不会返回该bean的实例，而是调用getObject方法产生返回值。如果我们想要返回FactoryBean本身，而不是其产品bean的时候，可以在bean id前面加上“&amp;”。</p>
+<p>如果有个Bean类需要知道自己被配置的时候的ID，那么可以实现BeanNameAware接口，这个接口就只有一个setBeanName方法，当spring需要产生该类的实例的时候，检测到这个接口就会把id通过setBeanName的方法传递到Bean类中，Bean类中可以有一个变量存储这个值。</p>
+<p>Bean的依赖关系是由spring完成依赖注入，当A依赖于B,程序请求A的时候，会先初始化B，再把B注入到A，返回A，有的时候可能spring没有自主完成这个操作，所以要在BeanA中利用depends-on属性指定要依赖的B，spring就会完成依赖注入。</p>
+<p>spring可以管理singleton作用域的Bean 的生命周期，spring可以精确的知道该Bean创建，初始化、销毁的时间。</p>
+<h3 id="管理Bean的生命周期"><a href="#管理Bean的生命周期" class="headerlink" title="管理Bean的生命周期"></a>管理Bean的生命周期</h3><p>spring管理生命周期行为的时机主要有两个： 一个是依赖注入之后，一个是即将销毁Bean之前。</p>
+<h3 id="依赖关系注入之后"><a href="#依赖关系注入之后" class="headerlink" title="依赖关系注入之后"></a>依赖关系注入之后</h3><p>有两种方式：一种是使用init-method属性，一种是实现initializingBean接口（侵入式设计，不推荐），这个接口提供了afterPropertiesSet方法，这个方法里指定我们要实现的部分。</p>
+<p>init-method的值是这个Bean的某个方法名，指定这个方法在属性设置完成之后执行，BeanNameAware和ApplicationContextAware的执行顺序是先setBeanNameAware，然后setApplicationContext</p>
+<h3 id="Bean销毁之前"><a href="#Bean销毁之前" class="headerlink" title="Bean销毁之前"></a>Bean销毁之前</h3><p>有两种方式：一种是destroy-method属性，一种是实现DisposableBean接口，这个接口有一个destroy方法。在销毁之前执行destroy方法。</p>
+<p>singleton作用域的Bean通常会随着容器关闭而销毁。在web应用环境下ApplicationContext的关闭不需要考虑，在一个非web应用环境下，需要在JVM里面注册一个关闭钩子，就是调用AbstractApplicationContext中提供的registerShutdownHook（）方法。</p>
+<p>如果说很多bean都需要设置init-method和destroy-method，那么就可以利用default-init-method和default-destroy-method，这两个属性将对beans下面的所有bean生效。</p>
+<h3 id="协调作用域不同步的Bean"><a href="#协调作用域不同步的Bean" class="headerlink" title="协调作用域不同步的Bean"></a>协调作用域不同步的Bean</h3><p>如果一个singleton作用域的Bean A依赖于一个Prototype作用域的Bean B，当spring初始化A的时候，会先初始化B，然后把B注入到A中，形成一个singleton作用域的Bean，每一次通过singleton Bean访问prototype Bean的时候，得到的永远是最初的那个prototype Bean，为了解决这个问题，可以使用方法注入，方法注入通常使用lookup方法注入，有两步：第一步是将调用者Bean的实现类定义为抽象类，并定义一个抽象方法来返回被依赖的Bean。在bean元素中添加lookup-method子元素，这个子元素有两个属性，一个是name（方法名），一个是bean（被依赖的prototype的bean的id）</p>
+<h2 id="高级依赖关系配置"><a href="#高级依赖关系配置" class="headerlink" title="高级依赖关系配置"></a>高级依赖关系配置</h2><p>Spring框架的本质是开发者在spring配置文件中使用xml元素进行配置，实际驱动spring执行相应的代码。</p>
+<h3 id="获取其他Bean的属性值"><a href="#获取其他Bean的属性值" class="headerlink" title="获取其他Bean的属性值"></a>获取其他Bean的属性值</h3><p>PropertyPathFactoryBean用来获取目标Bean的属性值，实际上就是利用了getter方法。</p>
+<p>使用PropertyPathFactoryBean来调用其他Bean的getter方法需要指定如下信息：调用哪个对象和调用哪个getter方法。</p>
+<p>在xml配置文件中需要指明的是targetBeanName和propertyPath的值，通过property的name和value指明，class一定要写明是PropertyPathFactoryBean。value支持复合属性，就是某某类的某某类的某某属性值。如果目标Bean是Bean实例的话，则需要将targetBeanName改成targetObject</p>
+<p>简化配置的方法是使用<a href="util:property-path..../" target="_blank" rel="noopener">util:property-path..../</a>元素，首先要导入util：命名空间。这个元素有两个属性，一个是id（想要将得到的返回值封装成什么名字的Bean实例），一个是path，如果是基本属性值就不需要指定id。</p>
+<h3 id="获取Field值"><a href="#获取Field值" class="headerlink" title="获取Field值"></a>获取Field值</h3><p>通过FieldRetrievingFactoryBean类，可以访问类的静态Field或者对象的实例Field值（要求实例field用public修饰，这个没什么用）。得到值之后可以注入其他Bean，也可以直接定义成新的Bean。</p>
+<p>使用FieldRetrievingFactoryBean访问field分为两种情况，setTargetClass和setTargetField或者setTargetObject和setTargetField。</p>
+<p>在XML文件中就是利用property的name和value属性指定值，name是targetClass和targetField，name还可以是staticField，通过这种方式访问静态field，util：constant元素可以简化配置，id（bean实例的name）和static-field</p>
+<h3 id="获取方法返回值"><a href="#获取方法返回值" class="headerlink" title="获取方法返回值"></a>获取方法返回值</h3><p>MethodInvokingFactoryBean工厂Bean，如果调用的方法是静态方法，则需要指定，setTartgetClass，setTargetMethod，setArguments，如果是实例方法，第一个是setTargetObject，其他的不变。arguments中的参数如果超过一个则需要使用list。</p>
+
       
 
       
@@ -187,6 +228,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -229,7 +285,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring3-0-提供的Java配置管理"><span class="toc-number">1.</span> <span class="toc-text">Spring3.0 提供的Java配置管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建Bean的3种方式"><span class="toc-number"></span> <span class="toc-text">创建Bean的3种方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#深入理解Bean"><span class="toc-number"></span> <span class="toc-text">深入理解Bean</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#管理Bean的生命周期"><span class="toc-number">1.</span> <span class="toc-text">管理Bean的生命周期</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#依赖关系注入之后"><span class="toc-number">2.</span> <span class="toc-text">依赖关系注入之后</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bean销毁之前"><span class="toc-number">3.</span> <span class="toc-text">Bean销毁之前</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协调作用域不同步的Bean"><span class="toc-number">4.</span> <span class="toc-text">协调作用域不同步的Bean</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#高级依赖关系配置"><span class="toc-number"></span> <span class="toc-text">高级依赖关系配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取其他Bean的属性值"><span class="toc-number">1.</span> <span class="toc-text">获取其他Bean的属性值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取Field值"><span class="toc-number">2.</span> <span class="toc-text">获取Field值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取方法返回值"><span class="toc-number">3.</span> <span class="toc-text">获取方法返回值</span></a></li></ol>
                     </div>
                 </span>
             </div>
