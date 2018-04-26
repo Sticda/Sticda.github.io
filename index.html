@@ -196,6 +196,16 @@
 <p>使用FieldRetrievingFactoryBean访问field分为两种情况，setTargetClass和setTargetField或者setTargetObject和setTargetField。</p>
 <p>在XML文件中就是利用property的name和value属性指定值，name是targetClass和targetField，name还可以是staticField，通过这种方式访问静态field，util：constant元素可以简化配置，id（bean实例的name）和static-field</p>
 <h3 id="获取方法返回值"><a href="#获取方法返回值" class="headerlink" title="获取方法返回值"></a>获取方法返回值</h3><p>MethodInvokingFactoryBean工厂Bean，如果调用的方法是静态方法，则需要指定，setTartgetClass，setTargetMethod，setArguments，如果是实例方法，第一个是setTargetObject，其他的不变。arguments中的参数如果超过一个则需要使用list。</p>
+<h2 id="基于XML-Schema的简化配置方式"><a href="#基于XML-Schema的简化配置方式" class="headerlink" title="基于XML Schema的简化配置方式"></a>基于XML Schema的简化配置方式</h2><p>xmlns:p=”<a href="http://www.springframework.org/schema/p&quot;导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean" target="_blank" rel="noopener">http://www.springframework.org/schema/p&quot;导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean</a> id。</p>
+<p>p:命名空间用于简化设值注入，c:命名空间用于简化构造注入。c:构造器参数名=值或者c:构造器参数名-ref=其他Bean的id，除此之外spring还支持通过索引来配置构造器参数的方式，c:_0-ref=”id”,c:_1=”值”，c:_N中的N代表第几个构造器参数。</p>
+<p>使用util：命名空间也可以简化配置，constant（FieldRetrievingFactoryBean的简化版），property-path（PropertyPathFactoryBean），List（该元素用于定义一个list bean，支持使用value\ref\bean子元素定义list集合元素，id、list-class、scope）set和list类似。</p>
+<p>map元素用于定义一个Map Bean，支持使用entry定义key-value对 ，properties元素用于加载资源文件，根据加载的资源文件创建一个properties bean实例，使用该标签可指定id、location、scope。</p>
+<h2 id="spring3-0提供的表达式语言（SpEL）"><a href="#spring3-0提供的表达式语言（SpEL）" class="headerlink" title="spring3.0提供的表达式语言（SpEL）"></a>spring3.0提供的表达式语言（SpEL）</h2><p>三个接口：ExpressionParser、Expression、EvaluationContext</p>
+<p>ExpressionParser调用parseExpression方法返回一个Expression实例（表达式对象），程序调用Expression对象的getValue方法即可获取该表达式的值。EvaluationContext里面可以放入对象，使用setVariable，这个EvaluationContext就相当于一个变量集合，在SpEl中访问EvaluationContext，需要使用“#name”的格式。在SpEL中访问root对象的属性时，可以省略root对象前缀。SpEL中提供了一个特殊的运算符：T()，这个运算符用于告诉SpEL将该运算符内的字符串当成类（推荐使用全限定名）处理。</p>
+<p>在XML配置文件和Annotation中使用SpEL时，在表达式外面增加#{}包围即可。</p>
+<p>一旦在evaluationContext中设置了变量，就可以在SpEL中通过#name来访问该变量，#this和#root是两个特殊的变量。</p>
+<p>有的时候使用了A.B的访问语句，但是这时候A为null，前面的A.B肯定会出错，这个时候可以使用A?.B，如果A是null，计算结果也是null。不会出错。</p>
+<p>SpEL中提供了一种过滤集合的方法：collection.？[condition_expr]，当操作list集合时，condition_expr中的每个属性、方法都是以集合元素为主调的，而map集合需要用key引用Map Entry的key，用value引用<br>Map Entry的value。除此之外还提供了一种集合投影的方法，将结果存入一个新的集合中，collection.![condition_expr]</p>
 
       
 
