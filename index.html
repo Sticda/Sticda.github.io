@@ -139,6 +139,94 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180426-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/26/20180426-spring/">20180426 spring</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/26/20180426-spring/" class="archive-article-date">
+  	<time datetime="2018-04-26T07:54:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>spring的最后一章，也是这本书基础知识介绍的最后一章了，看完这一章基本上spring和struts、hibernate的整合应该没什么问题了，编程这种事一定要提前开始，现在把前面看的基本上忘完了，这本书看完了基本上就要开始自己动手完成一个项目了。</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>Spring框架提供了很好的扩展性，除了与各种第三方框架良好整合之外，IOC容器也允许进行扩展，spring提供了两种常用的后处理器。</p>
+<ol>
+<li>Bean后处理器：这种后处理器会对容器中的Bean进行后处理，对Bean进行额外增强。</li>
+<li>容器后处理器：这种后处理器对IoC容器进行后处理，用于增强容器功能。</li>
+</ol>
+<p>Bean后处理器的类需要实现BeanPostProcessor，这个接口定义了两个方法，一个是postProcessBeforeInitialization，一个是postProcessAfterInitialization，根据名字已经可以判断执行的时间了，如果spring容器是用ApplicationContext实现的，就不需要在xml文件中为这个Bean后处理器的实现类指定Bean id，容器在初始化所有的Bean之后会检测，如果有Bean的实现类实现了BeanPostProcessor接口，会自动注册为Bean后处理器，但是容器要是用BeanFactory实现的话，就需要手动添加绑定Bean后处理器，所以需要为这个Bean后处理器的实现类注册id。</p>
+<p>spring提供的两个常用的后处理器是BeanNameAutoProxyCreator（根据Bean实例的name属性创建Bean实例的代理）和DefaultAdvisorAutoProxyCreator（根绝Advisor对容器中所有的Bean实例创建代理），代理Bean的意思就是对目标Bean进行增强，在目标Bean的基础上进行修改得到的新Bean。</p>
+<p>容器后处理器必须实现BeanFactoryPostProcessor接口，这个接口定义了postProcessorBeanFactory，在容器初始化之后执行这个方法，类似于bean后处理器，ApplicationContext会自己检测容器后处理器，并且自动注册，BeanFactory需要手动调用。spring提供了几个常用的容器后处理器，容器后处理器通常对spring容器进行处理，在容器实例化Bean之前执行特定操作。</p>
+<p>属性占位符配置器（PropertyPlaceholderConfigurer）是一个容器后处理器，负责读取Properties属性文件里的属性值，并且把这些属性值设置成为spring配置文件的数据。bean的定义中可以写明某个元素的value=“${变量名}”，变量名的具体值在属性文件。<a href="context:property-placeholder...../" target="_blank" rel="noopener">context:property-placeholder...../</a>是对PropertyPlaceholderConfigurer的简化配置。</p>
+<p>重写占位符配置器（PropertyOverrideConfigurer）的属性文件指定的信息可以直接覆盖spring配置文件的元数据。这个属性文件应该保持beanid.property=value的形式。beanID是属性占位符试图覆盖的Bean的id，property是试图覆盖的属性名，也就是这个属性文件中把这个bean的所有属性值全部写明了，所以说这个配置文件中的beanid必须是容器中真实存在的bean的id。如果多次覆盖的话，那么最后一次会获胜。<a href="context:property-override...../" target="_blank" rel="noopener">context:property-override...../</a>是对PropertyOverrideConfigurer的简化配置。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/26/20180426-spring/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180424-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -181,9 +269,9 @@
 <p>Bean的依赖关系是由spring完成依赖注入，当A依赖于B,程序请求A的时候，会先初始化B，再把B注入到A，返回A，有的时候可能spring没有自主完成这个操作，所以要在BeanA中利用depends-on属性指定要依赖的B，spring就会完成依赖注入。</p>
 <p>spring可以管理singleton作用域的Bean 的生命周期，spring可以精确的知道该Bean创建，初始化、销毁的时间。</p>
 <h3 id="管理Bean的生命周期"><a href="#管理Bean的生命周期" class="headerlink" title="管理Bean的生命周期"></a>管理Bean的生命周期</h3><p>spring管理生命周期行为的时机主要有两个： 一个是依赖注入之后，一个是即将销毁Bean之前。</p>
-<h3 id="依赖关系注入之后"><a href="#依赖关系注入之后" class="headerlink" title="依赖关系注入之后"></a>依赖关系注入之后</h3><p>有两种方式：一种是使用init-method属性，一种是实现initializingBean接口（侵入式设计，不推荐），这个接口提供了afterPropertiesSet方法，这个方法里指定我们要实现的部分。</p>
+<h3 id="依赖关系注入之后"><a href="#依赖关系注入之后" class="headerlink" title="依赖关系注入之后"></a>依赖关系注入之后</h3><p>有两种方式：一种是使用init-method属性，一种是实现initializingBean接口（侵入式设计，不推荐），这个接口提供了afterPropertiesSet方法，这个方法里指定我们要实现的部分。<strong>两个同时存在的时候先执行afterPropertiesSet，再执行init-method指定的方法。</strong></p>
 <p>init-method的值是这个Bean的某个方法名，指定这个方法在属性设置完成之后执行，BeanNameAware和ApplicationContextAware的执行顺序是先setBeanNameAware，然后setApplicationContext</p>
-<h3 id="Bean销毁之前"><a href="#Bean销毁之前" class="headerlink" title="Bean销毁之前"></a>Bean销毁之前</h3><p>有两种方式：一种是destroy-method属性，一种是实现DisposableBean接口，这个接口有一个destroy方法。在销毁之前执行destroy方法。</p>
+<h3 id="Bean销毁之前"><a href="#Bean销毁之前" class="headerlink" title="Bean销毁之前"></a>Bean销毁之前</h3><p>有两种方式：一种是destroy-method属性，一种是实现DisposableBean接口，这个接口有一个destroy方法。在销毁之前执行destroy方法。<strong>两个同时存在的时候先执行destroy-method指定的方法，再执行destroy方法。</strong></p>
 <p>singleton作用域的Bean通常会随着容器关闭而销毁。在web应用环境下ApplicationContext的关闭不需要考虑，在一个非web应用环境下，需要在JVM里面注册一个关闭钩子，就是调用AbstractApplicationContext中提供的registerShutdownHook（）方法。</p>
 <p>如果说很多bean都需要设置init-method和destroy-method，那么就可以利用default-init-method和default-destroy-method，这两个属性将对beans下面的所有bean生效。</p>
 <h3 id="协调作用域不同步的Bean"><a href="#协调作用域不同步的Bean" class="headerlink" title="协调作用域不同步的Bean"></a>协调作用域不同步的Bean</h3><p>如果一个singleton作用域的Bean A依赖于一个Prototype作用域的Bean B，当spring初始化A的时候，会先初始化B，然后把B注入到A中，形成一个singleton作用域的Bean，每一次通过singleton Bean访问prototype Bean的时候，得到的永远是最初的那个prototype Bean，为了解决这个问题，可以使用方法注入，方法注入通常使用lookup方法注入，有两步：第一步是将调用者Bean的实现类定义为抽象类，并定义一个抽象方法来返回被依赖的Bean。在bean元素中添加lookup-method子元素，这个子元素有两个属性，一个是name（方法名），一个是bean（被依赖的prototype的bean的id）</p>
@@ -1221,171 +1309,6 @@
 
 
   
-    <article id="post-20171110" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/22/20171110/">20171110</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/22/20171110/" class="archive-article-date">
-  	<time datetime="2018-03-22T08:18:03.719Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="MySQL索引"><a href="#MySQL索引" class="headerlink" title="MySQL索引"></a>MySQL索引</h1><p>普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、单列索引、多列索引、空间索引（只有 MyISAM支持，只能建立在空间数据类型上）。</p>
-<pre><code>create table 表名(
-属性名 数据类型[约束条件]，
-…………
-[UNIQUE|FULLTEXT|SPATIAL] INDEX KEY
-[别名] (属性名[(长度)] [ASC|DESC])
-);
-</code></pre><p>举个栗子</p>
-<pre><code>create table student（
-id int not null primary key auto_increment,
-abd varchar(50),
-index hahaha(id)）;
-</code></pre><p>索引名是hahaha，索引的内容是id列，哈哈哈是别名，如果不指定别名将直接使用列名作为索引名</p>
-<hr>
-<p>在已有表上新建索引</p>
-<pre><code>CREATE [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name 
-ON table_name(属性 [(length)] [ASC | DESC]);
-</code></pre><p>修改表结构添加索引</p>
-<pre><code>alter table 表名 ADD [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name (属性 [(length)] [ASC | DESC]);
-</code></pre><p>注意上面两种的区别，主要需要注意的地方是前者是表名+列名“table_name(属性 [(length)] [ASC | DESC])”，后者是索引名+列名“INDEX index_name (属性 [(length)] [ASC | DESC])”。<br>用show create table 表名可以查看该表的定义</p>
-<h1 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h1><pre><code>delimiter //
-create procedure 存储过程名（参数的输入输出类型 参数名 参数类型，………）
-begin 
-SQL语句
-end//
-</code></pre><p><strong>sql语句中用“；”作为结束标志，所以在定义存储过程之前应该将语句结束标志换成其他字符，更改结束标志可以用关键字“delimiter”。  </strong></p>
-<h1 id="存储函数"><a href="#存储函数" class="headerlink" title="存储函数"></a>存储函数</h1><pre><code>delimiter //
-create function 存储函数名（参数名 参数类型，………）
-returns 返回值类型 
-begin 
-SQL语句
-end//
-</code></pre><p><strong>这个地方需要注意的是返回值类型前面的是returns</strong></p>
-<h2 id="局部变量声明"><a href="#局部变量声明" class="headerlink" title="局部变量声明"></a>局部变量声明</h2><p>declare 变量名 变量类型；<br>局部变量只在某个begin······end块内有效</p>
-<h2 id="会话变量"><a href="#会话变量" class="headerlink" title="会话变量"></a>会话变量</h2><p>会话变量不必声明，可以直接使用，会话变量名以“@”为起始字符。</p>
-<h3 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h3><ol>
-<li>declare 变量名 变量类型 default 默认值；</li>
-<li>set 变量名=值；</li>
-<li>select 字段1名  INTO 变量名 FROM 表名 where condition 。。。。将表中满足condition的部分的字段1的内容赋值给变量。这种方式只能在begin和end之间使用。</li>
-</ol>
-<h2 id="游标"><a href="#游标" class="headerlink" title="游标"></a>游标</h2><p>有时候查询语句的结果是多条语句，使用游标必须先声明</p>
-<pre><code>declare 游标名 cursor for SELECT_STATEMENT
-</code></pre><p>使用游标之前必须“open 游标名”，游标在顺利打开之后可以使用FETCH·····INTO语句来读取数据。</p>
-<pre><code>FETCH 游标名 INTO 变量名········
-</code></pre><p>变量名必须提前定义好，使用完毕之后要关闭游标 “close 游标名”</p>
-<h2 id="流程控制语句"><a href="#流程控制语句" class="headerlink" title="流程控制语句"></a>流程控制语句</h2><h3 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h3><pre><code>IF condition THEN
-ELSE condition THEN
-······
-ELSE
-······
-ENDIF;
-</code></pre><p>CASE语句</p>
-<pre><code>case 变量名
-    when value THEN······
-    when value THEN······
-    else （和switch里面的default类似，默认语句）
-end case;
-</code></pre><h3 id="while循环语句"><a href="#while循环语句" class="headerlink" title="while循环语句"></a>while循环语句</h3><pre><code>while condition do
-·······
-end while; 
-</code></pre><h3 id="loop循环语句"><a href="#loop循环语句" class="headerlink" title="loop循环语句"></a>loop循环语句</h3><pre><code>loop循环名:loop
-·······
-满足条件  leave loop循环名;
-end loop;
-</code></pre><h3 id="repeat循环"><a href="#repeat循环" class="headerlink" title="repeat循环"></a>repeat循环</h3><pre><code>repeat 
-······
-until condition
-end repeat
-</code></pre><p>前面的三种循环中可以使用“iterate label”，和java中的continue关键字同样的作用，直接开始下一次循环</p>
-<h2 id="调用存储过程"><a href="#调用存储过程" class="headerlink" title="调用存储过程"></a>调用存储过程</h2><p>”call 存储过程名（存储过程的参数）;“，在命令行下，这里的参数如果是输入参数就直接输入值，如果是输出参数则使用全局变量，再通过select 输出变量值。</p>
-<h2 id="调用存储函数"><a href="#调用存储函数" class="headerlink" title="调用存储函数"></a>调用存储函数</h2><p>存储函数和MySQL内部函数的使用方法基本相同，“select 存储函数名（存储函数参数）;”</p>
-<h2 id="查看存储过程和函数"><a href="#查看存储过程和函数" class="headerlink" title="查看存储过程和函数"></a>查看存储过程和函数</h2><pre><code>show { procedure | function } status [like &apos;pattern&apos;]
-和
-show create{ procedure | function } 存储过程和函数的名字
-</code></pre><p>第一种只能用like关键字匹配存储过程和函数名称。如果要查看详细定义，需要使用show create语句。</p>
-<p>目前MySQL还不提供对已存在的存储过程和函数的代码进行修改，如果一定要修改只能删除后重新定义。现在只能修改对于存储过程和函数的权限和解释。</p>
-<pre><code>ALTER {PROCEDURE | FUNCTION} sp_name [characteristic……]
-</code></pre><p>参数说明<br>Sp_name，表示存储过程或函数的名称<br>characteristic，表示要修改存储过程的哪个部分<br>Characteristic的取值如下 </p>
-<p>CONTAINS SQL，表示子程序包含SQL语句，但是，不包含读或写数据的语句<br>NO SQL，表示子程序中，不包含SQL语句<br>READS SQL DATA，表示子程序中，包含读数据的语句<br>MODIFIES DATA，表示子程序中，包含写数据的语句<br>SQL SECURITY {DEFINER | INVOKER}，指明谁有权限来执行<br>DEFINER，表示只有定义者，自己才能够执行<br>INVOKER，表示调用者可以执行<br>COMMENT’string’，表示注释信息  </p>
-<h2 id="捕获存储过程中的错误"><a href="#捕获存储过程中的错误" class="headerlink" title="捕获存储过程中的错误"></a>捕获存储过程中的错误</h2><p>预测程序在执行过程中可能出现或遇到的问题<br>先用declare语句定义条件，语法格式如下</p>
-<pre><code>declare 条件名称 CONDITION FOR condition_value
-</code></pre><p>condition_value：SQLSTATE sqlstate_value | mysql_error_code，其实这里类似于给condition_value起了个别名,其实并不是很需要这一步。</p>
-<p>定义处理程序</p>
-<pre><code>declare handler_type handler for condition_value[,...] sp_statement  
-</code></pre><p>其中, handler_type的取值范围：continue | exit<br>这个语句指定每个可以处理一个或多个条件的处理程序。如果产生一个或多个条件，指定的语句被执行。 对一个continue处理程序，当前子程序的执行在执行处理程序语句之后继续。对于exit处理程序，当前begin…end复合语句的执行被终止。</p>
-<p>condition_value的取值范围：sqlstate [value] sqlstate_value | condition_name | sqlwarning | not found | sqlexception | mysql_error_code  </p>
-<p>SQLWARNING是对所有以01开头的SQLSTATE代码的速记。<br>NOT FOUND是对所有以02开头的SQLSTATE代码的速记。<br>SQLEXCEPTION是对所有没有被SQLWARNING或NOT FOUND捕获的SQLSTATE代码的速记。</p>
-<p>sp_statement  是错误处理代码</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/22/20171110/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1471,11 +1394,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1491,15 +1414,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">

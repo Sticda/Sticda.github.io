@@ -139,6 +139,171 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20171110" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/22/20171110/">20171110</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/22/20171110/" class="archive-article-date">
+  	<time datetime="2018-03-22T08:18:03.719Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MySQL索引"><a href="#MySQL索引" class="headerlink" title="MySQL索引"></a>MySQL索引</h1><p>普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、单列索引、多列索引、空间索引（只有 MyISAM支持，只能建立在空间数据类型上）。</p>
+<pre><code>create table 表名(
+属性名 数据类型[约束条件]，
+…………
+[UNIQUE|FULLTEXT|SPATIAL] INDEX KEY
+[别名] (属性名[(长度)] [ASC|DESC])
+);
+</code></pre><p>举个栗子</p>
+<pre><code>create table student（
+id int not null primary key auto_increment,
+abd varchar(50),
+index hahaha(id)）;
+</code></pre><p>索引名是hahaha，索引的内容是id列，哈哈哈是别名，如果不指定别名将直接使用列名作为索引名</p>
+<hr>
+<p>在已有表上新建索引</p>
+<pre><code>CREATE [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name 
+ON table_name(属性 [(length)] [ASC | DESC]);
+</code></pre><p>修改表结构添加索引</p>
+<pre><code>alter table 表名 ADD [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name (属性 [(length)] [ASC | DESC]);
+</code></pre><p>注意上面两种的区别，主要需要注意的地方是前者是表名+列名“table_name(属性 [(length)] [ASC | DESC])”，后者是索引名+列名“INDEX index_name (属性 [(length)] [ASC | DESC])”。<br>用show create table 表名可以查看该表的定义</p>
+<h1 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h1><pre><code>delimiter //
+create procedure 存储过程名（参数的输入输出类型 参数名 参数类型，………）
+begin 
+SQL语句
+end//
+</code></pre><p><strong>sql语句中用“；”作为结束标志，所以在定义存储过程之前应该将语句结束标志换成其他字符，更改结束标志可以用关键字“delimiter”。  </strong></p>
+<h1 id="存储函数"><a href="#存储函数" class="headerlink" title="存储函数"></a>存储函数</h1><pre><code>delimiter //
+create function 存储函数名（参数名 参数类型，………）
+returns 返回值类型 
+begin 
+SQL语句
+end//
+</code></pre><p><strong>这个地方需要注意的是返回值类型前面的是returns</strong></p>
+<h2 id="局部变量声明"><a href="#局部变量声明" class="headerlink" title="局部变量声明"></a>局部变量声明</h2><p>declare 变量名 变量类型；<br>局部变量只在某个begin······end块内有效</p>
+<h2 id="会话变量"><a href="#会话变量" class="headerlink" title="会话变量"></a>会话变量</h2><p>会话变量不必声明，可以直接使用，会话变量名以“@”为起始字符。</p>
+<h3 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h3><ol>
+<li>declare 变量名 变量类型 default 默认值；</li>
+<li>set 变量名=值；</li>
+<li>select 字段1名  INTO 变量名 FROM 表名 where condition 。。。。将表中满足condition的部分的字段1的内容赋值给变量。这种方式只能在begin和end之间使用。</li>
+</ol>
+<h2 id="游标"><a href="#游标" class="headerlink" title="游标"></a>游标</h2><p>有时候查询语句的结果是多条语句，使用游标必须先声明</p>
+<pre><code>declare 游标名 cursor for SELECT_STATEMENT
+</code></pre><p>使用游标之前必须“open 游标名”，游标在顺利打开之后可以使用FETCH·····INTO语句来读取数据。</p>
+<pre><code>FETCH 游标名 INTO 变量名········
+</code></pre><p>变量名必须提前定义好，使用完毕之后要关闭游标 “close 游标名”</p>
+<h2 id="流程控制语句"><a href="#流程控制语句" class="headerlink" title="流程控制语句"></a>流程控制语句</h2><h3 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h3><pre><code>IF condition THEN
+ELSE condition THEN
+······
+ELSE
+······
+ENDIF;
+</code></pre><p>CASE语句</p>
+<pre><code>case 变量名
+    when value THEN······
+    when value THEN······
+    else （和switch里面的default类似，默认语句）
+end case;
+</code></pre><h3 id="while循环语句"><a href="#while循环语句" class="headerlink" title="while循环语句"></a>while循环语句</h3><pre><code>while condition do
+·······
+end while; 
+</code></pre><h3 id="loop循环语句"><a href="#loop循环语句" class="headerlink" title="loop循环语句"></a>loop循环语句</h3><pre><code>loop循环名:loop
+·······
+满足条件  leave loop循环名;
+end loop;
+</code></pre><h3 id="repeat循环"><a href="#repeat循环" class="headerlink" title="repeat循环"></a>repeat循环</h3><pre><code>repeat 
+······
+until condition
+end repeat
+</code></pre><p>前面的三种循环中可以使用“iterate label”，和java中的continue关键字同样的作用，直接开始下一次循环</p>
+<h2 id="调用存储过程"><a href="#调用存储过程" class="headerlink" title="调用存储过程"></a>调用存储过程</h2><p>”call 存储过程名（存储过程的参数）;“，在命令行下，这里的参数如果是输入参数就直接输入值，如果是输出参数则使用全局变量，再通过select 输出变量值。</p>
+<h2 id="调用存储函数"><a href="#调用存储函数" class="headerlink" title="调用存储函数"></a>调用存储函数</h2><p>存储函数和MySQL内部函数的使用方法基本相同，“select 存储函数名（存储函数参数）;”</p>
+<h2 id="查看存储过程和函数"><a href="#查看存储过程和函数" class="headerlink" title="查看存储过程和函数"></a>查看存储过程和函数</h2><pre><code>show { procedure | function } status [like &apos;pattern&apos;]
+和
+show create{ procedure | function } 存储过程和函数的名字
+</code></pre><p>第一种只能用like关键字匹配存储过程和函数名称。如果要查看详细定义，需要使用show create语句。</p>
+<p>目前MySQL还不提供对已存在的存储过程和函数的代码进行修改，如果一定要修改只能删除后重新定义。现在只能修改对于存储过程和函数的权限和解释。</p>
+<pre><code>ALTER {PROCEDURE | FUNCTION} sp_name [characteristic……]
+</code></pre><p>参数说明<br>Sp_name，表示存储过程或函数的名称<br>characteristic，表示要修改存储过程的哪个部分<br>Characteristic的取值如下 </p>
+<p>CONTAINS SQL，表示子程序包含SQL语句，但是，不包含读或写数据的语句<br>NO SQL，表示子程序中，不包含SQL语句<br>READS SQL DATA，表示子程序中，包含读数据的语句<br>MODIFIES DATA，表示子程序中，包含写数据的语句<br>SQL SECURITY {DEFINER | INVOKER}，指明谁有权限来执行<br>DEFINER，表示只有定义者，自己才能够执行<br>INVOKER，表示调用者可以执行<br>COMMENT’string’，表示注释信息  </p>
+<h2 id="捕获存储过程中的错误"><a href="#捕获存储过程中的错误" class="headerlink" title="捕获存储过程中的错误"></a>捕获存储过程中的错误</h2><p>预测程序在执行过程中可能出现或遇到的问题<br>先用declare语句定义条件，语法格式如下</p>
+<pre><code>declare 条件名称 CONDITION FOR condition_value
+</code></pre><p>condition_value：SQLSTATE sqlstate_value | mysql_error_code，其实这里类似于给condition_value起了个别名,其实并不是很需要这一步。</p>
+<p>定义处理程序</p>
+<pre><code>declare handler_type handler for condition_value[,...] sp_statement  
+</code></pre><p>其中, handler_type的取值范围：continue | exit<br>这个语句指定每个可以处理一个或多个条件的处理程序。如果产生一个或多个条件，指定的语句被执行。 对一个continue处理程序，当前子程序的执行在执行处理程序语句之后继续。对于exit处理程序，当前begin…end复合语句的执行被终止。</p>
+<p>condition_value的取值范围：sqlstate [value] sqlstate_value | condition_name | sqlwarning | not found | sqlexception | mysql_error_code  </p>
+<p>SQLWARNING是对所有以01开头的SQLSTATE代码的速记。<br>NOT FOUND是对所有以02开头的SQLSTATE代码的速记。<br>SQLEXCEPTION是对所有没有被SQLWARNING或NOT FOUND捕获的SQLSTATE代码的速记。</p>
+<p>sp_statement  是错误处理代码</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/22/20171110/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180319-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1242,123 +1407,6 @@ type=&quot;想要指定的类型&quot;/&gt;
 
 
   
-    <article id="post-20171219" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/15/20171219/">20171219</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/15/20171219/" class="archive-article-date">
-  	<time datetime="2017-12-15T06:54:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h1><p>HttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null</p>
-<p>如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可以通过使用HttpSession的setAttribute方法将相关信息设置为属性。</p>
-<p>HttpSession的invalidate（）方法可以直接使目前的HttpSession失效，可以用来实现注销机制。</p>
-<p>浏览器默认将SessionID存放在本地的cookie中，Cookie会在浏览器请求应用程序的时候被发送到应用程序。Web容器存储SessionId 的Cookie被默认设置为关闭浏览器就会失效，所以重新打开浏览器请求应用程序的时候通过getSession获得是新的HttpSession对象，如果浏览器没有被关闭，那么每次请求来到应用程序的时候容器会根据SessionID取得相应的HttpSession。可以使用serMaxAge（）来设置Cookie的有效期限</p>
-<p>Session的另一种实现方式是URL重写，服务器向浏览器响应一段超链接，超链接URL后附加SessionID，当用户点击超链接时，则将SessionID以GET请求方式发送给Web应用程序。response.encodeURL协助产生所需的URL重写，如果禁用Cookie的话，encodeURL会自动产生带有SessionID的URL重写。</p>
-<p>HttpSession用于当次会话阶段的状态维持，如果有相关的信息希望在关闭浏览器后，下次打开浏览器请求web应用程序时，仍然可以发送给应用程序，则需要使用Cookie。</p>
-<p>执行HttpSession的setMaxInactiveInterval（）方法，设置的是HttpSession对象在浏览器多久没活动就失效的时间，而不是保存SessionID的cookie失效的时间</p>
-<h1 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h1><p>Servlet的生命周期大概是init（）、service（）、destroy（）,service决定要调用什么函数响应浏览器的响应。过滤器（Filter）位于Servlet之前，可以拦截过滤浏览器对Servlet的请求 </p>
-<p>实现Filter接口，Filter接口有三个要实现的方法init（）、dofilter（）、destroy()</p>
-<p>web.xml中定义过滤器对象时设置了初始参数，可以通过FilterConfig的getInitParameter方法来获取初始参数，设置参数和Servlet很类似，都是在声明的时候在一个init-param</p>
-<p>当请求来到容器，容器发现了调用了servlet的service方法之前，可以应用某个过滤器，就会调用该过滤器的dofilter方法，然后决定是否调用FilterChain的doFilter方法。</p>
-<pre><code>//service()前置处理
-chain.doFilter(request,response);
-//service（）后置处理
-</code></pre><p>FilterChain执行过后会以堆栈顺序返回</p>
-<pre><code>&lt;filter-mapping&gt;
-&lt;filter-name&gt;PerformanceFilter&lt;/filter-name&gt;
-&lt;url-pattern&gt;/index&lt;/url-pattern&gt;哪些URL请求将应用此过滤器
-&lt;servlet-name&gt;SessionDemo&lt;/servlet-name&gt;或者是通过这个来指定Servlet名称，表示哪些Servlet将应用到此过滤器上
-&lt;/filter-mapping&gt;
-</code></pre><p>如果想要一次性符合所有Servlet名称，则可以使用 *号</p>
-<p>触发过滤器的时机，默认是浏览器直接发出请求，如果是通过RequestDispatcher的forward和include的请求，则可以在web.xml中设置dispatcher标签，指定那些请求转发类型可以触发过滤器。</p>
-<pre><code>&lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;
-&lt;dispatcher&gt;ERROR&lt;/dispatcher&gt;
-&lt;dispatcher&gt;INCLUDE&lt;/dispatcher&gt;
-&lt;dispatcher&gt;FORWARD&lt;/dispatcher&gt;
-</code></pre><p>过滤器可以进行一些前置和后置处理，在service方法执行前改变请求对象的信息，或者改变响应，就需要利用封装器Wrapper，HttpServletRequestWrapper中实现了HttpServletRequest的getParameter方法，可以把requestWrapper当作request使用。</p>
-<h1 id="响应封装器"><a href="#响应封装器" class="headerlink" title="响应封装器"></a><strong>响应封装器</strong></h1><p>对浏览器进行输出响应，必须通过getWriter获得PrintWriter或者getOutputStream获得ServletOutputStream两种方法，针对压缩输出的需求，主要是继承HttpServletResponseWrapper之后，重写这两个方法。</p>
-<hr>
-<h1 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h1><p>Servlet/JSP中的监听器可以分为三个类别</p>
-<h2 id="生命周期监听器"><a href="#生命周期监听器" class="headerlink" title="生命周期监听器"></a>生命周期监听器</h2><p>在某个对象生成到被容器销毁之前，监听对象生命周期的状态改变</p>
-<ol>
-<li>ServletContextListener： contextInitialized（）与contextDestroyed（），通过传入的ServletContextEvent取得ServletContext。</li>
-<li>ServletRequestListener： RequestInitialized（）与RequestDestroyed（），通过传入的ServletRequestEvent取得ServletRequest。</li>
-<li>HttpSessionListener： SessionInitialized（）与SessionDestroyed（），通过传入的HttpSessionEvent取得HttpSession。</li>
-</ol>
-<p>##属性操作监听器</p>
-<p>ServletContext、HttpSession、ServletRequest，对象的属性发生变化时进行一些动作，监听器的参数XxxxxxEvent代表事件，有getName和gatValue的方法</p>
-<p>ServletContextAttributeListener、HttpSessionAttributeListener、ServletRequestAttributeListener</p>
-<p>HttpSessionAttributeListener的事件名称是HttpSessionBindingEvent</p>
-<p>##会话属性类监听器（不需要在web.xml中声明）</p>
-<p>如果有个即将加入HttpSession的属性对象，希望在成为HttpSession或者被删除的时候得到通知，需要实现HttpSessionBindingListener，属性被加入到HttpSession或从中删除的时候，就会调用对应的valueBound与valueUNbound方法，并传入HttpSessionBindingEvent</p>
-<p>HttpSessionActivationListener的主要作用在于将HttpSession从一个JVM迁移到另外一个的时候需要序列化，如果一个对象实现了这个监听器，在序列化的时候就会<br>调用sessionWillPassivate，反序列化的时候调用sessionDidActivate</p>
-<p>在web.xml中对于servlet进行设置的时候，可以添加标签load-on-startup，表示在应用程序启动的时候就将servlet进行实例化并做好初始化</p>
-<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a><url-pattern>设置</url-pattern></h2><ol>
-<li><p>完全符合模式：以斜杠开头，从web应用程序环境的根目录开始，指定完整的URL模式</p>
-</li>
-<li><p>目录符合模式：以目录开头，之后加星号，某个目录下的所有URL都交由某个Servlet处理。”/guest/*”</p>
-</li>
-<li>扩展名符合模式：以某个扩展名为结尾的所有URL请求，都交由对应的Servlet处理，可以使用星号作为开头.“*.do”</li>
-</ol>
-<p>如果url请求在模式有重合的时候，按照从1到3的顺序</p>
-<p>welcome-file-list标签中使用<welcome-file>来设置默认欢迎界面，不能以斜杠开头，如果浏览器请求的/hhh/user不存在的时候，容器会按照welcome-file-list的顺序依次打开/hhh/user/（welcome-file中包含的文件），找不到的时候会到上一层/hhh去寻找/hhh/（welcome-file中包含的文件）。</welcome-file></p>
-<p>如果发生错误的时候又没有处理，容器会直接显示错误信息，可以通过在web.xml中设置error-page进行设置。error-page的标签里还可以使用exception-type和location的组合来决定不同的type去往不同的错误界面，如果想要把http的错误状态码发送到处理页面，还可以加入error-code标签</p>
-<p>为了让浏览器知道如何处理收到的串流数据，需要告知MIME类型，如果在web.xml中设置了mime-mapping，则可以通过ServletContext的getMimeType（）方法获取MIME类型，这个方法的参数是文件名称，自动匹配对应的扩展名</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/15/20171219/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1444,11 +1492,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1464,15 +1512,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">

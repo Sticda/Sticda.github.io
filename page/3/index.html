@@ -139,6 +139,123 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20171219" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/15/20171219/">20171219</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/15/20171219/" class="archive-article-date">
+  	<time datetime="2017-12-15T06:54:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h1><p>HttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null</p>
+<p>如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可以通过使用HttpSession的setAttribute方法将相关信息设置为属性。</p>
+<p>HttpSession的invalidate（）方法可以直接使目前的HttpSession失效，可以用来实现注销机制。</p>
+<p>浏览器默认将SessionID存放在本地的cookie中，Cookie会在浏览器请求应用程序的时候被发送到应用程序。Web容器存储SessionId 的Cookie被默认设置为关闭浏览器就会失效，所以重新打开浏览器请求应用程序的时候通过getSession获得是新的HttpSession对象，如果浏览器没有被关闭，那么每次请求来到应用程序的时候容器会根据SessionID取得相应的HttpSession。可以使用serMaxAge（）来设置Cookie的有效期限</p>
+<p>Session的另一种实现方式是URL重写，服务器向浏览器响应一段超链接，超链接URL后附加SessionID，当用户点击超链接时，则将SessionID以GET请求方式发送给Web应用程序。response.encodeURL协助产生所需的URL重写，如果禁用Cookie的话，encodeURL会自动产生带有SessionID的URL重写。</p>
+<p>HttpSession用于当次会话阶段的状态维持，如果有相关的信息希望在关闭浏览器后，下次打开浏览器请求web应用程序时，仍然可以发送给应用程序，则需要使用Cookie。</p>
+<p>执行HttpSession的setMaxInactiveInterval（）方法，设置的是HttpSession对象在浏览器多久没活动就失效的时间，而不是保存SessionID的cookie失效的时间</p>
+<h1 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h1><p>Servlet的生命周期大概是init（）、service（）、destroy（）,service决定要调用什么函数响应浏览器的响应。过滤器（Filter）位于Servlet之前，可以拦截过滤浏览器对Servlet的请求 </p>
+<p>实现Filter接口，Filter接口有三个要实现的方法init（）、dofilter（）、destroy()</p>
+<p>web.xml中定义过滤器对象时设置了初始参数，可以通过FilterConfig的getInitParameter方法来获取初始参数，设置参数和Servlet很类似，都是在声明的时候在一个init-param</p>
+<p>当请求来到容器，容器发现了调用了servlet的service方法之前，可以应用某个过滤器，就会调用该过滤器的dofilter方法，然后决定是否调用FilterChain的doFilter方法。</p>
+<pre><code>//service()前置处理
+chain.doFilter(request,response);
+//service（）后置处理
+</code></pre><p>FilterChain执行过后会以堆栈顺序返回</p>
+<pre><code>&lt;filter-mapping&gt;
+&lt;filter-name&gt;PerformanceFilter&lt;/filter-name&gt;
+&lt;url-pattern&gt;/index&lt;/url-pattern&gt;哪些URL请求将应用此过滤器
+&lt;servlet-name&gt;SessionDemo&lt;/servlet-name&gt;或者是通过这个来指定Servlet名称，表示哪些Servlet将应用到此过滤器上
+&lt;/filter-mapping&gt;
+</code></pre><p>如果想要一次性符合所有Servlet名称，则可以使用 *号</p>
+<p>触发过滤器的时机，默认是浏览器直接发出请求，如果是通过RequestDispatcher的forward和include的请求，则可以在web.xml中设置dispatcher标签，指定那些请求转发类型可以触发过滤器。</p>
+<pre><code>&lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;
+&lt;dispatcher&gt;ERROR&lt;/dispatcher&gt;
+&lt;dispatcher&gt;INCLUDE&lt;/dispatcher&gt;
+&lt;dispatcher&gt;FORWARD&lt;/dispatcher&gt;
+</code></pre><p>过滤器可以进行一些前置和后置处理，在service方法执行前改变请求对象的信息，或者改变响应，就需要利用封装器Wrapper，HttpServletRequestWrapper中实现了HttpServletRequest的getParameter方法，可以把requestWrapper当作request使用。</p>
+<h1 id="响应封装器"><a href="#响应封装器" class="headerlink" title="响应封装器"></a><strong>响应封装器</strong></h1><p>对浏览器进行输出响应，必须通过getWriter获得PrintWriter或者getOutputStream获得ServletOutputStream两种方法，针对压缩输出的需求，主要是继承HttpServletResponseWrapper之后，重写这两个方法。</p>
+<hr>
+<h1 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h1><p>Servlet/JSP中的监听器可以分为三个类别</p>
+<h2 id="生命周期监听器"><a href="#生命周期监听器" class="headerlink" title="生命周期监听器"></a>生命周期监听器</h2><p>在某个对象生成到被容器销毁之前，监听对象生命周期的状态改变</p>
+<ol>
+<li>ServletContextListener： contextInitialized（）与contextDestroyed（），通过传入的ServletContextEvent取得ServletContext。</li>
+<li>ServletRequestListener： RequestInitialized（）与RequestDestroyed（），通过传入的ServletRequestEvent取得ServletRequest。</li>
+<li>HttpSessionListener： SessionInitialized（）与SessionDestroyed（），通过传入的HttpSessionEvent取得HttpSession。</li>
+</ol>
+<p>##属性操作监听器</p>
+<p>ServletContext、HttpSession、ServletRequest，对象的属性发生变化时进行一些动作，监听器的参数XxxxxxEvent代表事件，有getName和gatValue的方法</p>
+<p>ServletContextAttributeListener、HttpSessionAttributeListener、ServletRequestAttributeListener</p>
+<p>HttpSessionAttributeListener的事件名称是HttpSessionBindingEvent</p>
+<p>##会话属性类监听器（不需要在web.xml中声明）</p>
+<p>如果有个即将加入HttpSession的属性对象，希望在成为HttpSession或者被删除的时候得到通知，需要实现HttpSessionBindingListener，属性被加入到HttpSession或从中删除的时候，就会调用对应的valueBound与valueUNbound方法，并传入HttpSessionBindingEvent</p>
+<p>HttpSessionActivationListener的主要作用在于将HttpSession从一个JVM迁移到另外一个的时候需要序列化，如果一个对象实现了这个监听器，在序列化的时候就会<br>调用sessionWillPassivate，反序列化的时候调用sessionDidActivate</p>
+<p>在web.xml中对于servlet进行设置的时候，可以添加标签load-on-startup，表示在应用程序启动的时候就将servlet进行实例化并做好初始化</p>
+<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a><url-pattern>设置</url-pattern></h2><ol>
+<li><p>完全符合模式：以斜杠开头，从web应用程序环境的根目录开始，指定完整的URL模式</p>
+</li>
+<li><p>目录符合模式：以目录开头，之后加星号，某个目录下的所有URL都交由某个Servlet处理。”/guest/*”</p>
+</li>
+<li>扩展名符合模式：以某个扩展名为结尾的所有URL请求，都交由对应的Servlet处理，可以使用星号作为开头.“*.do”</li>
+</ol>
+<p>如果url请求在模式有重合的时候，按照从1到3的顺序</p>
+<p>welcome-file-list标签中使用<welcome-file>来设置默认欢迎界面，不能以斜杠开头，如果浏览器请求的/hhh/user不存在的时候，容器会按照welcome-file-list的顺序依次打开/hhh/user/（welcome-file中包含的文件），找不到的时候会到上一层/hhh去寻找/hhh/（welcome-file中包含的文件）。</welcome-file></p>
+<p>如果发生错误的时候又没有处理，容器会直接显示错误信息，可以通过在web.xml中设置error-page进行设置。error-page的标签里还可以使用exception-type和location的组合来决定不同的type去往不同的错误界面，如果想要把http的错误状态码发送到处理页面，还可以加入error-code标签</p>
+<p>为了让浏览器知道如何处理收到的串流数据，需要告知MIME类型，如果在web.xml中设置了mime-mapping，则可以通过ServletContext的getMimeType（）方法获取MIME类型，这个方法的参数是文件名称，自动匹配对应的扩展名</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/15/20171219/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20171211" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -587,11 +704,11 @@ unlock tables；
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -997,97 +1114,6 @@ limit count
 
 
   
-    <article id="post-20170926" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/23/20170926/">20170926</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/23/20170926/" class="archive-article-date">
-  	<time datetime="2017-09-23T02:19:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》，</p>
-<p>虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。</p>
-<ol>
-<li>程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。</li>
-<li>虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI编写的方法，这里就要说到虚拟机栈和本地方法栈中的内容了，首先这两个栈肯定也是线程私有的，因为每一个线程都有自己调用的不同方法，虚拟机栈和本地方法栈中的最小单元是栈帧，栈帧也就是每一个方法产生的结构，每一个栈帧中都有局部变量表、操作数栈、动态连接和返回地址，局部变量表的最小单位是slot，一般情况下只有float和double需要两个slot存放，操作数栈也是，操作数栈和局部变量表的大小在java代码编译之后就已经写入class文件中了，动态连接的内容是运行时常量池这个方法的一个引用，因为在方法执行过程中可能需要动态连接，所以要在栈帧中保持这个信息，返回地址肯定是需要的，因为每一个栈帧代表一个方法，这个方法执行完成之后肯定需要回到原来的地方，所以就需要每个栈帧拥有自己的返回地址。</li>
-<li>方法区和堆是线程共享的，方法区里面包含类的信息，版本，以及经过的编译的代码，方法区内部有运行时常量池，运行时常量池中存放着class编译期生成的各种字面量和符号引用所转变出来的直接引用，堆的主要内容是新建的对象，线程需要使用的时候，从堆里把内容拿出来，然后对照着方法区里类的格式区分堆里对象每一个部分代表的意义。</li>
-</ol>
-<p>class文件中存放的是经过编译的内容，常量池，字段表，方法表，属性表。常量池里面是一些字面量和符号引用，字段表的主要内容是访问标志、名称索引、描述符索引、属性数量和属性值。方法表的内容也是和字段表差不多。<br>另外一块内容是java的垃圾收集器和内存分配策略。java的GC机制算是java的一大特色了。垃圾回收主要有三个主要的问题，判断对象是否已经废弃，怎么回收，何时回收。</p>
-<ol>
-<li>对象是否已死有两种办法，引用计数算法和可达性分析算法。引用计数算法是为每一个对象保留一个引用计数器，如果这个对象被引用就加1，被引用的对象被销毁就减1，不能解决相互引用的问题，比如说ab相互引用，但ab已经不会被用到了，所以就不能被回收。所以主流算法采用的方法都是可达性分析算法，一般选择GC Roots，当一个对象和GC roots之间不能可达的时候就说明这个对象已经死了。但是真正要回收一个对象所占的内存，还需要观察这个对象是否需要有必要执行finalize()方法，方法区也需要回收</li>
-<li>垃圾回收算法有三个：标记清除算法。复制算法。标记清除算法；标记清除就是标记已死亡的内存然后直接清理。复制算法是有两块半区，一块满了就把所有未死亡的对象复制到另一块上，把原先的那块全部清除。。标记整理算法是把标记已死亡的内存都清理，然后把活着的对象都向一端移动，直接清除活着的对象之外的所有的内存。</li>
-<li>算法执行在安全点或者安全区，安全点就是程序长时间执行的地方。</li>
-</ol>
-<p>垃圾收集器的种类。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/23/20170926/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1173,11 +1199,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1193,15 +1219,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">

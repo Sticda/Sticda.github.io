@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/24/20180424-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。，这个类">
-<meta property="og:updated_time" content="2018-04-26T03:10:39.068Z">
+<meta property="og:updated_time" content="2018-04-26T08:17:57.846Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180424 spring">
 <meta name="twitter:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。，这个类">
@@ -184,9 +184,9 @@
 <p>Bean的依赖关系是由spring完成依赖注入，当A依赖于B,程序请求A的时候，会先初始化B，再把B注入到A，返回A，有的时候可能spring没有自主完成这个操作，所以要在BeanA中利用depends-on属性指定要依赖的B，spring就会完成依赖注入。</p>
 <p>spring可以管理singleton作用域的Bean 的生命周期，spring可以精确的知道该Bean创建，初始化、销毁的时间。</p>
 <h3 id="管理Bean的生命周期"><a href="#管理Bean的生命周期" class="headerlink" title="管理Bean的生命周期"></a>管理Bean的生命周期</h3><p>spring管理生命周期行为的时机主要有两个： 一个是依赖注入之后，一个是即将销毁Bean之前。</p>
-<h3 id="依赖关系注入之后"><a href="#依赖关系注入之后" class="headerlink" title="依赖关系注入之后"></a>依赖关系注入之后</h3><p>有两种方式：一种是使用init-method属性，一种是实现initializingBean接口（侵入式设计，不推荐），这个接口提供了afterPropertiesSet方法，这个方法里指定我们要实现的部分。</p>
+<h3 id="依赖关系注入之后"><a href="#依赖关系注入之后" class="headerlink" title="依赖关系注入之后"></a>依赖关系注入之后</h3><p>有两种方式：一种是使用init-method属性，一种是实现initializingBean接口（侵入式设计，不推荐），这个接口提供了afterPropertiesSet方法，这个方法里指定我们要实现的部分。<strong>两个同时存在的时候先执行afterPropertiesSet，再执行init-method指定的方法。</strong></p>
 <p>init-method的值是这个Bean的某个方法名，指定这个方法在属性设置完成之后执行，BeanNameAware和ApplicationContextAware的执行顺序是先setBeanNameAware，然后setApplicationContext</p>
-<h3 id="Bean销毁之前"><a href="#Bean销毁之前" class="headerlink" title="Bean销毁之前"></a>Bean销毁之前</h3><p>有两种方式：一种是destroy-method属性，一种是实现DisposableBean接口，这个接口有一个destroy方法。在销毁之前执行destroy方法。</p>
+<h3 id="Bean销毁之前"><a href="#Bean销毁之前" class="headerlink" title="Bean销毁之前"></a>Bean销毁之前</h3><p>有两种方式：一种是destroy-method属性，一种是实现DisposableBean接口，这个接口有一个destroy方法。在销毁之前执行destroy方法。<strong>两个同时存在的时候先执行destroy-method指定的方法，再执行destroy方法。</strong></p>
 <p>singleton作用域的Bean通常会随着容器关闭而销毁。在web应用环境下ApplicationContext的关闭不需要考虑，在一个非web应用环境下，需要在JVM里面注册一个关闭钩子，就是调用AbstractApplicationContext中提供的registerShutdownHook（）方法。</p>
 <p>如果说很多bean都需要设置init-method和destroy-method，那么就可以利用default-init-method和default-destroy-method，这两个属性将对beans下面的所有bean生效。</p>
 <h3 id="协调作用域不同步的Bean"><a href="#协调作用域不同步的Bean" class="headerlink" title="协调作用域不同步的Bean"></a>协调作用域不同步的Bean</h3><p>如果一个singleton作用域的Bean A依赖于一个Prototype作用域的Bean B，当spring初始化A的时候，会先初始化B，然后把B注入到A中，形成一个singleton作用域的Bean，每一次通过singleton Bean访问prototype Bean的时候，得到的永远是最初的那个prototype Bean，为了解决这个问题，可以使用方法注入，方法注入通常使用lookup方法注入，有两步：第一步是将调用者Bean的实现类定义为抽象类，并定义一个抽象方法来返回被依赖的Bean。在bean元素中添加lookup-method子元素，这个子元素有两个属性，一个是name（方法名），一个是bean（被依赖的prototype的bean的id）</p>
@@ -265,6 +265,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/04/26/20180426-spring/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          20180426 spring
+        
+      </div>
+    </a>
   
   
     <a href="/2018/04/19/20180419-spring/" id="article-nav-older" class="article-nav-link-wrap">
@@ -424,11 +433,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -444,15 +453,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
