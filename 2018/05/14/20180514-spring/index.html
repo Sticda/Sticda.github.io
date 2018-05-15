@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/8 | Sticda</title>
+  <title>20180514 spring | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Sticda">
-<meta property="og:url" content="http://yoursite.com/archives/2017/08/index.html">
+  <meta name="description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
+<meta name="keywords" content="笔记,spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20180514 spring">
+<meta property="og:url" content="http://yoursite.com/2018/05/14/20180514-spring/index.html">
 <meta property="og:site_name" content="Sticda">
+<meta property="og:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
+<meta property="og:updated_time" content="2018-05-15T08:54:08.815Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Sticda">
+<meta name="twitter:title" content="20180514 spring">
+<meta name="twitter:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -137,102 +142,216 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-20180514-spring" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/07/个人项目服务器端之数据库部分/" class="archive-article-date">
-  	<time datetime="2017-08-07T02:57:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-07</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/07/个人项目服务器端之数据库部分/">个人项目服务器端之数据库部分</a>
+    <h1 class="article-title" itemprop="name">
+      20180514 spring
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/05/14/20180514-spring/" class="archive-article-date">
+  	<time datetime="2018-05-14T03:08:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-14</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容实现依赖注入，利用标签库p的res属性配置资源位置，可以通过前缀指明spring采取的资源访问策略，如果不采用前缀，则spring将采用与ApplicationContext相同的资源访问策略。采取依赖注入的方法就允许动态配置资源文件的位置，无须将资源文件位置写在代码中，当资源文件位置发生变化时，直接修改配置文件。</p>
+<p>在ApplicationContext中确定资源访问策略通常有两种方法，一种是使用ApplicationContext实现类（类似ClassPathXMLApplicationContext一类的。）指定访问策略，另一种是使用前缀指定访问策略。通过前缀指定资源访问策略的方式仅仅对当次访问有效，程序后面进行资源访问的时候，仍然会根据ApplicationContext的实现类来选择对应的资源访问策略。</p>
+<p>classpath*：前缀指定xml配置文件时，系统将搜索类加载路径，找出所有与文件名匹配的文件，然后依次加载文件中的配置定义。classpath就只会加载第一个文件名匹配的文件。一次性加载多个配置文件的方法还有在指定文件的时候使用通配符，A*.xml会加载所有以A开头的xml文件。</p>
+<p>file：前缀可以指定绝对路径和相对路径，但是在FileSystemXMLApplicationContext就会把所有的绝对路径当做相对路径处理。绝对路径以文件系统根路径为路径起点，相对路径以当前工作路径为路径起点。</p>
+<h2 id="Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><a href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）" class="headerlink" title="Spring的AOP（面向切面编程，Aspect Orient Programming）"></a>Spring的AOP（面向切面编程，Aspect Orient Programming）</h2><p>AspectJ是java语言的一个AOP实现，一个部分定义了如何表达、定义AOP编程中的语法规范，另一个部分是工具部分，包括编译器、调试工具等。</p>
+<p>可以添加特殊的java类，就是定义类的时候把class关键字换成aspect（只有aspectj才能识别的关键字），并且在类的定义内容中设置什么时候执行一些具体的内容。“ajc -d . *.java”可以使用ajc.bat编译java程序。</p>
+<p>定义切入点表达式Pointcut（），切入点表达式就是定义可能触发操作的特殊场合。proceed方法代表回调远爱的目标方法，就是可以在目标方法前后添加业务代码。</p>
+<p>AOP的本质是依然去修改多个业务代码的源代码，只是这个修改由AOP框架完成。AOP实现可以分为两类（区分的标准是AOP框架修改源代码的时机），一种是静态AOP（在编译阶段生成目标类的代理类）Aspectj，一种是动态AOP（在运行阶段生成AOP代理类）Spring AOP。</p>
+<p>面向切面编程的一些术语：</p>
+<ol>
+<li>切面（aspect）：切面用于组织多个advice，Advice在切面中定义。</li>
+<li>连接点（JointPoint）：程序执行过程中明确的点</li>
+<li>增强处理（Advice）：AOP框架在特定的切入点执行增加处理，处理类型有around、before、after。</li>
+<li>切入点（Pointcut）：可以插入增强处理的连接点。</li>
+<li>引入：将方法或者字段添加到被处理的类中。</li>
+<li>目标对象：被AOP框架进行增强处理的对象</li>
+<li>AOP代理：AOP框架创建的对象，代理就是对目标对象的增强。</li>
+<li>织入（Weaving）：将增强处理添加到目标对象中，并创建一个被增强的对象（AOP代理）。</li>
+</ol>
+<p>spring中的AOP代理由spring的IOC容器负责生成、管理，依赖关系也由IOC容器负责。</p>
+<p>spring目前只支持将方法调用作为连接点，如果需要把对成员变量的访问和更新也作为增强处理的连接点，则考虑使用aspectj。</p>
+<p>spring提供了两种定义切入点和增强处理的方式：</p>
+<ol>
+<li>基于注解的“零配置”方式</li>
+<li>基于XML配置文件的管理方式</li>
+</ol>
+<h3 id="基于注解的“零配置”方式"><a href="#基于注解的“零配置”方式" class="headerlink" title="基于注解的“零配置”方式"></a>基于注解的“零配置”方式</h3><p>为了启用spring对@AspectJ<strong>切面配置</strong>的支持，需要在spring的配置文件中增加aop：aspectj-autoproxy，除此之外还需要添加一个bean ，class是AnnotationAwareAspectJAutoProxyCreator，这个类是一个Bean后处理器，该Bean后处理器会为容器中的所有Bean生成AOP处理。使用aspectj需要添加特定的jar包</p>
+<ol>
+<li>定义切面Bean：@Aspect，使用该注解修饰一个Java类，spring就不会把该Bean当作组件Bean处理，负责自动增强处理的后处理Bean将会略过该Bean，不会对该Bean进行增强处理。</li>
+<li>定义Before增强处理，@Before，这个注解的value值就是切入点，可以是已有的切入点，也可以直接定义。</li>
+<li>定义AfterReturning，@AfterReturning有两个属性，一个是Pointcut/value，就是用来指定切入点的，另一个属性是returning，该属性值指定一个形参名，用于访问目标方法的返回值，只能访问，不能修改。就是该注解修饰的方法的一个参数，当触发切入点定义的条件时，就会执行注解修饰的方法，这个形参的类型能够在一定程度上过滤方法，<strong>不仅仅是符合切入点定义的方法，而且还要这个方法的返回值是形参的类型或者没有返回值，这样的方法才会被自动增强处理</strong>。</li>
+<li>定义AfterThrowing，AfterThrowing增强处理主要用于处理程序中未处理的异常。pointcut/value和throwing，throwing也是一个 形参，在Advice方法中定义该形参的时候指定类型，会限制目标方法必须抛出指定类型的异常才会被处理，而且异常仍然会继续传播。</li>
+<li>@After，无论如何该注解指明的增强处理都会被织入，类似finally块。</li>
+<li>@Around增强处理，类似于before和AfterReturning的总和，定义一个Around增强处理方法的时候，第一个形参必须是ProceedingJoinPoint类型，也就是说这个方法至少包含一个形参，在增强处理方法体内，调用ProceedingJoinPoint参数的proceed方法才会执行目标方法，这个方法可以添加一个object[]数组做参数。但是这个数组的长度跟目标方法的参数类型或者个数不匹配的时候程序就会出现异常。</li>
+<li>访问目标方法的参数就是通过JointPoint类型，ProceedingJoinPoint是JointPoint的子类。</li>
+</ol>
+<p>织入的时候，在进入连接点的时候，优先级高的增强处理会被优先织入（优先级高的先执行），离开连接点的时候，优先级高的增强处理会最后被织入（优先级高的最后执行）</p>
+<p>当不同切面的增强处理需要在同一个连接点被织入的时候，spring AOP将会以随机的顺序插入，要有先后的顺序可以通过@Order注解指定一个int型的value，这个值越小优先级越高，也可以实现一个springframwork的Ordered接口，同样返回值越小优先级越高。</p>
+<p>spring还提供了一种在切入点定义的时候利用args表达式绑定目标方法的参数，@AfterReturning（returning=“rvt”，pointcut=“execution（<em> 全限定报名.</em>..*”(..)) &amp;&amp; args(arg0,arg1)”)，通过在pointcut中增加args（arg0，arg1）会限制目标方法必须有两个形参，在注解修饰的方法中指定了这两个参数的类型之后，这个增强处理就只会匹配指定类型和形参数目的目标方法。args（哈hhh，..）表示可以匹配多个参数。</p>
+<p>Spring AOP只支持将Spring Bean的方法执行作为连接点，所以可以把切入点看成所有能和切入点表达式匹配的Bean方法。</p>
+<p>切入点定义包含两个部分，一个切入点表达式和一个包含名字和任意参数的方法签名。简单来说就是这个方法签名就是这个切入点的名字，而@Pointcut就是表明这是一个切入点定义，该注解的值就是注入点表达式，切入点签名用一个方法体为空，返回值为void的方法定义提供。这个方法签名中的权限修饰符（private、public等）决定了其他切面类和其他包里的切面类是否可以使用这个切入点。pointcut=“切入点名称（）”，如果是调用其他切面类的切入点必须加上类名前缀。  </p>
+<p>Spring AOP有以下几个比较常用的切入点指示符</p>
+<ol>
+<li>execution：用于匹配执行方法的连接点</li>
+</ol>
+<p>execution（方法修饰符？返回值类型 方法所属的类？ 指定匹配的方法名（指定方法声明中的形参列表）指定方法声明抛出的异常？）</p>
+<p>带问号的部分可以被省略。</p>
+<ol>
+<li>within：用于限定匹配特定类型的连接点</li>
+<li>this:用于限定AOP代理必须是指定类型的实例,匹配该对象的所有连接点.</li>
+<li>target:用于限定目标对象必须是指定类型的实例,匹配该对象的所有连接点.</li>
+<li>args:用于对连接点的参数类型进行限制.</li>
+<li>bean:用于限制只匹配指定Bean实例内的连接点</li>
+</ol>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/03/20170802/" class="archive-article-date">
-  	<time datetime="2017-08-03T03:17:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-03</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/26/20180426-spring/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">20180426 spring</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/03/20170802/">算是个开始吧</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><span class="toc-number">2.1.</span> <span class="toc-text">Spring的AOP（面向切面编程，Aspect Orient Programming）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于注解的“零配置”方式"><span class="toc-number">2.1.1.</span> <span class="toc-text">基于注解的“零配置”方式</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="20180514-spring" data-title="20180514 spring" data-url="http://yoursite.com/2018/05/14/20180514-spring/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
   
-    </div></section>
+  
+  <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: "http://yoursite.com/2018/05/14/20180514-spring/", 
+    sourceId: "20180514-spring",
+    productKey: "true",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="//img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -255,8 +374,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

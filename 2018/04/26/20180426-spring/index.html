@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/26/20180426-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="写在前面spring的最后一章，也是这本书基础知识介绍的最后一章了，看完这一章基本上spring和struts、hibernate的整合应该没什么问题了，编程这种事一定要提前开始，现在把前面看的基本上忘完了，这本书看完了基本上就要开始自己动手完成一个项目了。 正文Spring框架提供了很好的扩展性，除了与各种第三方框架良好整合之外，IOC容器也允许进行扩展，spring提供了两种常用的后处理器。">
-<meta property="og:updated_time" content="2018-05-03T01:46:32.910Z">
+<meta property="og:updated_time" content="2018-05-03T07:38:04.283Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180426 spring">
 <meta name="twitter:description" content="写在前面spring的最后一章，也是这本书基础知识介绍的最后一章了，看完这一章基本上spring和struts、hibernate的整合应该没什么问题了，编程这种事一定要提前开始，现在把前面看的基本上忘完了，这本书看完了基本上就要开始自己动手完成一个项目了。 正文Spring框架提供了很好的扩展性，除了与各种第三方框架良好整合之外，IOC容器也允许进行扩展，spring提供了两种常用的后处理器。">
@@ -177,10 +177,16 @@
 <p>默认情况下。spring会搜索所有以刚才的四种注解标注的java类，把他们当成spring Bean来处理，还可以通过为&lt;component-scan……/&gt;元素添加&lt;include-filter…/&gt;和&lt;exclude-filter…./&gt;子元素，只要位于指定路径下的java类满足这两个子元素的表达式，spring同样会将他们当成bean类处理。前面两个元素的属性有type（过滤器类型）和expression。type有四种：annotation（Annotation过滤器）、assignable（类名过滤器）、regex（正则表达式过滤器）、aspectj（AspectJ过滤器）。</p>
 <p>指定Bean的作用域用@Scope（作用域），@Resource配置依赖，这个注解有一个name属性，在默认情况，spring将这个属性的值作为需要注入的Bean的实例的id，也就是说这个@Resource（name=“”）就和<property>里面的ref属性是一样的作用。这个@Resource注解不仅能修饰setter方法，还可以修饰实例变量，使用field注入，当@Resource不指定name属性的时候，name属性值就是被修饰的setter方法去掉set之后、首字母小写后得到的子串。@PostConstruct和@PreDestroy注解修饰方法的作用就和init-method以及destroy-method一样。除此之外，还有@DependsOn（强制初始化的Bean的id写成一个字符串数组），@Lazy（true）表明当spring容器初始化的时候，不会预初始化被修饰的bean。</property></p>
 <p>@Autowired注解指定自动装配，可以修饰setter方法，实例变量，普通方法和构造器等，当使用@Autowired标注setter方法的时候，默认使用byType自动装配策略。如果在容器找到了恰好一个该类型的bean就会完成依赖注入，如果找到了很多个就会出现异常，一个没找到spring就什么都不会执行。如果@Autowired修饰的是一个数组类型的成员变量就不会出现前面的问题，会把所有同类型的Bean都作为这个数组类型的成员变量的值。@Autowired也可以标注集合类型的实例变量，或者标注形参类型的集合方法，集合类型的参数必须使用泛型。还可以根据泛型进行自动装配。还可以使用@Autowired和@Qualifier（id）的组合进行精确的自动装配，但这种组合和@Resource没什么区别。</p>
-<h2 id="资源访问"><a href="#资源访问" class="headerlink" title="资源访问"></a>资源访问</h2><p>Spring为资源访问提供了一个Resource接口。这个接口有几个方法，底层有很多实现类，以下几种。、ClassPathResource、FileSystemResource、ServletContextResource、InputStreamResource、ByteArrayResource。</p>
+<h2 id="资源访问"><a href="#资源访问" class="headerlink" title="资源访问"></a>资源访问</h2><p>Spring为资源访问提供了一个Resource接口。这个接口有几个方法，底层有很多实现类，以下几种。、、、ByteArrayResource。</p>
 <ol>
-<li>访问网络资源：（UrlResource），通过file:前缀也可以访问本地磁盘资源，</li>
+<li>访问网络资源：（UrlResource），通过file:前缀也可以访问本地磁盘资源，访问网络资源使用http:和ftp:前缀。</li>
+<li>访问类加载路径下的资源ClassPathResource：对于web应用，可以自动搜索WEB-INF/classes路径下的文件。</li>
+<li>文件系统资源FileSystemResource</li>
+<li>访问应用相关资源ServletContextResource：访问Web Context下相对路径下的资源，ServletContextResource接受一个代表资源位置的字符串参数，该资源位置是相对于Web应用根路径的位置。</li>
+<li>访问二进制输入流资源InputStreamResource</li>
+<li>访问字节数组资源ByteArrayResource</li>
 </ol>
+<p>spring里面有两个接口：ResourceLoader（接口实现类可以返回Resource实例）和ResourceLoaderAware（接口实现类可以获得ResourceLoader的引用）。通过ApplicationContext获得Resource实例的时候，默认采用和ApplicationContext相同的资源访问策略（也就是ApplicationContext的实现策略，比如说这个ApplicationContext是ClassPathXMLApplicationContext的话，那资源就是ClassPathResource实例）。spring进行资源访问的时候并不会确定使用哪个resource的实现类，而是通过Resourceloader确定具体的资源访问策略。典型的策略模式。</p>
 
       
 
@@ -237,6 +243,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/05/14/20180514-spring/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          20180514 spring
+        
+      </div>
+    </a>
   
   
     <a href="/2018/04/24/20180424-spring/" id="article-nav-older" class="article-nav-link-wrap">
@@ -396,11 +411,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -416,15 +431,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
