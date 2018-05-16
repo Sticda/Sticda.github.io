@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/05/14/20180514-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
-<meta property="og:updated_time" content="2018-05-15T08:54:08.815Z">
+<meta property="og:updated_time" content="2018-05-16T13:33:06.595Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180514 spring">
 <meta name="twitter:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
@@ -215,8 +215,18 @@
 <li>this:用于限定AOP代理必须是指定类型的实例,匹配该对象的所有连接点.</li>
 <li>target:用于限定目标对象必须是指定类型的实例,匹配该对象的所有连接点.</li>
 <li>args:用于对连接点的参数类型进行限制.</li>
-<li>bean:用于限制只匹配指定Bean实例内的连接点</li>
+<li>bean:用于限制只匹配指定Bean实例内的连接点。</li>
 </ol>
+<p>除了基于注解，还可以基于XML配置文件。spring提供了一个新的aop:命名空间来定义切面、切入点和增强处理。</p>
+<p>在spring配置文件中，所有的切面、切入点和增强处理都必须定义在<a href="aop:config../" target="_blank" rel="noopener">aop:config../</a>元素内部，beans元素下面可以包含多个aop：config元素，一个<a href="aop:config" target="_blank" rel="noopener">aop:config</a>可以包含pointcut、advisor和aspect元素。元素定义必须按照这个顺序。</p>
+<p>配置aop：aspect元素的时候有三个属性，id ，ref和order，id就是切面的名称，order就是切面Bean的优先级，切面Bean在配置之前就是一个普通的Bean，在这个bean里面定义了很多增强处理的方法，这个普通bean也需要在spring的配置文件中声明，然后利用ref指明这个bean id就是切面bean。</p>
+<p>配置增强处理就是依赖于aop:before\aop:after\aop:after-returning\aop:after-throwing\aop:around，这元素的属性就是pointcut、pointcut-ref（和pointcut二选一，这个ref就是说明这个切入点在之前定义过了）、method（切面bean里定义的增强处理方法）、throwing（指定一个形参名，是异常）、returning（用于指定形参名表明返回值）</p>
+<p>aop：pointcut可以用来定义切入点，如果pointcut定义在config下面就可以被多个切面共享，如果只是在aspect下定义，说明这个切入点只能在切面中有效。两个属性，一个是id，一个是expression。</p>
+<h2 id="spring3新增的缓存机制"><a href="#spring3新增的缓存机制" class="headerlink" title="spring3新增的缓存机制"></a>spring3新增的缓存机制</h2><p>在导入cache：命名空间之后还需要两步才能启动spring缓存，在spring配置文件中添加cache：annotation-driven cache-manager=“缓存管理器ID”，其次针对不同的缓存实现配置对应的缓存管理器。</p>
+<p>EhCache缓存实现的配置除了添加必需的jar包之外，还需要在应用的类加载路径下添加一个ehcache.xml文件，在其中可以利用cache元素配置多个有名字的缓存区。spring使用EhCacheManager作为Ehcache缓存实现的缓存管理器，spring提供了EhCacheManagerFactoryBean工厂Bean，这个工厂Bean实现了FactoryBean<cachemanager>接口，当程序把这个工厂Bean部署在容器中，请求工厂Bean返回的是他的产品CacheManager。</cachemanager></p>
+<p>@Cacheable可以修饰类或者方法，共享一个缓存区，当修饰类的时候会在类级别进行缓存，类级别的缓存是只要是参数相同，就调用之前缓存过的结果。就算方法名不同也不会调用新方法。这个注解有四个属性，value的值是缓存区的名字，key通过SpEL表达式显示指定缓存的key，比如说这个表达式可以指明缓存的条件，condition和unless的值都是SpEL表达式。</p>
+<p>@Cacheable修饰方法的时候可以控制spring在方法级别进行缓存，只要调用这个方法的时候参数一致，就会使用缓存。</p>
+<p>使用@CacheEvict注解可以清除缓存，这个注解是修饰方法的，属性有value（指定该方法清除哪个缓存区的数据），allEntries（是否清除整个缓存区），beforeInvocation（是否在执行方法之前清除缓存，默认是方法成功执行之后），condition（SpEL表达式为true才清除缓存），这个清除缓存的方法可以根据缓存里的数据进行个性化定制，可以清除特定的数据。</p>
 
       
 
@@ -303,7 +313,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><span class="toc-number">2.1.</span> <span class="toc-text">Spring的AOP（面向切面编程，Aspect Orient Programming）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于注解的“零配置”方式"><span class="toc-number">2.1.1.</span> <span class="toc-text">基于注解的“零配置”方式</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><span class="toc-number">2.1.</span> <span class="toc-text">Spring的AOP（面向切面编程，Aspect Orient Programming）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于注解的“零配置”方式"><span class="toc-number">2.1.1.</span> <span class="toc-text">基于注解的“零配置”方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring3新增的缓存机制"><span class="toc-number">2.2.</span> <span class="toc-text">spring3新增的缓存机制</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
