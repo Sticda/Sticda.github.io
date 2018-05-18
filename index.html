@@ -224,7 +224,20 @@
 <p>@Cacheable可以修饰类或者方法，共享一个缓存区，当修饰类的时候会在类级别进行缓存，类级别的缓存是只要是参数相同，就调用之前缓存过的结果。就算方法名不同也不会调用新方法。这个注解有四个属性，value的值是缓存区的名字，key通过SpEL表达式显示指定缓存的key，比如说这个表达式可以指明缓存的条件，condition和unless的值都是SpEL表达式。</p>
 <p>@Cacheable修饰方法的时候可以控制spring在方法级别进行缓存，只要调用这个方法的时候参数一致，就会使用缓存。</p>
 <p>使用@CacheEvict注解可以清除缓存，这个注解是修饰方法的，属性有value（指定该方法清除哪个缓存区的数据），allEntries（是否清除整个缓存区），beforeInvocation（是否在执行方法之前清除缓存，默认是方法成功执行之后），condition（SpEL表达式为true才清除缓存），这个清除缓存的方法可以根据缓存里的数据进行个性化定制，可以清除特定的数据。</p>
-
+<h2 id="spring事务"><a href="#spring事务" class="headerlink" title="spring事务"></a>spring事务</h2><p>传统的Java EE事务分为全局事务和局部事务，全局事务由应用服务器管理，需要底层服务器的JTA支持，局部事务和底层采用的持久化技术有关，如果是JDBC，那么就用Connection，如果是Hibernate，就用session。</p>
+<p>spring的事务是通过PlatformTransactionManager接口实现的，这个接口提供了几个和平台无关的获取事务信息的方法，spring具体的实现过程中需要利用这个接口的实现类完成，这个接口里包含了一个GetTransaction（TransactionDefinition definition）方法，返回值是TransactionStatus，表示一个事务，关联在当前线程上，TransactionDefinition类型的参数表示一个事务规则，就是对这个事务返回值的一些限制。</p>
+<p>配置JDBC 的局部事务管理器的时候，选用的PlatformTransactionManager接口实现类是DataSourceTransactionManager，还需要依赖注入DataSource的引用，也就是数据源Bean。</p>
+<p>容器管理的JTA全局事务管理器选用的PlatformTransactionManager接口实现类是jtaTransactionManager，这个Bean不需要依赖注入，原因是全局事务的JTA资源由Java EE服务器提供，而Spring容器能自行从java ee服务器中获得。</p>
+<p>Hibernate局部事务策略的不同点在于依赖注入的不是数据源，而是SessionFactory。spring提供两种事务管理方式。</p>
+<ol>
+<li>编程式事务管理：程序直接获取容器的TransactionManager Bean，该Bean总是PlatformTransactionManager的实现类，可以利用这个bean的方法处理事务。</li>
+<li>声明式事务管理：通过在XML文件中为业务组件配置事务代理（AOP代理的一种）。</li>
+</ol>
+<p>spring提供了tx：命名空间配置事务管理，tx：advice配置事务增强处理，<a href="tx:advice.../" target="_blank" rel="noopener">tx:advice.../</a>元素除了需要transaction-manager属性指定事务管理器之外，还需要配置attributes子元素，这个子元素包含了多个method子元素，method的属性有name、propagation、isolation、timeout、read-only、rollback-for、no-rollback-for。</p>
+<p>业务Bean里面包含了很多数据库的操作方法，在tx：advice里面可以通过method元素来设置这些方法的事务的规则，通过aop：config元素配置一个切入点（这个切入点需要匹配到这个业务Bean），并且利用aop:advisor元素指定在某个切入点处执行事务增强处理（实际上是利用Bean后处理器完成的）。</p>
+<p>默认情况下，只有方法引发运行时异常和unchecked异常，spring就会回滚事务，如果事务发方法抛出checked异常，则事务不会回滚，这个时候就要利用method的rollback-for属性和no-rollback-for属性</p>
+<p>使用@Transactional注解可以在java类重定义，他的属性有isolation、noRollbackFor、noRollbackForClassName、propagation、readOnly、rollbackFor、rollbackForClassName、timeout，光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
+<h2 id="spring整合Struts2"><a href="#spring整合Struts2" class="headerlink" title="spring整合Struts2"></a>spring整合Struts2</h2>
       
 
       
