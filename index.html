@@ -237,7 +237,18 @@
 <p>业务Bean里面包含了很多数据库的操作方法，在tx：advice里面可以通过method元素来设置这些方法的事务的规则，通过aop：config元素配置一个切入点（这个切入点需要匹配到这个业务Bean），并且利用aop:advisor元素指定在某个切入点处执行事务增强处理（实际上是利用Bean后处理器完成的）。</p>
 <p>默认情况下，只有方法引发运行时异常和unchecked异常，spring就会回滚事务，如果事务发方法抛出checked异常，则事务不会回滚，这个时候就要利用method的rollback-for属性和no-rollback-for属性</p>
 <p>使用@Transactional注解可以在java类重定义，他的属性有isolation、noRollbackFor、noRollbackForClassName、propagation、readOnly、rollbackFor、rollbackForClassName、timeout，光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
-<h2 id="spring整合Struts2"><a href="#spring整合Struts2" class="headerlink" title="spring整合Struts2"></a>spring整合Struts2</h2>
+<h2 id="spring整合Struts2"><a href="#spring整合Struts2" class="headerlink" title="spring整合Struts2"></a>spring整合Struts2</h2><p>对于使用spring的web应用，创建spring容器的方法有两种：直接在web.xml文件中配置创建和第三方MVC框架的扩展点，创建spring容器。</p>
+<p>为了让spring容器随Web应用启动而自动启动，借助于ServletContextListener监听器即可完成，这个监听器的作用就是在web应用启动的时候回调自定义方法，可以在这个自定义方法中启动spring容器。</p>
+<p>Spring提供了一个ContextLoaderListener监听器类，实现了ServletContextListener接口，创建时会自动查找WEB-INF下的ApplicationContext.xml文件，如果多个配置文件的话需要使用&lt;context-param…/&gt;元素,利用参数名为contextConfigLocation的值来包含所有的配置文件。spring根据指定的配置文件创建WebApplicationContext对象，如果要在应用中获取ApplicationContext实例则可以通过 WebApplicationContextUtils. </p>
+<p>控制器获取业务逻辑组件的方式不是通过new关键字新建组件，而是采用<strong>工厂模式和服务定位器模式</strong>，服务定位器模式是业务逻辑组件已经在运行，控制器直接调用就可以。工厂模式是更适合轻量级Java EE应用的模式。</p>
+<p>为了让Action访问到Spring的业务逻辑组件，有两种策略：</p>
+<ol>
+<li>spring容器负责管理控制器Action，并利用依赖注入为控制器注入业务逻辑组件。</li>
+<li>利用Spring的自动装配，Action将会自动从Spring容器中获取所需的业务逻辑组件。</li>
+</ol>
+<h3 id="Spring管理控制器"><a href="#Spring管理控制器" class="headerlink" title="Spring管理控制器"></a>Spring管理控制器</h3><p>Spring的插件Struts2-spring-plugin.jar提供了一种伪Action，在struts.xml文件中配置action的时候都要利用class属性指定实现类，这个插件可以将class属性指定为Spring容器中的Bean ID，通过这种方式利用spring容器获取action对象。</p>
+<p>在spring的配置文件中配置业务逻辑组件以及action，并且利用依赖注入将业务逻辑组件注入到action实例中。</p>
+
       
 
       

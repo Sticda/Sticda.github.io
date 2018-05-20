@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/05/14/20180514-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
-<meta property="og:updated_time" content="2018-05-18T08:19:59.409Z">
+<meta property="og:updated_time" content="2018-05-20T04:20:29.506Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180514 spring">
 <meta name="twitter:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
@@ -240,7 +240,18 @@
 <p>业务Bean里面包含了很多数据库的操作方法，在tx：advice里面可以通过method元素来设置这些方法的事务的规则，通过aop：config元素配置一个切入点（这个切入点需要匹配到这个业务Bean），并且利用aop:advisor元素指定在某个切入点处执行事务增强处理（实际上是利用Bean后处理器完成的）。</p>
 <p>默认情况下，只有方法引发运行时异常和unchecked异常，spring就会回滚事务，如果事务发方法抛出checked异常，则事务不会回滚，这个时候就要利用method的rollback-for属性和no-rollback-for属性</p>
 <p>使用@Transactional注解可以在java类重定义，他的属性有isolation、noRollbackFor、noRollbackForClassName、propagation、readOnly、rollbackFor、rollbackForClassName、timeout，光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
-<h2 id="spring整合Struts2"><a href="#spring整合Struts2" class="headerlink" title="spring整合Struts2"></a>spring整合Struts2</h2>
+<h2 id="spring整合Struts2"><a href="#spring整合Struts2" class="headerlink" title="spring整合Struts2"></a>spring整合Struts2</h2><p>对于使用spring的web应用，创建spring容器的方法有两种：直接在web.xml文件中配置创建和第三方MVC框架的扩展点，创建spring容器。</p>
+<p>为了让spring容器随Web应用启动而自动启动，借助于ServletContextListener监听器即可完成，这个监听器的作用就是在web应用启动的时候回调自定义方法，可以在这个自定义方法中启动spring容器。</p>
+<p>Spring提供了一个ContextLoaderListener监听器类，实现了ServletContextListener接口，创建时会自动查找WEB-INF下的ApplicationContext.xml文件，如果多个配置文件的话需要使用&lt;context-param…/&gt;元素,利用参数名为contextConfigLocation的值来包含所有的配置文件。spring根据指定的配置文件创建WebApplicationContext对象，如果要在应用中获取ApplicationContext实例则可以通过 WebApplicationContextUtils. </p>
+<p>控制器获取业务逻辑组件的方式不是通过new关键字新建组件，而是采用<strong>工厂模式和服务定位器模式</strong>，服务定位器模式是业务逻辑组件已经在运行，控制器直接调用就可以。工厂模式是更适合轻量级Java EE应用的模式。</p>
+<p>为了让Action访问到Spring的业务逻辑组件，有两种策略：</p>
+<ol>
+<li>spring容器负责管理控制器Action，并利用依赖注入为控制器注入业务逻辑组件。</li>
+<li>利用Spring的自动装配，Action将会自动从Spring容器中获取所需的业务逻辑组件。</li>
+</ol>
+<h3 id="Spring管理控制器"><a href="#Spring管理控制器" class="headerlink" title="Spring管理控制器"></a>Spring管理控制器</h3><p>Spring的插件Struts2-spring-plugin.jar提供了一种伪Action，在struts.xml文件中配置action的时候都要利用class属性指定实现类，这个插件可以将class属性指定为Spring容器中的Bean ID，通过这种方式利用spring容器获取action对象。</p>
+<p>在spring的配置文件中配置业务逻辑组件以及action，并且利用依赖注入将业务逻辑组件注入到action实例中。</p>
+
       
 
       
@@ -326,7 +337,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><span class="toc-number">2.1.</span> <span class="toc-text">Spring的AOP（面向切面编程，Aspect Orient Programming）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于注解的“零配置”方式"><span class="toc-number">2.1.1.</span> <span class="toc-text">基于注解的“零配置”方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring3新增的缓存机制"><span class="toc-number">2.2.</span> <span class="toc-text">spring3新增的缓存机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring事务"><span class="toc-number">2.3.</span> <span class="toc-text">spring事务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring整合Struts2"><span class="toc-number">2.4.</span> <span class="toc-text">spring整合Struts2</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><span class="toc-number">2.1.</span> <span class="toc-text">Spring的AOP（面向切面编程，Aspect Orient Programming）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于注解的“零配置”方式"><span class="toc-number">2.1.1.</span> <span class="toc-text">基于注解的“零配置”方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring3新增的缓存机制"><span class="toc-number">2.2.</span> <span class="toc-text">spring3新增的缓存机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring事务"><span class="toc-number">2.3.</span> <span class="toc-text">spring事务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring整合Struts2"><span class="toc-number">2.4.</span> <span class="toc-text">spring整合Struts2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring管理控制器"><span class="toc-number">2.4.1.</span> <span class="toc-text">Spring管理控制器</span></a></li></ol></li></ol></li></ol>
                     </div>
                 </span>
             </div>
