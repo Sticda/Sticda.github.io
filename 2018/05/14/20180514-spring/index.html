@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/05/14/20180514-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
-<meta property="og:updated_time" content="2018-05-20T04:20:29.506Z">
+<meta property="og:updated_time" content="2018-05-20T06:05:05.251Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180514 spring">
 <meta name="twitter:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
@@ -250,7 +250,18 @@
 <li>利用Spring的自动装配，Action将会自动从Spring容器中获取所需的业务逻辑组件。</li>
 </ol>
 <h3 id="Spring管理控制器"><a href="#Spring管理控制器" class="headerlink" title="Spring管理控制器"></a>Spring管理控制器</h3><p>Spring的插件Struts2-spring-plugin.jar提供了一种伪Action，在struts.xml文件中配置action的时候都要利用class属性指定实现类，这个插件可以将class属性指定为Spring容器中的Bean ID，通过这种方式利用spring容器获取action对象。</p>
-<p>在spring的配置文件中配置业务逻辑组件以及action，并且利用依赖注入将业务逻辑组件注入到action实例中。</p>
+<p>在spring的配置文件中配置业务逻辑组件以及action，并且利用依赖注入将业务逻辑组件注入到action实例中。在spring控制action的过程中就涉及到action的生命周期，每一次action对应一次用户的请求，因此不能将action配置成单例模式，因此必须将scope属性指定为prototype或者request。</p>
+<p>这种方式有两种不足，Spring管理Action，需要在Spring容器中配置action，又需要在struts中配置action，其次action的业务逻辑组件需要使用依赖注入，降低了代码可读性。</p>
+<h3 id="使用自动装配"><a href="#使用自动装配" class="headerlink" title="使用自动装配"></a>使用自动装配</h3><p> Action还是由spring插件创建，只不过不需要显式依赖注入，而是采用了自动装配，通过struts.objectFactory.spring.autoWire常量改变spring插件的自动装配策略。默认是byName，在这种整合策略下，配置action的class属性仍然是实现类的全限定名。</p>
+<p> 缺点有两个：</p>
+<ol>
+<li>Action跟业务逻辑组件的耦合降低到代码层次，必须在配置文件中配置与action所需控制器同名的业务逻辑组件。</li>
+<li>action接受spring的自动装配，可读性较差。</li>
+</ol>
+<h2 id="spring整合hibernate"><a href="#spring整合hibernate" class="headerlink" title="spring整合hibernate"></a>spring整合hibernate</h2><p>DAO模式的核心思想是所有的数据库访问都通过DAO组件完成，该组件封装了数据库的增、删、改等原子操作。业务逻辑组件依赖DAO组件提供的操作完成系统逻辑实现、 </p>
+<p>Java EE应用大概都可以分为表现层、业务逻辑层、数据持久层。轻量级Java EE架构以Spring IoC容器为核心，向上管理来自表现层的action，向下管理业务逻辑层组件，同时负责管理业务逻辑层所需的DAO对象</p>
+<p>spring提供了一致的异常抽象，将原有的checked异常转换包装成Runtime异常。</p>
+<p>通过hibernate进行持久层访问的时候，需要SessionFactory，一般情况下，一个JavaEE应用对应一个数据库，也就是一个SessionFactory。在spring的配置文件中配置Hibernate SessionFactory，指明实现类、数据源的bean id，以及annotatedClasses属性下列出所有的持久化类。</p>
 
       
 
@@ -308,6 +319,15 @@
   
 <nav id="article-nav">
   
+    <a href="/2018/05/21/20180521-spring/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          20180521 spring
+        
+      </div>
+    </a>
+  
   
     <a href="/2018/04/26/20180426-spring/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">20180426 spring</div>
@@ -337,7 +357,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><span class="toc-number">2.1.</span> <span class="toc-text">Spring的AOP（面向切面编程，Aspect Orient Programming）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于注解的“零配置”方式"><span class="toc-number">2.1.1.</span> <span class="toc-text">基于注解的“零配置”方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring3新增的缓存机制"><span class="toc-number">2.2.</span> <span class="toc-text">spring3新增的缓存机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring事务"><span class="toc-number">2.3.</span> <span class="toc-text">spring事务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring整合Struts2"><span class="toc-number">2.4.</span> <span class="toc-text">spring整合Struts2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring管理控制器"><span class="toc-number">2.4.1.</span> <span class="toc-text">Spring管理控制器</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><span class="toc-number">2.1.</span> <span class="toc-text">Spring的AOP（面向切面编程，Aspect Orient Programming）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于注解的“零配置”方式"><span class="toc-number">2.1.1.</span> <span class="toc-text">基于注解的“零配置”方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring3新增的缓存机制"><span class="toc-number">2.2.</span> <span class="toc-text">spring3新增的缓存机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring事务"><span class="toc-number">2.3.</span> <span class="toc-text">spring事务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring整合Struts2"><span class="toc-number">2.4.</span> <span class="toc-text">spring整合Struts2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring管理控制器"><span class="toc-number">2.4.1.</span> <span class="toc-text">Spring管理控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用自动装配"><span class="toc-number">2.4.2.</span> <span class="toc-text">使用自动装配</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring整合hibernate"><span class="toc-number">2.5.</span> <span class="toc-text">spring整合hibernate</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -490,15 +510,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
               </li>
              
               <li class="article-tag-list-item">

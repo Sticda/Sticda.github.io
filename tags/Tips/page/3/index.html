@@ -6,19 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>20180426 spring | Sticda</title>
+  <title>Tag: 笔记 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="写在前面spring的最后一章，也是这本书基础知识介绍的最后一章了，看完这一章基本上spring和struts、hibernate的整合应该没什么问题了，编程这种事一定要提前开始，现在把前面看的基本上忘完了，这本书看完了基本上就要开始自己动手完成一个项目了。 正文Spring框架提供了很好的扩展性，除了与各种第三方框架良好整合之外，IOC容器也允许进行扩展，spring提供了两种常用的后处理器。">
-<meta name="keywords" content="笔记,spring">
-<meta property="og:type" content="article">
-<meta property="og:title" content="20180426 spring">
-<meta property="og:url" content="http://yoursite.com/2018/04/26/20180426-spring/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Sticda">
+<meta property="og:url" content="http://yoursite.com/tags/Tips/page/3/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="写在前面spring的最后一章，也是这本书基础知识介绍的最后一章了，看完这一章基本上spring和struts、hibernate的整合应该没什么问题了，编程这种事一定要提前开始，现在把前面看的基本上忘完了，这本书看完了基本上就要开始自己动手完成一个项目了。 正文Spring框架提供了很好的扩展性，除了与各种第三方框架良好整合之外，IOC容器也允许进行扩展，spring提供了两种常用的后处理器。">
-<meta property="og:updated_time" content="2018-05-03T07:38:04.283Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20180426 spring">
-<meta name="twitter:description" content="写在前面spring的最后一章，也是这本书基础知识介绍的最后一章了，看完这一章基本上spring和struts、hibernate的整合应该没什么问题了，编程这种事一定要提前开始，现在把前面看的基本上忘完了，这本书看完了基本上就要开始自己动手完成一个项目了。 正文Spring框架提供了很好的扩展性，除了与各种第三方框架良好整合之外，IOC容器也允许进行扩展，spring提供了两种常用的后处理器。">
+<meta name="twitter:title" content="Sticda">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -142,194 +137,67 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-20180426-spring" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      20180426 spring
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/09/23/20170926/" class="archive-article-date">
+  	<time datetime="2017-09-23T02:19:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-23</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/09/23/20170926/">20170926</a>
     </h1>
   
 
-        
-        <a href="/2018/04/26/20180426-spring/" class="archive-article-date">
-  	<time datetime="2018-04-26T07:54:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>spring的最后一章，也是这本书基础知识介绍的最后一章了，看完这一章基本上spring和struts、hibernate的整合应该没什么问题了，编程这种事一定要提前开始，现在把前面看的基本上忘完了，这本书看完了基本上就要开始自己动手完成一个项目了。</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>Spring框架提供了很好的扩展性，除了与各种第三方框架良好整合之外，IOC容器也允许进行扩展，spring提供了两种常用的后处理器。</p>
-<ol>
-<li>Bean后处理器：这种后处理器会对容器中的Bean进行后处理，对Bean进行额外增强。</li>
-<li>容器后处理器：这种后处理器对IoC容器进行后处理，用于增强容器功能。</li>
-</ol>
-<p>Bean后处理器的类需要实现BeanPostProcessor，这个接口定义了两个方法，一个是postProcessBeforeInitialization，一个是postProcessAfterInitialization，根据名字已经可以判断执行的时间了，如果spring容器是用ApplicationContext实现的，就不需要在xml文件中为这个Bean后处理器的实现类指定Bean id，容器在初始化所有的Bean之后会检测，如果有Bean的实现类实现了BeanPostProcessor接口，会自动注册为Bean后处理器，但是容器要是用BeanFactory实现的话，就需要手动添加绑定Bean后处理器，所以需要为这个Bean后处理器的实现类注册id。</p>
-<p>spring提供的两个常用的后处理器是BeanNameAutoProxyCreator（根据Bean实例的name属性创建Bean实例的代理）和DefaultAdvisorAutoProxyCreator（根绝Advisor对容器中所有的Bean实例创建代理），代理Bean的意思就是对目标Bean进行增强，在目标Bean的基础上进行修改得到的新Bean。</p>
-<p>容器后处理器必须实现BeanFactoryPostProcessor接口，这个接口定义了postProcessorBeanFactory，在容器初始化之后执行这个方法，类似于bean后处理器，ApplicationContext会自己检测容器后处理器，并且自动注册，BeanFactory需要手动调用。spring提供了几个常用的容器后处理器，容器后处理器通常对spring容器进行处理，在容器实例化Bean之前执行特定操作。</p>
-<p>属性占位符配置器（PropertyPlaceholderConfigurer）是一个容器后处理器，负责读取Properties属性文件里的属性值，并且把这些属性值设置成为spring配置文件的数据。bean的定义中可以写明某个元素的value=“${变量名}”，变量名的具体值在属性文件。<a href="context:property-placeholder...../" target="_blank" rel="noopener">context:property-placeholder...../</a>是对PropertyPlaceholderConfigurer的简化配置。</p>
-<p>重写占位符配置器（PropertyOverrideConfigurer）的属性文件指定的信息可以直接覆盖spring配置文件的元数据。这个属性文件应该保持beanid.property=value的形式。beanID是属性占位符试图覆盖的Bean的id，property是试图覆盖的属性名，也就是这个属性文件中把这个bean的所有属性值全部写明了，所以说这个配置文件中的beanid必须是容器中真实存在的bean的id。如果多次覆盖的话，那么最后一次会获胜。<a href="context:property-override...../" target="_blank" rel="noopener">context:property-override...../</a>是对PropertyOverrideConfigurer的简化配置。</p>
-<h2 id="Spring的“零配置”支持"><a href="#Spring的“零配置”支持" class="headerlink" title="Spring的“零配置”支持"></a>Spring的“零配置”支持</h2><p>在需要实例化的类前面加上注解告诉spring，注解有@Component（普通的JavaBean）、@Service（业务逻辑组件类）、@Repository（DAO组件，Data Access Object）、@Controller（控制器组件），使用前面的四种注解只能说明我们想要实例化他，还要告诉spring搜索bean的路径（context:component-scan的base-package可以指定这个包），也就是这些类的所在包（全限定名），这个包以及子包的所有类都当做JavaBean。Bean实例的名称 一般默认是Bean类的首字母小写，其他部分不变，@Component标注是指定Bean实例的名称。</p>
-<p>默认情况下。spring会搜索所有以刚才的四种注解标注的java类，把他们当成spring Bean来处理，还可以通过为&lt;component-scan……/&gt;元素添加&lt;include-filter…/&gt;和&lt;exclude-filter…./&gt;子元素，只要位于指定路径下的java类满足这两个子元素的表达式，spring同样会将他们当成bean类处理。前面两个元素的属性有type（过滤器类型）和expression。type有四种：annotation（Annotation过滤器）、assignable（类名过滤器）、regex（正则表达式过滤器）、aspectj（AspectJ过滤器）。</p>
-<p>指定Bean的作用域用@Scope（作用域），@Resource配置依赖，这个注解有一个name属性，在默认情况，spring将这个属性的值作为需要注入的Bean的实例的id，也就是说这个@Resource（name=“”）就和<property>里面的ref属性是一样的作用。这个@Resource注解不仅能修饰setter方法，还可以修饰实例变量，使用field注入，当@Resource不指定name属性的时候，name属性值就是被修饰的setter方法去掉set之后、首字母小写后得到的子串。@PostConstruct和@PreDestroy注解修饰方法的作用就和init-method以及destroy-method一样。除此之外，还有@DependsOn（强制初始化的Bean的id写成一个字符串数组），@Lazy（true）表明当spring容器初始化的时候，不会预初始化被修饰的bean。</property></p>
-<p>@Autowired注解指定自动装配，可以修饰setter方法，实例变量，普通方法和构造器等，当使用@Autowired标注setter方法的时候，默认使用byType自动装配策略。如果在容器找到了恰好一个该类型的bean就会完成依赖注入，如果找到了很多个就会出现异常，一个没找到spring就什么都不会执行。如果@Autowired修饰的是一个数组类型的成员变量就不会出现前面的问题，会把所有同类型的Bean都作为这个数组类型的成员变量的值。@Autowired也可以标注集合类型的实例变量，或者标注形参类型的集合方法，集合类型的参数必须使用泛型。还可以根据泛型进行自动装配。还可以使用@Autowired和@Qualifier（id）的组合进行精确的自动装配，但这种组合和@Resource没什么区别。</p>
-<h2 id="资源访问"><a href="#资源访问" class="headerlink" title="资源访问"></a>资源访问</h2><p>Spring为资源访问提供了一个Resource接口。这个接口有几个方法，底层有很多实现类，以下几种。、、、ByteArrayResource。</p>
-<ol>
-<li>访问网络资源：（UrlResource），通过file:前缀也可以访问本地磁盘资源，访问网络资源使用http:和ftp:前缀。</li>
-<li>访问类加载路径下的资源ClassPathResource：对于web应用，可以自动搜索WEB-INF/classes路径下的文件。</li>
-<li>文件系统资源FileSystemResource</li>
-<li>访问应用相关资源ServletContextResource：访问Web Context下相对路径下的资源，ServletContextResource接受一个代表资源位置的字符串参数，该资源位置是相对于Web应用根路径的位置。</li>
-<li>访问二进制输入流资源InputStreamResource</li>
-<li>访问字节数组资源ByteArrayResource</li>
-</ol>
-<p>spring里面有两个接口：ResourceLoader（接口实现类可以返回Resource实例）和ResourceLoaderAware（接口实现类可以获得ResourceLoader的引用）。通过ApplicationContext获得Resource实例的时候，默认采用和ApplicationContext相同的资源访问策略（也就是ApplicationContext的实现策略，比如说这个ApplicationContext是ClassPathXMLApplicationContext的话，那资源就是ClassPathResource实例）。spring进行资源访问的时候并不会确定使用哪个resource的实现类，而是通过Resourceloader确定具体的资源访问策略。典型的策略模式。</p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/05/14/20180514-spring/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          20180514 spring
-        
-      </div>
-    </a>
   
   
-    <a href="/2018/04/24/20180424-spring/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">20180424 spring</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring的“零配置”支持"><span class="toc-number">2.1.</span> <span class="toc-text">Spring的“零配置”支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#资源访问"><span class="toc-number">2.2.</span> <span class="toc-text">资源访问</span></a></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  <div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="20180426-spring" data-title="20180426 spring" data-url="http://yoursite.com/2018/04/26/20180426-spring/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
-  
-  
-  
-  <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
-<script>
-  var cloudTieConfig = {
-    url: "http://yoursite.com/2018/04/26/20180426-spring/", 
-    sourceId: "20180426-spring",
-    productKey: "true",
-    target: "cloud-tie-wrapper"
-  };
-</script>
-<script src="//img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    </div></section>
   
 
-  
-
+    
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/tags/Tips/page/2/">&laquo; Prev</a><a class="page-number" href="/tags/Tips/">1</a><a class="page-number" href="/tags/Tips/page/2/">2</a><span class="page-number current">3</span>
+    </nav>
   
 
 
@@ -353,9 +221,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
