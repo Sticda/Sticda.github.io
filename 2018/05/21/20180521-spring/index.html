@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/05/21/20180521-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="Spring整合Hibernate使用spring容器管理SessionFactory，spring就可以将SessionFactory注入应用的DAO组件中，对于spring和hibernate的整合，spring推荐调用SessionFactory的getCurrentSession方法获取hibernate session，剩下的持久化操作和直接使用hibernate持久化操作的代码基本相同">
-<meta property="og:updated_time" content="2018-05-27T07:48:14.789Z">
+<meta property="og:updated_time" content="2018-05-28T03:28:51.005Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180521 spring">
 <meta name="twitter:description" content="Spring整合Hibernate使用spring容器管理SessionFactory，spring就可以将SessionFactory注入应用的DAO组件中，对于spring和hibernate的整合，spring推荐调用SessionFactory的getCurrentSession方法获取hibernate session，剩下的持久化操作和直接使用hibernate持久化操作的代码基本相同">
@@ -160,6 +160,33 @@
         
       </header>
     
+	<!-- 目录内容 -->
+
+    <p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+          <span class="btn-bg"></span>
+          <span class="btn-text">文章导航</span>
+          </p>
+	<div id="toc-article" class="toc-article">
+	    <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+		<strong class="toc-title">文章目录</strong>
+           <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring整合Hibernate"><span class="toc-number">1.</span> <span class="toc-text">Spring整合Hibernate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见设计模式"><span class="toc-number">2.</span> <span class="toc-text">常见设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的架构设计策略"><span class="toc-number">3.</span> <span class="toc-text">常见的架构设计策略</span></a></li></ol>
+         </div>
+   <script type="text/javascript">
+	function showToc(){
+		var toc_article = document.getElementById("toc-article");
+		var show_toc_btn = document.getElementById("show-toc-btn");
+		toc_article.setAttribute("style","display:block");
+		show_toc_btn.setAttribute("style","display:none");
+		};
+	function showBtn(){
+		var toc_article = document.getElementById("toc-article");
+		var show_toc_btn = document.getElementById("show-toc-btn");
+		toc_article.setAttribute("style","display:none");
+		show_toc_btn.setAttribute("style","display:block");
+		};
+   </script>
+      
+<!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="Spring整合Hibernate"><a href="#Spring整合Hibernate" class="headerlink" title="Spring整合Hibernate"></a>Spring整合Hibernate</h2><p>使用spring容器管理SessionFactory，spring就可以将SessionFactory注入应用的DAO组件中，对于spring和hibernate的整合，spring推荐调用SessionFactory的getCurrentSession方法获取hibernate session，剩下的持久化操作和直接使用hibernate持久化操作的代码基本相同。</p>
