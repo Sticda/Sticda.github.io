@@ -162,7 +162,8 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="Spring整合Hibernate"><a href="#Spring整合Hibernate" class="headerlink" title="Spring整合Hibernate"></a>Spring整合Hibernate</h2><p>使用spring容器管理SessionFactory，spring就可以将SessionFactory注入应用的DAO组件中，对于spring和hibernate的整合，spring推荐调用SessionFactory的getCurrentSession方法获取hibernate session，剩下的持久化操作和直接使用hibernate持久化操作的代码基本相同。</p>
+        <h2 id="Spring整合Hibernate"><a href="#Spring整合Hibernate" class="headerlink" title="Spring整合Hibernate"></a>Spring整合Hibernate</h2><p>toc: true</p>
+<p>使用spring容器管理SessionFactory，spring就可以将SessionFactory注入应用的DAO组件中，对于spring和hibernate的整合，spring推荐调用SessionFactory的getCurrentSession方法获取hibernate session，剩下的持久化操作和直接使用hibernate持久化操作的代码基本相同。</p>
 <p>为了简化应用中DAO组件的设计，所以我们考虑将所有的DAO组件都需要的方法提取出来，由一个BaseDao实现，这样其他的组件只需要继承这个BaseDao即可。</p>
 <p>上面是spring和hibernate4整合的方式，但是传统的hibernate3的整合方式有一些不一样。</p>
 <p>spring为了整合hibernate3提供了HibernateTemplate和HibernateDaoSupport两个工具类，hibernateTemplate提供了持久层访问模板化，他只需要一个SessionFactory，这个参数的传入既可以通过构造参数传入，也可以通过设值参数注入。</p>
