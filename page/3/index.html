@@ -348,16 +348,16 @@ type=&quot;想要指定的类型&quot;/&gt;
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h1><p>HttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null</p>
+        <h1 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h1><p>HttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。</p>
 <p>如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可以通过使用HttpSession的setAttribute方法将相关信息设置为属性。</p>
-<p>HttpSession的invalidate（）方法可以直接使目前的HttpSession失效，可以用来实现注销机制。</p>
-<p>浏览器默认将SessionID存放在本地的cookie中，Cookie会在浏览器请求应用程序的时候被发送到应用程序。Web容器存储SessionId 的Cookie被默认设置为关闭浏览器就会失效，所以重新打开浏览器请求应用程序的时候通过getSession获得是新的HttpSession对象，如果浏览器没有被关闭，那么每次请求来到应用程序的时候容器会根据SessionID取得相应的HttpSession。可以使用serMaxAge（）来设置Cookie的有效期限</p>
+<p>HttpSession的invalidate()方法可以直接使目前的HttpSession失效，可以用来实现注销机制。</p>
+<p>浏览器默认将SessionID存放在本地的cookie中，Cookie会在浏览器请求应用程序的时候被发送到应用程序。Web容器存储SessionId 的Cookie被默认设置为关闭浏览器就会失效，所以重新打开浏览器请求应用程序的时候通过getSession获得是新的HttpSession对象，如果浏览器没有被关闭，那么每次请求来到应用程序的时候容器会根据SessionID取得相应的HttpSession。可以使用serMaxAge()来设置Cookie的有效期限。</p>
 <p>Session的另一种实现方式是URL重写，服务器向浏览器响应一段超链接，超链接URL后附加SessionID，当用户点击超链接时，则将SessionID以GET请求方式发送给Web应用程序。response.encodeURL协助产生所需的URL重写，如果禁用Cookie的话，encodeURL会自动产生带有SessionID的URL重写。</p>
 <p>HttpSession用于当次会话阶段的状态维持，如果有相关的信息希望在关闭浏览器后，下次打开浏览器请求web应用程序时，仍然可以发送给应用程序，则需要使用Cookie。</p>
-<p>执行HttpSession的setMaxInactiveInterval（）方法，设置的是HttpSession对象在浏览器多久没活动就失效的时间，而不是保存SessionID的cookie失效的时间</p>
-<h1 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h1><p>Servlet的生命周期大概是init（）、service（）、destroy（）,service决定要调用什么函数响应浏览器的响应。过滤器（Filter）位于Servlet之前，可以拦截过滤浏览器对Servlet的请求 </p>
-<p>实现Filter接口，Filter接口有三个要实现的方法init（）、dofilter（）、destroy()</p>
-<p>web.xml中定义过滤器对象时设置了初始参数，可以通过FilterConfig的getInitParameter方法来获取初始参数，设置参数和Servlet很类似，都是在声明的时候在一个init-param</p>
+<p>执行HttpSession的setMaxInactiveInterval（）方法，设置的是HttpSession对象在浏览器多久没活动就失效的时间，而不是保存SessionID的cookie失效的时间。</p>
+<h1 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h1><p>Servlet的生命周期大概是init（）、service（）、destroy（）,service决定要调用什么函数响应浏览器的响应。过滤器（Filter）位于Servlet之前，可以拦截过滤浏览器对Servlet的请求 。</p>
+<p>实现Filter接口，Filter接口有三个要实现的方法init（）、dofilter（）、destroy()。</p>
+<p>web.xml中定义过滤器对象时设置了初始参数，可以通过FilterConfig的getInitParameter方法来获取初始参数，设置参数和Servlet很类似，都是在声明的时候在一个init-param。</p>
 <p>当请求来到容器，容器发现了调用了servlet的service方法之前，可以应用某个过滤器，就会调用该过滤器的dofilter方法，然后决定是否调用FilterChain的doFilter方法。</p>
 <pre><code>//service()前置处理
 chain.doFilter(request,response);
@@ -389,20 +389,18 @@ chain.doFilter(request,response);
 <p>ServletContextAttributeListener、HttpSessionAttributeListener、ServletRequestAttributeListener</p>
 <p>HttpSessionAttributeListener的事件名称是HttpSessionBindingEvent</p>
 <p>##会话属性类监听器（不需要在web.xml中声明）</p>
-<p>如果有个即将加入HttpSession的属性对象，希望在成为HttpSession或者被删除的时候得到通知，需要实现HttpSessionBindingListener，属性被加入到HttpSession或从中删除的时候，就会调用对应的valueBound与valueUNbound方法，并传入HttpSessionBindingEvent</p>
+<p>如果有个即将加入HttpSession的属性对象，希望在成为HttpSession或者被删除的时候得到通知，需要实现HttpSessionBindingListener，属性被加入到HttpSession或从中删除的时候，就会调用对应的valueBound与valueUnbound方法，并传入HttpSessionBindingEvent</p>
 <p>HttpSessionActivationListener的主要作用在于将HttpSession从一个JVM迁移到另外一个的时候需要序列化，如果一个对象实现了这个监听器，在序列化的时候就会<br>调用sessionWillPassivate，反序列化的时候调用sessionDidActivate</p>
 <p>在web.xml中对于servlet进行设置的时候，可以添加标签load-on-startup，表示在应用程序启动的时候就将servlet进行实例化并做好初始化</p>
 <h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a><url-pattern>设置</url-pattern></h2><ol>
-<li><p>完全符合模式：以斜杠开头，从web应用程序环境的根目录开始，指定完整的URL模式</p>
-</li>
-<li><p>目录符合模式：以目录开头，之后加星号，某个目录下的所有URL都交由某个Servlet处理。”/guest/*”</p>
-</li>
+<li>完全符合模式：以斜杠开头，从web应用程序环境的根目录开始，指定完整的URL模式</li>
+<li>目录符合模式：以目录开头，之后加星号，某个目录下的所有URL都交由某个Servlet处理。”/guest/*”</li>
 <li>扩展名符合模式：以某个扩展名为结尾的所有URL请求，都交由对应的Servlet处理，可以使用星号作为开头.“*.do”</li>
 </ol>
 <p>如果url请求在模式有重合的时候，按照从1到3的顺序</p>
 <p>welcome-file-list标签中使用<welcome-file>来设置默认欢迎界面，不能以斜杠开头，如果浏览器请求的/hhh/user不存在的时候，容器会按照welcome-file-list的顺序依次打开/hhh/user/（welcome-file中包含的文件），找不到的时候会到上一层/hhh去寻找/hhh/（welcome-file中包含的文件）。</welcome-file></p>
-<p>如果发生错误的时候又没有处理，容器会直接显示错误信息，可以通过在web.xml中设置error-page进行设置。error-page的标签里还可以使用exception-type和location的组合来决定不同的type去往不同的错误界面，如果想要把http的错误状态码发送到处理页面，还可以加入error-code标签</p>
-<p>为了让浏览器知道如何处理收到的串流数据，需要告知MIME类型，如果在web.xml中设置了mime-mapping，则可以通过ServletContext的getMimeType（）方法获取MIME类型，这个方法的参数是文件名称，自动匹配对应的扩展名</p>
+<p>如果发生错误的时候又没有处理，容器会直接显示错误信息，可以通过在web.xml中设置error-page进行设置。error-page的标签里还可以使用exception-type和location的组合来决定不同的type去往不同的错误界面，如果想要把http的错误状态码发送到处理页面，还可以加入error-code标签。</p>
+<p>为了让浏览器知道如何处理收到的串流数据，需要告知MIME类型，如果在web.xml中设置了mime-mapping，则可以通过ServletContext的getMimeType（）方法获取MIME类型，这个方法的参数是文件名称，自动匹配对应的扩展名。</p>
 
       
 
@@ -411,6 +409,21 @@ chain.doFilter(request,response);
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -470,9 +483,10 @@ chain.doFilter(request,response);
       
         <p>最近太忙了，期末了各种作业.</p>
 <p>客户端也可以通过js进行窗体验证，用来节省服务器的运算资源，但是客户端验证只针对格式等与安全无关的部分进行验证，用户可以选择跳过客户端窗体验证。</p>
-<p>利用forward（）请求转发的时候浏览器并不知道在服务器上发生了转发，可以获得WEB_INF中的数据，sendRedirect（）要求浏览器重定向请求其他的数据，这个函数可以使用相对或者绝对URL</p>
+<p>利用forward（）请求转发的时候浏览器并不知道在服务器上发生了转发，可以获得WEB_INF中的数据，sendRedirect（）要求浏览器重定向请求其他的数据，这个函数可以使用相对或者绝对URL。</p>
 <p><strong>在使用sendRedirect（）的时候，最好使用绝对路径，比如说<a href="http://localhost:8080/exercise/index,我们现在想利用该函数到某个页面，在该页面的前面加上当前web应用的上下文路径，也就是exercise" target="_blank" rel="noopener">http://localhost:8080/exercise/index,我们现在想利用该函数到某个页面，在该页面的前面加上当前web应用的上下文路径，也就是exercise</a></strong></p>
-<p>请求转发(forward)<br>Servlet（源组件）先对客户请求做一些预处理操作，然后把请求转发给其他Web组件（目标组件）来完成包括生成响应结果在内的后续操作；<br>请求包含(include)<br>Servlet（源组件）把其他Web组件（目标组件）生成的响应结果包含到自身的响应结果中；</p>
+<p>请求转发(forward)：Servlet（源组件）先对客户请求做一些预处理操作，然后把请求转发给其他Web组件（目标组件）来完成包括生成响应结果在内的后续操作；</p>
+<p>请求包含(include)：Servlet（源组件）把其他Web组件（目标组件）生成的响应结果包含到自身的响应结果中；</p>
 <ol>
 <li>转发和包含路径</li>
 </ol>
@@ -485,17 +499,17 @@ chain.doFilter(request,response);
 <p>不以“/”开头：相对当前Servlet路径</p>
 <p><strong>ServletConfig</strong>是容器根据web.xml的内容生成的Servlet的设置的实例对象，和每一个Servlet对应，在实例化Servlet的时候，容器还没有调用init（）方法传入ServletConfig，所以不会有servletConfig实例，也就是说ServletConfig必须在web容器将Servlet实例化以后，调用有参数的init（）方法再将之传入，所以在继承HttpServlet后通常会重写<strong>无参数的init（）方法【最适合读取初始参数的地方】</strong>来获取Servlet的初始参数。</p>
 <p>初始参数通常用作常数来设置，可以将一些Servlet程序中不想写死的信息放到初始参数中，一个<init-param>定义一组<param-name>和<param-value></param-value></param-name></init-param></p>
-<p><strong>ServletContext</strong>是<strong>整个web应用程序</strong>运行后的代表对象，通过ServletConfig的getServletContext（）方法来获得，之后就可以利用ServletContext来取得web应用程序的相关资源或信息</p>
-<p>以“/”开头的路径称为环境相对路径，没有以“/”作为开头则称为请求相对路径</p>
-<p>getResourceAsStream()的参数路径必须以“/”作为开头，表示相对应于应用程序环境根目录，运行结果会返回InputStream实例，如果在java EE中使用java.io下的File、FileReader等等与文件读取相关的类时，可以指定绝对路径和相对路径，绝对路径是文件在服务器上的真实路径，相对路径相对的是启动web容器时的命令执行目录，比如说Tomcat的根目录</p>
+<p><strong>ServletContext</strong>是<strong>整个web应用程序</strong>运行后的代表对象，通过ServletConfig的getServletContext（）方法来获得，之后就可以利用ServletContext来取得web应用程序的相关资源或信息。</p>
+<p>以“/”开头的路径称为环境相对路径，没有以“/”作为开头则称为请求相对路径。</p>
+<p>getResourceAsStream()的参数路径必须以“/”作为开头，表示相对应于应用程序环境根目录，运行结果会返回InputStream实例，如果在java EE中使用java.io下的File、FileReader等等与文件读取相关的类时，可以指定绝对路径和相对路径，绝对路径是文件在服务器上的真实路径，相对路径相对的是启动web容器时的命令执行目录，比如说Tomcat的根目录。</p>
 <p><strong>ServletContextListener</strong>可以知道web应用程序何时初始化或者何时结束销毁，并在web.xml中设置告知web容器，在web应用程序初始化后或者即将结束销毁之前，调用ServletContextListener实现类的相对应的contextInitialized（）或contextDestroyed()。{在web.xml中配置某个Servlet的Listener，并且重写这个listener的contextInitialized（）}</p>
-<p>在整个web应用程序生命周期内，Servlet所需共享的数据可以设置为ServletContext属性</p>
+<p>在整个web应用程序生命周期内，Servlet所需共享的数据可以设置为ServletContext属性。</p>
 <hr>
 <h1 id="会话管理："><a href="#会话管理：" class="headerlink" title="会话管理："></a><strong>会话管理</strong>：</h1><p>此次请求和之后请求的关系</p>
 <p><strong>隐藏字段</strong></p>
-<p>服务器不会记得两次请求之间的关系，需要浏览器在每次请求的时候告诉服务器这些请求之间的关系，服务器只需要处理就好了。服务器把上一次请求的结果以<strong>隐藏字段</strong>的方式存储在下一页的窗体中响应给浏览器，然后浏览器把上一次的结果和这一次的结果都发给服务器<br>具体使用是 “&lt;input type=”hidden” name=””  value=””> “，但是右键查看源码是可以看见这些隐藏字段的值，所以不适合用于隐秘性 较高的数据。</p>
+<p>服务器不会记得两次请求之间的关系，需要浏览器在每次请求的时候告诉服务器这些请求之间的关系，服务器只需要处理就好了。服务器把上一次请求的结果以<strong>隐藏字段</strong>的方式存储在下一页的窗体中响应给浏览器，然后浏览器把上一次的结果和这一次的结果都发给服务器，具体使用是 “&lt;input type=”hidden” name=””  value=””> “，但是右键查看源码是可以看见这些隐藏字段的值，所以不适合用于隐秘性较高的数据。</p>
 <p><strong>Cookie的使用</strong></p>
-<p>Cookie类，使用HttpServletResponse的addCookie（）方法在响应中添加Cookie，setMaxAge（）可以用来设置Cookie的有效期限，利用HTTPServletRequest的getCookies（）方法可以获得该网页所属域的所有cookie，cookie类的getName和getValue方法可以用来取得cookie的值</p>
+<p>Cookie类，使用HttpServletResponse的addCookie（）方法在响应中添加Cookie，setMaxAge（）可以用来设置Cookie的有效期限，利用HTTPServletRequest的getCookies（）方法可以获得该网页所属域的所有cookie，cookie类的getName和getValue方法可以用来取得cookie的值。</p>
 <p><strong>getAttribute（）获取的是request在web容器内部转发的数据，而getParameter（）获取的是从web客户端传送来的数据</strong></p>
 <p><strong>URL重写的使用</strong></p>
 <p>get请求参数的应用，当服务器响应的浏览器的上一次请求时，将某些相关信息以超链接方式响应给浏览器，get请求参数长度有限，因此大量的客户端信息保留并不适合使用URL重写。</p>
@@ -514,89 +528,9 @@ chain.doFilter(request,response);
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
         		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/11/20171211/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20171201" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/24/20171201/">20171201</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/24/20171201/" class="archive-article-date">
-  	<time datetime="2017-11-24T07:58:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-24</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>在学习Servlet和JSP的过程中书里面要求开发一个在线书签。</p>
-<hr>
-<p>java中常用的输入输出流</p>
-<p>字节流 FileInputStream BufferedInputStream DataInputStream    |||| FileOutputStream  BufferedOutputStream PrintStream</p>
-<p>字符流  BufferedReader FileReader ||||||BufferedWriter FileWriter PrinterWriter</p>
-<p>使用HttpServletResponse的sendRedirect（）可以要求浏览器重新请求另一个URL，又称为重定向，使用时可指定绝对URL或者相对URL，和Dispatcher 的forward不一样，forward是服务器自己跳转，而sendredirect是让浏览器跳转</p>
-<p>可以通过在servletReuqest通过setAttribute（）设置属性，该对象只在此次请求范围内有效，在请求/响应之后该对象会被销毁</p>
-<p>同一个请求周期中，HttpServletResponse的getWriter（）和getOutputStream（）只能使用一个</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
+      		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
         		</li>
       		
 		</ul>
@@ -606,7 +540,7 @@ chain.doFilter(request,response);
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/24/20171201/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/12/11/20171211/">展开全文 >></a>
         </p>
       
 
@@ -659,22 +593,29 @@ chain.doFilter(request,response);
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <p>http中get请求一般用于幂等操作（请求数据但不改变服务器上的数据），post用于非幂等操作（改变服务器上的数据，上传文件等），过长的请求参数也需要使用post</p>
-<p>容器是java的一个应用程序，负责和服务器沟通，容器会把jsp网页转译成Servlet，加载到容器中进行管理，最后的所有jsp都会以servlet的实例中存在于容器中。每次有请求进来时，都是使用同一个容器进行处理，由容器开启一个线程，并决定是哪个Servlet来处理，如果有多个请求就启动多个线程来处理</p>
+        <p>http中get请求一般用于幂等操作（请求数据但不改变服务器上的数据），post用于非幂等操作（改变服务器上的数据，上传文件等），过长的请求参数也需要使用post。</p>
+<p>容器是java的一个应用程序，负责和服务器沟通，容器会把jsp网页转译成Servlet，加载到容器中进行管理，最后的所有jsp都会以servlet的实例中存在于容器中。每次有请求进来时，都是使用同一个容器进行处理，由容器开启一个线程，并决定是哪个Servlet来处理，如果有多个请求就启动多个线程来处理。</p>
 <p>当请求来到http服务器的时候，服务器将请求转交给容器，容器会根据请求的参数建立一个代表当次请求的httpServletRequest对象，同时创建一个httpServletResponse对象，接着根据web.xml的设置，找出处理该请求的Servlet，调用他的service方法初始化。</p>
-<p>对于 <a href="http://localhost:8080/FirstServlet/hello.do?name=cate" target="_blank" rel="noopener">http://localhost:8080/FirstServlet/hello.do?name=cate</a> 来说，web容器会根据请求的逻辑名称（在前面这个链接就是hello.do来查找哪个Servlet可以处理这个链接的请求），找到Servlet之后根据servlet的名字和物理类名称的对应关系处理请求，调用Servlet的service（）方法，将所创建的HttpServletRequest对象和HttpServletResponse对象传入作为参数，service（）方法会根据http请求的方式调用不同的方法</p>
-<p>不要在Servlet程序中夹杂着HTML的页面输出，JSP网页中的HTML中也不要夹杂Java程序逻辑</p>
-<h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p>MVC就是Model，View，Controller</p>
-<p>Model负责控制逻辑部分，View负责与用户的页面交互，Controller负责收集用户请求，并转发给相对应的模型</p>
-<p>MVC模型中，http服务器没办法在服务器状态更新的情况下要求浏览器主动查询更新页面（http是基于请求响应的通信协议）在Web应用程序中，将MVC模型经过更新形成Model 2架构</p>
-<p>控制器收集请求相关信息，并不从事业务逻辑处理Servlet，控制器只顺序调用函数实现跳转<br>模型通常是一个纯粹的java对象  ，页面的逻辑都在java对象中实现<br>视图进行页面的组织，由JSP技术实现</p>
-<p>html页面中\n不能正常显示，要换行必须要页面中用&lt;br>&lt;/br>包含</p>
+<p>对于 http:\/\/localhost:8080\/FirstServlet\/hello.do?name=cate 来说，web容器会根据请求的逻辑名称（在前面这个链接就是hello.do来查找哪个Servlet可以处理这个链接的请求），找到Servlet之后根据servlet的名字和物理类名称的对应关系处理请求，调用Servlet的service（）方法，将所创建的HttpServletRequest对象和HttpServletResponse对象传入作为参数，service（）方法会根据http请求的方式调用不同的方法。</p>
+<p>不要在Servlet程序中夹杂着HTML的页面输出，JSP网页中的HTML中也不要夹杂Java程序逻辑。</p>
+<h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p>MVC就是Model，View，Controller。</p>
+<p>Model负责控制逻辑部分，View负责与用户的页面交互，Controller负责收集用户请求，并转发给相对应的模型。</p>
+<p>MVC模型中，http服务器没办法在服务器状态更新的情况下要求浏览器主动查询更新页面（http是基于请求响应的通信协议）在Web应用程序中，将MVC模型经过更新形成Model 2架构。</p>
+<p>控制器收集请求相关信息，并不从事业务逻辑处理Servlet，控制器只顺序调用函数实现跳转。</p>
+<p>模型通常是一个纯粹的java对象  ，页面的逻辑都在java对象中实现<br>视图进行页面的组织，由JSP技术实现。</p>
+<p>html页面中\n不能正常显示，要换行必须要页面中用&lt;br>&lt;/br>包含。</p>
 <h1 id="Http请求、响应处理"><a href="#Http请求、响应处理" class="headerlink" title="Http请求、响应处理"></a>Http请求、响应处理</h1><p>http请求中的所有信息都封装在HttpServletRequest中，这个接口实现了ServletRequest接口</p>
 <p>浏览器接受到相应的html必须知道怎么正确解释文字编码，HttpServletResponse有一个setContentType的方法可以设置，除此之外也可以使用字符串的getbytes方法重新编码字符串。</p>
 <p>利用下面的方法可以实现跳转请求，由其他的servlet和jsp负责处理，其中的request和response可以通过ServletRequeatWrapper、ServletResponseWrapper或者其子类将容器产生的request和respond重新包裹</p>
 <pre><code>request.getRequestDispatcher(&quot;相对url&quot;).forward(request, response)
 </code></pre><p>在执行forward（）之前不能给浏览器确切的回应。执行完forward还会回到原来的servlet/jsp，但是没有办法继续响应（http协议的特性）</p>
 <p>如果打算在目前的servlet/JSP中进行一些对浏览器的响应，而中间想将其他Servlet/JSP包括进来回应，则可以执行RequestDispatcher的include（）方法</p>
+<p>java中常用的输入输出流</p>
+<p>字节流 FileInputStream BufferedInputStream DataInputStream    |||| FileOutputStream  BufferedOutputStream PrintStream</p>
+<p>字符流  BufferedReader FileReader ||||||      BufferedWriter FileWriter PrinterWriter</p>
+<p>使用HttpServletResponse的sendRedirect（）可以要求浏览器重新请求另一个URL，又称为重定向，使用时可指定绝对URL或者相对URL，和Dispatcher 的forward不一样，forward是服务器自己跳转，而sendredirect是让浏览器跳转。</p>
+<p>可以通过在servletReuqest通过setAttribute（）设置属性，该对象只在此次请求范围内有效，在请求/响应之后该对象会被销毁。</p>
+<p><strong>同一个请求周期中，HttpServletResponse的getWriter（）和getOutputStream（）只能使用一个。</strong></p>
 <h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>突然感觉自己好像有点啰嗦，我看书的时候把一些小点记在博客上，但是感觉打字太慢，所以以后需要降低在博客上记载书上已有知识的篇幅</p>
 
       
@@ -690,6 +631,10 @@ chain.doFilter(request,response);
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
         		</li>
       		
 		</ul>
@@ -1136,6 +1081,94 @@ limit count
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/11/01/20171105/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20171019" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/16/20171019/">20171019</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/16/20171019/" class="archive-article-date">
+  	<time datetime="2017-10-16T02:12:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。</li>
+<li>java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器（Application ClassLoader），自定义类加载器（User ClassLoader），前者是后者的父加载器，应用程序类加载器负责加载用户类路径（Classpath）上所指定的类库。</li>
+<li>CAS操作是指当且仅当内存位置V符合旧的预期值A时，处理器才会用新值B更新V 的值，否则他就不执行更新，但是无论是否更新了V 的值，都会返回V的旧值。</li>
+</ol>
+<p>17号早上《深入理解java虚拟机》这本书基本上看完了，第四部分没看，第四部分是程序编译与代码优化，具体内容是早期编译期优化和晚期运行期优化，最终也就是第四章，第五章，第九章没有看。看完之后可能还是有点懵逼，有一些部分还不是很清楚，但总算是了解了一些，今天刚好有点时间，总结一下这本书里大概学到的知识点。</p>
+<ol>
+<li>java内存区域和内存溢出异常：每次打开一个java程序就会打开一个java虚拟机实例，也就是每一个运行main函数就会生成一个java虚拟机的实例，这每一个java虚拟机上运行的每一个线程都有自己的程序计数器，虚拟机栈和本地方法栈。程序计数器是当前程序运行的字节码的行号指示器，虚拟机栈和本地方法栈简单来说一个运行的是java方法，一个是本地的方法，也就是JNI方法，java的每一个方法都是以栈帧的方法执行的（栈帧的内容就是局部变量表、操作数栈、动态链接、方法返回地址）。堆和方法区是共享部分，java堆中都是新建的对象实例，但是只有存储的数据，对于里面数据的解读则要到方法区中查询。方法区中存储的是被虚拟机加载的类信息，常量和静态常量、即时编译器编译后的代码等数据，方法区中有运行时常量池，用于存放编译器生成的各种字面量和符号引用</li>
+<li>垃圾收集器和内存分配策略：【哪些内存需要回收？什么时候回收？如何回收？ 判断内存需要回收使用的算法是引用计数算法和可达性分析算法，java使用的是可达性分析算法（GC roots 的选取），回收的时间选择安全点或者安全区，就是在这部分区域里进行垃圾回收。垃圾收集算法一共有三种，复制算法，标记整理算法和标记清除算法。垃圾收集器的种类：Serial收集器（新生代复制算法），Serial Old（老年代标记整理算法）、ParNew收集器（Serial收集器的多线程版本）Parallel Scavenge收集器（新生代收集器，与CMS的不同在于控制吞吐量，而不是缩短停顿时间）Parallel Old收集器（Parallel Scavenge的老年版本）Parallel Scavenge只能和Serial Old、Parallel Old搭配，CMS收集器和G1收集器】【对象在堆上分配，堆上有一个Eden和两个Survivor，对象优先在Eden上分配，大对象直接进入老年代、长期存活的对象将进入老年代、动态对象年龄判定】</li>
+<li>类文件结构以及类加载机制：每个class类文件都需要被加载，加载的时候就按照类文件里的定义直接加载到方法区中。类文件里对于每个模块的定义以及内容之间的联系。这部分内容有自定义的类加载器以及双亲委派模型和双亲委派模型被破坏的情况。</li>
+<li>java内存模型与线程安全：java的主内存和线程的工作内存，工作内存之间的数据交换只能通过主内存，java内存模型在执行时必须满足一些特定的规则【不允许一个变量从主内存读取但工作内存不接受、从工作内存发起回写但主内存不接受、变量在发生了更改之后必须把该变化同步到主内存中、不允许毫无理由的把工作内存中的数据同步到主内存、新变量只能在主内存之中产生、一个变量同一时刻只允许一条线程对其进行lock操作、对一个变量执行lock操作将会清空工作内存中 的值、没有被lock就不能被unlock、执行unlock操作之前必须把此变量同步回主内存中】线程安全的实现方法包括利用Synchronized和ReentrantLock【自旋锁、自适应自旋锁、轻量级锁、偏向锁】</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/16/20171019/">展开全文 >></a>
         </p>
       
 
