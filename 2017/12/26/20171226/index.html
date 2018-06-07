@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/12/26/20171226/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="JSPJSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误 不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候">
-<meta property="og:updated_time" content="2018-01-16T01:23:41.509Z">
+<meta property="og:updated_time" content="2018-06-07T07:19:05.512Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20171226">
 <meta name="twitter:description" content="JSPJSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误 不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候">
@@ -177,19 +177,19 @@
 <h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>JSP有自己专用的注释，即&lt;%–与–%&gt;，容器在转译JSP到Servlet的时候，会忽略两者之间包括的文字。</p>
 <hr>
 <p>Scriptlet中的一些类似于out和request的对象，转译成Servlet之后会对应到Servlet中的某个对象，request对应HttpServletRequest，像request和out的对象就被称为隐含对象。</p>
-<p>pageContext转译后对应PageContext对象，提供了jsp页面资源的封装，page对应this</p>
-<p>out并不直接对应于有HttpServletResponse得到的PrintWriter对象，out对应JSPWriter对象，该对象模拟了BufferedWriter与PrintWriter的功能。jspWriter具有缓冲区功能，这时候就决定于页面是否具有缓冲区的功能了，如果没有则会立即输出，有的话只有在清空缓冲区才会输出，page指示元素的buffer属性设置缓冲区的大小，满了之后的行为采用autoFlush属性决定。</p>
+<p>pageContext转译后对应PageContext对象，提供了jsp页面资源的封装，page对应this。</p>
+<p>out并不直接对应于有HttpServletResponse得到的PrintWriter对象，out对应JspWriter对象，该对象模拟了BufferedWriter与PrintWriter的功能。jspWriter具有缓冲区功能，这时候就决定于页面是否具有缓冲区的功能了，如果没有则会立即输出，有的话只有在清空缓冲区才会输出，page指示元素的buffer属性设置缓冲区的大小，满了之后的行为采用autoFlush属性决定。</p>
 <p>可以通过PageContext获得所有的隐含对象，除了封装所有的jsp页面信息之外 ，还可以使用pageContext来设置页面范围属性setAttribute、getAttribute、removeAttribute</p>
 <p>在jsp页面中设置属性的方式有两种，一种是通过pageContext获得HttpServletRequest、ServletContext、HttpSession，另一种是利用pageContext统一提供的接口。getAttribute（String name，int Scope），setAttribute（String name，Object value,int scope）,remove(String name, int scope)，Scope是标识不同的范围，pageContext提供了findAttribute（），从页面，请求，会话到应用程序范围以此寻找。</p>
 <h2 id="错误页面"><a href="#错误页面" class="headerlink" title="错误页面"></a>错误页面</h2><p>使用page指示元素，设置errorPage属性便可以指定错误处理的JSP页面。错误页面的page指示元素的isErrorPage属性设置为true。</p>
-<h2 id="标准标签"><a href="#标准标签" class="headerlink" title="标准标签"></a>标准标签</h2><p>主要作用是减少scriptlet的使用，include指示元素可以把另一个JSP页面包含进来转移成一个Servlet类，无法在运行时动态调整想要的页面。如果想要在运行时依条件动态调整想要包括的JSP页面，则可以使用&lt;jsp：include&gt;标签，可以动态包括要给该页面的请求参数</p>
-<p>转发页面可以使用&lt;jsp：forward&gt;，与前者的使用方法相同。</p>
+<h2 id="标准标签"><a href="#标准标签" class="headerlink" title="标准标签"></a>标准标签</h2><p>主要作用是减少scriptlet的使用，include指示元素可以把另一个JSP页面包含进来转移成一个Servlet类，无法在运行时动态调整想要的页面。如果想要在运行时依条件动态调整想要包括的JSP页面，则可以使用<a href="jsp:include" target="_blank" rel="noopener">jsp:include</a>标签，可以动态包括要给该页面的请求参数。</p>
+<p>转发页面可以使用<a href="jsp:forward" target="_blank" rel="noopener">jsp:forward</a>，与前者的使用方法相同。</p>
 <pre><code>&lt;jsp:forward page=&apos;&quot;add.jsp&quot;&gt;
     &lt;jsp:param name=&quot;a&quot; value=&quot;1&quot;&gt;
     &lt;jsp:param name=&quot;a&quot; value=&quot;2&quot;&gt;
 &lt;/jsp:forward&gt;
 </code></pre><p><strong><a href="jsp:useBean" target="_blank" rel="noopener">jsp:useBean</a>、<a href="jsp:setProperty" target="_blank" rel="noopener">jsp:setProperty</a>、<a href="jsp:getProperty" target="_blank" rel="noopener">jsp:getProperty</a></strong></p>
-<p>JavaBean指的是满足以下条件的java对象，必须实现了Java.io.Serializable接口，没有公开的类变量，具有无参数的构造函数，具有公开的设值方法和取值方法，setter和getter，可以直接使用标签在页面中赋值</p>
+<p>JavaBean指的是满足以下条件的java对象，必须实现了Java.io.Serializable接口，没有公开的类变量，具有无参数的构造函数，具有公开的设值方法和取值方法，setter和getter，可以直接使用标签在页面中赋值。</p>
 <pre><code>&lt;jsp:useBean id=&quot;名称（类实例变量名称）&quot; class=&quot;包名.类名&quot; 
 scope=&quot;page、request、session、application&quot;
 type=&quot;想要指定的类型&quot;/&gt;
@@ -254,11 +254,11 @@ type=&quot;想要指定的类型&quot;/&gt;
   
 <nav id="article-nav">
   
-    <a href="/2017/12/26/20171221/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/12/27/20171227/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          20171226
+          20171227
         
       </div>
     </a>

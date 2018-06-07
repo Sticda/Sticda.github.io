@@ -1429,9 +1429,9 @@ self.score=score
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="表达式语言（EL）"><a href="#表达式语言（EL）" class="headerlink" title="表达式语言（EL）"></a>表达式语言（EL）</h1><p>替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断</p>
-<p>EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换</p>
-<p>可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置<el-ignored>标签为true，不使用EL。两种方式以前者为主</el-ignored></p>
+        <h1 id="表达式语言（EL）"><a href="#表达式语言（EL）" class="headerlink" title="表达式语言（EL）"></a>表达式语言（EL）</h1><p>替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断。</p>
+<p>EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换。</p>
+<p>可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置<el-ignored>标签为true，不使用EL。两种方式以前者为主。</el-ignored></p>
 <p>EL的应用实例</p>
 <pre><code>&lt;h1&gt;${user.name}&lt;/h1&gt;&lt;%--按照page、request、session、application
 的顺序来寻找EL中指定的属性&gt;--%
@@ -1451,7 +1451,7 @@ ${login[&quot;pass.word&quot;]}
 <ol>
 <li>pageContext：PageContext本身就是JavaBean</li>
 <li>与属性相关的隐含对象</li>
-<li>与请求参数相关的隐含对象： param与paranValues，param可以取得某个参数的值，paramValues可以取得所有请求参数，返回值是数组</li>
+<li>与请求参数相关的隐含对象： param与paramValues，param可以取得某个参数的值，paramValues可以取得所有请求参数，返回值是数组</li>
 <li>与标头（header）相关的隐含对象：header或者headerValues</li>
 <li>cookie隐含对象：取得用户设置的cookie值</li>
 <li>初始参数隐含对象：initParam可以用来取得web.xml中设置的ServletContext初始参数。</li>
