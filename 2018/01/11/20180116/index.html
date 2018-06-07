@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/01/11/20180116/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="Web容器安全管理&amp;lt;login-config&amp;gt;     &amp;lt;auth-method&amp;gt;BASIC&amp;lt;/auth-method&amp;gt;&amp;lt;!--定义验证方式,basic是基本验证方式--&amp;gt; &amp;lt;/login-config&amp;gt; &amp;lt;security-role&amp;gt;     &amp;lt;role-name&amp;gt;admin&amp;lt;/role-name&amp;gt;">
-<meta property="og:updated_time" content="2018-01-18T08:46:42.404Z">
+<meta property="og:updated_time" content="2018-06-07T08:38:17.796Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180116">
 <meta name="twitter:description" content="Web容器安全管理&amp;lt;login-config&amp;gt;     &amp;lt;auth-method&amp;gt;BASIC&amp;lt;/auth-method&amp;gt;&amp;lt;!--定义验证方式,basic是基本验证方式--&amp;gt; &amp;lt;/login-config&amp;gt; &amp;lt;security-role&amp;gt;     &amp;lt;role-name&amp;gt;admin&amp;lt;/role-name&amp;gt;">
@@ -203,7 +203,7 @@
 <h1 id="整合数据库"><a href="#整合数据库" class="headerlink" title="整合数据库"></a>整合数据库</h1><ol>
 <li>加载JDBC驱动程序：通过java.lang.Class类的forName，动态加载驱动程序类，Class.forName(“com.mysql.jdbc.Driver”)，不同的数据加载不同的类。</li>
 <li>提供JDBC URL，JDBC URL定义了连接数据库时的协议等标识。。jdbc：mysql:://主机名称：连接端口/数据库名称？参数=值&amp;参数=值，参数包括用户名、密码、useUnicode（是否使用unicode）、character-Encoding（字符编码方式），<strong>xml文件中不能出现“&amp;”，所以用“&amp;amp；”代替</strong>。</li>
-<li>取得Connection实例：coon=DriverManager.getConnection（url），url是第二部里面的URL；当数据库管理人员不想告诉开发人员数据库的密码和用户名时，开发者可以通过JNDI的方式获得Connection</li>
+<li>取得Connection实例：coon=DriverManager.getConnection（url），url是第二步里面的URL；当数据库管理人员不想告诉开发人员数据库的密码和用户名时，开发者可以通过JNDI的方式获得Connection</li>
 </ol>
 <h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><ol>
 <li>Template Method模式（Gof设计模式）：父类会定义服务流程的方法，子类继承或者覆写实现具体的流程。</li>
