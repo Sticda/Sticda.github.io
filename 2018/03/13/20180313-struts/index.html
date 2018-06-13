@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/13/20180313-struts/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="eclipse生成部署Web项目的时候，会自动将src路径下除了*.java外的所有文件都复制到web应用的WEB-INF\classes路径下。 在WebContent下面的文件在配置中就是从根目录开始的，如果是WebContent下面的子文件夹，比如是WEB-INF中的content文件下的mo.jsp文件需要设置为/WEB-INF/content/mo.jsp Struts2推荐把所有视图页">
-<meta property="og:updated_time" content="2018-03-20T01:59:13.396Z">
+<meta property="og:updated_time" content="2018-06-12T08:34:30.504Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180313">
 <meta name="twitter:description" content="eclipse生成部署Web项目的时候，会自动将src路径下除了*.java外的所有文件都复制到web应用的WEB-INF\classes路径下。 在WebContent下面的文件在配置中就是从根目录开始的，如果是WebContent下面的子文件夹，比如是WEB-INF中的content文件下的mo.jsp文件需要设置为/WEB-INF/content/mo.jsp Struts2推荐把所有视图页">
@@ -174,19 +174,19 @@
 <li>定义处理用户请求的Action类（Actionsupport）。Action是MVC里的C</li>
 <li>配置Action。指定哪个请求对应于哪个Action进行处理。Convention插件支持“约定优于配置”的思想，采用约定的方式来规定请求和action之间的对应关系。</li>
 <li>通常action处理用户请求之后会返回一个字符串，在struts.xml中可以配置这个字符串和物理视图（要返回给用户的界面）之间的对应关系</li>
-<li>如果action需要发送数据给试图自愿，可以借助DGNL表达式。</li>
+<li>如果action需要发送数据给视图资源，可以借助DGNL表达式。</li>
 </ol>
 <p>Struts.xml通常放在web应用的类加载路径下，通常是放在WEB-INF/classes路径下，主要作用就是配置action和请求之间的对应关系，还可以使用struts.properties文件来管理常量，标准properties文件，key-value对。这些常量会对整个struts2应用起作用，同样放在WEB-INF/classes下。</p>
-<p>struts2会自动加载struts.xml（开发者自定义配置文件）、struts-default.xml（struts2自带配置文件）、struts-plugin.xml（struts2插件的配置文件）</p>
-<p>Struts2配置常量有三种方式：struts.properties\struts.xml\web.xml，在struts.xml中可以通过constant元素配置，在web.xml中配置StrutsPrepareAndExecute时也可以配置struts2常量，通过为filter配置初始参数的方法配置struts2常量</p>
+<p>struts2会自动加载struts.xml（开发者自定义配置文件）、struts-default.xml（struts2自带配置文件）、struts-plugin.xml（struts2插件的配置文件）。</p>
+<p>Struts2配置常量有三种方式：struts.properties\struts.xml\web.xml，在struts.xml中可以通过constant元素配置，在web.xml中配置StrutsPrepareAndExecute时也可以配置struts2常量，通过为filter配置初始参数的方法配置struts2常量。</p>
 <p>struts2框架加载常量的顺序是struts-default.xml、struts-plugin.xml、struts.xml、struts.properties、web.xml，后面的重名常量会覆盖之前的常量。</p>
-<p>为了避免struts.xml文件过于庞大，所以可以通过include元素手动导入配置文件</p>
+<p>为了避免struts.xml文件过于庞大，所以可以通过include元素手动导入配置文件。</p>
 <pre><code>&lt;s:textfield name=&quot;Xxx&quot; key=&quot;&quot;&gt;
 name是action定义类中的常量名称，key是显示在页面上的文字
-</code></pre><p>Action中的实例变量不仅可以封装请求参数，也可以用来封装处理结果</p>
-<p>Action接口规范中统一定义了5个字符串常量：ERROR、NONE、INPUT、LOGIN、SUCCESS，实现类ActionSupport</p>
-<p>Web应用中经常要用到HttpServletRequest、HttpSession、ServletContext，这三个分别是jsp内置对象中的request、session和application，Struts2提供了ActionContext</p>
-<p>Action直接访问Servlet API，实现三个接口就可以实现，ServletContextAware、ServletRequestAware、ServletResponseAware</p>
+</code></pre><p>Action中的实例变量不仅可以封装请求参数，也可以用来封装处理结果。</p>
+<p>Action接口规范中统一定义了5个字符串常量：ERROR、NONE、INPUT、LOGIN、SUCCESS，实现类ActionSupport。</p>
+<p>Web应用中经常要用到HttpServletRequest、HttpSession、ServletContext，这三个分别是jsp内置对象中的request、session和application，Struts2提供了ActionContext。</p>
+<p>Action直接访问Servlet API，实现三个接口就可以实现，ServletContextAware、ServletRequestAware、ServletResponseAware。</p>
 <p>ServletContext是在服务器上共享的一片区域，而session则是每一个用户自有的一块区域。</p>
 <p>Struts2中的Action在一个包中，包用package配置，每个包里面有很多个Action和拦截器，package的name属性是引用该包的唯一标识。extend属性可以用来继承另一个包，还有抽象包的概念，抽象包不能有Action的定义。</p>
 <p>interceptors是拦截器，下面的这段代码的action的name是*，代表请求的网页是和action同名的jsp</p>
@@ -455,6 +455,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">essay</a>
               </li>
             
             <div class="clearfix"></div>

@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/26/20180326-struts/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="数据标签Action标签里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。 bean标签的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置Jav">
-<meta property="og:updated_time" content="2018-04-02T00:44:54.024Z">
+<meta property="og:updated_time" content="2018-06-13T07:33:52.509Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180326 struts">
 <meta name="twitter:description" content="数据标签Action标签里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。 bean标签的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置Jav">
@@ -166,12 +166,12 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="数据标签"><a href="#数据标签" class="headerlink" title="数据标签"></a>数据标签</h2><p><strong>Action标签</strong>里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。</p>
-<p><strong>bean标签</strong>的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置JavaBean的属性值只能通过bean属性的子标签</p>
-<p><strong>date标签</strong>的var属性也会把格式化后的字符串放入Stack Context，并放入requestScope中</p>
-<p><strong>include标签</strong>用于将jsp页面或者servlet包含到本页面，value属性指定被包含的页面，要传入参数的话需要利用param子标签。<strong>param这个标签</strong>就是name和value参数。可以省略value标签，用param标签把value包在里面</p>
+<p><strong>bean标签</strong>的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置JavaBean的属性值只能通过bean属性的子标签。</p>
+<p><strong>date标签</strong>的var属性也会把格式化后的字符串放入Stack Context，并放入requestScope中。</p>
+<p><strong>include标签</strong>用于将jsp页面或者servlet包含到本页面，value属性指定被包含的页面，要传入参数的话需要利用param子标签。<strong>param这个标签</strong>就是name和value参数。可以省略value标签，用param标签把value包在里面。</p>
 <p><strong>push标签</strong>的主要作用就是把某个值放到ValueStack的栈顶，只有在push标签内，被push标签放入VaLueStack中的对象才存在，一旦离开了push标签，刚刚放入的对象就会被立刻溢出ValueStack。</p>
-<p><strong>set标签</strong>用于将某个值放入指定范围内。属性有scope、value(未指定的话就是ValueStack栈顶的值)、var（指定属性后将该值放入ValueStack）</p>
-<p><strong>url标签</strong>用于生成URL地址（value属性指定要输出的属性值，要是没有指定，则默认输出ValueStack）</p>
+<p><strong>set标签</strong>用于将某个值放入指定范围内。属性有scope、value(未指定的话就是ValueStack栈顶的值)、var（指定属性后将该值放入ValueStack）。</p>
+<p><strong>url标签</strong>用于生成URL地址（value属性指定要输出的属性值，要是没有指定，则默认输出ValueStack）。</p>
 <p>Struts 2允许在同一个视图界面使用不同的主题，如果需要改变表单的主题需要改变表单标签的theme属性，如果需要让某次用户会话使用特定的主题，可以通过在session中设置一个theme的变量，如果需要改变某个应用的主题，则可以通过修改struts.ui.theme实现。</p>
 <h2 id="Struts2-的类型转换机制"><a href="#Struts2-的类型转换机制" class="headerlink" title="Struts2 的类型转换机制"></a>Struts2 的类型转换机制</h2><p>Struts2提供了类型转化机制，http请求参数都是字符串类型，所以需要转化为自定义类型，字符串与基本类型之间的转化struts2已经实现。</p>
 <p>如果在Action的定义文件中直接指定了某些集合变量的泛型，就可以直接在jsp文件中写明某个参数的name是集合变量的哪个元素的哪个属性。</p>
@@ -181,7 +181,7 @@
 <p>对于某个具体的action起作用的类型转换器就可以在该action的局部类型转换文件中写明。如果properties文件中包含了非西欧字符则需要使用native2ascii命令处理该文件。</p>
 <p>注册全局类型转换器需要提供xwork-conversion.properties文件，放在WEB-INF/classes文件夹下，内容就是某个类的全限定名=某个转换器的全限定名。</p>
 <p>Action中一般不使用set，因为set中的元素都是无序状态，但是如果为这些元素指定了索引属性，就不存在这个问题了。 索引属性必须是set集合中元素的属性，除了在局部类型转换文件中通过代码明确set集合中元素的索引属性之外，还需要在set中的元素的定义中重写equals和hascode方法来确保索引属性是某个元素。</p>
-<p>在OGNL表达式中访问set元素使用的是圆括号，但对于数组、list和map，则通过方括号访问指定元素。struts2位转换类型错误注册了名为conversionError的拦截器，处理异常之后系统会跳转到名为input的逻辑视图中。想要输出类型转换错误可以使用&lt;s:fielderror/&gt;，如果特定的字段类型转换出现了问题想要输出特定的提示信息，则可以在局部类型文件中设置。</p>
+<p>在OGNL表达式中访问set元素使用的是圆括号，但对于数组、list和map，则通过方括号访问指定元素。struts2为转换类型错误注册了名为conversionError的拦截器，处理异常之后系统会跳转到名为input的逻辑视图中。想要输出类型转换错误可以使用&lt;s:fielderror/&gt;，如果特定的字段类型转换出现了问题想要输出特定的提示信息，则可以在局部类型文件中设置。</p>
 <pre><code>&lt;s:textfield name=&quot;users[%{#stat.index}]&quot;&gt;和
 &lt;s:property name=&quot;#user.name&quot;&gt;
 两个的区别是前面那个users里面是字符索引，
@@ -191,7 +191,7 @@
 <p>加载国际化资源的方式有两种：Action范围的和包范围的国际化可以自动加载；jsp范围、全局范围的国际化资源文件分别使用标签和配置常量的方式。<br>输出国际化的方式也有两种：struts的标签、ActionSupport类中的getText（）方法。</p>
 <p>在JSP页面中指定国际化资源需要&lt;s:i18n&gt;，作为输出标签的父标签会好一点，因为会自动加载国际化资源文件。text标签可以利用name属性从资源文件中取值，如果是form标签则利用key属性取值。</p>
 <p>可以单独为Action定义一个国际化资源文件，在Action类文件所在的路径建立ActionName_language_country.properties的文件，可以自动加载。</p>
-<p>包范围内的国际化资源文件也可以自动加载，package_<language>_<country>.properties，该包下的所有action都可以使用这些资源文件。当包范围和Action范围的资源文件同时存在的时候，系统将优先使用Action范围的资源文件。</country></language></p>
+<p>包范围内的国际化资源文件也可以自动加载，package_\&lt;language>_\&lt;country>.properties，该包下的所有action都可以使用这些资源文件。<strong>当包范围和Action范围的资源文件同时存在的时候，系统将优先使用Action范围的资源文件。</strong></p>
 <p><strong>在实际项目中推荐使用Action范围的国际化资源</strong>，所有的action的资源文件放在一起管理会很复杂。</p>
 <p>在struts.xml或者struts.properties文件中配置常量只需要配置struts.custom.i18n.resources常量即可加载全局国际化资源文件，全局国际化资源文件中只保存对于全局有效的东西，如果把所有的国际化资源消息放在一个文件里，很难维护。</p>
 <p>JSP页面中对应的国际化资源文件中有占位符，也就是说消息类似于“welcome={0}，您好！”在text标签中指定name为welcome来展示这条消息，需要利用param子标签为该占位符提供参数。在Action中通过getText获取国际化消息资源，所以现在通过getText里面增加参数来完成占位符的填充；还可以直接在国际化资源文件中使用EL表达式。</p>
@@ -238,7 +238,7 @@
 <li>正则表达式校验器：名称是regex，检查被校验字段是否符合匹配一个正则表达式，参数中的regex就指明匹配用的正则表达式，caseSensitive是否区分大小写。</li>
 </ol>
 <p>可以通过在Action类中通过注解指定校验规则。需要使用验证器注解修饰Action里各成员变量对应的setter方法。</p>
-<h3 id="手动完成输入校验"><a href="#手动完成输入校验" class="headerlink" title="手动完成输入校验"></a>手动完成输入校验</h3><p>在Action定义过程中重写ActionSupport类的validate方法，除此之外，一个Action类里可以有很多逻辑Action，也就是通过不同的method指定的逻辑Action，validate会校验所有的处理逻辑，Action可以增加validateXXX（）方法，就可以处理相应的逻辑Action。某个Action类里先调用validateXxx方法，然后调用validate方法，如果说出错误信息，这种方式不会像标签那样自动输出错误提示信息，而是要显式的利用&lt;s:fielderror&gt;标签输出。</p>
+<h3 id="手动完成输入校验"><a href="#手动完成输入校验" class="headerlink" title="手动完成输入校验"></a>手动完成输入校验</h3><p>在Action定义过程中重写ActionSupport类的validate方法，除此之外，一个Action类里可以有很多逻辑Action，也就是通过不同的method指定的逻辑Action，validate会校验所有的处理逻辑，Action可以增加validateXXX（）方法，就可以处理相应的逻辑Action。某个Action类里先调用validateXxx方法，然后调用validate方法，如果输出错误信息，这种方式不会像标签那样自动输出错误提示信息，而是要显式的利用&lt;s:fielderror&gt;标签输出。</p>
 <h3 id="使用struts2控制文件上传"><a href="#使用struts2控制文件上传" class="headerlink" title="使用struts2控制文件上传"></a>使用struts2控制文件上传</h3><p>上传文件时需要将表单的method设置为post，并且将enctype设置为multipart/form-data。&lt;s:file&gt;可以提供一个用于生成一个文件上传域，这个文件上传的Action里面封装了3个变量，File upload（封装上传文件域）、String uploadContentType、String uploadFileName、String savepath（在struts.xml中配置Action的时候配置的变量），有时候需要对浏览者上传的文件进行过滤，</p>
 <ol>
 <li>在action中定义一个用来过滤文件的方法，这个方法的名字是任意的，它的作用就是在validate方法中被调用。</li>
@@ -508,6 +508,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">spring</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">essay</a>
               </li>
             
             <div class="clearfix"></div>
