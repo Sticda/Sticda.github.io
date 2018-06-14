@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/01/11/20180116/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="Web容器安全管理&amp;lt;login-config&amp;gt;     &amp;lt;auth-method&amp;gt;BASIC&amp;lt;/auth-method&amp;gt;&amp;lt;!--定义验证方式,basic是基本验证方式--&amp;gt; &amp;lt;/login-config&amp;gt; &amp;lt;security-role&amp;gt;     &amp;lt;role-name&amp;gt;admin&amp;lt;/role-name&amp;gt;">
-<meta property="og:updated_time" content="2018-06-07T08:38:17.796Z">
+<meta property="og:updated_time" content="2018-06-14T03:02:39.466Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180116">
 <meta name="twitter:description" content="Web容器安全管理&amp;lt;login-config&amp;gt;     &amp;lt;auth-method&amp;gt;BASIC&amp;lt;/auth-method&amp;gt;&amp;lt;!--定义验证方式,basic是基本验证方式--&amp;gt; &amp;lt;/login-config&amp;gt; &amp;lt;security-role&amp;gt;     &amp;lt;role-name&amp;gt;admin&amp;lt;/role-name&amp;gt;">
@@ -222,29 +222,28 @@
 <li>dict相当于其他语言里的map，python里面在交互式命令行模式下当返回None的时候不显示结果。dict里的key是不可变对象。</li>
 <li>set是集合，没有重复元素。可以重复添加，但没有效果。两个集合可以利用“&amp;“和”|“做数学意义上的交集和并集。</li>
 <li>在Python中，定义一个函数要使用def语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用return语句返回。</li>
-<li><p>python里面函数不需要写明返回值的类型，可以返回多个值，但实际上仍然是一个tuple。函数的默认参数写在定义函数的地方。</p>
-<p> def enroll(name, gender, age=6, city=’Beijing’):</p>
-<pre><code>enroll(&apos;Sarah&apos;, &apos;F&apos;) 
-enroll(&apos;Bob&apos;, &apos;M&apos;, 7)
-enroll(&apos;Adam&apos;, &apos;M&apos;, city=&apos;Tianjin&apos;)`
-</code></pre></li>
+<li>python里面函数不需要写明返回值的类型，可以返回多个值，但实际上仍然是一个tuple。函数的默认参数写在定义函数的地方。</li>
 </ol>
-<ol>
+<pre><code>def enroll(name, gender, age=6, city=&apos;Beijing&apos;):
+    enroll(&apos;Sarah&apos;, &apos;F&apos;) 
+    enroll(&apos;Bob&apos;, &apos;M&apos;, 7)
+    enroll(&apos;Adam&apos;, &apos;M&apos;, city=&apos;Tianjin&apos;)`
+</code></pre><ol>
 <li>默认参数必须指向不变对象。</li>
-<li><p>可变参数传入函数的时候会自动组装成一个tuple.</p>
-<p> def calc(*numbers):</p>
-<pre><code>sum=0
-for n in numbers
-    sum=sum+n*n
-return sum
-</code></pre></li>
-<li><p>可变参数允许你传入0个或任意个参数，这些可变参数在函数调用时自动组装为一个tuple。而关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个dict。</p>
-</li>
-<li><p>关键字参数有什么用？它可以扩展函数的功能。</p>
-<p>def person(name,age,**kw): #kw是关键字参数</p>
-</li>
-<li><p>参数定义的顺序必须是：必选参数、默认参数、可变参数和关键字参数。</p>
-</li>
+<li>可变参数传入函数的时候会自动组装成一个tuple.</li>
+</ol>
+<pre><code>def calc(*numbers):
+    sum=0
+    for n in numbers
+        sum=sum+n*n
+    return sum
+</code></pre><ol>
+<li>可变参数允许你传入0个或任意个参数，这些可变参数在函数调用时自动组装为一个tuple。而关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个dict。</li>
+<li>关键字参数有什么用？它可以扩展函数的功能。</li>
+</ol>
+<pre><code>def person(name,age,**kw): #kw是关键字参数
+</code></pre><ol>
+<li>参数定义的顺序必须是：必选参数、默认参数、可变参数和关键字参数。</li>
 <li>尾递归是指在函数返回的时候，调用自身本身，并且，return语句不能包含表达式，理论上可以防止栈溢出，但是Python标准的解释器没有针对尾递归做优化，任何递归函数都存在栈溢出的问题。</li>
 <li>字符串、元组、列表切片[起始元素:终止元素:步长]，步长省略时为1，起始元素从0开始，不包括终止元素。</li>
 <li>默认情况下，dict迭代的是key。如果要迭代value，可以用for value in d.itervalues()，如果要同时迭代key和value，可以用for k, v in d.iteritems()</li>
@@ -273,22 +272,24 @@ return sum
 <hr>
 <p>今天决定python只学习自己需要的部分，所以不准备所有都看了，之前看的一些高级特性都没搞明白。</p>
 <ol>
-<li><p>当我们在命令行运行模块文件时，Python解释器把一个特殊变量<strong>name</strong>置为<strong>main</strong>，而如果在其他地方导入该模块时，if判断将失败。</p>
-<p> if <strong>name</strong>=’<strong>main</strong>‘:</p>
-<pre><code>test()
-</code></pre></li>
-<li><p>外部不需要引用的函数全部定义成private，只有外部需要引用的函数才定义为public，类似_xxx和__xxx这样的函数或变量就是非公开的（private），不应该被直接引用。</p>
-</li>
+<li>当我们在命令行运行模块文件时，Python解释器把一个特殊变量<strong>name</strong>置为<strong>main</strong>，而如果在其他地方导入该模块时，if判断将失败。</li>
+</ol>
+<pre><code>if __name__=&apos;__main__&apos;:
+    test()
+</code></pre><ol>
+<li>外部不需要引用的函数全部定义成private，只有外部需要引用的函数才定义为public，类似_xxx和__xxx这样的函数或变量就是非公开的（private），不应该被直接引用。</li>
 <li><p>安装第三方库的时候使用“pip install  模块名” 。</p>
 </li>
 <li><p>定义类，<strong>init</strong>方法的第一个参数永远是self，表示创建的实例本身，因此，在<strong>init</strong>方法内部，就可以把各种属性绑定到self，因为self就指向创建的实例本身</p>
-<p> class Student(object):</p>
-<p> def <strong>init</strong>(self,name,score):</p>
-<pre><code>self.name=name
-self.score=score
-</code></pre></li>
-<li><p>和普通的函数相比，在类中定义的函数只有一点不同，就是第一个参数永远是实例变量self，并且，调用时，不用传递该参数。</p>
 </li>
+</ol>
+<pre><code>class Student(object):
+
+def __init__(self,name,score):
+    self.name=name
+    self.score=score
+</code></pre><ol>
+<li>和普通的函数相比，在类中定义的函数只有一点不同，就是第一个参数永远是实例变量self，并且，调用时，不用传递该参数。</li>
 <li>当我们认为某些代码可能会出错时，就可以用try来运行这段代码，如果执行出错，则后续代码不会继续执行，而是直接跳转至错误处理代码，即except语句块，执行完except后，如果有finally语句块，则执行finally语句块，至此，执行完毕。</li>
 <li>如果错误没有被捕获，它就会一直往上抛，最后被Python解释器捕获，打印一个错误信息，然后程序退出。</li>
 <li>如果不捕获错误，自然可以让Python解释器来打印出错误堆栈，但程序也被结束了。既然我们能捕获错误，就可以把错误堆栈打印出来，然后分析错误原因，同时，让程序继续执行下去。Python内置的logging模块可以非常容易地记录错误信息。</li>
