@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>20180402 struts | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="struts2 拦截器在struts.xml文件中指定使用特定的拦截器，在struts-default.xml文件中以name-cl ass的形式配置了很多的拦截器。 配置拦截器最简单的格式 &amp;lt;interceptor name=“拦截器名”  class=“l拦截器实现”/&amp;gt; 如果拦截器需要配置参数的话只需要在其中使用param子标签。除此之外还可以定义拦截器栈，使用&amp;lt;inter">
+  <meta name="description" content="struts2 拦截器在struts.xml文件中指定使用特定的拦截器，在struts-default.xml文件中以name-class的形式配置了很多的拦截器。 配置拦截器最简单的格式 &amp;lt;interceptor name=“拦截器名”  class=“拦截器实现”/&amp;gt; 如果拦截器需要配置参数的话只需要在其中使用param子标签。除此之外还可以定义拦截器栈，使用&amp;lt;interce">
 <meta name="keywords" content="笔记,Struts">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20180402 struts">
 <meta property="og:url" content="http://yoursite.com/2018/04/02/20180402-struts/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="struts2 拦截器在struts.xml文件中指定使用特定的拦截器，在struts-default.xml文件中以name-cl ass的形式配置了很多的拦截器。 配置拦截器最简单的格式 &amp;lt;interceptor name=“拦截器名”  class=“l拦截器实现”/&amp;gt; 如果拦截器需要配置参数的话只需要在其中使用param子标签。除此之外还可以定义拦截器栈，使用&amp;lt;inter">
-<meta property="og:updated_time" content="2018-04-02T08:29:02.967Z">
+<meta property="og:description" content="struts2 拦截器在struts.xml文件中指定使用特定的拦截器，在struts-default.xml文件中以name-class的形式配置了很多的拦截器。 配置拦截器最简单的格式 &amp;lt;interceptor name=“拦截器名”  class=“拦截器实现”/&amp;gt; 如果拦截器需要配置参数的话只需要在其中使用param子标签。除此之外还可以定义拦截器栈，使用&amp;lt;interce">
+<meta property="og:updated_time" content="2018-06-14T00:54:57.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180402 struts">
-<meta name="twitter:description" content="struts2 拦截器在struts.xml文件中指定使用特定的拦截器，在struts-default.xml文件中以name-cl ass的形式配置了很多的拦截器。 配置拦截器最简单的格式 &amp;lt;interceptor name=“拦截器名”  class=“l拦截器实现”/&amp;gt; 如果拦截器需要配置参数的话只需要在其中使用param子标签。除此之外还可以定义拦截器栈，使用&amp;lt;inter">
+<meta name="twitter:description" content="struts2 拦截器在struts.xml文件中指定使用特定的拦截器，在struts-default.xml文件中以name-class的形式配置了很多的拦截器。 配置拦截器最简单的格式 &amp;lt;interceptor name=“拦截器名”  class=“拦截器实现”/&amp;gt; 如果拦截器需要配置参数的话只需要在其中使用param子标签。除此之外还可以定义拦截器栈，使用&amp;lt;interce">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -165,9 +165,9 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="struts2-拦截器"><a href="#struts2-拦截器" class="headerlink" title="struts2 拦截器"></a>struts2 拦截器</h2><p>在struts.xml文件中指定使用特定的拦截器，在struts-default.xml文件中以name-cl ass的形式配置了很多的拦截器。</p>
+        <h2 id="struts2-拦截器"><a href="#struts2-拦截器" class="headerlink" title="struts2 拦截器"></a>struts2 拦截器</h2><p>在struts.xml文件中指定使用特定的拦截器，在struts-default.xml文件中以name-class的形式配置了很多的拦截器。</p>
 <p>配置拦截器最简单的格式</p>
-<pre><code>&lt;interceptor name=“拦截器名”  class=“l拦截器实现”/&gt;
+<pre><code>&lt;interceptor name=“拦截器名”  class=“拦截器实现”/&gt;
 </code></pre><p>如果拦截器需要配置参数的话只需要在其中使用param子标签。除此之外还可以定义拦截器栈，使用&lt;interceptor-stack…/&gt;元素定义拦截器栈，同时还需要在其中利用&lt;interceptor-ref…./&gt;元素来定义多个拦截器引用。</p>
 <p>拦截器栈和拦截器的功能几乎完全相同，所以有可能出现的情况就是拦截器栈里也可以包含拦截器栈（这种方式的存在就是为了软件复用，因为之前已经使用该拦截器栈定义了我们需要在新的拦截器栈中使用的拦截器）。</p>
 <p>拦截器指定参数的时机就只有两个，一个是在定义拦截器的时候配置的默认参数（interceptor标签里的param子标签），还有一个使用拦截器的时候配置的参数（interceptor-ref标签里的param子标签）。使用拦截器的时候是在action里面配置interceptpr-ref，一般使用自己的拦截器之前会先调用defaultStack。</p>
