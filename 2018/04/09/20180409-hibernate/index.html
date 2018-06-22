@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/09/20180409-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeT">
-<meta property="og:updated_time" content="2018-04-15T13:53:37.046Z">
+<meta property="og:updated_time" content="2018-06-21T10:25:12.861Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180409 Hibernate">
 <meta name="twitter:description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeT">
@@ -176,7 +176,7 @@
 <p><strong>同样在1的一端添加@JoinColumn映射外键列，但此处的外键列会添加到关联实体对应的数据表中</strong>，少用单向1-N关联，性能不好。</p>
 <p>有连接表的1-N和N-1中unique索引的添加方法，1-N和N-1两种关联关系中，1-N的意思是1个A对象可以关联N个B对象，所以这个unique索引应该在B对象的列声明中。</p>
 <p>单向的N-N关联和1-N关联比较类似，@ManyToMany注解，并且去掉了N端的unique属性即可完成使用连接表的N-N关联。</p>
-<h3 id="双向1-N关联"><a href="#双向1-N关联" class="headerlink" title="双向1-N关联"></a>双向1-N关联</h3><p>Hibernate推荐使用N的一端控制关联关系，无连接表的双向1-N关联在N的一端使用@ManyToOne，在1的一端使用@OneToMany。</p>
+<h3 id="双向1-N关联"><a href="#双向1-N关联" class="headerlink" title="双向1-N关联"></a>双向1-N关联</h3><p><strong>Hibernate推荐使用N的一端控制关联关系</strong>，无连接表的双向1-N关联在N的一端使用@ManyToOne，在1的一端使用@OneToMany。</p>
 <p>在N的一端数据表中增加一个外键列，使用@ManyToOne注解的同时，使用@JoinColumn映射外键列。为了让在1的一端不能控制关联关系，在1的一端的注解@OneToMany中指定mappedBy属性为关联实体，表明当前实体不能控制关联关系，在这种情况下先持久化1一端的实体，才能持久化N一端的实体，因为在持久化N一端的实体时，需要插入对应的外键列的键值。当@OneToMany、@ManyToMany、@OneToOne所在的实体放弃控制关联关系之后，就不能使用@JoinColumn或者@JoinTable修饰代表关联实体的属性了；有连接表的双向1-N关联在N的一端使用@JoinTable映射连接表。如果想让1的一端控制关联关系，只需要把mappedBy删除，然后配合@JoinTable，只是1和N的两端的键值列要对应。这时候就不要考虑先持久化哪个实体了。</p>
 <h3 id="双向N-N关联"><a href="#双向N-N关联" class="headerlink" title="双向N-N关联"></a>双向N-N关联</h3><p>双向N-N关联只能使用有连接表的关联方式，在两边都使用@ManyToMany注解修饰Set集合属性，使用@JoinTable显式映射连接表，在两端映射连接表的时候，表名应该相同，两端使用@JoinTable指定的外键列的列名也应该是相互对应的。</p>
 <h3 id="双向1-1关联"><a href="#双向1-1关联" class="headerlink" title="双向1-1关联"></a>双向1-1关联</h3><p>双向1-1关联需要让两个持久化类都增加引用关联实体的属性，并为该属性提供setter和getter方法，本来双向1-1是平等的关联关系，当某一边使用了@OneToOne注解和@JoinColumn之后，这一端就变成了从表，因为这个表的外键列对应另一个表的主键列，为了保持两个持久化类的平等关系，需要在主表一端的@OneToOne注解中指定mappedBy属性，这样就表明该实体不管理关联关系。</p>
@@ -209,10 +209,10 @@
 <p>HQL既可以使用英文问号+索引的占位符形式（？N），也可以使用有名字的占位符，使用有名字的占位符的时候应该在占位符名字之前增加英文冒号（:）。</p>
 <p>HQL区分大小写，query对象可以为HQL参数多次赋值，因为query的setXxx方法返回的是Query本身。Query调用list方法得到结果，Query本身还包括如下两个方法，setFirstResult，设置返回的记录从第几条记录开始，setMaxResults，设置本次查询返回的结果数目。</p>
 <p>HQL支持两种关联连接：隐式和显式，隐式连接就是通过”.”来实现的MySQL的交叉连接，隐式连接形式不使用join关键字，显式连接使用Xxx join关键字，MySQL中的连接和HQL中的关键字的对应方式是inner join（join）、left outer join（left join）、right outer join（right join），使用显式连接的时候可以使用HQL的with关键字提供额外的连接条件。</p>
-<p>如果关联实体是单个实体或者单个的组件属性，HQL依然可以使用英文点号来隐式连接关联实体或者组件，但如果关联实体是集合（包括1-N。N-N和集合元素是组件），则必须使用xxx join来显式连接关联实体或者组件，如果说某个组件的加载策略是延迟加载，在查询的时候可以使用join fetch采用立即加载的方式。</p>
+<p><strong>如果关联实体是单个实体或者单个的组件属性，HQL依然可以使用英文点号来隐式连接关联实体或者组件，但如果关联实体是集合（包括1-N。N-N和集合元素是组件），则必须使用xxx join来显式连接关联实体或者组件，如果说某个组件的加载策略是延迟加载，在查询的时候可以使用join fetch采用立即加载的方式。</strong></p>
 <p>使用select语句查询得到的结果是集合，集合元素是select以后的实例、属性等组成的数组，如果后面只有一项，查询到的集合元素就是持久化实例或者属性，如果select后面有多项，则每个集合元素都是选出的多项组成的数组。也可以将select选择的属性封装到一个list中，这个select语句返回的结果是集合，集合元素是list，select new list（属性），还可以使用构造器直接生成类的实例。</p>
 <p>HQL的聚集函数和SQL类似，有min、max、avg、count、sum。</p>
-<p>HQL 的查询语句可以执行多态查询，不仅会查询出满足条件的from后面的持久化类，还会查询出满足条件的持久化类的子类。HQL支持在from子句中指定任何java类和接口，查询会返回继承了该类的持久化类的实例或者返回实现了该接口的持久化类的实例</p>
+<p>HQL 的查询语句可以执行多态查询，不仅会查询出满足条件的from后面的持久化类，还会查询出满足条件的持久化类的子类。HQL支持在from子句中指定任何java类和接口，查询会返回继承了该类的持久化类的实例或者返回实现了该接口的持久化类的实例。</p>
 
       
 

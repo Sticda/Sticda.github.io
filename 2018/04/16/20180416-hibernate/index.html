@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/16/20180416-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
-<meta property="og:updated_time" content="2018-04-18T07:25:10.784Z">
+<meta property="og:updated_time" content="2018-06-21T10:43:36.100Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180416 hibernate">
 <meta name="twitter:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
@@ -181,9 +181,8 @@
 </ol>
 <p>Session调用createCriteria(Class clazz)方法创建针对某个具体持久化类的条件查询实例。Criteria和Query类似有两个用于完成查询分页的方法，除此之外还有add和addOrder。Order实例代表一个排序标准，Order有两个静态方法asc和desc，参数是参照的属性的名称。</p>
 <p>如果需要使用关联实体的属性来增加查询条件，可以对属性再次使用createCriteria方法。返回的结果依然是原本的持久化类的实例。createCriteria有四个重载版本，参数中固有的部分是associationpath属性的名称，可以随机添加的是关联的方式JoinType、关联实体的别名alias、自定义的连接条件withClause。</p>
-<p>createAlias和createCriteria的参数和效果差不多，createAlias的参数也固定了alias参数。Criteria的setFetchMode()方法接受一个FetchMode枚举类型的值，</p>
-<p>Hibernate中使用Projection代表投影运算，Projections是Projection的工厂，负责产生Projection，Criteria提供了setProjection方法绑定projection，ProjectionList类是Projection类的子类，因此可以作为setProjection的参数，ProjectionList也算是一个List，可以使用add的方法增加元素。</p>
-<p>SQL和HQL中的分组函数先执行，然后执行聚集函数，也就是先执行group by，再执行各种聚集函数。</p>
+<p>createAlias和createCriteria的参数和效果差不多，createAlias的参数也固定了alias参数。Criteria的setFetchMode()方法接受一个FetchMode枚举类型的值。</p>
+<p>Hibernate中使用Projection代表投影运算，Projections是Projection的工厂，负责产生Projection，Criteria提供了setProjection方法绑定projection，ProjectionList类是Projection类的子类，因此可以作为setProjection的参数，ProjectionList也算是一个List，可以使用add的方法增加元素。<br><strong><br>SQL和HQL中的分组函数先执行，然后执行聚集函数，也就是先执行group by，再执行各种聚集函数。</strong></p>
 <p><strong>增加了投影运算后的条件查询，查询返回的结果是数组，数组的前N个元素依次是投影运算的结果，最后一个数组元素才是条件查询得到的实体。</strong></p>
 <p>HQL中分组之后如果还需要排序的话，就需要为投影运算指定一 个别名，指定别名有三种方法，Projections有名为alias的静态方法，可以指定别名，并返回原Projection对象；add的时候也可以指定别名；如果条件查询使用的投影运算是SimpleProjection及其子类，则可以直接使用该投影对象的as方法为自身指定别名。</p>
 <p>Hibernate还提供了Property执行投影预算，Property类似于select，条件查询的结果只有被Property投影的列才会被选出。Property的静态方法forName就可以选出我们想要的列。  </p>
