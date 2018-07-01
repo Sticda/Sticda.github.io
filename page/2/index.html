@@ -139,6 +139,101 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180402-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/02/20180402-struts/">20180402 struts</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/02/20180402-struts/" class="archive-article-date">
+  	<time datetime="2018-04-02T00:49:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-02</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="struts2-拦截器"><a href="#struts2-拦截器" class="headerlink" title="struts2 拦截器"></a>struts2 拦截器</h2><p>在struts.xml文件中指定使用特定的拦截器，在struts-default.xml文件中以name-class的形式配置了很多的拦截器。</p>
+<p>配置拦截器最简单的格式</p>
+<pre><code>&lt;interceptor name=“拦截器名”  class=“拦截器实现”/&gt;
+</code></pre><p>如果拦截器需要配置参数的话只需要在其中使用param子标签。除此之外还可以定义拦截器栈，使用&lt;interceptor-stack…/&gt;元素定义拦截器栈，同时还需要在其中利用&lt;interceptor-ref…./&gt;元素来定义多个拦截器引用。</p>
+<p>拦截器栈和拦截器的功能几乎完全相同，所以有可能出现的情况就是拦截器栈里也可以包含拦截器栈（这种方式的存在就是为了软件复用，因为之前已经使用该拦截器栈定义了我们需要在新的拦截器栈中使用的拦截器）。</p>
+<p>拦截器指定参数的时机就只有两个，一个是在定义拦截器的时候配置的默认参数（interceptor标签里的param子标签），还有一个使用拦截器的时候配置的参数（interceptor-ref标签里的param子标签）。使用拦截器的时候是在action里面配置interceptpr-ref，一般使用自己的拦截器之前会先调用defaultStack。</p>
+<p>每一个包都可以配置自己的默认拦截器，default-interceptor-ref标签可以配置默认拦截器，name属性就是已经定义过的拦截器，一个包只能定义一个默认拦 截器，这个包里的某个action要是没有指定拦截器，那么默认的拦截器将会起作用。如果为该包中的Action显式应用了某个拦截器，则默认的拦截器不会起作用，但如果还想继续使用默认拦截器，必须再次手动配置。</p>
+<p>用户想实现自己的拦截器类应该实现com.opensymphony.xwork2.interceptor.Interceptor接口，三个函数分别是init（初始化之前调用）、destroy（销毁之前调用）、intercept。如果自定义的拦截器不需要实现init和destroy函数则只需要继承AbstractInterceptor类，intercept方法中的参数ActionInvocation包含了被拦截Action的引用，ActionInvocation的invoke方法。</p>
+<p>如果为一个Action指定了拦截器，又想继续使用默认的拦截器，必须再次配置。</p>
+<h3 id="拦截方法的拦截器"><a href="#拦截方法的拦截器" class="headerlink" title="拦截方法的拦截器"></a>拦截方法的拦截器</h3><p>如果为某个Action指定了拦截器，那么这个拦截器会拦截该Action里面的所有方法，为了实现方法过滤，可以实现MethodFilterInterceptor类，该类是AbstractInterceptor类的子类，MethodFilterInterceptor类重写了父类的intercept方法，但提供了dointercept方法，这个类中额外增加了两个方法setExcludeMethods（String）、和setIncludeMethods（String），exclude就是不需要拦截的方法，include就是需要拦截的方法，参数的字符串中包含了方法，如果某个方法同时出现在了上面的两个函数中，则这个函数会被拦截。也可以在使用拦截器的时候，在Action中配置interceptor-ref的时候可以在param中配置，name是excludeMethods，参数值用逗号隔开。</p>
+<p><strong>拦截器的执行顺序：在Action的控制方法（action里面配置的method）执行之前，位于拦截器链的前面拦截器将先发生作用，在Action的控制方法执行之后，位于拦截器链前面的拦截器将后发生作用。</strong></p>
+<h3 id="拦截结果的监听器"><a href="#拦截结果的监听器" class="headerlink" title="拦截结果的监听器"></a>拦截结果的监听器</h3><p>之前的控制方法执行之前和之后都是在intercept函数里面写明的，为了解决结构不清晰的问题，所以struts2提供了拦截结果的监听器，PreResultListener监听器，里面有一个beforeResult的函数可以定义在处理Result之前的行为。可以把这个监听器注册在我们自己定义的监听器里。</p>
+<p><strong>不要在PreResultListener监听器的beforeResult方法中通过ActionInvocation参数调用invoke（）方法，</strong>会造成死循环。</p>
+<p>如果需要在使用拦截器栈时直接覆盖某个拦截器的属性值，则在指定需要被覆盖的属性时，不能只指定属性名，必须加上该属性属于的拦截器名，即采用如下形式：&lt;拦截器名&gt;.&lt;属性名&gt;。</p>
+<h2 id="使用struts2-的Ajax支持、"><a href="#使用struts2-的Ajax支持、" class="headerlink" title="使用struts2 的Ajax支持、"></a>使用struts2 的Ajax支持、</h2><p>Ajax（Asynchronous JavaScript And XML）异步JavaScript和XML技术：浏览者和服务器之间采用异步通信机制，当服务器响应成功返回到浏览器，浏览器使用DOM（Document Object Model）将服务器响应装载到当前页面的指定容器内。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/02/20180402-struts/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180326-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1146,11 +1241,11 @@ def __init__(self,name,score):
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -1407,115 +1502,6 @@ def __init__(self,name,score):
 
 
   
-    <article id="post-20171227" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/27/20171227/">20171227</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/27/20171227/" class="archive-article-date">
-  	<time datetime="2017-12-27T01:06:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-27</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="表达式语言（EL）"><a href="#表达式语言（EL）" class="headerlink" title="表达式语言（EL）"></a>表达式语言（EL）</h1><p>替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断。</p>
-<p>EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换。</p>
-<p>可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置<el-ignored>标签为true，不使用EL。两种方式以前者为主。</el-ignored></p>
-<p>EL的应用实例</p>
-<pre><code>&lt;h1&gt;${user.name}&lt;/h1&gt;&lt;%--按照page、request、session、application
-的顺序来寻找EL中指定的属性&gt;--%
-&lt;h1&gt;${user[&quot;name&quot;]}&lt;/h1&gt;&lt;%--和上面的效果相同--%&gt;
-</code></pre><p>如果数组元素被设置的索引为array，setAttribute（索引，内容），List也可以使用下面的方法访问。</p>
-<pre><code>${array[0]}&lt;%--第一个元素--%&gt;
-${array[1]}&lt;%--第二个元素--%&gt;
-${array[2]}&lt;%--第三个元素--%&gt;
-</code></pre><ol>
-<li>点运算符左边可以是JavaBean或者Map对象</li>
-<li>如果使用[]运算符，则左边可以是JavaBean、Map、数组或者List对象</li>
-</ol>
-<p>当左边是map对象的时候，推荐使用[]运算符，因为map对象的key有可能是空白或者带有点运算符的，取值的时候两个点运算符在一起会引起错误。[]运算符内部可以进行嵌套</p>
-<pre><code>${login[&quot;user name&quot;]}
-${login[&quot;pass.word&quot;]}
-</code></pre><h2 id="EL隐含对象"><a href="#EL隐含对象" class="headerlink" title="EL隐含对象"></a>EL隐含对象</h2><p>11个隐含对象，pageContext对应PageContext，其他的隐含对象都对应Map类型。</p>
-<ol>
-<li>pageContext：PageContext本身就是JavaBean</li>
-<li>与属性相关的隐含对象</li>
-<li>与请求参数相关的隐含对象： param与paramValues，param可以取得某个参数的值，paramValues可以取得所有请求参数，返回值是数组</li>
-<li>与标头（header）相关的隐含对象：header或者headerValues</li>
-<li>cookie隐含对象：取得用户设置的cookie值</li>
-<li>初始参数隐含对象：initParam可以用来取得web.xml中设置的ServletContext初始参数。</li>
-</ol>
-<h2 id="EL运算符"><a href="#EL运算符" class="headerlink" title="EL运算符"></a>EL运算符</h2><p>%和mod都是求余运算符，关系运算符都有相应的符号和英文简称，比如&lt;以及lt（less than）、&gt;与gt（greater than）、!=与ne（not equal）</p>
-<h2 id="自定义EL函数"><a href="#自定义EL函数" class="headerlink" title="自定义EL函数"></a>自定义EL函数</h2><p>第一步：编写类，这个类必须是公开类，想调用的方法必须是公开的且为静态方法。第二步：web容器必须知道如何将这个类中的方法当作EL函数使用，必须编写一个标签链接库描述文件（TLD）文件，tld文件中需要指明自定义的函数名称，对应到的类和对应到的那个类的具体方法，以及特定的URI，使用的jsp中&lt;%@taglib uri=””  prefix=””%&gt;uri是为了能够快速找到tld文件，prefix的作用是为了避免当jsp中有多个来自不同设计者的EL自定义函数会出现名称冲突。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/27/20171227/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1617,6 +1603,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">jsp</a>
               </li>
              
@@ -1629,19 +1619,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color1">essay</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">essay</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
             
             <div class="clearfix"></div>
