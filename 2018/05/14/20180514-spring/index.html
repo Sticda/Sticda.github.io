@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/05/14/20180514-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
-<meta property="og:updated_time" content="2018-05-20T06:05:05.251Z">
+<meta property="og:updated_time" content="2018-07-01T05:30:58.291Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180514 spring">
 <meta name="twitter:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
@@ -172,7 +172,7 @@
 <p>file：前缀可以指定绝对路径和相对路径，但是在FileSystemXMLApplicationContext就会把所有的绝对路径当做相对路径处理。绝对路径以文件系统根路径为路径起点，相对路径以当前工作路径为路径起点。</p>
 <h2 id="Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><a href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）" class="headerlink" title="Spring的AOP（面向切面编程，Aspect Orient Programming）"></a>Spring的AOP（面向切面编程，Aspect Orient Programming）</h2><p>AspectJ是java语言的一个AOP实现，一个部分定义了如何表达、定义AOP编程中的语法规范，另一个部分是工具部分，包括编译器、调试工具等。</p>
 <p>可以添加特殊的java类，就是定义类的时候把class关键字换成aspect（只有aspectj才能识别的关键字），并且在类的定义内容中设置什么时候执行一些具体的内容。“ajc -d . *.java”可以使用ajc.bat编译java程序。</p>
-<p>定义切入点表达式Pointcut（），切入点表达式就是定义可能触发操作的特殊场合。proceed方法代表回调远爱的目标方法，就是可以在目标方法前后添加业务代码。</p>
+<p>定义切入点表达式Pointcut（），切入点表达式就是定义可能触发操作的特殊场合。proceed方法代表回调指定的目标方法，就是可以在目标方法前后添加业务代码。</p>
 <p>AOP的本质是依然去修改多个业务代码的源代码，只是这个修改由AOP框架完成。AOP实现可以分为两类（区分的标准是AOP框架修改源代码的时机），一种是静态AOP（在编译阶段生成目标类的代理类）Aspectj，一种是动态AOP（在运行阶段生成AOP代理类）Spring AOP。</p>
 <p>面向切面编程的一些术语：</p>
 <ol>
@@ -204,7 +204,7 @@
 </ol>
 <p>织入的时候，在进入连接点的时候，优先级高的增强处理会被优先织入（优先级高的先执行），离开连接点的时候，优先级高的增强处理会最后被织入（优先级高的最后执行）</p>
 <p>当不同切面的增强处理需要在同一个连接点被织入的时候，spring AOP将会以随机的顺序插入，要有先后的顺序可以通过@Order注解指定一个int型的value，这个值越小优先级越高，也可以实现一个springframwork的Ordered接口，同样返回值越小优先级越高。</p>
-<p>spring还提供了一种在切入点定义的时候利用args表达式绑定目标方法的参数，@AfterReturning（returning=“rvt”，pointcut=“execution（<em> 全限定报名.</em>..*”(..)) &amp;&amp; args(arg0,arg1)”)，通过在pointcut中增加args（arg0，arg1）会限制目标方法必须有两个形参，在注解修饰的方法中指定了这两个参数的类型之后，这个增强处理就只会匹配指定类型和形参数目的目标方法。args（哈hhh，..）表示可以匹配多个参数。</p>
+<p>spring还提供了一种在切入点定义的时候利用args表达式绑定目标方法的参数，@AfterReturning（returning=“rvt”，pointcut=“execution（<em> 全限定包名.</em>..*”(..)) &amp;&amp; args(arg0,arg1)”)，通过在pointcut中增加args（arg0，arg1）会限制目标方法必须有两个形参，在注解修饰的方法中指定了这两个参数的类型之后，这个增强处理就只会匹配指定类型和形参数目的目标方法。args（hhh，..）表示可以匹配多个参数。</p>
 <p>Spring AOP只支持将Spring Bean的方法执行作为连接点，所以可以把切入点看成所有能和切入点表达式匹配的Bean方法。</p>
 <p>切入点定义包含两个部分，一个切入点表达式和一个包含名字和任意参数的方法签名。简单来说就是这个方法签名就是这个切入点的名字，而@Pointcut就是表明这是一个切入点定义，该注解的值就是注入点表达式，切入点签名用一个方法体为空，返回值为void的方法定义提供。这个方法签名中的权限修饰符（private、public等）决定了其他切面类和其他包里的切面类是否可以使用这个切入点。pointcut=“切入点名称（）”，如果是调用其他切面类的切入点必须加上类名前缀。  </p>
 <p>Spring AOP有以下几个比较常用的切入点指示符</p>
@@ -241,7 +241,7 @@
 </ol>
 <p>spring提供了tx：命名空间配置事务管理，tx：advice配置事务增强处理，<a href="tx:advice.../" target="_blank" rel="noopener">tx:advice.../</a>元素除了需要transaction-manager属性指定事务管理器之外，还需要配置attributes子元素，这个子元素包含了多个method子元素，method的属性有name、propagation、isolation、timeout、read-only、rollback-for、no-rollback-for。</p>
 <p>业务Bean里面包含了很多数据库的操作方法，在tx：advice里面可以通过method元素来设置这些方法的事务的规则，通过aop：config元素配置一个切入点（这个切入点需要匹配到这个业务Bean），并且利用aop:advisor元素指定在某个切入点处执行事务增强处理（实际上是利用Bean后处理器完成的）。</p>
-<p>默认情况下，只有方法引发运行时异常和unchecked异常，spring就会回滚事务，如果事务发方法抛出checked异常，则事务不会回滚，这个时候就要利用method的rollback-for属性和no-rollback-for属性</p>
+<p>默认情况下，只有方法引发运行时异常和unchecked异常，spring就会回滚事务，如果事务方法抛出checked异常，则事务不会回滚，这个时候就要利用method的rollback-for属性和no-rollback-for属性</p>
 <p>使用@Transactional注解可以在java类重定义，他的属性有isolation、noRollbackFor、noRollbackForClassName、propagation、readOnly、rollbackFor、rollbackForClassName、timeout，光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
 <h2 id="spring整合Struts2"><a href="#spring整合Struts2" class="headerlink" title="spring整合Struts2"></a>spring整合Struts2</h2><p>对于使用spring的web应用，创建spring容器的方法有两种：直接在web.xml文件中配置创建和第三方MVC框架的扩展点，创建spring容器。</p>
 <p>为了让spring容器随Web应用启动而自动启动，借助于ServletContextListener监听器即可完成，这个监听器的作用就是在web应用启动的时候回调自定义方法，可以在这个自定义方法中启动spring容器。</p>

@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/05/21/20180521-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="Spring整合Hibernate使用spring容器管理SessionFactory，spring就可以将SessionFactory注入应用的DAO组件中，对于spring和hibernate的整合，spring推荐调用SessionFactory的getCurrentSession方法获取hibernate session，剩下的持久化操作和直接使用hibernate持久化操作的代码基本相同">
-<meta property="og:updated_time" content="2018-05-28T03:32:20.221Z">
+<meta property="og:updated_time" content="2018-07-01T06:30:57.932Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180521 spring">
 <meta name="twitter:description" content="Spring整合Hibernate使用spring容器管理SessionFactory，spring就可以将SessionFactory注入应用的DAO组件中，对于spring和hibernate的整合，spring推荐调用SessionFactory的getCurrentSession方法获取hibernate session，剩下的持久化操作和直接使用hibernate持久化操作的代码基本相同">
@@ -208,19 +208,19 @@
 <ol>
 <li>创建型：创建对象时不直接新建对象，而是根据特定场景进行选择。</li>
 <li>结构型：将多个对象组织成更大的结构。</li>
-<li>行为型：用于帮助系统间个对象的通信，以及如何控制复杂系统中的流程。</li>
+<li>行为型：用于帮助系统间对象的通信，以及如何控制复杂系统中的流程。</li>
 </ol>
 <p>A调用B称为A依赖于B,</p>
 <ol>
-<li>单例模式：一个类始终只能创建一个实例，spring推荐奖所有业务逻辑组件、DAO组件、数据源组件等配置成单例模式。也可以手动实现（需要缓存已经创建的实例，隐藏构造器，提供public方法作为该类访问点）。</li>
+<li>单例模式：一个类始终只能创建一个实例，spring推荐将所有业务逻辑组件、DAO组件、数据源组件等配置成单例模式。也可以手动实现（需要缓存已经创建的实例，隐藏构造器，提供public方法作为该类访问点）。</li>
 <li>简单工厂：将多个类对象交给工厂类来生成的设计方式。（A类调用B对象的时候，不需要自己新建B类的对象，让B类实现一个接口，通过定义了一个B类的工厂类，A类只需要调用B类的工厂类就可以得到B的实例。这个时候A类不但需要和工厂类耦合，还要和B类的接口耦合。）<strong>接口也可以定义类</strong></li>
 <li>抽象工厂模式：简单工厂是由一个工厂类决定逻辑判断，工厂方法则是不同的工厂类生产不同的产品。然后再增加一个工厂类，用来生成不同的工厂类，这个特殊的工厂类被称为抽象工厂类。</li>
 <li>代理模式：当客户端代码需要调用某个对象时，客户端并不一定需要某个对象，只需要一个能提供功能的对象，这时就可以返回该对象的代理。系统会为某个对象提供代理对象，客户端面向接口编程，它仅仅持有一个被代理对象的接口。除了出于性能考虑使用代理模式之外，代理模式还有另一种常用场景：当目标对象的功能不足以满足用户需求的时候，代理对象可以增强原目标对象的功能。JDK动态代理利用InvocationHandler实现类和Proxy类。</li>
 <li>命令模式：某个方法需要完成一个功能，但是这个功能的一些具体步骤无法确定，必须等到执行该方法的时候才可以确定，Java8开始支持的Lambda表达式可以传入一个代码块作为参数。在java语言中，传入该方法的应该是某个接口的匿名实现类的实例，该接口通常被称为命令接口。</li>
 <li>策略模式：该模式用于封装系列的算法，这些算法通常被封装在一个Context的类中，客户端程序可以自由选择。</li>
-<li>门面模式：这种模式用于将一组复杂的类包装到一个简单的外部接口中。使用了门面模式之后，客户端代码只需要和门面类进行交互。Java E应用里使用业务逻辑组件来封装DAO组件也是典型的门面模式。</li>
+<li>门面模式：这种模式用于将一组复杂的类包装到一个简单的外部接口中。使用了门面模式之后，客户端代码只需要和门面类进行交互。Java EE应用里使用业务逻辑组件来封装DAO组件也是典型的门面模式。</li>
 <li>桥接模式：由于实际需要，某个类具有两个或两个以上的维度变化，桥接模式的做法就是把变化部分抽象出来，使变化部分与主类分开，最后提供一个管理类组合不同维度上的变化。</li>
-<li>观察者模式：让一个或者多个观察者对象观察一个主体对象，当主题对象的状态发生改变的时候，系统能够通知所有依赖于此对象的观察者对象，从而使得观察者对象能够自动更新。被观察者的抽象基类Observable、观察者接口Observer、被观察者实现类（继承Observable基类）、观察者实现类（实现Observer接口）</li>
+<li>观察者模式：让一个或者多个观察者对象观察一个主体对象，当主体对象的状态发生改变的时候，系统能够通知所有依赖于此对象的观察者对象，从而使得观察者对象能够自动更新。被观察者的抽象基类Observable、观察者接口Observer、被观察者实现类（继承Observable基类）、观察者实现类（实现Observer接口）</li>
 </ol>
 <h2 id="常见的架构设计策略"><a href="#常见的架构设计策略" class="headerlink" title="常见的架构设计策略"></a>常见的架构设计策略</h2><p>目前轻量级的Java EE应用的架构比较统一，使用Spring作为核心，向上整合MVC框架，向下整合ORM框架，使用Spring的IoC容器来管理各组件的依赖关系，Spring的声明事务将负责业务逻辑层组件的事务管理。业务逻辑层需要把Domain Object和DAO对象组织在一起，执行持久化操作。</p>
 <ol>

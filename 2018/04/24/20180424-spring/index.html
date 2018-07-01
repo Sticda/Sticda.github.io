@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>20180424 spring | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。，这个类">
+  <meta name="description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。这个类提">
 <meta name="keywords" content="笔记,spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20180424 spring">
 <meta property="og:url" content="http://yoursite.com/2018/04/24/20180424-spring/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。，这个类">
-<meta property="og:updated_time" content="2018-05-02T06:18:57.147Z">
+<meta property="og:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。这个类提">
+<meta property="og:updated_time" content="2018-07-01T04:54:05.496Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180424 spring">
-<meta name="twitter:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。，这个类">
+<meta name="twitter:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。这个类提">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -170,7 +170,7 @@
 <li>@Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean</li>
 <li>@Value：用于修饰一个field，相当于配置一个变量</li>
 </ol>
-<p>使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。，这个类提供了一个register方法可以动态添加Java配置类。这个java配置类要在类里新建依赖对象，并且自己通过构造函数完成依赖注入。</p>
+<p>使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。这个类提供了一个register方法可以动态添加Java配置类。这个java配置类要在类里新建依赖对象，并且自己通过构造函数完成依赖注入。</p>
 <p>@Import（当前Java配置类导入其他配置类）、@Scope（修饰一个方法，指定该方法对应的Bean的生命域）、@Lazy（修饰一个方法，指定该方法对应的Bean是否需要延迟加载）、@DependsOn（修饰一个方法，指定在初始化该方法对应的Bean之前需要初始化的Bean）@ImportResource（让Java配置类加载指定的xml文件）</p>
 <p><strong>调用者是A，属性对象是B，A依赖B，B被依赖</strong></p>
 <h2 id="创建Bean的3种方式"><a href="#创建Bean的3种方式" class="headerlink" title="创建Bean的3种方式"></a>创建Bean的3种方式</h2><ol>
@@ -181,7 +181,7 @@
 <p>如果不采用构造注入，spring容器将使用默认的构造器创建Bean实例，所有基本类型为0或者false，引用类型为null，构造器创建Bean的方式就是构造器注入。</p>
 <p>静态工厂方法的时候，需要在配置文件中bean元素下面指定两个属性，一个是class：静态工厂类的类名，一个是factory-method：指定静态工厂方法，如果这个方法需要参数使用constructor-arg元素传入。主程序中获得spring容器的bean实例无需改变。</p>
 <p>实例工厂方法和静态工厂方法很类似，区别在于实例工厂方法不需要指定class，但是需要指定factory-bean属性，这个里面是工厂类的id，参数也是通过constructor-arg指定的。</p>
-<h2 id="深入理解Bean"><a href="#深入理解Bean" class="headerlink" title="深入理解Bean"></a>深入理解Bean</h2><p>抽象bean的配置就是通过指定abstract的值，抽象bean不会被spring实例化，而且在继承他的bean里面指定parent属性的值为父类抽象bean的id，子Bean只能继承父bean的参数值和依赖关系，并不能继承父类定义的时候的属性，比如dependson、autowire、scope等等，spring中的继承是实例之间的关系，java中的是类之间的关系，而且spring的继承不具备多态性。</p>
+<h2 id="深入理解Bean"><a href="#深入理解Bean" class="headerlink" title="深入理解Bean"></a>深入理解Bean</h2><p>抽象bean的配置就是通过指定abstract的值，抽象bean不会被spring实例化，而且在继承他的bean里面指定parent属性的值为父类抽象bean的id，<strong>子Bean只能继承父bean的参数值和依赖关系，并不能继承父类定义的时候的属性</strong>，比如dependson、autowire、scope等等，spring中的继承是实例之间的关系，java中的是类之间的关系，而且spring的继承不具备多态性。</p>
 <p>工厂Bean和之前看过的bean的创建方法中的工厂模式不太一样，这个工厂Bean的配置和其他的bean没什么异常，但是这个Bean的实现类要继承FactoryBean接口，这个接口有三个方法分别是getObject、getObjectType、isSingleton，继承了FactoryBean接口的bean元素spring不会返回该bean的实例，而是调用getObject方法产生返回值。如果我们想要返回FactoryBean本身，而不是其产品bean的时候，可以在bean id前面加上“&amp;”。</p>
 <p>如果有个Bean类需要知道自己被配置的时候的ID，那么可以实现BeanNameAware接口，这个接口就只有一个setBeanName方法，当spring需要产生该类的实例的时候，检测到这个接口就会把id通过setBeanName的方法传递到Bean类中，Bean类中可以有一个变量存储这个值。</p>
 <p>Bean的依赖关系是由spring完成依赖注入，当A依赖于B,程序请求A的时候，会先初始化B，再把B注入到A，返回A，有的时候可能spring没有自主完成这个操作，所以要在BeanA中利用depends-on属性指定要依赖的B，spring就会完成依赖注入。</p>
@@ -202,7 +202,7 @@
 <p>使用FieldRetrievingFactoryBean访问field分为两种情况，setTargetClass和setTargetField或者setTargetObject和setTargetField。</p>
 <p>在XML文件中就是利用property的name和value属性指定值，name是targetClass和targetField，name还可以是staticField，通过这种方式访问静态field，util：constant元素可以简化配置，id（bean实例的name）和static-field</p>
 <h3 id="获取方法返回值"><a href="#获取方法返回值" class="headerlink" title="获取方法返回值"></a>获取方法返回值</h3><p>MethodInvokingFactoryBean工厂Bean，如果调用的方法是静态方法，则需要指定，setTartgetClass，setTargetMethod，setArguments，如果是实例方法，第一个是setTargetObject，其他的不变。arguments中的参数如果超过一个则需要使用list。</p>
-<h2 id="基于XML-Schema的简化配置方式"><a href="#基于XML-Schema的简化配置方式" class="headerlink" title="基于XML Schema的简化配置方式"></a>基于XML Schema的简化配置方式</h2><p>xmlns:p=”<a href="http://www.springframework.org/schema/p&quot;导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean" target="_blank" rel="noopener">http://www.springframework.org/schema/p&quot;导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean</a> id。</p>
+<h2 id="基于XML-Schema的简化配置方式"><a href="#基于XML-Schema的简化配置方式" class="headerlink" title="基于XML Schema的简化配置方式"></a>基于XML Schema的简化配置方式</h2><p>xmlns:p=”http : // www . springframework.org/schema/p”导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean id。</p>
 <p>p:命名空间用于简化设值注入，c:命名空间用于简化构造注入。c:构造器参数名=值或者c:构造器参数名-ref=其他Bean的id，除此之外spring还支持通过索引来配置构造器参数的方式，c:_0-ref=”id”,c:_1=”值”，c:_N中的N代表第几个构造器参数。</p>
 <p>使用util：命名空间也可以简化配置，constant（FieldRetrievingFactoryBean的简化版），property-path（PropertyPathFactoryBean），List（该元素用于定义一个list bean，支持使用value\ref\bean子元素定义list集合元素，id、list-class、scope）set和list类似。</p>
 <p>map元素用于定义一个Map Bean，支持使用entry定义key-value对 ，properties元素用于加载资源文件，根据加载的资源文件创建一个properties bean实例，使用该标签可指定id、location、scope。</p>
@@ -211,7 +211,7 @@
 <p>在XML配置文件和Annotation中使用SpEL时，在表达式外面增加#{}包围即可。</p>
 <p>一旦在evaluationContext中设置了变量，就可以在SpEL中通过#name来访问该变量，#this和#root是两个特殊的变量。</p>
 <p>有的时候使用了A.B的访问语句，但是这时候A为null，前面的A.B肯定会出错，这个时候可以使用A?.B，如果A是null，计算结果也是null。不会出错。</p>
-<p>SpEL中提供了一种过滤集合的方法：collection.？[condition_expr]，当操作list集合时，condition_expr中的每个属性、方法都是以集合元素为主调的，而map集合需要用key引用Map Entry的key，用value引用<br>Map Entry的value。除此之外还提供了一种集合投影的方法，将结果存入一个新的集合中，collection.![condition_expr]</p>
+<p>SpEL中提供了一种过滤集合的方法：collection.？[condition_expr]，当操作list集合时，condition_expr中的每个属性、方法都是以集合元素为主调的，而map集合需要用key引用Map Entry的key，用value引Map Entry的value。除此之外还提供了一种集合投影的方法，将结果存入一个新的集合中，collection.![condition_expr]</p>
 
       
 

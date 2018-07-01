@@ -181,19 +181,19 @@
 <ol>
 <li>创建型：创建对象时不直接新建对象，而是根据特定场景进行选择。</li>
 <li>结构型：将多个对象组织成更大的结构。</li>
-<li>行为型：用于帮助系统间个对象的通信，以及如何控制复杂系统中的流程。</li>
+<li>行为型：用于帮助系统间对象的通信，以及如何控制复杂系统中的流程。</li>
 </ol>
 <p>A调用B称为A依赖于B,</p>
 <ol>
-<li>单例模式：一个类始终只能创建一个实例，spring推荐奖所有业务逻辑组件、DAO组件、数据源组件等配置成单例模式。也可以手动实现（需要缓存已经创建的实例，隐藏构造器，提供public方法作为该类访问点）。</li>
+<li>单例模式：一个类始终只能创建一个实例，spring推荐将所有业务逻辑组件、DAO组件、数据源组件等配置成单例模式。也可以手动实现（需要缓存已经创建的实例，隐藏构造器，提供public方法作为该类访问点）。</li>
 <li>简单工厂：将多个类对象交给工厂类来生成的设计方式。（A类调用B对象的时候，不需要自己新建B类的对象，让B类实现一个接口，通过定义了一个B类的工厂类，A类只需要调用B类的工厂类就可以得到B的实例。这个时候A类不但需要和工厂类耦合，还要和B类的接口耦合。）<strong>接口也可以定义类</strong></li>
 <li>抽象工厂模式：简单工厂是由一个工厂类决定逻辑判断，工厂方法则是不同的工厂类生产不同的产品。然后再增加一个工厂类，用来生成不同的工厂类，这个特殊的工厂类被称为抽象工厂类。</li>
 <li>代理模式：当客户端代码需要调用某个对象时，客户端并不一定需要某个对象，只需要一个能提供功能的对象，这时就可以返回该对象的代理。系统会为某个对象提供代理对象，客户端面向接口编程，它仅仅持有一个被代理对象的接口。除了出于性能考虑使用代理模式之外，代理模式还有另一种常用场景：当目标对象的功能不足以满足用户需求的时候，代理对象可以增强原目标对象的功能。JDK动态代理利用InvocationHandler实现类和Proxy类。</li>
 <li>命令模式：某个方法需要完成一个功能，但是这个功能的一些具体步骤无法确定，必须等到执行该方法的时候才可以确定，Java8开始支持的Lambda表达式可以传入一个代码块作为参数。在java语言中，传入该方法的应该是某个接口的匿名实现类的实例，该接口通常被称为命令接口。</li>
 <li>策略模式：该模式用于封装系列的算法，这些算法通常被封装在一个Context的类中，客户端程序可以自由选择。</li>
-<li>门面模式：这种模式用于将一组复杂的类包装到一个简单的外部接口中。使用了门面模式之后，客户端代码只需要和门面类进行交互。Java E应用里使用业务逻辑组件来封装DAO组件也是典型的门面模式。</li>
+<li>门面模式：这种模式用于将一组复杂的类包装到一个简单的外部接口中。使用了门面模式之后，客户端代码只需要和门面类进行交互。Java EE应用里使用业务逻辑组件来封装DAO组件也是典型的门面模式。</li>
 <li>桥接模式：由于实际需要，某个类具有两个或两个以上的维度变化，桥接模式的做法就是把变化部分抽象出来，使变化部分与主类分开，最后提供一个管理类组合不同维度上的变化。</li>
-<li>观察者模式：让一个或者多个观察者对象观察一个主体对象，当主题对象的状态发生改变的时候，系统能够通知所有依赖于此对象的观察者对象，从而使得观察者对象能够自动更新。被观察者的抽象基类Observable、观察者接口Observer、被观察者实现类（继承Observable基类）、观察者实现类（实现Observer接口）</li>
+<li>观察者模式：让一个或者多个观察者对象观察一个主体对象，当主体对象的状态发生改变的时候，系统能够通知所有依赖于此对象的观察者对象，从而使得观察者对象能够自动更新。被观察者的抽象基类Observable、观察者接口Observer、被观察者实现类（继承Observable基类）、观察者实现类（实现Observer接口）</li>
 </ol>
 <h2 id="常见的架构设计策略"><a href="#常见的架构设计策略" class="headerlink" title="常见的架构设计策略"></a>常见的架构设计策略</h2><p>目前轻量级的Java EE应用的架构比较统一，使用Spring作为核心，向上整合MVC框架，向下整合ORM框架，使用Spring的IoC容器来管理各组件的依赖关系，Spring的声明事务将负责业务逻辑层组件的事务管理。业务逻辑层需要把Domain Object和DAO对象组织在一起，执行持久化操作。</p>
 <ol>
@@ -294,7 +294,7 @@
 <p>file：前缀可以指定绝对路径和相对路径，但是在FileSystemXMLApplicationContext就会把所有的绝对路径当做相对路径处理。绝对路径以文件系统根路径为路径起点，相对路径以当前工作路径为路径起点。</p>
 <h2 id="Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><a href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）" class="headerlink" title="Spring的AOP（面向切面编程，Aspect Orient Programming）"></a>Spring的AOP（面向切面编程，Aspect Orient Programming）</h2><p>AspectJ是java语言的一个AOP实现，一个部分定义了如何表达、定义AOP编程中的语法规范，另一个部分是工具部分，包括编译器、调试工具等。</p>
 <p>可以添加特殊的java类，就是定义类的时候把class关键字换成aspect（只有aspectj才能识别的关键字），并且在类的定义内容中设置什么时候执行一些具体的内容。“ajc -d . *.java”可以使用ajc.bat编译java程序。</p>
-<p>定义切入点表达式Pointcut（），切入点表达式就是定义可能触发操作的特殊场合。proceed方法代表回调远爱的目标方法，就是可以在目标方法前后添加业务代码。</p>
+<p>定义切入点表达式Pointcut（），切入点表达式就是定义可能触发操作的特殊场合。proceed方法代表回调指定的目标方法，就是可以在目标方法前后添加业务代码。</p>
 <p>AOP的本质是依然去修改多个业务代码的源代码，只是这个修改由AOP框架完成。AOP实现可以分为两类（区分的标准是AOP框架修改源代码的时机），一种是静态AOP（在编译阶段生成目标类的代理类）Aspectj，一种是动态AOP（在运行阶段生成AOP代理类）Spring AOP。</p>
 <p>面向切面编程的一些术语：</p>
 <ol>
@@ -326,7 +326,7 @@
 </ol>
 <p>织入的时候，在进入连接点的时候，优先级高的增强处理会被优先织入（优先级高的先执行），离开连接点的时候，优先级高的增强处理会最后被织入（优先级高的最后执行）</p>
 <p>当不同切面的增强处理需要在同一个连接点被织入的时候，spring AOP将会以随机的顺序插入，要有先后的顺序可以通过@Order注解指定一个int型的value，这个值越小优先级越高，也可以实现一个springframwork的Ordered接口，同样返回值越小优先级越高。</p>
-<p>spring还提供了一种在切入点定义的时候利用args表达式绑定目标方法的参数，@AfterReturning（returning=“rvt”，pointcut=“execution（<em> 全限定报名.</em>..*”(..)) &amp;&amp; args(arg0,arg1)”)，通过在pointcut中增加args（arg0，arg1）会限制目标方法必须有两个形参，在注解修饰的方法中指定了这两个参数的类型之后，这个增强处理就只会匹配指定类型和形参数目的目标方法。args（哈hhh，..）表示可以匹配多个参数。</p>
+<p>spring还提供了一种在切入点定义的时候利用args表达式绑定目标方法的参数，@AfterReturning（returning=“rvt”，pointcut=“execution（<em> 全限定包名.</em>..*”(..)) &amp;&amp; args(arg0,arg1)”)，通过在pointcut中增加args（arg0，arg1）会限制目标方法必须有两个形参，在注解修饰的方法中指定了这两个参数的类型之后，这个增强处理就只会匹配指定类型和形参数目的目标方法。args（hhh，..）表示可以匹配多个参数。</p>
 <p>Spring AOP只支持将Spring Bean的方法执行作为连接点，所以可以把切入点看成所有能和切入点表达式匹配的Bean方法。</p>
 <p>切入点定义包含两个部分，一个切入点表达式和一个包含名字和任意参数的方法签名。简单来说就是这个方法签名就是这个切入点的名字，而@Pointcut就是表明这是一个切入点定义，该注解的值就是注入点表达式，切入点签名用一个方法体为空，返回值为void的方法定义提供。这个方法签名中的权限修饰符（private、public等）决定了其他切面类和其他包里的切面类是否可以使用这个切入点。pointcut=“切入点名称（）”，如果是调用其他切面类的切入点必须加上类名前缀。  </p>
 <p>Spring AOP有以下几个比较常用的切入点指示符</p>
@@ -363,7 +363,7 @@
 </ol>
 <p>spring提供了tx：命名空间配置事务管理，tx：advice配置事务增强处理，<a href="tx:advice.../" target="_blank" rel="noopener">tx:advice.../</a>元素除了需要transaction-manager属性指定事务管理器之外，还需要配置attributes子元素，这个子元素包含了多个method子元素，method的属性有name、propagation、isolation、timeout、read-only、rollback-for、no-rollback-for。</p>
 <p>业务Bean里面包含了很多数据库的操作方法，在tx：advice里面可以通过method元素来设置这些方法的事务的规则，通过aop：config元素配置一个切入点（这个切入点需要匹配到这个业务Bean），并且利用aop:advisor元素指定在某个切入点处执行事务增强处理（实际上是利用Bean后处理器完成的）。</p>
-<p>默认情况下，只有方法引发运行时异常和unchecked异常，spring就会回滚事务，如果事务发方法抛出checked异常，则事务不会回滚，这个时候就要利用method的rollback-for属性和no-rollback-for属性</p>
+<p>默认情况下，只有方法引发运行时异常和unchecked异常，spring就会回滚事务，如果事务方法抛出checked异常，则事务不会回滚，这个时候就要利用method的rollback-for属性和no-rollback-for属性</p>
 <p>使用@Transactional注解可以在java类重定义，他的属性有isolation、noRollbackFor、noRollbackForClassName、propagation、readOnly、rollbackFor、rollbackForClassName、timeout，光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
 <h2 id="spring整合Struts2"><a href="#spring整合Struts2" class="headerlink" title="spring整合Struts2"></a>spring整合Struts2</h2><p>对于使用spring的web应用，创建spring容器的方法有两种：直接在web.xml文件中配置创建和第三方MVC框架的扩展点，创建spring容器。</p>
 <p>为了让spring容器随Web应用启动而自动启动，借助于ServletContextListener监听器即可完成，这个监听器的作用就是在web应用启动的时候回调自定义方法，可以在这个自定义方法中启动spring容器。</p>
@@ -474,7 +474,7 @@
 <li>容器后处理器：这种后处理器对IoC容器进行后处理，用于增强容器功能。</li>
 </ol>
 <p>Bean后处理器的类需要实现BeanPostProcessor，这个接口定义了两个方法，一个是postProcessBeforeInitialization，一个是postProcessAfterInitialization，根据名字已经可以判断执行的时间了，如果spring容器是用ApplicationContext实现的，就不需要在xml文件中为这个Bean后处理器的实现类指定Bean id，容器在初始化所有的Bean之后会检测，如果有Bean的实现类实现了BeanPostProcessor接口，会自动注册为Bean后处理器，但是容器要是用BeanFactory实现的话，就需要手动添加绑定Bean后处理器，所以需要为这个Bean后处理器的实现类注册id。</p>
-<p>spring提供的两个常用的后处理器是BeanNameAutoProxyCreator（根据Bean实例的name属性创建Bean实例的代理）和DefaultAdvisorAutoProxyCreator（根绝Advisor对容器中所有的Bean实例创建代理），代理Bean的意思就是对目标Bean进行增强，在目标Bean的基础上进行修改得到的新Bean。</p>
+<p>spring提供的两个常用的后处理器是BeanNameAutoProxyCreator（根据Bean实例的name属性创建Bean实例的代理）和DefaultAdvisorAutoProxyCreator（根据Advisor对容器中所有的Bean实例创建代理），代理Bean的意思就是对目标Bean进行增强，在目标Bean的基础上进行修改得到的新Bean。</p>
 <p>容器后处理器必须实现BeanFactoryPostProcessor接口，这个接口定义了postProcessorBeanFactory，在容器初始化之后执行这个方法，类似于bean后处理器，ApplicationContext会自己检测容器后处理器，并且自动注册，BeanFactory需要手动调用。spring提供了几个常用的容器后处理器，容器后处理器通常对spring容器进行处理，在容器实例化Bean之前执行特定操作。</p>
 <p>属性占位符配置器（PropertyPlaceholderConfigurer）是一个容器后处理器，负责读取Properties属性文件里的属性值，并且把这些属性值设置成为spring配置文件的数据。bean的定义中可以写明某个元素的value=“${变量名}”，变量名的具体值在属性文件。<a href="context:property-placeholder...../" target="_blank" rel="noopener">context:property-placeholder...../</a>是对PropertyPlaceholderConfigurer的简化配置。</p>
 <p>重写占位符配置器（PropertyOverrideConfigurer）的属性文件指定的信息可以直接覆盖spring配置文件的元数据。这个属性文件应该保持beanid.property=value的形式。beanID是属性占位符试图覆盖的Bean的id，property是试图覆盖的属性名，也就是这个属性文件中把这个bean的所有属性值全部写明了，所以说这个配置文件中的beanid必须是容器中真实存在的bean的id。如果多次覆盖的话，那么最后一次会获胜。<a href="context:property-override...../" target="_blank" rel="noopener">context:property-override...../</a>是对PropertyOverrideConfigurer的简化配置。</p>
@@ -577,7 +577,7 @@
 <li>@Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean</li>
 <li>@Value：用于修饰一个field，相当于配置一个变量</li>
 </ol>
-<p>使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。，这个类提供了一个register方法可以动态添加Java配置类。这个java配置类要在类里新建依赖对象，并且自己通过构造函数完成依赖注入。</p>
+<p>使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。这个类提供了一个register方法可以动态添加Java配置类。这个java配置类要在类里新建依赖对象，并且自己通过构造函数完成依赖注入。</p>
 <p>@Import（当前Java配置类导入其他配置类）、@Scope（修饰一个方法，指定该方法对应的Bean的生命域）、@Lazy（修饰一个方法，指定该方法对应的Bean是否需要延迟加载）、@DependsOn（修饰一个方法，指定在初始化该方法对应的Bean之前需要初始化的Bean）@ImportResource（让Java配置类加载指定的xml文件）</p>
 <p><strong>调用者是A，属性对象是B，A依赖B，B被依赖</strong></p>
 <h2 id="创建Bean的3种方式"><a href="#创建Bean的3种方式" class="headerlink" title="创建Bean的3种方式"></a>创建Bean的3种方式</h2><ol>
@@ -588,7 +588,7 @@
 <p>如果不采用构造注入，spring容器将使用默认的构造器创建Bean实例，所有基本类型为0或者false，引用类型为null，构造器创建Bean的方式就是构造器注入。</p>
 <p>静态工厂方法的时候，需要在配置文件中bean元素下面指定两个属性，一个是class：静态工厂类的类名，一个是factory-method：指定静态工厂方法，如果这个方法需要参数使用constructor-arg元素传入。主程序中获得spring容器的bean实例无需改变。</p>
 <p>实例工厂方法和静态工厂方法很类似，区别在于实例工厂方法不需要指定class，但是需要指定factory-bean属性，这个里面是工厂类的id，参数也是通过constructor-arg指定的。</p>
-<h2 id="深入理解Bean"><a href="#深入理解Bean" class="headerlink" title="深入理解Bean"></a>深入理解Bean</h2><p>抽象bean的配置就是通过指定abstract的值，抽象bean不会被spring实例化，而且在继承他的bean里面指定parent属性的值为父类抽象bean的id，子Bean只能继承父bean的参数值和依赖关系，并不能继承父类定义的时候的属性，比如dependson、autowire、scope等等，spring中的继承是实例之间的关系，java中的是类之间的关系，而且spring的继承不具备多态性。</p>
+<h2 id="深入理解Bean"><a href="#深入理解Bean" class="headerlink" title="深入理解Bean"></a>深入理解Bean</h2><p>抽象bean的配置就是通过指定abstract的值，抽象bean不会被spring实例化，而且在继承他的bean里面指定parent属性的值为父类抽象bean的id，<strong>子Bean只能继承父bean的参数值和依赖关系，并不能继承父类定义的时候的属性</strong>，比如dependson、autowire、scope等等，spring中的继承是实例之间的关系，java中的是类之间的关系，而且spring的继承不具备多态性。</p>
 <p>工厂Bean和之前看过的bean的创建方法中的工厂模式不太一样，这个工厂Bean的配置和其他的bean没什么异常，但是这个Bean的实现类要继承FactoryBean接口，这个接口有三个方法分别是getObject、getObjectType、isSingleton，继承了FactoryBean接口的bean元素spring不会返回该bean的实例，而是调用getObject方法产生返回值。如果我们想要返回FactoryBean本身，而不是其产品bean的时候，可以在bean id前面加上“&amp;”。</p>
 <p>如果有个Bean类需要知道自己被配置的时候的ID，那么可以实现BeanNameAware接口，这个接口就只有一个setBeanName方法，当spring需要产生该类的实例的时候，检测到这个接口就会把id通过setBeanName的方法传递到Bean类中，Bean类中可以有一个变量存储这个值。</p>
 <p>Bean的依赖关系是由spring完成依赖注入，当A依赖于B,程序请求A的时候，会先初始化B，再把B注入到A，返回A，有的时候可能spring没有自主完成这个操作，所以要在BeanA中利用depends-on属性指定要依赖的B，spring就会完成依赖注入。</p>
@@ -609,7 +609,7 @@
 <p>使用FieldRetrievingFactoryBean访问field分为两种情况，setTargetClass和setTargetField或者setTargetObject和setTargetField。</p>
 <p>在XML文件中就是利用property的name和value属性指定值，name是targetClass和targetField，name还可以是staticField，通过这种方式访问静态field，util：constant元素可以简化配置，id（bean实例的name）和static-field</p>
 <h3 id="获取方法返回值"><a href="#获取方法返回值" class="headerlink" title="获取方法返回值"></a>获取方法返回值</h3><p>MethodInvokingFactoryBean工厂Bean，如果调用的方法是静态方法，则需要指定，setTartgetClass，setTargetMethod，setArguments，如果是实例方法，第一个是setTargetObject，其他的不变。arguments中的参数如果超过一个则需要使用list。</p>
-<h2 id="基于XML-Schema的简化配置方式"><a href="#基于XML-Schema的简化配置方式" class="headerlink" title="基于XML Schema的简化配置方式"></a>基于XML Schema的简化配置方式</h2><p>xmlns:p=”<a href="http://www.springframework.org/schema/p&quot;导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean" target="_blank" rel="noopener">http://www.springframework.org/schema/p&quot;导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean</a> id。</p>
+<h2 id="基于XML-Schema的简化配置方式"><a href="#基于XML-Schema的简化配置方式" class="headerlink" title="基于XML Schema的简化配置方式"></a>基于XML Schema的简化配置方式</h2><p>xmlns:p=”http : // www . springframework.org/schema/p”导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean id。</p>
 <p>p:命名空间用于简化设值注入，c:命名空间用于简化构造注入。c:构造器参数名=值或者c:构造器参数名-ref=其他Bean的id，除此之外spring还支持通过索引来配置构造器参数的方式，c:_0-ref=”id”,c:_1=”值”，c:_N中的N代表第几个构造器参数。</p>
 <p>使用util：命名空间也可以简化配置，constant（FieldRetrievingFactoryBean的简化版），property-path（PropertyPathFactoryBean），List（该元素用于定义一个list bean，支持使用value\ref\bean子元素定义list集合元素，id、list-class、scope）set和list类似。</p>
 <p>map元素用于定义一个Map Bean，支持使用entry定义key-value对 ，properties元素用于加载资源文件，根据加载的资源文件创建一个properties bean实例，使用该标签可指定id、location、scope。</p>
@@ -618,7 +618,7 @@
 <p>在XML配置文件和Annotation中使用SpEL时，在表达式外面增加#{}包围即可。</p>
 <p>一旦在evaluationContext中设置了变量，就可以在SpEL中通过#name来访问该变量，#this和#root是两个特殊的变量。</p>
 <p>有的时候使用了A.B的访问语句，但是这时候A为null，前面的A.B肯定会出错，这个时候可以使用A?.B，如果A是null，计算结果也是null。不会出错。</p>
-<p>SpEL中提供了一种过滤集合的方法：collection.？[condition_expr]，当操作list集合时，condition_expr中的每个属性、方法都是以集合元素为主调的，而map集合需要用key引用Map Entry的key，用value引用<br>Map Entry的value。除此之外还提供了一种集合投影的方法，将结果存入一个新的集合中，collection.![condition_expr]</p>
+<p>SpEL中提供了一种过滤集合的方法：collection.？[condition_expr]，当操作list集合时，condition_expr中的每个属性、方法都是以集合元素为主调的，而map集合需要用key引用Map Entry的key，用value引Map Entry的value。除此之外还提供了一种集合投影的方法，将结果存入一个新的集合中，collection.![condition_expr]</p>
 
       
 
@@ -700,7 +700,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><p>Spring把容器中的一切对象都称为Bean，但是这个Bean和JavaBean不一样，就只是一个Java类，也不需要满足某些规范。</p>
-<p>A对象调用B对象的方法被称为依赖。Spring的容器会负责管理所有的对象，Spring使用xml配置文件管理被指定的Bean，一般，在xml配置文件中都会指明语义约束文件，这个东西的作用我猜测就是规范里面的标签，元素的意思。spring的配置文件的根元素是spring-beans-4.0.xsd，根标签是beans，子标签是bean，属性指定了名称和class实现的全限定名，spring底层是通过反射的方式创建对象的，调用的是这个类无参数的构造器。这个配置文件中还可以有property子元素，他可以使spring在底层反射执行一次setter方法，这个property有两个子元素，name和ref/value，name就是决定执行哪个setter，value和ref的区别主要在于setter肯定有传入参数，这个参数要是容器中其他bean就是ref，如果是基本类型及其包装类，就用value。调用对应setter的方法也是反射。</p>
+<p>A对象调用B对象的方法被称为依赖。Spring的容器会负责管理所有的对象，Spring使用xml配置文件管理被指定的Bean，一般，在xml配置文件中都会指明语义约束文件，这个东西的作用我猜测就是语义约束文件里面的内容代表什么以及规范的写法。spring的配置文件的根元素是spring-beans-4.0.xsd，根标签是beans，子标签是bean，属性指定了名称和class实现的全限定名，spring底层是通过反射的方式创建对象的，调用的是这个类无参数的构造器。这个配置文件中还可以有property子元素，他可以使spring在底层反射执行一次setter方法，这个property有两个子元素，name和ref/value，name就是决定执行哪个setter，value和ref的区别主要在于setter肯定有传入参数，这个参数要是容器中其他bean就是ref，如果是基本类型及其包装类，就用value。调用对应setter的方法也是反射。</p>
 <p>spring中要通过ApplicationContext访问Bean，两个实现类，ClassPathXmlApplicationContext（一般配置文件放在src文件下，类加载路径）、FileSystemXMLApplicationContext（从文件路径的相对路径或者绝对路径下搜索配置文件）</p>
 <p><strong>对于一个web应用，由于eclipse部署web应用不会将用户库中的jar文件复制到web应用的WEB-INF/lib路径下。所以还需要主动将用户库所引用的jar文件复制到web应用的WEB-INF/lib路径下。</strong></p>
 <h2 id="依赖注入（Dependency-Injection）"><a href="#依赖注入（Dependency-Injection）" class="headerlink" title="依赖注入（Dependency Injection）"></a>依赖注入（Dependency Injection）</h2><p>A对象需要调用B对象，<strong>在Spring框架下</strong>，调用者不需要主动获取被依赖对象，调用者只要被动接受Spring容器为调用者的成员变量赋值即可（通过property子元素让spring利用setter方法赋值），之前都是想要使用的话调用者自己产生一个实例，现在通过spring框架变成了被动接受，这种叫做控制反转（Inverse of Control，IoC），<strong>控制反转和依赖注入是一样的</strong>。spring容器负责将被依赖对象赋值给调用对象的成员变量，算是一种为调用者注入它依赖的实例。</p>
@@ -708,20 +708,20 @@
 <p>用接口声明变量，不是接口变量，而是一个接口类型的引用指向了一个实现给接口的对象，这是java中的一种多态现象 ，java中的接口不能被实例化，但是可以通过接口引用指向一个对象，这样通过接口来调用方法可以屏蔽掉具体的方法的实现，这是在JAVA编程中经常用到的接口回调，也就是经常说的面向接口的编程。</p>
 <p>spring基于XML Schema的XML配置文件指定实例之间的耦合关系。就是在前面说过的配置文件中，beans根元素下的bean子元素，通过设置具体实现的类以及property元素来指明类实例之间的耦合关系。</p>
 <p>构造注入就是spring通过底层实现反射调用有参数的构造器，通过这个有参数的构造器就可以实现依赖注入，完成被依赖实例和调用者实例的绑定，方法就是在配置文件中bean元素下面不使用property（设值注入），使用constructor-arg，里面指定的参数是index（参数的顺序，索引号）、ref（参数值），如果是基本类型，可以使用value（数据值）、index、type（类型） 的组合。</p>
-<p>对于依赖关系无需变化的注入，尽量采用构造注入，二其他依赖关系的注入，则考虑设值注入。</p>
+<p>对于依赖关系无需变化的注入，尽量采用构造注入，而其他依赖关系的注入，则考虑设值注入。</p>
 <p>spring有两个核心接口：BeanFactory、ApplicationContext，其中ApplicationContext是BeanFactory的子接口，都可以代表spring容器，在基于Java EE应用中，所有组件都被当成Bean处理，包括数据源、hibernate的Session Factory、事务管理器。任何的Java对象、Java组件都被当成Bean处理。对于spring而言，一切java对象都是bean。BeanFactory的基本方法就是getBean、getType、containsBean。BeanFactory的常用实现类是DefaultListableBeanFactory，但是大部分情况下都是用ApplicationContext的实现类，他有三个实现类，FileSystemXmlApplicationContext、ClassPathXMLApplicationContext、AnnotationConfigWebApplicationContext，后两个在web应用中经常用。Resource是spring提供的资源访问接口。可以在参数中指定多个xml文件创建spring容器。</p>
 <p>ApplicationContext与BeanFactory相比的额外功能是ApplicationContext默认会预初始化所有的singleton Bean，继承了MessageSource（实现国际化），加载多个配置文件、访问资源、事件机制，以声明方式创建spring，但是BeanFactory就不会预初始化。如果不想预初始化的话可以在bean元素里面指定lazy-init为true。ApplicationContext的国际化支持是通过继承MessageSource的接口实现的，getMessage。程序创建ApplicationContext的时候会自动查找配置文件中为MessageSource的Bean实例，一旦找到getmessage的调用就会给Messagesource的实例，要是找不到就找父容器，以此类推。实在找不到也会创建一个空的StaticMessageSource的Bean，bean的id是MessageSource，class一般使用ResourceBundleMessageSource类，配置文件中property里面是basenames，这个里面是一个list属性，value值就是我们的国际化资源文件。</p>
 <h3 id="ApplicationContext的事件机制"><a href="#ApplicationContext的事件机制" class="headerlink" title="ApplicationContext的事件机制"></a>ApplicationContext的事件机制</h3><p>spring容器中如果有一个ApplicationListener的Bean，那么当ApplicationContext发出一个ApplicationEvent的时候，ApplicationListener  Bean将会自动被触发。</p>
 <p>只要一个类继承了ApplicationEvent类，那么这个类的实例对象就可以作为Spring容器的容器事件。一个类实现了ApplicationListener的接口，并且在配置文件中指明就可以作为监听器了，这个接口实现的方法主要是onApplicationEvent方法，每当spring容器被创建加载的时候，这个监听器就会自己开始工作，除此之外还可以使用ApplicationContext的publishEvent显式触发ApplicationEvent。</p>
 <p>如果某个Bean想要发布容器事件，这个Bean就需要获得对spring容器的引用，那这个Bean类就需要实现ApplicationContextAware或者BeanFactoryAware接口。</p>
 <p>spring容器提供了一些内置事件。</p>
-<h3 id="让Bean获取Spring容器"><a href="#让Bean获取Spring容器" class="headerlink" title="让Bean获取Spring容器"></a>让Bean获取Spring容器</h3><p>在web应用中，Spring容器都是声明方式配置产生的，开发者只要在web.xml中配置一个listener，这个listener会负责初始化spring容器。前端MVC框架可以直接调用spring容器中的Bean，无需访问Spring容器，但是有时候我们需要Bean获取spring容器，那么这个Bean就需要实现ApplicationContextAware或者BeanFactoryAware接口，这两个接口分别需要实现setApplicationContext或者setBeanFactory方法，spring一旦发现在配置文件中声明的Bean实现了上面的两个接口，就会在创建之后为他们呢调用方法把spring容器的引用传递给他。</p>
+<h3 id="让Bean获取Spring容器"><a href="#让Bean获取Spring容器" class="headerlink" title="让Bean获取Spring容器"></a>让Bean获取Spring容器</h3><p>在web应用中，Spring容器都是声明方式配置产生的，开发者只要在web.xml中配置一个listener，这个listener会负责初始化spring容器。前端MVC框架可以直接调用spring容器中的Bean，无需访问Spring容器，但是有时候我们需要Bean获取spring容器，那么这个Bean就需要实现ApplicationContextAware或者BeanFactoryAware接口，这两个接口分别需要实现setApplicationContext或者setBeanFactory方法，spring一旦发现在配置文件中声明的Bean实现了上面的两个接口，就会在创建之后为他们调用方法把spring容器的引用传递给他。</p>
 <h2 id="Spring容器中的Bean"><a href="#Spring容器中的Bean" class="headerlink" title="Spring容器中的Bean"></a>Spring容器中的Bean</h2><p>beans元素是spring配置文件的根元素，如果bean和beans配置不一致，bean的配置会覆盖beans的配置。bean元素的两个属性是id 和class，id一般来说都是这个类的名称，当然还可以指明name属性，是这个Bean的别名，通过别名也可以访问实例。name中可以指定多个别名。通过&lt;alias…………/&gt;有两个属性，一个是name，一个是alias。</p>
-<p>spring容器不仅可以创建Bean实例，还可以指定特定的作用域，singleton（只生成一个，默认使用）、prototype（每个getBean都是个新的）、request（每次http请求）、session、global session，后面三个只会在web应用有效，通过bean元素的scope属性指定作用域。</p>
+<p>spring容器不仅可以创建Bean实例，还可以指定特定的作用域，singleton（只生成一个，默认使用）、prototype（每次getBean都是新的Bean）、request（每次http请求）、session、global session，后面三个只会在web应用有效，通过bean元素的scope属性指定作用域。</p>
 <p>request和session作用域只在web应用中有效，并且必须在web应用中增加额外配置才会生效，也就是在web.xml中增加listener，RequestContextListener</p>
 <p>不建议使用配置文件管理Bean的基本类型的属性值，通常只使用配置文件管理容器中Bean与Bean的依赖关系，在配置bean的时候ref的值是另外一个bean，value是基本类型及其包装类型。</p>
 <p>Spring可以自动装配Bean与Bean之前的依赖关系，通过beans和bean元素的autowire属性指定，这个属性有5个值：no、byName（根据setter方法名自动匹配）、byType（根据setter方法的参数自动匹配）、constructor（根据构造器的参数自动匹配）、autodetect（spring自主选择bytype或者constructor）</p>
-<p>byName如果找不到名称的bean的话就不会依赖注入，byType如果没有类型相同的实例就不会调用setter方法，吐过有多个类型相同的实例就会抛出异常。</p>
+<p>byName如果找不到名称的bean的话就不会依赖注入，byType如果没有类型相同的实例就不会调用setter方法，如果有多个类型相同的实例就会抛出异常。</p>
 <p>有的时候，程序希望将某些Bean排除在自动装配之外，只需要在bean元素配置的时候设置autowire-candidate=‘false’，在beans元素下面的default-autowire-candidates属性允许使用多个模式字符串的组合。</p>
 <p>如果某个Bean所依赖的Bean不想被spring容器访问，那么就可以使用嵌套Bean，可以把bean元素配置成property或者constructor-args的子元素</p>
 <p><strong>注入集合值</strong>如果需要调用形参类型为集合的setter方法，或者调用形参类型为集合的构造器，可以使用集合元素为&lt;list…./&gt;&lt;set…/&gt;&lt;map…./&gt;和&lt;props…/&gt;，list的子元素就是value，map的子元素是entry，属性有key,key-ref或者value和value-ref的组合，ref就是引用其他的Bean实例；props的子元素是prop，属性有key和value。</p>
