@@ -139,6 +139,72 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="w-2018" class="article article-type-w  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/02/2018/">2018</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/02/2018/" class="archive-article-date">
+  	<time datetime="2018-07-02T01:18:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>今天突然决定看一些大佬的微信号，但是有一些东西看了就会忘，所以我决定还是把他们粘贴在这个博客里</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/02/2018/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180701" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1215,170 +1281,6 @@
 
 
   
-    <article id="post-20180402-hibernate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/02/20180402-hibernate/">20180402 Hibernate</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/02/20180402-hibernate/" class="archive-article-date">
-  	<time datetime="2018-04-02T08:31:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-02</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>##hibernate</p>
-<p>Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。</p>
-<p>Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计）</p>
-<p>ORM的全称是Object/Relation Mapping（对象/关系数据库映射），ORM的唯一作用就是：把对持久化对象的保存、删除、修改等操作转换成对数据库的操作，数据库表中每一行是一个实例，某一行的列是这个实例的属性。</p>
-<p>PO=POJO（普通的，传统的Java对象） +持久化注解</p>
-<p>连接数据库的信息都是配置信息，配置信息使用 *.properties属性文件，也可以使用XML文件配置。</p>
-<p>Hibernate配置文件的默认文件名是hibernate.cfg.xml，当程序调用configuration对象的configure方法时，会自动加载该文件。根元素是&lt;hibernate-configuration…./&gt;，子元素是&lt;session-factory…../&gt;，其中可以使用property配置很多hibernate连接数据的必要信息。Hibernate为了保证性能推荐使用C3P0数据源（维持一个数据连接池）。在配置文件名中要把需要持久化的类名通过mapping子标签指明，属性是class。</p>
-<p>为了使用Hibernate进行持久化操作，通常有以下操作步骤：</p>
-<ol>
-<li>开发持久化类（POJO+持久化注解）</li>
-<li>获取Configuration</li>
-<li>获取SessionFactory</li>
-<li>获取Session，开始事务</li>
-<li>面向对象操作数据库，session.save(特定对象)</li>
-<li>事务提交，关闭session和sessionFactory。</li>
-</ol>
-<p>SessionFactory是数据库编译之后的内存镜像，通常一个应用对应一个SessionFactory对象，SessionFactory对象由Configuration对象生成，Configuration对象负责加载Hibernate配置文件。</p>
-<p>只有处于session管理下的POJO才有持久化操作的能力 。</p>
-<ol>
-<li>SessionFactory：单个数据库映射关系经过编译后的内存镜像，也是线程安全的。</li>
-<li>Session：应用程序与持久存储层之间相互操作的一个单线程操作，也是Hibernate持久化操作的关键对象，底层封装了JDBC连接，是Transaction的工厂，在显式执行flush之前，所有持久化操作的数据都在session的缓存中。</li>
-<li>持久化对象（Persistent Object）：POJO与session相关联。</li>
-</ol>
-<p>Hibernate的持久化操作离不开SessionFactory对象，这个对象的openSession方法可以打开Session对象，SessionFactory对象通常由Configuration对象产生。</p>
-<p>Configuration对象提供了一个buildSessionFactory（）方法，可以产生一个不可变的SessionFactory对象，也可以直接新建一个Configuration对象，然后通过addAnnotatedClass（）方法逐一添加持久化类，并且可以通过addPackage（）方法添加指定包下的所有持久化类。</p>
-<h3 id="hibernate配置文件"><a href="#hibernate配置文件" class="headerlink" title="hibernate配置文件"></a>hibernate配置文件</h3><p>目前创建Configuration对象的方法有三种：</p>
-<ol>
-<li>使用hibernate.properties作为配置文件（通过新建的Configuration对象直接手动添加持久化类）。</li>
-<li>使用hibernate.cfg.xml作为配置文件（新建Configuration对象直接调用configure对象）。</li>
-<li>直接创建Configuration对象。</li>
-</ol>
-<p>数据库方言的意思就是大部分的数据库都对标准SQL进行了扩展，所以需要指明是哪一种数据库，从而能够让hibernate识别不同的数据库语言的差异。</p>
-<p>如果hibernate不需要自己管理数据源，而是直接访问容器管理数据源，hibernate可以使用JNDI（Java Naming Directory Interface，Java命名目录接口）数据源的相关配置。</p>
-<p>Hibernate的SessionFactory可持有一个可选的二级缓存，外连接抓取能限制执行SQL语句的次数提高效率，这种外连接抓取可以通过在单个select语句中使用outer join来一次抓取多个数据表的数据。</p>
-<p>hibernate持久化类的要求有以下几个：</p>
-<ol>
-<li>提供一个无参数的构造器</li>
-<li>提供一个标识属性：映射到数据表里的主键字段（虽然hibernate允许使用八种基本类型作为标识属性的类型，但是会有很多问题，<strong>建议使用基本类型的包装属性作为标识属性的类型</strong>）</li>
-<li>为持久化类所有的成员变量提供setter和getter方法</li>
-<li>使用非final的类，因为在实例化该类的时候可能会使用代理的方式，这个代理对象是持久化类的子类的实例，同时还应该避免使用public final的方法，如果必须使用这种方法则需要设置变量来禁用代理。</li>
-<li>重写equals和hashCode方法，因为我们需要把持久化类放入Set中，需要比较相等。通过标识属性是比较方便的，但是如果是hibernate自动生成的那种，hibernate只为持久化对象指定标识值，一个新创建的实例不会有任何标识。</li>
-</ol>
-<h3 id="持久化对象的状态"><a href="#持久化对象的状态" class="headerlink" title="持久化对象的状态"></a>持久化对象的状态</h3><ol>
-<li>瞬态：使用new创建的类实例，还没来得及跟session关联，如果引用丢失，则会被垃圾回收机制回收。</li>
-<li>持久化：将某个实例和session相关联，这个时候这个实例在数据库中有对应的记录和持久化标识，如果有改动会被立刻写入到数据库中</li>
-<li>脱管：曾经和session相关联，但是现在关联的session被关闭了，所以该对象就变成了脱管对象，脱管对象仍然可以被修改，一旦重新持久化，这之间的改动也可以被写入数据库。</li>
-</ol>
-<h3 id="改变持久化对象状态的方法"><a href="#改变持久化对象状态的方法" class="headerlink" title="改变持久化对象状态的方法"></a>改变持久化对象状态的方法</h3><p>Hibernate Session提供了save和persist方法，可以在该方法的参数中指明主键。如果持久化类的标识属性是generated类型，那么hibernate会在save的时候就给这个持久化类的实例分配标识属性值，如果标识属性是assigned类型或者是复合主键，那么这个标识属性值应该在调用save之前被手动给定。</p>
-<p>save和persist 的方法区别在于save方法 返回插入的实例的标识属性值，而且save会立刻生成insert语句将该实例插入数据库中。这种方法是瞬态对象转变为持久化状态。</p>
-<p>程序可以使用load方法加载一个持久化实例，load方法的参数是类以及主键键值，如果不存在这个实例可能会返回一个异常，如果在持久化注解中指定了延迟加载，那么会返回一个未初始化的代理对象，这个对象只有在调用实例的方法的时候才会去数据库加载这个实例；与此相同的还有get方法，get方法会立即到数据库查找，如果不存在的话会返回null。</p>
-<p>程序对于持久化实例所做的更改会在Session flush之前被自动保存到数据库。</p>
-<p>对于一个脱管对象，可以使用session的update（）方法，update方法会将脱管对象更新到数据库，如果不记得之前是否持久化过，可以使用updateOrSave方法，如果没有该实例则save，还有一个方法是merge，这个方法执行并不会持久化自己的参数里的对象，会将该对象的副本返回，这个副本处于持久化状态。 </p>
-<p>load和get方法可以指定一个锁模式参数，LockOptions对象代表锁模式，提供了READ和UPGRADE两个静态属性代表共享、修改锁，除此之外Session.LockRequest的lock（）方法也可以将某个脱管对象重新持久化，但是这个脱管对象必须是没有经过修改的。</p>
-<p>session的delete方法可以删除持久化实例，但是都必须先加载，然后再删除。</p>
-<h2 id="Hibernate注解"><a href="#Hibernate注解" class="headerlink" title="Hibernate注解"></a>Hibernate注解</h2><p>对于Hibernate PO类来说通常会使用如下两个注解：</p>
-<ol>
-<li>@Entity可以指定name属性，通常情况下系统默认以该类类名作为实体类的名称。</li>
-<li>@Table：该注解指定持久化类所映射的表。（支持的属性中有name（设置持久化类所映射的表的表名））</li>
-<li>@UniqueConstraint：为数据表定义唯一约束，唯一属性是columnNames，这个属性值是一个字符串数组，每一个字符串代表一个数据列。</li>
-<li>@Index，它的属性可以设置有哪些列构建索引，索引的名字以及索引是否具有唯一性。</li>
-<li>@Proxy：该注解的ProxyClass属性指定一个接口作为延迟加载的代理使用</li>
-<li>@DynamicInsert和DynamicUpdate：在insert和update的时候是否动态生成SQL语句，只插入非空字段或者只更新修改过的字段。默认值是false。（DynamicUpdate可以指定几种乐观锁定的策略）</li>
-<li>@SelectBeforeUpdate：指定hibernate在update之前是否会select一次语句，如果持久化对象的状态没有变化过，那么就不会update，默认false（如果该持久化对象状态很少变化但又经常需要保存）</li>
-<li>@Where：该注解的clause属性可以指定一个SQL过滤查询条件，每次试图加载该持久化对象的时候只有符合条件的记录才会被加载。</li>
-<li>@Check：该注解可以通过constraints指定一个SQL表达式，用于为该持久化类所对应的表指定一个Check约束。</li>
-<li>@BatchSize：当hibernate抓取集合属性或者延迟加载的时候，注解的size属性能够指定每批抓取的记录数量。</li>
-</ol>
-<h3 id="映射属性"><a href="#映射属性" class="headerlink" title="映射属性"></a>映射属性</h3><p>默认情况下，使用@Entity注解的持久化类的所有属性都将被映射到底层数据库，为了指定某个属性对应的列的信息，需要使用@Column修饰该属性。@Access用于改变对该属性的访问策略。@Formula用于指定某个属性是根据value指定的表达式动态生成的，这个属性不会被保存到数据库中。@Generated用于指定该属性的值是否由数据库生成，接受的三个值是GenerationTime.INSERT（只在insert的时候生成）、GenerationTime.Never、Generation.ALWAYS（insert和update都会生成）</p>
-<p>@Formula的value属性就是计算的表达式，这个表达式就是一个sql语句，value=“（SQL语句）”，如果需要使用参数就直接写，hibernate会自己调用参数值。</p>
-<p>使用@Transient修饰的属性不会被持久化保存。@EmbeddedId可以修饰自定义类作为主键。</p>
-<p>使用@Enumerated修饰枚举类型，这个注解的value属性负责指定保存到数据库中的内容，EnumType.ORDINAL保存的是枚举值的序号，EnumType.STRING保存的是枚举值的名称。</p>
-<p>数据库中经常需要存放比较大的数据，当持久化类的属性是byte[]、Byte[]和java.io.Serializable类型时，@Lob修饰的属性将映射为底层的Blob，当@Lob修饰的属性是char[]、Character[]和java.lang.String时，会被映射成Clob列。</p>
-<p><strong>对于超大类型的数据属性可能不需要每次都加载这个属性，所以存在延迟加载这个方式</strong>，使用@ Basic修饰该属性，@ BASIC有两个属性，fetch有两个值：FetchType.LAZY（延迟加载）、FetchType.EAGER（立即加载），另外一个属性是optional，指明该属性对应的数据列是否可以为空</p>
-<p>因为Java中日期类型比较少，而数据库中比较多，Java中的date类型翻译成什么类型的列，可以使用@Temporal，该注解的value属性可以支持TemporalType.DATE、TemporalType.TIME、TemporalType.TIMESTAMP三个值之一，用于指定将该属性映射到数据表的date、time和timestamp类型的数据列。</p>
-<p>hibernate推荐每条记录都有自己的逻辑主键，不要使用物理主键，使用@Id注解时无需指定任何属性，如果希望hibernate为逻辑主键自动生成主键值，还需要使用@GeneratedValue来修饰实体的标识属性，这个注解有两个属性分别是strategy和generator，strategy的可选值是GenerationType.AUTO（自动选择）、IDENTITY（自增策略）、SEQUENCE、TABLE（辅助表），后面两个需要搭配着另一个属性generator使用，@TableGenerator定义的主键生成器会在底层生成过一个辅助表。</p>
-<h4 id="映射集合属性"><a href="#映射集合属性" class="headerlink" title="映射集合属性"></a>映射集合属性</h4><p>Hibernate要求持久化集合值字段必须声明为接口，原因是当程序持久化某个实例时，hibernate会自动把程序中的集合实现更改为自己的的集合实现类，因此不要把hibernate集合属性强制类型转换为集合实现类（如HashSet、HashMap），但可以转换成Map和Set等集合，不管哪种类型的集合属性，都统一使用@ElementCollection注解进行映射，该注解的属性有fetch（抓取策略，FetchType.EAGER\LAZY）和targetClass（集合属性中集合元素的类型）。</p>
-<p>由于集合属性总需要保存到另一个数据表中，所以保存集合属性的数据表必须包含一个外键列，用于参照到主键列，该外键列使用@JoinColumn进行映射 。</p>
-<p>Hibernate使用标准的@CollectionTable注解映射保存集合属性的表。@JoinColumn注解专门用于定义存放集合属性的数据表的外键列，属性中有name（外键列的列名）、table（指定该列所在数据表的表名）、referencedColumnName（指定该列所参照的主键列的列名）</p>
-<p>如果要映射带索引的集合，就需要为集合元素所在的数据表指定一个索引列。有两种，@OrderColumn（用于定义List集合、数组的索引列），@MapKeyColumn（映射Map的索引列），有的时候这个Map Key的类型也需要指定，使用@MapKeyClass注解，该注解只有一个value属性。@Column在存储集合元素的表中的定义存储集合内容的列。</p>
-<p>Hibernate还支持使用SortedSet和SortedMap两个有序集合，使用@SortNatural或者@SortComparator注解，后者需要通过value属性指明自定义的comparator实现类。</p>
-<h4 id="映射自定义类属性"><a href="#映射自定义类属性" class="headerlink" title="映射自定义类属性"></a>映射自定义类属性</h4><p>对于自定义类用@Embeddable修饰，告诉hibernate这个类将作为持久化类的属性，hibernate会把自定义类的每个属性都当做是数据列的一列进行储存。可以通过@Column指定这些属性对应的数据列；还有一种策略是在持久化类中使用@Embedded注解修饰组件属性，如果需要为组件属性所包含的子属性指定列名，则可以使用@AttributedOverrides和@AttributedOverride注解，@AtrributedOverride注解有name和Column两个属性，name指定针对组件类的哪个属性。</p>
-<p>组件类中有集合的注解方法和映射集合属性一样，但是集合属性的元素中有自定义类就需要额外的处理，程序不再使用@Column映射保存集合元素的数据列，不能用单独的数据列保存集合元素，只能利用@Embeddable在自定义类中@Column注解将组件类的属性映射到底层数据表中。自定义类作为Map的key元素的时候需要重写自定义类的equals和hashcode两个方法。</p>
-<p>持久化类选择多列作为联合主键的条件是具有无参数的构造器，实现java.io.Serializable接口；重写equals和hashcode方法，指定多列作为联合主键的方法就是使用@Id注解。</p>
-<p>使用@ElementCollection修饰的集合属性都会新建表来存储这个集合，原表中将不会存储这个集合的值，这两个表相关联的部分只有外键列。当自定义类作为Map的key的时候，可以使用@Column修饰该集合属性，新表中就有了使用@Column设置的列、外键列以及自定义类的属性。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hibernate</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/02/20180402-hibernate/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1460,15 +1362,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1488,15 +1390,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">python</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
