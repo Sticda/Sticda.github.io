@@ -139,6 +139,546 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-JavaEE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/18/JavaEE/">JavaEE</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/18/JavaEE/" class="archive-article-date">
+  	<time datetime="2018-01-18T08:10:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-18</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java EE应用的分层模型大致有如下几层：</p>
+<ol>
+<li>Domain Object(领域对象层)：一些简单的java类，类内部包含了业务的实现逻辑。</li>
+<li>DAO（Data Access Object）：对数据库的操作。</li>
+<li>业务逻辑层：这些业务逻辑方法可能仅仅用于暴露Domain Object对象所实现的业务逻辑方法或者DAO组件的业务逻辑方法。</li>
+<li>控制器层：拦截用户请求，调用业务逻辑组件的方法。</li>
+<li>表现层：一系列页面组成，负责收集请求，并显示处理结果。最常见的技术是JSP（Velocity、FreeMarker和Tapestry）</li>
+</ol>
+<p><strong>保证业务逻辑方法的实现，与具体的持久层访问技术分离</strong>，持久层我的理解就是数据和物理设备之间的操作。</p>
+<p>JSP不能直接访问应用的底层状态，Java EE会使用选择JavaBean来传输数据。</p>
+<p>Struts是MVC框架，同时替代技术有Spring MVC和JSF。</p>
+<p>JavaEE应用需要一种能够让Java以面对对象的方式操作关系数据库的技术，ORM（Object Relation Mapping），Hibernate框架是一种开源的、轻量级的ORM框架，他允许将普通的、传统的Java对象（POJO）映射成持久化类，允许应用程序以面向对象的方式才操作POJO，而Hibernate框架负责将这种操作转换成底层的SQL操作。Mybatis允许将SQL语句查询结果映射成对象，是Hibernate的替代技术。</p>
+<p>Spring框架里包含各种设计模式的应用，中间层容器，向上与MVC框架无缝融合，向下可以与各种持久层框架无缝整合。没有替代技术。</p>
+<p>在Tomcat中部署Web应用的方式有四种：</p>
+<ol>
+<li>利用Tomcat的自动部署。</li>
+<li>利用控制台</li>
+<li>增加自定义的web部署文件</li>
+<li>修改server.xml文件部署web应用</li>
+</ol>
+<p>Ant是java世界的Make，利用build.xml完成整个项目的编译，Ant工具会根据build文件中的配置进行整个项目的编译，project文件夹下包含了src（源文件、各种配置文件）、classes（编译后的class文件）、lib（第三方jar）、dist（项目打包和项目发布文件的文件夹）、build.xml（Ant生成文件）</p>
+<p>build文件中的根元素是project，每个项目下可以定义多个生成目标，每个生成目标用target标签来定义，target的属性有name（运行target的时候就是根据name属性确定目标）、depends（运行该target之前必须运行depends指定的target）、if（if属性指定一个属性，只有这个属性被设置了才会执行target）、unless（这个属性没被设置才会执行这个target）、description</p>
+<p>build文件中的property元素用来定义一个或者多个元素，该元素有name和value属性，而且该属性值不可改变，需要获取属性值，${property的name属性}，属性值的来源可以是属性文件的文件名、属性文件的资源名称、属性文件的url地址、系统环境变量、或者是属性文件的classpath。</p>
+<h1 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h1><p>maven常用的命令就是mvn。mvn的主要格式是mvn <plugin-prefix>:<goal> -D &lt;属性名&gt;=&lt;属性值&gt; ········<br>plugin-prefix是插件前缀，goal就是指定目标，-D就是用来指定属性名和属性值</goal></plugin-prefix></p>
+<p>使用<a href="http://maven.apache.org/plugins/index.html" target="_blank" rel="noopener">Maven</a> 可以查看Maven插件的功能和用法，创建项目使用Maven的archetype插件</p>
+<p>用maven生成的项目中包含一个pom（project object model ）文件。该文件仅仅包含了一些项目的版本、groupID、artifactid等坐标信息。</p>
+<pre><code>mvn archetype:generate -DinteractiveMode=false -DgroupId=org.fkjava -DartifactId=mavenQs -Dpackage=org.fkjava.mavenqs
+
+mvn compile
+
+mvn exec:java -Dexec.mainClass=&quot;org.fkjava.mavenqs.App&quot;
+</code></pre><p>即便该项目的POM文件中没有说明maven编译项目的具体过程，是因为当前项目的pom文件会被合并到上级pom文件中，上级的pom文件中定义了项目的大量默认设置。</p>
+<p>Maven的插件可以指定多个可执行的目标，对于软件构建过程，默认的生命周期是compile、test、package、install、deploy。POM为项目提供一个唯一标识符，这个就是Maven坐标，由groupID（该项目开发者的域名）、artifactid（项目名）、packaging（打包类型）、version（项目版本），Maven坐标可以精确定位一个项目。</p>
+<h1 id="Servlet-jsp回顾"><a href="#Servlet-jsp回顾" class="headerlink" title="Servlet/jsp回顾"></a>Servlet/jsp回顾</h1><p>web目录中的classes和lib文件夹都是用来保存web应用所需要的Java类文件，classes保存单个的class文件，而lib保存打包以后的jar文件。</p>
+<ol>
+<li>java脚本 &lt;%  %&gt;</li>
+<li>jsp注释 &lt;%–    –%&gt;</li>
+<li>jsp声明 &lt;%!   %&gt;</li>
+<li>输出jsp表达式 &lt;%=表达式 %&gt;输出表达式语法后不能有分号</li>
+</ol>
+<p>JSP的3个编译指令&lt;% 编译指令名 属性名=“属性值”  %&gt; page\include\taglib 。</p>
+<p>jsp动作指令主要有如下7个：</p>
+<ol>
+<li>jsp:forward:页面转向</li>
+<li>jsp:param：传递参数（forward和include需要使用该指令）</li>
+<li>jsp:plugin：下载JavaBean或者applet到客户端执行</li>
+<li>jsp:useBean：创建javaBean</li>
+<li>jsp:setProperty：设置JavaBean的属性值</li>
+<li>jsp:getProperty：输出JavaBean的属性值</li>
+<li>jsp:include: 动态引入jsp页面（被导入页面的body内容插入本页面）</li>
+</ol>
+<p>通常不使用response直接响应，都是使用out对象，response常用于重定向，以及输出非字符对象。</p>
+<p>jsp和servlet之间的数据交换是通过四个map结构，application、session（会话）、request（请求）、page。请求就是一次点击，会话就是浏览器的一个标签页，application就是整个服务器上所有的jsp和servlet都可以交换信息。</p>
+<p>如果希望jsp页面可以获取web.xml配置文件中的配置信息，则必须通过为该jsp配置的路径访问该页面。</p>
+<p>jsp中的9个内置对象：</p>
+<ol>
+<li>application</li>
+<li>config</li>
+<li>exception：只有在errorpage中才可以用</li>
+<li>out</li>
+<li>pageContext：可以访问page、request、session、application范围的变量，pageContext还可以用来获取其他内置对象。</li>
+<li>request</li>
+<li>response</li>
+<li>session</li>
+</ol>
+<p>GET方式发送的请求参数被附加到地址栏的URL之后，url?param1=value1&amp;param2=value2&amp;········paramN=valueN。</p>
+<p>post请求中的非西欧字符可以通过设置request的编码字符集，但是get请求中的非西欧字符（包括中文字符）只能通过java.net.URLDecoder类。</p>
+<p>使用request的getRequestDispatcher（String path）方法的时候，该path字符串必须以斜线开头。</p>
+<p>response的重定向会丢失所有的请求参数和request范围的属性，而forward将会保留所有的请求参数。</p>
+<p><strong>一次用户会话的含义是：客户端浏览器链接服务器开始，到客户端浏览器与服务器断开为止，这个过程就是一次会话</strong>。</p>
+<p>HttpServlet包含init方法和destroy方法，这两个方法无须重写，除非在初始化servlet时，完成某些资源初始化的方法，才考虑重写init方法，销毁servlet之前先完成对于某些资源的回收才需要重写destroy。</p>
+<p>为了让servlet响应用户请求，必须将servlet配置在web应用中，配置servlet有两种方式：</p>
+<ol>
+<li>在servlet类中使用@WebServlet注解进行配置。</li>
+<li>通过在web.xml文件中配置。</li>
+</ol>
+<p>metadata-complete=”true”，会在启动时不扫描注解（annotation）。如果不扫描注解的话，用注解进行的配置就无法生效。</p>
+<p>有一种servlet在应用启动的时候就创建，用于某些后台服务的servlet或者是拦截请求的servlet。load-on-startup Servlet，配置的方式有两种：@WebServlet注解的loadOnStartup属性指定。或者是在web.xml中利用load-on-startup子元素进行配置，有一个整数值表示优先级，越小就越先实例化。</p>
+<p>在web.xml中写明的Servlet参数可以通过ServletConfig访问。ServletContext获得的是整个Web应用的配置参数。</p>
+<p>tld文件应该在WEB-INF的任意子路径下（tld文件是对自定义标签库的定义文件），tld文件中的uri是非常关键的，在使用自定义标签的时候需要明确uri才能找到指定的标签库。</p>
+<p>getJspBody()可以获得自定义jsp标签里的标签体。</p>
+<p>以“页面片段”为属性的标签需要在标签处理类中定义类型为JSPFragment的属性，这个属性代表“页面片段”，使用标签库的时候，通过&lt; jsp:attribute…/ &gt;动作指令为标签的属性指定值。</p>
+<p>需要传入自定义标签的属性个数是不确定的，需要动态属性的标签，标签处理类需要实现DynamicAttributes接口，配置标签时通过<dynamic-attributes>子元素指定该标签支持动态属性。</dynamic-attributes></p>
+<p>Filter的种类：（filter的用法）</p>
+<ol>
+<li>用户授权的filter：检查用户请求</li>
+<li>日志filter：详细记录某些特殊的用户请求</li>
+<li>负责解码的filter：对非标准编码的请求编码</li>
+<li>能改变xml内容的XSLT Filter</li>
+</ol>
+<p>ServletContextListener、ServletContextAttributeListener、ServletRequestListener、ServletRequestAttributeListener、HttpSessionListener、HttpSessionAttributeListener</p>
+<p>Servlet底层的IO是通过ServletInputStream和ServletOutputStream支持的，ServletInputStream新增了setReadListener方法，允许非阻塞IO读取数据，输出流也有同样的方法。使用的方法是：</p>
+<ol>
+<li>调用ServletRequest的startAsync（）方法开启异步模式</li>
+<li>通过ServletRequest获取ServletInputStream，并为ServletInputStream设置监听器，实现ReadListener接口来实现监听器。</li>
+</ol>
+<h3 id="Tomcat-8-的WebSocket支持"><a href="#Tomcat-8-的WebSocket支持" class="headerlink" title="Tomcat 8 的WebSocket支持"></a>Tomcat 8 的WebSocket支持</h3><p>使用注解方式开发，被@ServerEndpoint修饰的java类即可作为WebSocket服务器，这个类中有四个需要定义的方法</p>
+<p>Tag File支持：通过建立Tag文件，利用Tag File代替了标签处理类，Tagfile有5个编译指令，分别是taglib、include、tag、attribute（类似于自定义标签处理类的属性）、variable，在使用自定义标签的时候需要先导入标签库，再使用标签，<strong>和tld文件的不同在于这里是prefix和tagdir</strong>，tagdir标签库路径下存放着很多Tag File。每个Tag File对应着一个标签。</p>
+<h3 id="Servlet3-0"><a href="#Servlet3-0" class="headerlink" title="Servlet3.0"></a>Servlet3.0</h3><ol>
+<li>异步处理是通过AsyncContext类来处理的，AsyncContext类的dispatch方法把请求dispatch到指定JSP页面，被异步请求dispatch的目标界面需要在指定session=false，这样新的页面才不会重新创建session，<strong>异步调用需要配置</strong>，异步调用有自己的监听器，监听器需要实现AsyncListener接口  ，<strong>这里的监听器不像是servlet那种只要配置了就会自动运行的监听器，这个异步监听器必须注册在某个异步调用上。</strong></li>
+<li>HttpServletRequest增加了对文件上传的支持</li>
+<li>ServletContext可以通过编程的方式动态注册servlet和filter</li>
+</ol>
+<p>HttpServletRequest提供了获得part（文件上传域）的方法，每个part对应一个文件，part也有write的方法可以将上传文件写入到服务器的磁盘里。在页面中就需要设置input type=file，并且需要将表单域的enctype属性设置为multipart/form-data。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/18/JavaEE/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20180116" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/11/20180116/">20180116</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/11/20180116/" class="archive-article-date">
+  	<time datetime="2018-01-11T08:40:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-11</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Web容器安全管理"><a href="#Web容器安全管理" class="headerlink" title="Web容器安全管理"></a>Web容器安全管理</h1><pre><code>&lt;login-config&gt;
+    &lt;auth-method&gt;BASIC&lt;/auth-method&gt;&lt;!--定义验证方式,basic是基本验证方式--&gt;
+&lt;/login-config&gt;
+&lt;security-role&gt;
+    &lt;role-name&gt;admin&lt;/role-name&gt;
+&lt;/security-role&gt;
+&lt;security-role&gt;
+    &lt;role-name&gt;manager&lt;/role-name&gt;
+&lt;/security-role&gt;
+&lt;security-constraint&gt;
+    &lt;web-resource-collection&gt;
+        &lt;web-resource-name&gt;Admin&lt;/web-resource-name&gt;
+        &lt;url-pattern&gt;/admin/*&lt;/url-pattern&gt;
+        &lt;http-method&gt;GET&lt;/http-method&gt;&lt;!--可以添加多个，只能分开写,默认设置代表所有的http方法都会受到限制--&gt;
+    &lt;/web-resource-collection&gt;
+    &lt;auth-constraint&gt;
+        &lt;role-name&gt;admin&lt;/role-name&gt;
+    &lt;/auth-constraint&gt;
+&lt;/security-constraint&gt;
+</code></pre><p>BASIC的验证方式只能通过对话框输入名称和密码，使用基本验证时无法自定义登录页面，如果需要自定义登录界面和登陆错误的页面，则可以改用容器所提供窗体验证。</p>
+<pre><code>&lt;login-config&gt;
+        &lt;auth-method&gt;FORM&lt;/auth-method&gt;
+        &lt;form-login-config&gt;
+            &lt;form-error-page&gt;登录错误页面&lt;/form-error-page&gt;
+            &lt;form-login-page&gt;登录页面（路径必须从应用程序的根目录开始）&lt;/form-login-page&gt;
+        &lt;/form-login-config&gt;
+&lt;/login-config&gt;
+</code></pre><p>这种FORM的方式在容器验证成功之后会在HttpSession中设置登录字符，所以可以通过检查字段的方式确实是否登录以及完成注销机制的设计。发送的URL、发送名称的请求参数和发送密码的请求参数都是固定不变的。</p>
+<p>除了BASIC和FORM之外，还可以设置DIGEST（摘要验证，在网络上传输的是密码的MD5值）和CLIENT-CERT（采用证书的安全机制）</p>
+<p>web应用程序采用HTTP over SSL是比较安全的方式，也就是HTTPS，在web.xml中的<security-constraint>设置</security-constraint></p>
+<pre><code>&lt;user-data-constraint&gt;
+    &lt;transport-guarantee&gt;CONFIDENTIAL&lt;/transport-guarantee&gt;
+&lt;/user-data-constraint&gt;
+</code></pre><p><transport-guarantee>的默认值是NONE，还可以设置为CONFIDENTIAL（机密性），INTEGRAL（完整性），两个效果都是一样的</transport-guarantee></p>
+<p>request.isUserInRole方法可以判断登录用户的角色。</p>
+<h1 id="整合数据库"><a href="#整合数据库" class="headerlink" title="整合数据库"></a>整合数据库</h1><ol>
+<li>加载JDBC驱动程序：通过java.lang.Class类的forName，动态加载驱动程序类，Class.forName(“com.mysql.jdbc.Driver”)，不同的数据加载不同的类。</li>
+<li>提供JDBC URL，JDBC URL定义了连接数据库时的协议等标识。。jdbc：mysql:://主机名称：连接端口/数据库名称？参数=值&amp;参数=值，参数包括用户名、密码、useUnicode（是否使用unicode）、character-Encoding（字符编码方式），<strong>xml文件中不能出现“&amp;”，所以用“&amp;amp；”代替</strong>。</li>
+<li>取得Connection实例：coon=DriverManager.getConnection（url），url是第二步里面的URL；当数据库管理人员不想告诉开发人员数据库的密码和用户名时，开发者可以通过JNDI的方式获得Connection</li>
+</ol>
+<h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><ol>
+<li>Template Method模式（Gof设计模式）：父类会定义服务流程的方法，子类继承或者覆写实现具体的流程。</li>
+<li>Intercepting Filter模式（Java EE设计模式）：过滤器</li>
+<li>Model-View-Controller模式（架构模式）：MVC以及Model 2 模式</li>
+<li>Business Delegate模式： Business Delegate是中间件，它接收到请求之后交给其他部分处理并由其他部分返回结果，降低耦合度。</li>
+<li>Service Locator模式：类似于前一个，隐藏复杂的操作。</li>
+<li>Transfer Object模式：可以把一些信息封装在某个类中，传输类，比如说图书管理系统里的图书类或者用户类。</li>
+<li>Front Controller模式：FrontController负责了集中管理所有与请求相关的动作，处理完毕之后委托给其他对象（不建议）</li>
+</ol>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>看到今天，这本Servlet与Jsp终于看完了，java web的路线还有spring、struts和MyBatis，Hibernate，这几个准备在暑假看看有没有实战的项目，设计模式现在不准备深入研究，只是先通过项目学习一下。以后也不一定就一定搞这个，但是干一行精一行还是很有必要地~~~~下次准备把一本书的内容都写在一起，每周分开就好了，之前这本书看的太乱，大概写了十几个md文件。</p>
+<hr>
+<h1 id="python"><a href="#python" class="headerlink" title="python"></a>python</h1><ol>
+<li>从raw_input()读取的内容永远以字符串的形式返回。</li>
+<li>list是可变列表，tuple是不变元组，变不变指的是内存指向。</li>
+<li>dict相当于其他语言里的map，python里面在交互式命令行模式下当返回None的时候不显示结果。dict里的key是不可变对象。</li>
+<li>set是集合，没有重复元素。可以重复添加，但没有效果。两个集合可以利用“&amp;“和”|“做数学意义上的交集和并集。</li>
+<li>在Python中，定义一个函数要使用def语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用return语句返回。</li>
+<li>python里面函数不需要写明返回值的类型，可以返回多个值，但实际上仍然是一个tuple。函数的默认参数写在定义函数的地方。</li>
+</ol>
+<pre><code>def enroll(name, gender, age=6, city=&apos;Beijing&apos;):
+    enroll(&apos;Sarah&apos;, &apos;F&apos;) 
+    enroll(&apos;Bob&apos;, &apos;M&apos;, 7)
+    enroll(&apos;Adam&apos;, &apos;M&apos;, city=&apos;Tianjin&apos;)`
+</code></pre><ol>
+<li>默认参数必须指向不变对象。</li>
+<li>可变参数传入函数的时候会自动组装成一个tuple.</li>
+</ol>
+<pre><code>def calc(*numbers):
+    sum=0
+    for n in numbers
+        sum=sum+n*n
+    return sum
+</code></pre><ol>
+<li>可变参数允许你传入0个或任意个参数，这些可变参数在函数调用时自动组装为一个tuple。而关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个dict。</li>
+<li>关键字参数有什么用？它可以扩展函数的功能。</li>
+</ol>
+<pre><code>def person(name,age,**kw): #kw是关键字参数
+</code></pre><ol>
+<li>参数定义的顺序必须是：必选参数、默认参数、可变参数和关键字参数。</li>
+<li>尾递归是指在函数返回的时候，调用自身本身，并且，return语句不能包含表达式，理论上可以防止栈溢出，但是Python标准的解释器没有针对尾递归做优化，任何递归函数都存在栈溢出的问题。</li>
+<li>字符串、元组、列表切片[起始元素:终止元素:步长]，步长省略时为1，起始元素从0开始，不包括终止元素。</li>
+<li>默认情况下，dict迭代的是key。如果要迭代value，可以用for value in d.itervalues()，如果要同时迭代key和value，可以用for k, v in d.iteritems()</li>
+<li>如何判断一个对象是可迭代对象呢？方法是通过collections模块的Iterable类型判断，isinstance(‘abc’, Iterable) # str是否可迭代</li>
+<li><p>列表生成式 [要生成的元素 for 迭代元素 in 迭代的集合或者列表等等一切可以迭代的东西)]</p>
+<p>>&gt;&gt;L=[x*x for x in range(10)]<br>>&gt;&gt;L<br>[0,1,4,9,16,25,36,49,64,81]</p>
+</li>
+<li><p>创建一个generator，只要把一个列表生成式的[]改成()，就创建了一个generator，通过for循环迭代所有的内容。</p>
+</li>
+<li>如果一个函数定义中包含yield关键字，那么这个函数就不再是一个普通函数，而是一个generator。</li>
+<li>函数名也是变量，函数名也可以赋值给其他变量，一个函数就可以接收另一个函数作为参数，这种函数就称之为<strong>高阶函数</strong>。</li>
+<li>map()函数接收两个参数，一个是函数，一个是序列，map将传入的函数依次作用到序列的每个元素，并把结果作为新的list返回。</li>
+<li>reduce把一个函数作用在一个序列[x1, x2, x3…]上，这个函数必须接收两个参数，reduce把结果继续和序列的下一个元素做累积计算</li>
+<li>字典的定义是用大花括号{}，集合set的输出结果中[]并不代表是列表。</li>
+<li>Python内建的filter()函数用于过滤序列。filter()接收一个函数和一个序列。和map()不同的时，filter()把传入的函数依次作用于每个元素，然后根据返回值是True还是False决定保留还是丢弃该元素。</li>
+<li>通常规定，对于两个元素x和y，如果认为x &lt; y，则返回-1，如果认为x == y，则返回0，如果认为x &gt; y，则返回1。</li>
+<li>sorted()函数也是一个高阶函数，它还可以接收一个比较函数来实现自定义的排序。</li>
+<li>高阶函数除了可以接受函数作为参数外，还可以把函数作为结果值返回。</li>
+<li>在函数lazy_sum中又定义了函数sum，并且，内部函数sum可以引用外部函数lazy_sum的参数和局部变量，当lazy_sum返回函数sum时，相关参数和变量都保存在返回的函数中，这种称为<strong>“闭包（Closure）”</strong>的程序结构拥有极大的威力。<strong>返回闭包时牢记的一点就是：返回函数不要引用任何循环变量，或者后续会发生变化的变量</strong>。如果一定要引用循环变量怎么办？方法是再创建一个函数，用该函数的参数绑定循环变量当前的值，无论该循环变量后续如何更改，已绑定到函数参数的值不变。</li>
+<li>关键字lambda表示匿名函数，冒号前面的x表示函数参数。匿名函数有个限制，就是只能有一个表达式，不用写return，返回值就是该表达式的结果。匿名函数也是函数。</li>
+<li>在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）</li>
+<li>把@log放到now()函数的定义处，相当于执行了语句：now = log(now)</li>
+<li>functools.partial的作用就是，把一个函数的某些参数给固定住（也就是设置默认值），返回一个新的函数，调用这个新函数会更简单.</li>
+<li>每一个包目录下面都会有一个<strong>init</strong>.py的文件，这个文件是必须存在的，否则，Python就把这个目录当成普通目录，而不是一个包。<strong>init</strong>.py可以是空文件，也可以有Python代码，因为<strong>init</strong>.py本身就是一个模块。</li>
+</ol>
+<hr>
+<p>今天决定python只学习自己需要的部分，所以不准备所有都看了，之前看的一些高级特性都没搞明白。</p>
+<ol>
+<li>当我们在命令行运行模块文件时，Python解释器把一个特殊变量<strong>name</strong>置为<strong>main</strong>，而如果在其他地方导入该模块时，if判断将失败。</li>
+</ol>
+<pre><code>if __name__=&apos;__main__&apos;:
+    test()
+</code></pre><ol>
+<li>外部不需要引用的函数全部定义成private，只有外部需要引用的函数才定义为public，类似_xxx和__xxx这样的函数或变量就是非公开的（private），不应该被直接引用。</li>
+<li><p>安装第三方库的时候使用“pip install  模块名” 。</p>
+</li>
+<li><p>定义类，<strong>init</strong>方法的第一个参数永远是self，表示创建的实例本身，因此，在<strong>init</strong>方法内部，就可以把各种属性绑定到self，因为self就指向创建的实例本身</p>
+</li>
+</ol>
+<pre><code>class Student(object):
+
+def __init__(self,name,score):
+    self.name=name
+    self.score=score
+</code></pre><ol>
+<li>和普通的函数相比，在类中定义的函数只有一点不同，就是第一个参数永远是实例变量self，并且，调用时，不用传递该参数。</li>
+<li>当我们认为某些代码可能会出错时，就可以用try来运行这段代码，如果执行出错，则后续代码不会继续执行，而是直接跳转至错误处理代码，即except语句块，执行完except后，如果有finally语句块，则执行finally语句块，至此，执行完毕。</li>
+<li>如果错误没有被捕获，它就会一直往上抛，最后被Python解释器捕获，打印一个错误信息，然后程序退出。</li>
+<li>如果不捕获错误，自然可以让Python解释器来打印出错误堆栈，但程序也被结束了。既然我们能捕获错误，就可以把错误堆栈打印出来，然后分析错误原因，同时，让程序继续执行下去。Python内置的logging模块可以非常容易地记录错误信息。</li>
+<li>可以捕获错误之后打印错误又把错误抛出，因为当前函数可能不能处理，raise语句如果不带参数，就会把当前错误原样抛出。此外，在except中raise一个Error，还可以把一种类型的错误转化成另一种类型。 </li>
+<li>调试的方法有以下几种：用print发现错误的地方、用assert发现错误的地方、用logging记录错误的地方、启动Python的调试器pdb。</li>
+<li>pdb.set_trace()是用来调试比较简单的部分，只需要import pdb，然后，在可能出错的地方放一个pdb.set_trace()，就可以设置一个断点，程序会自动在pdb.set_trace()暂停并进入pdb调试环境，可以用命令p查看变量，或者用命令c继续运行。</li>
+<li>要以读文件的模式打开一个文件对象，使用Python内置的open()函数，传入文件名和标示符。文件对象必须close，但是“with open(‘/path/to/file’, ‘r’) as f：  ”，使用前面这种方式打开就不必调用f.close()方法，<strong>调用read()会一次性读取文件的全部内容，可以反复调用read(size)方法，每次最多读取size个字节的内容。调用readline()可以每次读取一行内容，调用readlines()一次读取所有内容并按行返回list</strong>。</li>
+<li>要读取二进制文件，比如图片、视频等等，用’rb’模式打开文件即可。</li>
+<li>multiprocessing模块提供了一个Process类来代表一个进程对象，创建子进程时，只需要传入一个执行函数和函数的参数，创建一个Process实例，用start()方法启动。</li>
+<li>如果要启动大量的子进程，可以用进程池的方式批量创建子进程。</li>
+<li>启动一个线程就是把一个函数传入并创建Thread实例，然后调用start()开始执行。</li>
+<li>多线程和多进程最大的不同在于，多进程中，同一个变量，各自有一份拷贝存在于每个进程中，互不影响，而多线程中，所有变量都由所有线程共享，<strong>多线程需要考虑同步的问题。</strong></li>
+<li>线程同步的时候需要用到lock， lock.acquire()， lock.release()，当多个线程同时执行lock.acquire()时，只有一个线程能成功地获取锁，然后继续执行代码，其他线程就继续等待直到获得锁为止。用try…finally来确保锁一定会被释放。</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/11/20180116/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20180108" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/08/20180108/">20180108</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/08/20180108/" class="archive-article-date">
+  	<time datetime="2018-01-08T00:55:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-08</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>周六晚上熬夜到四点，导致周日没睡好，周日晚上也没睡好，因为周一要去实验室，上一周忙着考试，所以没学什么知识，这周虽然有个很扯的活要干，但是好歹有自己的时间，虽然现在还是很困。</p>
+<p>现在在学的部分是jsp中的JSTL，主要作用是来替换JSP页面中的scriptlet。</p>
+<hr>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p> 之前所有的异常都是设置专用的错误网页，将出现的错误转发到其他页面进行处理展示，如果要在发生异常的网页捕捉异常，JSTL的标签\&lt;c:catch>标签捕捉本网页的异常对象，使用\&lt;c:catch>将可能产生异常的网页段落包起来，如果真的发生了异常，会把异常对象设置给\&lt;c:catch>里面的var属性所指定的名称，异常都是Throwable的子类，都拥有getMessage（）的方法。</p>
+<hr>
+<p>导入JSP网页到目前网页的方式：1. 通过include指示元素可以直接将两个JSP网页直接拼接在一起，2. &lt;jsp：include&gt;标签可在运行时期依条件动态决定是否包括另一个网页。</p>
+<pre><code>&lt;isp:include page=&quot;Xxx.jsp&quot;&gt;
+    &lt;jsp:param name=&quot;a &quot; value=&quot;c &quot;&gt;
+    &lt;jsp:param name=&quot;b&quot;  value=&quot;d&quot;&gt;
+&lt;/jsp:include&gt;
+</code></pre><p>在JSTL中有\&lt;c:import>标签，搭配&lt;c:param&gt;在导入另一网页时带有参数</p>
+<pre><code>&lt;c:import url=&quot;Xxx.jsp&quot;&gt;
+    &lt;c:param name=&quot;a&quot; value=&quot;c&quot;&gt;
+    &lt;c:param name=&quot;a&quot; value=&quot;c&quot;&gt;
+&lt;/c:import&gt;
+</code></pre><p>这个标签也可以导入非目前web程序中的网页</p>
+<hr>
+<p>&lt;jsp：setProperty&gt;  只能用来设置JavaBean的属性，设置其他的值需要使用&lt;c：set&gt;，set中的scope属性用来设置范围，var属性是变量名，value是值。</p>
+<pre><code>&lt;c:set var=&quot;login&quot; value=&quot;${user.name}&quot; scope=&quot;session&quot;/&gt;
+&lt;c:set var=&quot;details&quot; scope=&quot;session&quot;&gt;
+    caterpillar,openhone
+&lt;/c:set&gt;
+</code></pre><p>&lt;c:set&gt; 里面没有指定属性的时候，会从page、request、session、application的范围寻找属性名称，找到就在该范围内设置，都没找到就在page范围内设置，移除属性可以使用&lt;c:remove&gt;,&lt;c:set&gt;还可以用来设置JavaBean的属性或者是Map对象的键值，必须使用target属性进行设置。</p>
+<hr>
+<p>&lt;c:out&gt;可以输出指定的文字，value属性需要设置成想要输出的文字。&lt;c：out&gt;会自动替代里面出现的可能在HTML中的字符，EL运算结果为null时，不会显示任何值，但如果想要显示默认值，不需要检查是否为空，可以直接 &lt; c : out value=”${param.a}” default=”0”/&gt; </p>
+<hr>
+<p>response的encodeURL用作URL重写，以在用户关闭Cookie功能时，仍然可以继续利用URL重写来维持使用session进行会话管理，如果不想使用scriptlet编写response的encodeURL，则可以使用JSTL的&lt;c:url&gt;，它会在用户关闭Cookie功能的时候，自动用SessionID作URL重写，标签里可以加上&lt;c:param&gt;</p>
+<h1 id="Tag-File自定义标签（tag文件）"><a href="#Tag-File自定义标签（tag文件）" class="headerlink" title="Tag File自定义标签（tag文件）"></a>Tag File自定义标签（tag文件）</h1><p>如果有现成且通用的自定义标签库，不需要重复造轮子。</p>
+<p>使用自定义的tag标签，需要新建扩展名为tag的文件，并放在WEB-INF/tags下面，把tag的定义写在扩展名为tag的文件中，开始的时候需要用tag指示元素说明信息，在需要使用这个tag的JSP页面中，可以使用taglib指示元素的prefix定义前置名称，以及使用tagdir属性定义tag file的位置（tagdir只能指定/WEB-INF/tags的子文件夹），然后就可以在想要使用的地方写上prefix+tag文件名。这里存在的一个问题就是tag的定义文件里如果使用了一些与应用程序相关的过程，就很难移植。</p>
+<p>几个网页只有细微差别，可以写成一个Tag File，通过attribute设置不同的部分，在使用的地方的标签里通过为attribute赋值更改。Tag File也可以有主体内容，在\&lt;body>和\&lt;\/body>之间使用&lt;jsp：doBody/&gt;，这个标签可以取得使用Tag File标签时的主体内容，这个主体内容指的就是在使用标签的时候自定义的标签头和标签尾之间的内容。</p>
+<p><strong>Tag File 的标签在使用时有主体，默认是不允许有Scriplet，因为定义Tag File的时候tag指示元素的body-content属性默认就是scriptless</strong>，body-content属性的值还可以是empty和tagdependent，empty表示一定没有主体内容，tagdependent表示将主体中的内容当做纯文本输出。</p>
+<p>要将tag File文件压缩成jar文件必须把tag文件封装在jar文件的META-INF/tags下，META-INF/TLDS下定义tld文件，生成的jar包放在WEB-INF/lib文件夹中就可以使用了。</p>
+<p><strong>尽量不要在Tag File中编写Scriptlet来操作Java对象</strong></p>
+<h1 id="Simple-Tag自定义标签（java自定义类）"><a href="#Simple-Tag自定义标签（java自定义类）" class="headerlink" title="Simple Tag自定义标签（java自定义类）"></a>Simple Tag自定义标签（java自定义类）</h1><p>如果自定义标签时需要操作Java对象，可以考虑实现Simple Tag来自定义标签，将Java程序代码写在其中。</p>
+<ol>
+<li>编写标签处理器，继承SimpleTagSupport来实现标签处理器，并重写doTag()方法进行标签处理，getJspBody()方法会返回一个JSPFragment对象，代表两个标签之间的主体内容，调用JSPFragment的invoke方法并传入一个null，表示运行标签之间的主体内容(null表示将使用PageContext取得默认的JSPWriter对象作为输出响应，也就是默认会输出到浏览器，可以把最后的结果传入其他的Writer，最后要输出的时候可以通过PageContext的getOut取得JspWriter对象。而后调用print（）方法输出结果)。在标签处理器定义的过程中需要把属性定义成类变量，在tld文件中声明之后就可以直接在使用的时候赋值。</li>
+<li>为了让web容器了解标签和标签处理期之间的关系，需要写一个tld文件。一个tls文件中可以声明很多个tag </li>
+</ol>
+<pre><code>&lt;taglib&gt;
+&lt;tlib-version&gt;库的版本号&lt;/tlib-version&gt;
+&lt;short-name&gt;自定义标签的前缀&lt;/short-name&gt;
+&lt;uri&gt;http://openhome.cc/jstl/fake（自定义标签的链接）&lt;/uri&gt;
+&lt;tag&gt;
+    &lt;name&gt;自定义标签名称&lt;/name&gt;
+    &lt;tag-class&gt;实现标签的处理的类的绝对路径（包名.类名）&lt;/tag-class&gt;
+    &lt;body-content&gt;scriptless&lt;/body-content&gt;
+    &lt;attribute&gt;
+        &lt;name&gt;标签上属性的名称&lt;/name&gt;
+        &lt;required&gt;是否一定要设置这个属性（true/false）&lt;/required&gt;
+        &lt;rtexprvalue&gt;属性是否接受运行时期运算的结果&lt;/rtexprvalue&gt;
+        &lt;type&gt;属性的类型（Boolean之类的）&lt;/type&gt;
+    &lt;/attribute&gt;
+&lt;/tag&gt;
+&lt;/taglib&gt;
+使用的时候利用指示元素taglib指明prefix为前缀，URI为tld文件里的URI。
+</code></pre><p>每一次请求都会创建新的标签处理器实例，执行完doTag（）之后就销毁实例，在dotag过程中需要中断输出或者处理的话可以抛出SkipPageException</p>
+<h3 id="与父标签的沟通"><a href="#与父标签的沟通" class="headerlink" title="与父标签的沟通"></a>与父标签的沟通</h3><p>标签之间的嵌套只能使用与父标签的沟通机制。书中的例子是自定义类似于&lt; c: choose &gt;和&lt; c : when &gt;、&lt; c : otherwise &gt;这种父标签和子标签的关系，&lt; c: choose &gt;作为最外层的标签，定义中有一个Boolean类型的matched变量，在when标签的定义过程中，需要设置当when标签的父标签不是choose标签的时候发生错误，其次如果父标签的matched变量为true，说明之前有when标签通过测试，matched变量就是为了表示内部的标签是否存在匹配成功的现象。when标签的定义过程中对test变量，也就是when标签中的test属性验证成功，就需要将when的父标签的matched变量设置成true，otherwise标签和when标签很类似，只不过otherwise标签没有test属性，直接执行jsp就可以了，<strong>tld文件的主要作用就是告诉web容器标签名称和我们自定义标签类的对应关系</strong>，如果某一个标签外层有很多标签，要获得指定类型的外层标签，可以通过SimpleTagSupport的findAncestorWithClass（）静态方法，会在外层标签中寻找，直到找到指定类型的外层标签对象后返回。</p>
+<h1 id="Tag自定义标签（java自定义类）"><a href="#Tag自定义标签（java自定义类）" class="headerlink" title="Tag自定义标签（java自定义类）"></a>Tag自定义标签（java自定义类）</h1><p>大多数情况下simple Tag能满足自定义标签的需求，然而Simple Tag是从jsp2.0之后才出现的，了解一下Jsp2.0之前的自定义标签</p>
+<p>和之前的差别在于继承的类不一样，继承的父类是TagSupport，调用的函数是doStartTag（）方法，该方法的返回值决定是否执行主体内容，Tag实例是可以重复使用的。所以要注意对象状态是否会保留下来，doStartTag（）方法可以进行状态重置的动作，release方法不能用来状态重置，因为release（）方法只会在标签实例真正被销毁回收，</p>
+<p>doStartTag()可以返回EVAL_BODY_INCLUDE（执行主体内容）或者SKIP_BODY（执行doEndTag方法），然后调用doAfterBody方法，返回值是EVAL_BODY_AGAIN（再次执行主体内容，然后调用doAfterBody方法，）或者SKIP_BODY（doEndTag方法），doEndTag方法的返回值是EVAL_PAGE（执行后续页面）或者SKIP_PAGE（直接结束）。上面的三个方法都有默认返回值。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/08/20180108/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-2017122702" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -923,301 +1463,6 @@ unlock tables；
 
 
   
-    <article id="post-正则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/09/正则/">正则表达式</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/09/正则/" class="archive-article-date">
-  	<time datetime="2017-11-09T01:41:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-09</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>正则表达式一直是一个我搞不懂的点，虽然我知道他是用来字符串匹配的，但是各种符号的使用总是没搞明白，想着自己搞一遍但是我写博客肯定费劲，先看吧，看完再说。</p>
-<hr>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/09/正则/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20171107" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/07/20171107/">20171107</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/07/20171107/" class="archive-article-date">
-  	<time datetime="2017-11-07T01:08:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-07</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>mysql有三个比较常用的存储引擎，存储引擎就是定义如何存储数据，如何为存储的数据建立索引和如何更新查询数据等具体问题的技术实现，“show engines；”比较常用的存储引擎有三个：InnoDB、MyISAM、MEMORY。</p>
-<ol>
-<li>InnoDB：可以实现事务处理，支持外键，频繁的更新删除操作可以选用。</li>
-<li>MyISAM：管理非事务表， 占用空间小，处理速度快，主要用于插入新记录和读出记录。</li>
-<li>MEMORY：该存储引擎所有数据都在内存中，处理速度高，但是安全性不高，只能适用于相对较小的数据库</li>
-</ol>
-<hr>
-<p>如果要搜索的内容不区分大小写，可以使用TEXT类型。<br>如果要搜索的内容区分大小写，可以使用BLOB类型。</p>
-<hr>
-<ol>
-<li>在SQL中null不能用=来判断，“=”能判断的字符串相等都是根据ASCII码。如果相等返回1，不相等返回0；</li>
-<li>NULL值可以用运算符（IS NULL和IS NOT NULL）</li>
-<li>NULL和‘NULL’不一样，一个是空值，一个是字符串</li>
-<li>BETWEEN AND技术就是在某个取值范围之内，IN用于判断数据是否存在于某个集合之中。LIKE用来匹配字符串，x1 LIKE s1，如果x1与字符串s1匹配成功，结果将返回1，否则将返回0。REGEXP用于字符串的正则匹配</li>
-<li>&amp;&amp;和“AND”作用一致，除了返回0和1之外，当一个数据为NULL并且没有数据为0，则结果返回NULL。或运算与之相似。</li>
-<li>非运算“NOT”和“！”返回与操作数相反的结果，如果是非0数字，结果返回0；如果操作数是0，则返回1，如果操作数是NULL，结果返回NULL</li>
-<li>异或运算符也是一样，如果其中一个为NULL，那么最后的结果也是NULL。</li>
-<li>位运算符有6种，“&amp;“、”|“、”~“(按位取反)、”^”、”&lt;&lt;”、”&gt;&gt;“</li>
-</ol>
-<hr>
-<h2 id="常用sql语句"><a href="#常用sql语句" class="headerlink" title="常用sql语句"></a>常用sql语句</h2><ol>
-<li>create\drop database 数据库名； use 数据库名（设置默认数据库）；</li>
-<li>列名 类型 [not null | null] [DEFAULT value] [auto_increment] [primary_key] [reference_definition]</li>
-<li>alter table 表名 {具体操作，没有大括号，用逗号可以多个动作连续操作，add，drop，modify，change， rename }；modify和change没有特别大的区别。最后可以加上after|first 列名的关键字，表示这一列将会在哪一列前面或者后面。</li>
-<li>SELECT查询中，distinct去除重复行，like模糊查询，like只有两个通配符”%”和”_”，前者可以匹配一个或多个字符，后者只匹配一个字符。limit限制输出的记录条数。</li>
-<li>update 表名 set 列名=新值 where 条件。</li>
-<li>delete from 表名 where condition</li>
-</ol>
-<hr>
-<h2 id="条件判断函数"><a href="#条件判断函数" class="headerlink" title="条件判断函数"></a>条件判断函数</h2><ol>
-<li>IF（expr，v1，v2）</li>
-<li>IFNULL（v1，v2）</li>
-<li>CASE WHEN expr1 THEN v1 [WHEN expr2 THEN v2] [ELSE vn] END</li>
-<li>CASE  expr WHEN e1 THEN v1[WHEN e2 THEN v2] [ELSE vn]END</li>
-</ol>
-<pre><code>select id,user,case when strcmp(email,&quot;@1995&quot;)=0  then &apos;good&apos; when strcmp(email,&quot;LL1192759422@163.com&quot;)=0 then &apos;very good&apos; else &apos;normal&apos; end level from tb_admin;
-</code></pre><p>sql中条件语句不需要写双等号，判断当某个式子是否成立</p>
-<p>字符串常量一定要记得加引号</p>
-<hr>
-<h2 id="查询语句"><a href="#查询语句" class="headerlink" title="查询语句"></a>查询语句</h2><pre><code>select selection_list
-from 数据表名
-where primary_constraint
-group_by grouping_columns
-order_by sorting_columns
-having secondary_constraint
-limit count
-</code></pre><p>这个里面关键词的顺序是固定的</p>
-<ol>
-<li>一些SQL内置的函数只能用在selection_list中。</li>
-<li>IN，BETWEEN AND，LIKE，IS NULL，AND，OR都是用在where中的</li>
-<li>distinct去除重复记录，select distinct 字段名 from 表名</li>
-</ol>
-<h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><h4 id="内连接查询"><a href="#内连接查询" class="headerlink" title="内连接查询"></a>内连接查询</h4><p> 最正常的查询方式，两个表里有相等的部分。</p>
-<h4 id="外连接查询"><a href="#外连接查询" class="headerlink" title="外连接查询"></a>外连接查询</h4><ol>
-<li>左外连接</li>
-<li>右外连接</li>
-<li>全外连接</li>
-</ol>
-<p>外连接就是将数据进行混合，左外连接就是将左表中每一条数据分别与右表中每条数据进行连接组合，返回的数据除了内连接的数据还包括了左表中不符合条件的数据，并在右表的相应列中增加null值，简单来说就是左外连接最后返回的结果中必须包含左表的所有数据。右外连接亦然。</p>
-<pre><code>select 字段名称 from 左表 left||right join 右表 on 表名1.字段名=表名2.字段名 where conditions
-</code></pre><p>IN关键字（集合）EXISTS关键字（返回真或假）ANY关键字（any（）表示括号内数据的任意一个）ALL关键字（和ANY用法类似）AS关键字（用来给字段起别名）<br>UNION和UNION ALL将两个select语句的结果合并在一起，二者区别在于不带all会去除重复记录。<br>正则匹配中只有匹配字符集合时用到了方括号</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/07/20171107/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20171105" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/01/20171105/">20171105</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/01/20171105/" class="archive-article-date">
-  	<time datetime="2017-11-01T02:45:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-01</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="先交代一下"><a href="#先交代一下" class="headerlink" title="先交代一下"></a>先交代一下</h1><p>上周没写博客，是因为上周忙着搞理论工作了，没时间实践了，全部都是无聊的看论文，无fuck可说，因此没写，这周继续学习JavaScript，还有mysql，mysql主要是熟悉一下基本操作，然后就是关于他的高级编程的部分。</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>本来之前过一点点html的书，对html有简单的了解，但现在发现html的正常使用以及CSS样式表也是非常关键的一部分内容，只能在学习的过程中不断接触了。</p>
-<p>Cookie这个东西简单来说是用来在本地存储一些信息，减轻服务器的压力。<br>Cookie里面的信息保存是内容累加的，各段内容之间由分号隔开，cookie里面的键值对就是key=value，比如说<br>    document.cookie=”a”;<br>    document.cookie=”b”;<br>    document.cookie=”key=value”;<br>最终cookie里面的内容就是“a；b；key=value”，cookie中有一些编码的限制（保存的内容中不能出现“=”和“；”），所以JavaScript提供了内置的编码和解码函数，用来将非英文的字符编码或者解码，编码函数和解码函数分别为escape和unescape。<br>cookie有自己的生命周期，利用“expires=过期日期字符串”</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/01/20171105/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1299,15 +1544,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1327,7 +1572,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1335,7 +1580,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
+                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
               </li>
              
               <li class="article-tag-list-item">
