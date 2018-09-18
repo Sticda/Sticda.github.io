@@ -171,6 +171,18 @@
 <li><strong>Semaphore信号量</strong>：信号量可以控制访问变量的线程个数，通过acquire获取许可，release释放许可（acquire和release都是阻塞的）还可以释放或者获取多个许可，前面加try就是非阻塞的，构造器参数就是permits或者permits和fair（等待越久越先获得许可）。<br>7.<strong> 线程的终结</strong>：线程有一个stop方法，调用它可以直接终止线程，但是这个方法是Deprecated（过时的），因为直接stop线程会导致正在进行的线程发生数据不一致的问题，方法应该是在循环中检验一个变量的值，完成业务之后修改变量的值，导致循环退出，这样在循环的一个流程里面执行完业务，然后退出。</li>
 <li><strong>sleep和wait的区别</strong>：sleep是让线程休眠，到时间之后会自动唤醒，然而wait是等待，必须等待唤醒才可以使用。sleep是Thread线程类的静态方法，而wait是Object顶级类的方法，sleep可以在任何地方使用，但是wait只能在同步代码块中使用，而且调用wait的类就是同步代码块锁定的类；sleep和wait的区别还在于sleep在休眠的时候并不会释放已经获得的锁，而wait就会释放已经获得的锁，sleep和wait都会暂停当前线程让出CPU执行时间；sleep需要捕获异常（在休眠的时候被异常中断），而wait不需要。</li>
 <li><strong>JVM重排序规则</strong>：volatile和监视器锁；final字段（1.final字段的写入（构造器内）以及final字段对象本身的引用写入都不能和后续的构造器外持有该final字段的对象的写入重排序，2.final字段的第一次加载不能和持有这个final字段的对象的写入重排序）；内存屏障（LoadLoad,StoreStore,LoadStore,StoreLoad,最后这个最常用，先store后load不能打乱，防止读到旧数据，但是StoreLoad开销很大）；HappenBefore规则</li>
+<li><strong>内存泄漏</strong>：有一些对象已经不需要使用了，按理说这部分内存应该被垃圾收集器回收，但是这部分对象仍然在被引用，所以无法回收，程序也无法使用，导致内存泄漏。<strong>防止内存泄漏</strong>：注意集合类ArrayList、HashMap等，因为他们是内存泄漏常见的地方，注意事件监听器和回调，如果一个类自己管理自己的内存，那么指向其他对象的成员变量需要为null。</li>
+<li><strong>Java6中字符串的subString方法存在内存泄漏的问题</strong>：因为JDK6中的string底层是char数组和起始标识以及数组长度，substring只会修改新生成字符串的起始标识和数组长度，可能会导致原来存在的一个很长的字符串无法被回收，而在Java7中subString方法会直接新建字符串。</li>
+<li><strong>java运行时区域</strong>：线程不共享的区域：程序计数器（当前线程指令运行到的地址）、虚拟机栈（java方法的栈，每一次方法的调用都是一个栈帧的出栈和入栈，每一个栈帧包括了局部变量表、操作数栈、动态链接、方法出口）、本地方法栈（native方法的栈）；线程共享的区域：堆（JVM启动时创建的对象和数组，真实的数据内容）、方法区（存储了每一个类的结构信息，运行时常量池，字段和方法数据、构造函数等等，<strong>运行时常量池</strong>里面主要是编译器可知的数值字面量和在运行期才能解析获得的方法或字段的引用）</li>
+<li>JDK7之后，所有需要关闭的资源只要实现了java.lang.AutoCloseable接口，程序结束之后资源就会自动关闭，在<strong>try-with-resource</strong>语句中这样使用才会有效果，在try（）里定义多个资源，在结束之后是按照在try里的定义顺序自动关闭。</li>
+<li>JDK8里面通过lambda表达式以及函数式接口提供了很多排序手段，JDK8之前需要自己定义实现了Comparator接口的类，jdk8中可以利用list.sort函数添加，还可以利用Collections.sort函数（参数是list和Comparator提供的静态方法）</li>
+<li><strong>lambda表达式</strong>：（parameters）-&gt;{表达式}，lambda语句可以指定参数类型和return，也可以不指定，编译器会自动推断，后面的表达式如果只有一句就可以不用加大括号了。参数的括号不能省略。</li>
+<li>lambda表达式专门针对只有一个方法的接口（<strong>函数式接口</strong>），使用@FunctionalInterface可以构造自己的函数式接口。jdk提供了常用的函数式接口，Function：提供任意一种类型的参数，返回另外一个任意类型返回值。 R apply(T t); Consumer：提供任意一种类型的参数，返回空值。 void accept(T t); Supplier：参数为空，得到任意一种类型的返回值。T get(); Predicate：提供任意一种类型的参数，返回boolean返回值。boolean test(T t); BinaryOperator：提供两个参数，返回一个参数。当lambda表达式想要代替这些函数式接口的时候返回的类型和参数应该满足这些函数式接口的方法签名。<strong>函数式接口作为参数会在特定的类或者方法中被调用接口的方法，这时候可以直接使用lambda表达式替代传入的函数式接口。</strong>lambda表达式内部的this指的是包含lambda表达式的类，使用内部匿名类的方法this指的是匿名内部类本身。</li>
+<li><strong>方法引用</strong>：只要是方法的返回值类型和参数与函数式接口中抽象方法的参数和返回值类型保持一致就可以使用方法引用代替函数式方法，方法引用有三种方式：构造器方法引用(Class::new)、类普通方法引用(Class::method)、类静态方法引用(Class::static_method)、实例方法引用(instance::method)，System.out::println就是实例方法引用。</li>
+<li>lambda表达式在编译阶段会被转换为匿名内部类，自由变量是在lambda表达式之外定义的变量，自由变量在lambda表达式内部不能被改变。</li>
+<li><strong> Stream</strong>：<strong>不存储数据、不改变原数据同时延迟执行</strong>，这里的stream和IO流不一样，这里的Stream是对数组和集合的操作流，对于stream的聚合、消费或收集操作只能进行一次，创建流的方式Arrays.stream、集合.stream、集合.parallelStream、Stream.empty、Stream.generate().limit()，map函数可以把一种类型的流转换为另一种类型。</li>
+<li><strong>Optional类型</strong>：Optional表示一个安全的指定结果类型，所谓的安全指的是避免直接调用返回类型的null值而造成空指针异常，调用optional.ifPresent()可以判断返回值是否为空，或者直接调用ifPresent(Consumer&lt;? super T&gt; consumer)在结果部位空时进行消费操作，Optional创建的静态方法of和ofNullable(可以接受空值)；</li>
+<li><strong>接口的默认方法和静态方法</strong>：接口的默认方法的应用场景是当接口中新增了方法声明之后，所有实现了该接口的方法都需要重新实现该方法，而接口的默认方法则是可以让接口的实现类不需要重写方法也可以执行该函数，静态方法是可以直接被调用的，不需要接口的实现类，default和static不能同时使用，当一个类实现的多个接口出现同样的默认方法的时候，这个类必须覆写这个方法，不然会报错，还有就是接口的方法的优先级：子接口的优先级高，类实现的同名方法的优先级高。</li>
 </ol>
 
       
