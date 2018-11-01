@@ -139,6 +139,244 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180424-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/24/20180424-spring/">20180424 spring</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/24/20180424-spring/" class="archive-article-date">
+  	<time datetime="2018-04-24T07:39:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-24</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Spring3-0-提供的Java配置管理"><a href="#Spring3-0-提供的Java配置管理" class="headerlink" title="Spring3.0 提供的Java配置管理"></a>Spring3.0 提供的Java配置管理</h3><ol>
+<li>@Configuration：用于修饰一个Java配置类</li>
+<li>@Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean</li>
+<li>@Value：用于修饰一个field，相当于配置一个变量</li>
+</ol>
+<p>使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。这个类提供了一个register方法可以动态添加Java配置类。这个java配置类要在类里新建依赖对象，并且自己通过构造函数完成依赖注入。</p>
+<p>@Import（当前Java配置类导入其他配置类）、@Scope（修饰一个方法，指定该方法对应的Bean的生命域）、@Lazy（修饰一个方法，指定该方法对应的Bean是否需要延迟加载）、@DependsOn（修饰一个方法，指定在初始化该方法对应的Bean之前需要初始化的Bean）@ImportResource（让Java配置类加载指定的xml文件）</p>
+<p><strong>调用者是A，属性对象是B，A依赖B，B被依赖</strong></p>
+<h2 id="创建Bean的3种方式"><a href="#创建Bean的3种方式" class="headerlink" title="创建Bean的3种方式"></a>创建Bean的3种方式</h2><ol>
+<li>构造器</li>
+<li>静态工厂方法</li>
+<li>实例工厂方法</li>
+</ol>
+<p>如果不采用构造注入，spring容器将使用默认的构造器创建Bean实例，所有基本类型为0或者false，引用类型为null，构造器创建Bean的方式就是构造器注入。</p>
+<p>静态工厂方法的时候，需要在配置文件中bean元素下面指定两个属性，一个是class：静态工厂类的类名，一个是factory-method：指定静态工厂方法，如果这个方法需要参数使用constructor-arg元素传入。主程序中获得spring容器的bean实例无需改变。</p>
+<p>实例工厂方法和静态工厂方法很类似，区别在于实例工厂方法不需要指定class，但是需要指定factory-bean属性，这个里面是工厂类的id，参数也是通过constructor-arg指定的。</p>
+<h2 id="深入理解Bean"><a href="#深入理解Bean" class="headerlink" title="深入理解Bean"></a>深入理解Bean</h2><p>抽象bean的配置就是通过指定abstract的值，抽象bean不会被spring实例化，而且在继承他的bean里面指定parent属性的值为父类抽象bean的id，<strong>子Bean只能继承父bean的参数值和依赖关系，并不能继承父类定义的时候的属性</strong>，比如dependson、autowire、scope等等，spring中的继承是实例之间的关系，java中的是类之间的关系，而且spring的继承不具备多态性。</p>
+<p>工厂Bean和之前看过的bean的创建方法中的工厂模式不太一样，这个工厂Bean的配置和其他的bean没什么异常，但是这个Bean的实现类要继承FactoryBean接口，这个接口有三个方法分别是getObject、getObjectType、isSingleton，继承了FactoryBean接口的bean元素spring不会返回该bean的实例，而是调用getObject方法产生返回值。如果我们想要返回FactoryBean本身，而不是其产品bean的时候，可以在bean id前面加上“&amp;”。</p>
+<p>如果有个Bean类需要知道自己被配置的时候的ID，那么可以实现BeanNameAware接口，这个接口就只有一个setBeanName方法，当spring需要产生该类的实例的时候，检测到这个接口就会把id通过setBeanName的方法传递到Bean类中，Bean类中可以有一个变量存储这个值。</p>
+<p>Bean的依赖关系是由spring完成依赖注入，当A依赖于B,程序请求A的时候，会先初始化B，再把B注入到A，返回A，有的时候可能spring没有自主完成这个操作，所以要在BeanA中利用depends-on属性指定要依赖的B，spring就会完成依赖注入。</p>
+<p>spring可以管理singleton作用域的Bean 的生命周期，spring可以精确的知道该Bean创建，初始化、销毁的时间。</p>
+<h3 id="管理Bean的生命周期"><a href="#管理Bean的生命周期" class="headerlink" title="管理Bean的生命周期"></a>管理Bean的生命周期</h3><p>spring管理生命周期行为的时机主要有两个： 一个是依赖注入之后，一个是即将销毁Bean之前。</p>
+<h3 id="依赖关系注入之后"><a href="#依赖关系注入之后" class="headerlink" title="依赖关系注入之后"></a>依赖关系注入之后</h3><p>有两种方式：一种是使用init-method属性，一种是实现initializingBean接口（侵入式设计，不推荐），这个接口提供了afterPropertiesSet方法，这个方法里指定我们要实现的部分。<strong>两个同时存在的时候先执行afterPropertiesSet，再执行init-method指定的方法。</strong></p>
+<p>init-method的值是这个Bean的某个方法名，指定这个方法在属性设置完成之后执行，BeanNameAware和ApplicationContextAware的执行顺序是先setBeanNameAware，然后setApplicationContext</p>
+<h3 id="Bean销毁之前"><a href="#Bean销毁之前" class="headerlink" title="Bean销毁之前"></a>Bean销毁之前</h3><p>有两种方式：一种是destroy-method属性，一种是实现DisposableBean接口，这个接口有一个destroy方法。在销毁之前执行destroy方法。<strong>两个同时存在的时候先执行destroy-method指定的方法，再执行destroy方法。</strong></p>
+<p>singleton作用域的Bean通常会随着容器关闭而销毁。在web应用环境下ApplicationContext的关闭不需要考虑，在一个非web应用环境下，需要在JVM里面注册一个关闭钩子，就是调用AbstractApplicationContext中提供的registerShutdownHook（）方法。</p>
+<p>如果说很多bean都需要设置init-method和destroy-method，那么就可以利用default-init-method和default-destroy-method，这两个属性将对beans下面的所有bean生效。</p>
+<h3 id="协调作用域不同步的Bean"><a href="#协调作用域不同步的Bean" class="headerlink" title="协调作用域不同步的Bean"></a>协调作用域不同步的Bean</h3><p>如果一个singleton作用域的Bean A依赖于一个Prototype作用域的Bean B，当spring初始化A的时候，会先初始化B，然后把B注入到A中，形成一个singleton作用域的Bean，每一次通过singleton Bean访问prototype Bean的时候，得到的永远是最初的那个prototype Bean，为了解决这个问题，可以使用方法注入，方法注入通常使用lookup方法注入，有两步：第一步是将调用者Bean的实现类定义为抽象类，并定义一个抽象方法来返回被依赖的Bean。在bean元素中添加lookup-method子元素，这个子元素有两个属性，一个是name（方法名），一个是bean（被依赖的prototype的bean的id）</p>
+<h2 id="高级依赖关系配置"><a href="#高级依赖关系配置" class="headerlink" title="高级依赖关系配置"></a>高级依赖关系配置</h2><p>Spring框架的本质是开发者在spring配置文件中使用xml元素进行配置，实际驱动spring执行相应的代码。</p>
+<h3 id="获取其他Bean的属性值"><a href="#获取其他Bean的属性值" class="headerlink" title="获取其他Bean的属性值"></a>获取其他Bean的属性值</h3><p>PropertyPathFactoryBean用来获取目标Bean的属性值，实际上就是利用了getter方法。</p>
+<p>使用PropertyPathFactoryBean来调用其他Bean的getter方法需要指定如下信息：调用哪个对象和调用哪个getter方法。</p>
+<p>在xml配置文件中需要指明的是targetBeanName和propertyPath的值，通过property的name和value指明，class一定要写明是PropertyPathFactoryBean。value支持复合属性，就是某某类的某某类的某某属性值。如果目标Bean是Bean实例的话，则需要将targetBeanName改成targetObject</p>
+<p>简化配置的方法是使用<a href="util:property-path..../" target="_blank" rel="noopener">util:property-path..../</a>元素，首先要导入util：命名空间。这个元素有两个属性，一个是id（想要将得到的返回值封装成什么名字的Bean实例），一个是path，如果是基本属性值就不需要指定id。</p>
+<h3 id="获取Field值"><a href="#获取Field值" class="headerlink" title="获取Field值"></a>获取Field值</h3><p>通过FieldRetrievingFactoryBean类，可以访问类的静态Field或者对象的实例Field值（要求实例field用public修饰，这个没什么用）。得到值之后可以注入其他Bean，也可以直接定义成新的Bean。</p>
+<p>使用FieldRetrievingFactoryBean访问field分为两种情况，setTargetClass和setTargetField或者setTargetObject和setTargetField。</p>
+<p>在XML文件中就是利用property的name和value属性指定值，name是targetClass和targetField，name还可以是staticField，通过这种方式访问静态field，util：constant元素可以简化配置，id（bean实例的name）和static-field</p>
+<h3 id="获取方法返回值"><a href="#获取方法返回值" class="headerlink" title="获取方法返回值"></a>获取方法返回值</h3><p>MethodInvokingFactoryBean工厂Bean，如果调用的方法是静态方法，则需要指定，setTartgetClass，setTargetMethod，setArguments，如果是实例方法，第一个是setTargetObject，其他的不变。arguments中的参数如果超过一个则需要使用list。</p>
+<h2 id="基于XML-Schema的简化配置方式"><a href="#基于XML-Schema的简化配置方式" class="headerlink" title="基于XML Schema的简化配置方式"></a>基于XML Schema的简化配置方式</h2><p>xmlns:p=”http : // www . springframework.org/schema/p”导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean id。</p>
+<p>p:命名空间用于简化设值注入，c:命名空间用于简化构造注入。c:构造器参数名=值或者c:构造器参数名-ref=其他Bean的id，除此之外spring还支持通过索引来配置构造器参数的方式，c:_0-ref=”id”,c:_1=”值”，c:_N中的N代表第几个构造器参数。</p>
+<p>使用util：命名空间也可以简化配置，constant（FieldRetrievingFactoryBean的简化版），property-path（PropertyPathFactoryBean），List（该元素用于定义一个list bean，支持使用value\ref\bean子元素定义list集合元素，id、list-class、scope）set和list类似。</p>
+<p>map元素用于定义一个Map Bean，支持使用entry定义key-value对 ，properties元素用于加载资源文件，根据加载的资源文件创建一个properties bean实例，使用该标签可指定id、location、scope。</p>
+<h2 id="spring3-0提供的表达式语言（SpEL）"><a href="#spring3-0提供的表达式语言（SpEL）" class="headerlink" title="spring3.0提供的表达式语言（SpEL）"></a>spring3.0提供的表达式语言（SpEL）</h2><p>三个接口：ExpressionParser、Expression、EvaluationContext</p>
+<p>ExpressionParser调用parseExpression方法返回一个Expression实例（表达式对象），程序调用Expression对象的getValue方法即可获取该表达式的值。EvaluationContext里面可以放入对象，使用setVariable，这个EvaluationContext就相当于一个变量集合，在SpEl中访问EvaluationContext，需要使用“#name”的格式。在SpEL中访问root对象的属性时，可以省略root对象前缀。SpEL中提供了一个特殊的运算符：T()，这个运算符用于告诉SpEL将该运算符内的字符串当成类（推荐使用全限定名）处理。</p>
+<p>在XML配置文件和Annotation中使用SpEL时，在表达式外面增加#{}包围即可。</p>
+<p>一旦在evaluationContext中设置了变量，就可以在SpEL中通过#name来访问该变量，#this和#root是两个特殊的变量。</p>
+<p>有的时候使用了A.B的访问语句，但是这时候A为null，前面的A.B肯定会出错，这个时候可以使用A?.B，如果A是null，计算结果也是null。不会出错。</p>
+<p>SpEL中提供了一种过滤集合的方法：collection.？[condition_expr]，当操作list集合时，condition_expr中的每个属性、方法都是以集合元素为主调的，而map集合需要用key引用Map Entry的key，用value引Map Entry的value。除此之外还提供了一种集合投影的方法，将结果存入一个新的集合中，collection.![condition_expr]</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/24/20180424-spring/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20180419-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/19/20180419-spring/">20180419 spring</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/19/20180419-spring/" class="archive-article-date">
+  	<time datetime="2018-04-19T01:12:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-19</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><p>Spring把容器中的一切对象都称为Bean，但是这个Bean和JavaBean不一样，就只是一个Java类，也不需要满足某些规范。</p>
+<p>A对象调用B对象的方法被称为依赖。Spring的容器会负责管理所有的对象，Spring使用xml配置文件管理被指定的Bean，一般，在xml配置文件中都会指明语义约束文件，这个东西的作用我猜测就是语义约束文件里面的内容代表什么以及规范的写法。spring的配置文件的根元素是spring-beans-4.0.xsd，根标签是beans，子标签是bean，属性指定了名称和class实现的全限定名，spring底层是通过反射的方式创建对象的，调用的是这个类无参数的构造器。这个配置文件中还可以有property子元素，他可以使spring在底层反射执行一次setter方法，这个property有两个子元素，name和ref/value，name就是决定执行哪个setter，value和ref的区别主要在于setter肯定有传入参数，这个参数要是容器中其他bean就是ref，如果是基本类型及其包装类，就用value。调用对应setter的方法也是反射。</p>
+<p>spring中要通过ApplicationContext访问Bean，两个实现类，ClassPathXmlApplicationContext（一般配置文件放在src文件下，类加载路径）、FileSystemXMLApplicationContext（从文件路径的相对路径或者绝对路径下搜索配置文件）</p>
+<p><strong>对于一个web应用，由于eclipse部署web应用不会将用户库中的jar文件复制到web应用的WEB-INF/lib路径下。所以还需要主动将用户库所引用的jar文件复制到web应用的WEB-INF/lib路径下。</strong></p>
+<h2 id="依赖注入（Dependency-Injection）"><a href="#依赖注入（Dependency-Injection）" class="headerlink" title="依赖注入（Dependency Injection）"></a>依赖注入（Dependency Injection）</h2><p>A对象需要调用B对象，<strong>在Spring框架下</strong>，调用者不需要主动获取被依赖对象，调用者只要被动接受Spring容器为调用者的成员变量赋值即可（通过property子元素让spring利用setter方法赋值），之前都是想要使用的话调用者自己产生一个实例，现在通过spring框架变成了被动接受，这种叫做控制反转（Inverse of Control，IoC），<strong>控制反转和依赖注入是一样的</strong>。spring容器负责将被依赖对象赋值给调用对象的成员变量，算是一种为调用者注入它依赖的实例。</p>
+<p>有两种方式：设值注入（通过成员变量的setter方法）、构造注入（构造器注入），spring推荐面向接口编程。</p>
+<p>用接口声明变量，不是接口变量，而是一个接口类型的引用指向了一个实现给接口的对象，这是java中的一种多态现象 ，java中的接口不能被实例化，但是可以通过接口引用指向一个对象，这样通过接口来调用方法可以屏蔽掉具体的方法的实现，这是在JAVA编程中经常用到的接口回调，也就是经常说的面向接口的编程。</p>
+<p>spring基于XML Schema的XML配置文件指定实例之间的耦合关系。就是在前面说过的配置文件中，beans根元素下的bean子元素，通过设置具体实现的类以及property元素来指明类实例之间的耦合关系。</p>
+<p>构造注入就是spring通过底层实现反射调用有参数的构造器，通过这个有参数的构造器就可以实现依赖注入，完成被依赖实例和调用者实例的绑定，方法就是在配置文件中bean元素下面不使用property（设值注入），使用constructor-arg，里面指定的参数是index（参数的顺序，索引号）、ref（参数值），如果是基本类型，可以使用value（数据值）、index、type（类型） 的组合。</p>
+<p>对于依赖关系无需变化的注入，尽量采用构造注入，而其他依赖关系的注入，则考虑设值注入。</p>
+<p>spring有两个核心接口：BeanFactory、ApplicationContext，其中ApplicationContext是BeanFactory的子接口，都可以代表spring容器，在基于Java EE应用中，所有组件都被当成Bean处理，包括数据源、hibernate的Session Factory、事务管理器。任何的Java对象、Java组件都被当成Bean处理。对于spring而言，一切java对象都是bean。BeanFactory的基本方法就是getBean、getType、containsBean。BeanFactory的常用实现类是DefaultListableBeanFactory，但是大部分情况下都是用ApplicationContext的实现类，他有三个实现类，FileSystemXmlApplicationContext、ClassPathXMLApplicationContext、AnnotationConfigWebApplicationContext，后两个在web应用中经常用。Resource是spring提供的资源访问接口。可以在参数中指定多个xml文件创建spring容器。</p>
+<p>ApplicationContext与BeanFactory相比的额外功能是ApplicationContext默认会预初始化所有的singleton Bean，继承了MessageSource（实现国际化），加载多个配置文件、访问资源、事件机制，以声明方式创建spring，但是BeanFactory就不会预初始化。如果不想预初始化的话可以在bean元素里面指定lazy-init为true。ApplicationContext的国际化支持是通过继承MessageSource的接口实现的，getMessage。程序创建ApplicationContext的时候会自动查找配置文件中为MessageSource的Bean实例，一旦找到getmessage的调用就会给Messagesource的实例，要是找不到就找父容器，以此类推。实在找不到也会创建一个空的StaticMessageSource的Bean，bean的id是MessageSource，class一般使用ResourceBundleMessageSource类，配置文件中property里面是basenames，这个里面是一个list属性，value值就是我们的国际化资源文件。</p>
+<h3 id="ApplicationContext的事件机制"><a href="#ApplicationContext的事件机制" class="headerlink" title="ApplicationContext的事件机制"></a>ApplicationContext的事件机制</h3><p>spring容器中如果有一个ApplicationListener的Bean，那么当ApplicationContext发出一个ApplicationEvent的时候，ApplicationListener  Bean将会自动被触发。</p>
+<p>只要一个类继承了ApplicationEvent类，那么这个类的实例对象就可以作为Spring容器的容器事件。一个类实现了ApplicationListener的接口，并且在配置文件中指明就可以作为监听器了，这个接口实现的方法主要是onApplicationEvent方法，每当spring容器被创建加载的时候，这个监听器就会自己开始工作，除此之外还可以使用ApplicationContext的publishEvent显式触发ApplicationEvent。</p>
+<p>如果某个Bean想要发布容器事件，这个Bean就需要获得对spring容器的引用，那这个Bean类就需要实现ApplicationContextAware或者BeanFactoryAware接口。</p>
+<p>spring容器提供了一些内置事件。</p>
+<h3 id="让Bean获取Spring容器"><a href="#让Bean获取Spring容器" class="headerlink" title="让Bean获取Spring容器"></a>让Bean获取Spring容器</h3><p>在web应用中，Spring容器都是声明方式配置产生的，开发者只要在web.xml中配置一个listener，这个listener会负责初始化spring容器。前端MVC框架可以直接调用spring容器中的Bean，无需访问Spring容器，但是有时候我们需要Bean获取spring容器，那么这个Bean就需要实现ApplicationContextAware或者BeanFactoryAware接口，这两个接口分别需要实现setApplicationContext或者setBeanFactory方法，spring一旦发现在配置文件中声明的Bean实现了上面的两个接口，就会在创建之后为他们调用方法把spring容器的引用传递给他。</p>
+<h2 id="Spring容器中的Bean"><a href="#Spring容器中的Bean" class="headerlink" title="Spring容器中的Bean"></a>Spring容器中的Bean</h2><p>beans元素是spring配置文件的根元素，如果bean和beans配置不一致，bean的配置会覆盖beans的配置。bean元素的两个属性是id 和class，id一般来说都是这个类的名称，当然还可以指明name属性，是这个Bean的别名，通过别名也可以访问实例。name中可以指定多个别名。通过&lt;alias…………/&gt;有两个属性，一个是name，一个是alias。</p>
+<p>spring容器不仅可以创建Bean实例，还可以指定特定的作用域，singleton（只生成一个，默认使用）、prototype（每次getBean都是新的Bean）、request（每次http请求）、session、global session，后面三个只会在web应用有效，通过bean元素的scope属性指定作用域。</p>
+<p>request和session作用域只在web应用中有效，并且必须在web应用中增加额外配置才会生效，也就是在web.xml中增加listener，RequestContextListener</p>
+<p>不建议使用配置文件管理Bean的基本类型的属性值，通常只使用配置文件管理容器中Bean与Bean的依赖关系，在配置bean的时候ref的值是另外一个bean，value是基本类型及其包装类型。</p>
+<p>Spring可以自动装配Bean与Bean之前的依赖关系，通过beans和bean元素的autowire属性指定，这个属性有5个值：no、byName（根据setter方法名自动匹配）、byType（根据setter方法的参数自动匹配）、constructor（根据构造器的参数自动匹配）、autodetect（spring自主选择bytype或者constructor）</p>
+<p>byName如果找不到名称的bean的话就不会依赖注入，byType如果没有类型相同的实例就不会调用setter方法，如果有多个类型相同的实例就会抛出异常。</p>
+<p>有的时候，程序希望将某些Bean排除在自动装配之外，只需要在bean元素配置的时候设置autowire-candidate=‘false’，在beans元素下面的default-autowire-candidates属性允许使用多个模式字符串的组合。</p>
+<p>如果某个Bean所依赖的Bean不想被spring容器访问，那么就可以使用嵌套Bean，可以把bean元素配置成property或者constructor-args的子元素</p>
+<p><strong>注入集合值</strong>如果需要调用形参类型为集合的setter方法，或者调用形参类型为集合的构造器，可以使用集合元素为&lt;list…./&gt;&lt;set…/&gt;&lt;map…./&gt;和&lt;props…/&gt;，list的子元素就是value，map的子元素是entry，属性有key,key-ref或者value和value-ref的组合，ref就是引用其他的Bean实例；props的子元素是prop，属性有key和value。</p>
+<p>集合元素的值又可以是基本类型值（value）、引用容器中的其他bean（ref）、嵌套Bean（bean）或者集合属性（list、set、map、props）等</p>
+<p>props元素用于配置properties类型的参数值，key和value只能是字符串，<prop key="key">value</prop>。</p>
+<p>Spring中还支持集合的合并，子Bean中的集合属性可以从其父Bean的集合属性继承和覆盖而来。而且子Bean集合中的元素可以覆盖父Bean集合中对应的元素。</p>
+<p>Spring还支持组合属性的方式，比如说A.B.C，除了最后一个属性之外，其他的属性值不允许为空。这种方式就是先执行一个getter，再执行一次setter。</p>
+<p>传统的JavaBean和spring中的bean的用法不同，传统的JavaBean更多作为值对象传递参数，传统的JavaBean要求所有的属性都要有setter和getter，JavaBean不接受任何容器管理其生命周期，而spring中的Bean只需要为接受设值注入的属性提供setter方法即可。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/19/20180419-spring/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180418" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1178,234 +1416,9 @@ show create{ procedure | function } 存储过程和函数的名字
 
 
   
-    <article id="post-20180319-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/19/20180319-struts/">20180319</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/19/20180319-struts/" class="archive-article-date">
-  	<time datetime="2018-03-19T00:37:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-19</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一个表单里包含多个提交按钮，分别提交给不同的控制逻辑，和上周方法不同的方法是，将一个Action处理类定义成多个逻辑Action，在struts.xml中配置action的时候可以指定method属性来让action调用特定的方法处理，而不是默认使用execute方法，这些方法必须具有相似的方法签名，形参列表为空，方法返回值为String。</p>
-<p>在struts.xml中配置action允许在<strong>指定name属性</strong>时使用模式字符串（用*代表一个或者多个任意字符），接下来就可以在class、method和result元素中使用{N}的形式代表前面第N个星号（*）所匹配的子串</p>
-<pre><code>&lt;action name=&quot;*Action&quot; class=&quot;cc.LoginRegistAction&quot; method=&quot;{1}&quot;
-</code></pre><p>上面的这段代码其实就是根据传入的action名称选择method，也可以在类名里面使用{N}，没有为Action指定class属性，该action使用ActionSupport作为处理类，而且因为该ActionSupport类的execute方法默认返回success字符串.</p>
-<p>如果有URL为abcAction.action的请求，如果struts.xml文件中有名为abcAction的action，则一定由该action处理用户请求，如果struts.xml文件中没有名为abcAction的action，则搜寻第一个能够匹配abcAction的Action，例如*Action和*，*Action并不会比*匹配的优先级高，先找到那个Action就由哪个Action处理请求。所以说name=“*”的Action一般配置在最后。</p>
-<p>配置默认Action通过&lt;default-action-ref…../&gt; ，struts.xml文件中使用&lt;result…./&gt;元素配置结果，根据&lt;result…/&gt;元素所在位置的不同，struts2提供了两种结果，局部结果（result作为action的子元素）和全局结果（result作为global-results的子元素），配置result元素的时候通常要指定两个属性name和type，Struts2默认的结果类型就是dispatcher，所以在配置result的时候可以省略type元素，默认name是success，没有指定location参数，会把&lt;result….&gt;………\&lt;\/result>中间的字符串当成实际视图资源。</p>
-<p>如果result的type是plainText的话将会返回网页源代码，指定location和charSet（处理字符集）；result的结果如果是redirect类型，将产生新的请求，所有的请求参数、请求属性、Action实例和Action中封装的属性全部丢失。使用redirect类型的结果时，不能重定向到/WEB-INF/路径下任何资源，因为<strong>web应用的/WEB-INF/路径下的所有资源是受保护对象</strong>；redirectAction结果类型和redirect都是重新生成全新的请求，配置redirectAction的时候需要指定两个参数actionName和namespace。</p>
-<p>配置result元素的时候，不仅可以使用${0}表达式形式来指定视图资源，还可以使用${属性名}的方法指定，属性名就是对应的Action实例里的属性，<strong>OGNL表达式就是${属性名.属性名.属性名…….}</strong>，如果result放在global-results元素中配置的话，该result元素就是全局结果，对所有的Action都有效，但是<strong>局部结果会覆盖全局结果</strong>。</p>
-<p>PreResultListener是一个监听器接口，他在Action完成控制处理之后，系统转入实际的物理视图之间被回调，可以为Action和拦截器添加这个监听器，监听器中一个方法叫做beforeResult。</p>
-<h3 id="struts2-异常处理"><a href="#struts2-异常处理" class="headerlink" title="struts2 异常处理"></a>struts2 异常处理</h3><p>在execute中处理异常比较麻烦，最好的处理异常的方法是通过声明式的方式管理异常处理。因为如果写在代码里异常发生变化需要重新修改代码。struts2的异常处理机制需要一个拦截器，但是默认已经开启。</p>
-<p>异常处理是在struts.xml中配置exception-mapping元素完成的，配置该元素的时候需要制定两个属性，一个是exception，一个是result，根据exception-mapping出现的位置可以分为全局异常映射和局部异常映射，同样，<strong>局部异常映射会覆盖全局异常映射。</strong></p>
-<p>在struts2中可以通过如下标签输出异常信息</p>
-<pre><code>&lt;s:property value=&quot;exception&quot;/&gt;：输出异常对象信息
-&lt;s:property value=&quot;exceptionStack&quot;/&gt;：输出异常堆栈信息   
-</code></pre><h3 id="Convention插件与“约定”支持"><a href="#Convention插件与“约定”支持" class="headerlink" title="Convention插件与“约定”支持"></a>Convention插件与“约定”支持</h3><p>约定优于配置，只需要按照约定开发，不需要进行配置，只需要把convention的jar包导入到lib中。</p>
-<p>Convention插件会把所有实现了com.opensymphony.xowrk2.Action的java类和所有类名以Action结尾的Java类作为Action处理。默认值只会处理action、actions、struts、struts2包下的java类，这个插件还可以设置不扫描哪些包下的java类，以及新增需要扫描的包，以及设置包搜索开始的根包。根命名空间就是上面说过的默认的扫描文件，下面的子包则被映射成对应的命名空间。</p>
-<p>Action的name属性根据Action类的类名映射，如果该Action类名中包含Action后缀，就将Action去掉，将剩余的驼峰写法（每个单词首字母大写）转成中划线写法（所有字母小写，单词与单词之间以中划线隔开），在使用这个action的时候应该是<strong>命名空间/Action名称</strong>。</p>
-<p>按照约定映射Result，默认情况下，Convention总会到Web应用的WEB-INF/content，定位资源的约定是ActionName+resultCode+suffix（后缀），找不到对应资源的时候会使用actionname+suffix作为资源，action的url中是带着命名空间的，那么在content中也需要带上命名空间。</p>
-<p>如果希望一个Action结束处理后进入另一个Action形成Action链，那么就不能包含第一个Action逻辑视图字符串对应的视图资源，而且第一个Action和第二个Action处于同一个包之下，第二个Action映射的URL为第一个action的名称和resultcode，例如名为FirstAction的Action返回了值为second的resultcode，那么第二个Action的类名是FirstSecondAction</p>
-<p>Convention插件支持自动重加载机制，需要设置struts.devMode为true，以及struts.convention.classes.reload为true</p>
-<h3 id="使用Struts2的标签库"><a href="#使用Struts2的标签库" class="headerlink" title="使用Struts2的标签库"></a>使用Struts2的标签库</h3><p>标签库的标签不依赖于任何表现层技术，struts2的标签都定义在URI为“/struts-tags”的空间下</p>
-<p>Ajax（Asynchronous JavaScript And XML）</p>
-<h4 id="OGNL（struts2标签库的语法）"><a href="#OGNL（struts2标签库的语法）" class="headerlink" title="OGNL（struts2标签库的语法）"></a>OGNL（struts2标签库的语法）</h4><p>Struts2可以直接从对象中获取属性，会自动搜寻Stack Context的所有实体，从栈顶到栈底 ，直到找到与求值表达式匹配的属性，<strong>Stack Context的根对象是ValueStack，除此之外还包括了命名对象，struts2还提供了命名对象，访问这些对象需要使用#前缀来指明</strong>，parameters对象（访问http请求参数）、request对象、session对象、application对象、attr对象（该对象将依次搜索如下对象：PageContext、HttpServletRequest、HttpSession、ServletContext中的属性）</p>
-<p>可以在任意页面增加<strong>&lt;s:debug/&gt;</strong>标签，该标签将生成一个链接，可以进行调试。</p>
-<p>直接创建List类型集合的语法：{e1,e2,e3………}；直接生成Map类型集合的语法是#{key1:value1,key2:value2,…………}；in和not in可以用来判断某个元素是不是在指定集合中。</p>
-<p>OGNL还允许通过某个规则取得集合的子集，？（取出所有符合选择逻辑的元素）、^（取出符合选择逻辑的第一个元素）、$(取出符合所有选择逻辑的最后一个元素)。person.relatives.{? #this.gender==’male’}直接在集合后紧跟.{}运算符勇于取出该集合的子集，#this代表集合里的元素。</p>
-<p>struts2提供了访问静态成员的方法，但默认是关闭的，需要设置struts.ognl.allowStaticMethodAccess设置为true。可以通过@className@staticField和@className@staitcMethod（val） </p>
-<p>OGNL支持基本的Lambda表达式语法，可以使用函数</p>
-<p>&lt;s:iterator…./&gt;标签有三个属性：value指定被迭代的集合。id是集合里元素的id（迭代变量）。</p>
-<p><strong>append标签</strong>的var属性指定生成的新集合的名字，该集合被放入Stack Context中，还有多个param子标签，每个标签的value属性指定一个需要拼接的集合。</p>
-<p>使用<strong>generator标签</strong>可以将指定字符串按照指定分隔符分割成多个子串，将子串转化为Iterator集合，临时生成的集合位于ValueStack的顶端，类似于String对象的split方法，count属性指定生成集合中元素的总数（前count个）；seperator指定用于解析字符串中的分隔符；val指定被解析的字符串，指定了var属性则会将生成的Iterator对象放入Stack Context中，converter属性指定转换器，负责将集合中的每个字符串转换成对象，继承Converter。</p>
-<p>Struts2 中的很多标签都可以指定var属性，类似于变量名的作用，<strong>指定了var属性之后会将新生成的值放入Stack Context中</strong>，就是可以通过#name的形式访问，如果不指定这个属性，新生成的值只能在这个标签的内部使用。</p>
-<p>append标签和<strong>merge标签</strong>的区别是：append会将若干集合直接串联在一起，merge是将若干集合的第一个元素放在一起，然后再按照顺序把所有集合的第二个元素放在一起，以此类推。</p>
-<p><strong>subset标签</strong>source属性、count属性（子集中元素的个数）、start属性（从源集合的第几个元素开始截取，下标从0开始），decider属性（自定义是否把这个元素加入子集，实现SubsetIteratorFilter.Decider接口）、var属性（设置为page范围的属性，需要注意的地方）</p>
-<p><strong>sort标签</strong>必须提供自己的排序规则，指定特定的Comparator，source属性（被排序的集合）、var属性（同样放入page范围）</p>
-<p>这些标签里面需要注意的两个点，sort和subset标签指定了var属性之后放入了page的属性范围，而其他的是放在了Stack Context的栈顶，第二点是如果不指定source属性的话，标签默认的source就是ValueStack栈顶的部分。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/19/20180319-struts/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20180313-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/13/20180313-struts/">20180313</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/13/20180313-struts/" class="archive-article-date">
-  	<time datetime="2018-03-13T00:55:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-13</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>eclipse生成部署Web项目的时候，会自动将src路径下除了*.java外的所有文件都复制到web应用的WEB-INF\classes路径下。</p>
-<p><strong>在WebContent下面的文件在配置中就是从根目录开始的，如果是WebContent下面的子文件夹，比如是WEB-INF中的content文件下的mo.jsp文件需要设置为/WEB-INF/content/mo.jsp</strong></p>
-<p>Struts2推荐把所有视图页面存放在WEB-INF目录下，避免直接向视图界面发送请求，struts.xml中配置了一个name=“*”的&lt;action……/&gt;，这个元素可以处理所有的请求，直接呈现WEB-INF/content目录下同名的jsp页面。</p>
-<h2 id="Struts2应用的开发步骤"><a href="#Struts2应用的开发步骤" class="headerlink" title="Struts2应用的开发步骤"></a>Struts2应用的开发步骤</h2><ol>
-<li>在web.xml中定义filter拦截用户请求</li>
-<li>如果以post方式提交请求，则需要定义包含表单数据的jsp页面，如果仅仅是get方式，则无需经过这一步。</li>
-<li>定义处理用户请求的Action类（Actionsupport）。Action是MVC里的C</li>
-<li>配置Action。指定哪个请求对应于哪个Action进行处理。Convention插件支持“约定优于配置”的思想，采用约定的方式来规定请求和action之间的对应关系。</li>
-<li>通常action处理用户请求之后会返回一个字符串，在struts.xml中可以配置这个字符串和物理视图（要返回给用户的界面）之间的对应关系</li>
-<li>如果action需要发送数据给视图资源，可以借助DGNL表达式。</li>
-</ol>
-<p>Struts.xml通常放在web应用的类加载路径下，通常是放在WEB-INF/classes路径下，主要作用就是配置action和请求之间的对应关系，还可以使用struts.properties文件来管理常量，标准properties文件，key-value对。这些常量会对整个struts2应用起作用，同样放在WEB-INF/classes下。</p>
-<p>struts2会自动加载struts.xml（开发者自定义配置文件）、struts-default.xml（struts2自带配置文件）、struts-plugin.xml（struts2插件的配置文件）。</p>
-<p>Struts2配置常量有三种方式：struts.properties\struts.xml\web.xml，在struts.xml中可以通过constant元素配置，在web.xml中配置StrutsPrepareAndExecute时也可以配置struts2常量，通过为filter配置初始参数的方法配置struts2常量。</p>
-<p>struts2框架加载常量的顺序是struts-default.xml、struts-plugin.xml、struts.xml、struts.properties、web.xml，后面的重名常量会覆盖之前的常量。</p>
-<p>为了避免struts.xml文件过于庞大，所以可以通过include元素手动导入配置文件。</p>
-<pre><code>&lt;s:textfield name=&quot;Xxx&quot; key=&quot;&quot;&gt;
-name是action定义类中的常量名称，key是显示在页面上的文字
-</code></pre><p>Action中的实例变量不仅可以封装请求参数，也可以用来封装处理结果。</p>
-<p>Action接口规范中统一定义了5个字符串常量：ERROR、NONE、INPUT、LOGIN、SUCCESS，实现类ActionSupport。</p>
-<p>Web应用中经常要用到HttpServletRequest、HttpSession、ServletContext，这三个分别是jsp内置对象中的request、session和application，Struts2提供了ActionContext。</p>
-<p>Action直接访问Servlet API，实现三个接口就可以实现，ServletContextAware、ServletRequestAware、ServletResponseAware。</p>
-<p>ServletContext是在服务器上共享的一片区域，而session则是每一个用户自有的一块区域。</p>
-<p>Struts2中的Action在一个包中，包用package配置，每个包里面有很多个Action和拦截器，package的name属性是引用该包的唯一标识。extend属性可以用来继承另一个包，还有抽象包的概念，抽象包不能有Action的定义。</p>
-<p>interceptors是拦截器，下面的这段代码的action的name是*，代表请求的网页是和action同名的jsp</p>
-<pre><code>&lt;action name=&quot;*&quot;&gt;
-    &lt;result&gt;/WEB-INF/content/{1}.jsp&lt;/result&gt;
-</code></pre><p>每次定义一个package元素的时候，都可以指定一个namespace属性，因为同一个web应用可能会包含同名Action，如果配置package的时候没有指定namespace，当某个包指定了命名空间，该包下所有的action处理的URL应该是命名空间+Action名，当系统收到请求时，会现在命名空间里查找，如果没有的话会去默认空间查找。</p>
-<p>同一个页面里的不同按钮想要交给不同的控制逻辑，也就是说一个jsp页面中的提交想要分别提交给action的不同方法处理，action=“actionName！MethodName”，通过一个jsp的函数在点击按钮之后利用onclick动态的改变了表单的action，这种方法就是动态调用，动态调用的方法除了函数名和execute方法不同之外，其他的都必须一样。使用动态调用必须要设置struts2允许动态调用，设置struts.enable.DynamicMethodInvocation常量为true。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/13/20180313-struts/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -1500,11 +1513,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1512,11 +1525,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1524,11 +1537,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">essay</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color1">essay</a>
               </li>
             
             <div class="clearfix"></div>

@@ -139,6 +139,231 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180319-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/19/20180319-struts/">20180319</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/19/20180319-struts/" class="archive-article-date">
+  	<time datetime="2018-03-19T00:37:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-19</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一个表单里包含多个提交按钮，分别提交给不同的控制逻辑，和上周方法不同的方法是，将一个Action处理类定义成多个逻辑Action，在struts.xml中配置action的时候可以指定method属性来让action调用特定的方法处理，而不是默认使用execute方法，这些方法必须具有相似的方法签名，形参列表为空，方法返回值为String。</p>
+<p>在struts.xml中配置action允许在<strong>指定name属性</strong>时使用模式字符串（用*代表一个或者多个任意字符），接下来就可以在class、method和result元素中使用{N}的形式代表前面第N个星号（*）所匹配的子串</p>
+<pre><code>&lt;action name=&quot;*Action&quot; class=&quot;cc.LoginRegistAction&quot; method=&quot;{1}&quot;
+</code></pre><p>上面的这段代码其实就是根据传入的action名称选择method，也可以在类名里面使用{N}，没有为Action指定class属性，该action使用ActionSupport作为处理类，而且因为该ActionSupport类的execute方法默认返回success字符串.</p>
+<p>如果有URL为abcAction.action的请求，如果struts.xml文件中有名为abcAction的action，则一定由该action处理用户请求，如果struts.xml文件中没有名为abcAction的action，则搜寻第一个能够匹配abcAction的Action，例如*Action和*，*Action并不会比*匹配的优先级高，先找到那个Action就由哪个Action处理请求。所以说name=“*”的Action一般配置在最后。</p>
+<p>配置默认Action通过&lt;default-action-ref…../&gt; ，struts.xml文件中使用&lt;result…./&gt;元素配置结果，根据&lt;result…/&gt;元素所在位置的不同，struts2提供了两种结果，局部结果（result作为action的子元素）和全局结果（result作为global-results的子元素），配置result元素的时候通常要指定两个属性name和type，Struts2默认的结果类型就是dispatcher，所以在配置result的时候可以省略type元素，默认name是success，没有指定location参数，会把&lt;result….&gt;………\&lt;\/result>中间的字符串当成实际视图资源。</p>
+<p>如果result的type是plainText的话将会返回网页源代码，指定location和charSet（处理字符集）；result的结果如果是redirect类型，将产生新的请求，所有的请求参数、请求属性、Action实例和Action中封装的属性全部丢失。使用redirect类型的结果时，不能重定向到/WEB-INF/路径下任何资源，因为<strong>web应用的/WEB-INF/路径下的所有资源是受保护对象</strong>；redirectAction结果类型和redirect都是重新生成全新的请求，配置redirectAction的时候需要指定两个参数actionName和namespace。</p>
+<p>配置result元素的时候，不仅可以使用${0}表达式形式来指定视图资源，还可以使用${属性名}的方法指定，属性名就是对应的Action实例里的属性，<strong>OGNL表达式就是${属性名.属性名.属性名…….}</strong>，如果result放在global-results元素中配置的话，该result元素就是全局结果，对所有的Action都有效，但是<strong>局部结果会覆盖全局结果</strong>。</p>
+<p>PreResultListener是一个监听器接口，他在Action完成控制处理之后，系统转入实际的物理视图之间被回调，可以为Action和拦截器添加这个监听器，监听器中一个方法叫做beforeResult。</p>
+<h3 id="struts2-异常处理"><a href="#struts2-异常处理" class="headerlink" title="struts2 异常处理"></a>struts2 异常处理</h3><p>在execute中处理异常比较麻烦，最好的处理异常的方法是通过声明式的方式管理异常处理。因为如果写在代码里异常发生变化需要重新修改代码。struts2的异常处理机制需要一个拦截器，但是默认已经开启。</p>
+<p>异常处理是在struts.xml中配置exception-mapping元素完成的，配置该元素的时候需要制定两个属性，一个是exception，一个是result，根据exception-mapping出现的位置可以分为全局异常映射和局部异常映射，同样，<strong>局部异常映射会覆盖全局异常映射。</strong></p>
+<p>在struts2中可以通过如下标签输出异常信息</p>
+<pre><code>&lt;s:property value=&quot;exception&quot;/&gt;：输出异常对象信息
+&lt;s:property value=&quot;exceptionStack&quot;/&gt;：输出异常堆栈信息   
+</code></pre><h3 id="Convention插件与“约定”支持"><a href="#Convention插件与“约定”支持" class="headerlink" title="Convention插件与“约定”支持"></a>Convention插件与“约定”支持</h3><p>约定优于配置，只需要按照约定开发，不需要进行配置，只需要把convention的jar包导入到lib中。</p>
+<p>Convention插件会把所有实现了com.opensymphony.xowrk2.Action的java类和所有类名以Action结尾的Java类作为Action处理。默认值只会处理action、actions、struts、struts2包下的java类，这个插件还可以设置不扫描哪些包下的java类，以及新增需要扫描的包，以及设置包搜索开始的根包。根命名空间就是上面说过的默认的扫描文件，下面的子包则被映射成对应的命名空间。</p>
+<p>Action的name属性根据Action类的类名映射，如果该Action类名中包含Action后缀，就将Action去掉，将剩余的驼峰写法（每个单词首字母大写）转成中划线写法（所有字母小写，单词与单词之间以中划线隔开），在使用这个action的时候应该是<strong>命名空间/Action名称</strong>。</p>
+<p>按照约定映射Result，默认情况下，Convention总会到Web应用的WEB-INF/content，定位资源的约定是ActionName+resultCode+suffix（后缀），找不到对应资源的时候会使用actionname+suffix作为资源，action的url中是带着命名空间的，那么在content中也需要带上命名空间。</p>
+<p>如果希望一个Action结束处理后进入另一个Action形成Action链，那么就不能包含第一个Action逻辑视图字符串对应的视图资源，而且第一个Action和第二个Action处于同一个包之下，第二个Action映射的URL为第一个action的名称和resultcode，例如名为FirstAction的Action返回了值为second的resultcode，那么第二个Action的类名是FirstSecondAction</p>
+<p>Convention插件支持自动重加载机制，需要设置struts.devMode为true，以及struts.convention.classes.reload为true</p>
+<h3 id="使用Struts2的标签库"><a href="#使用Struts2的标签库" class="headerlink" title="使用Struts2的标签库"></a>使用Struts2的标签库</h3><p>标签库的标签不依赖于任何表现层技术，struts2的标签都定义在URI为“/struts-tags”的空间下</p>
+<p>Ajax（Asynchronous JavaScript And XML）</p>
+<h4 id="OGNL（struts2标签库的语法）"><a href="#OGNL（struts2标签库的语法）" class="headerlink" title="OGNL（struts2标签库的语法）"></a>OGNL（struts2标签库的语法）</h4><p>Struts2可以直接从对象中获取属性，会自动搜寻Stack Context的所有实体，从栈顶到栈底 ，直到找到与求值表达式匹配的属性，<strong>Stack Context的根对象是ValueStack，除此之外还包括了命名对象，struts2还提供了命名对象，访问这些对象需要使用#前缀来指明</strong>，parameters对象（访问http请求参数）、request对象、session对象、application对象、attr对象（该对象将依次搜索如下对象：PageContext、HttpServletRequest、HttpSession、ServletContext中的属性）</p>
+<p>可以在任意页面增加<strong>&lt;s:debug/&gt;</strong>标签，该标签将生成一个链接，可以进行调试。</p>
+<p>直接创建List类型集合的语法：{e1,e2,e3………}；直接生成Map类型集合的语法是#{key1:value1,key2:value2,…………}；in和not in可以用来判断某个元素是不是在指定集合中。</p>
+<p>OGNL还允许通过某个规则取得集合的子集，？（取出所有符合选择逻辑的元素）、^（取出符合选择逻辑的第一个元素）、$(取出符合所有选择逻辑的最后一个元素)。person.relatives.{? #this.gender==’male’}直接在集合后紧跟.{}运算符勇于取出该集合的子集，#this代表集合里的元素。</p>
+<p>struts2提供了访问静态成员的方法，但默认是关闭的，需要设置struts.ognl.allowStaticMethodAccess设置为true。可以通过@className@staticField和@className@staitcMethod（val） </p>
+<p>OGNL支持基本的Lambda表达式语法，可以使用函数</p>
+<p>&lt;s:iterator…./&gt;标签有三个属性：value指定被迭代的集合。id是集合里元素的id（迭代变量）。</p>
+<p><strong>append标签</strong>的var属性指定生成的新集合的名字，该集合被放入Stack Context中，还有多个param子标签，每个标签的value属性指定一个需要拼接的集合。</p>
+<p>使用<strong>generator标签</strong>可以将指定字符串按照指定分隔符分割成多个子串，将子串转化为Iterator集合，临时生成的集合位于ValueStack的顶端，类似于String对象的split方法，count属性指定生成集合中元素的总数（前count个）；seperator指定用于解析字符串中的分隔符；val指定被解析的字符串，指定了var属性则会将生成的Iterator对象放入Stack Context中，converter属性指定转换器，负责将集合中的每个字符串转换成对象，继承Converter。</p>
+<p>Struts2 中的很多标签都可以指定var属性，类似于变量名的作用，<strong>指定了var属性之后会将新生成的值放入Stack Context中</strong>，就是可以通过#name的形式访问，如果不指定这个属性，新生成的值只能在这个标签的内部使用。</p>
+<p>append标签和<strong>merge标签</strong>的区别是：append会将若干集合直接串联在一起，merge是将若干集合的第一个元素放在一起，然后再按照顺序把所有集合的第二个元素放在一起，以此类推。</p>
+<p><strong>subset标签</strong>source属性、count属性（子集中元素的个数）、start属性（从源集合的第几个元素开始截取，下标从0开始），decider属性（自定义是否把这个元素加入子集，实现SubsetIteratorFilter.Decider接口）、var属性（设置为page范围的属性，需要注意的地方）</p>
+<p><strong>sort标签</strong>必须提供自己的排序规则，指定特定的Comparator，source属性（被排序的集合）、var属性（同样放入page范围）</p>
+<p>这些标签里面需要注意的两个点，sort和subset标签指定了var属性之后放入了page的属性范围，而其他的是放在了Stack Context的栈顶，第二点是如果不指定source属性的话，标签默认的source就是ValueStack栈顶的部分。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/19/20180319-struts/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20180313-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/13/20180313-struts/">20180313</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/13/20180313-struts/" class="archive-article-date">
+  	<time datetime="2018-03-13T00:55:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-13</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>eclipse生成部署Web项目的时候，会自动将src路径下除了*.java外的所有文件都复制到web应用的WEB-INF\classes路径下。</p>
+<p><strong>在WebContent下面的文件在配置中就是从根目录开始的，如果是WebContent下面的子文件夹，比如是WEB-INF中的content文件下的mo.jsp文件需要设置为/WEB-INF/content/mo.jsp</strong></p>
+<p>Struts2推荐把所有视图页面存放在WEB-INF目录下，避免直接向视图界面发送请求，struts.xml中配置了一个name=“*”的&lt;action……/&gt;，这个元素可以处理所有的请求，直接呈现WEB-INF/content目录下同名的jsp页面。</p>
+<h2 id="Struts2应用的开发步骤"><a href="#Struts2应用的开发步骤" class="headerlink" title="Struts2应用的开发步骤"></a>Struts2应用的开发步骤</h2><ol>
+<li>在web.xml中定义filter拦截用户请求</li>
+<li>如果以post方式提交请求，则需要定义包含表单数据的jsp页面，如果仅仅是get方式，则无需经过这一步。</li>
+<li>定义处理用户请求的Action类（Actionsupport）。Action是MVC里的C</li>
+<li>配置Action。指定哪个请求对应于哪个Action进行处理。Convention插件支持“约定优于配置”的思想，采用约定的方式来规定请求和action之间的对应关系。</li>
+<li>通常action处理用户请求之后会返回一个字符串，在struts.xml中可以配置这个字符串和物理视图（要返回给用户的界面）之间的对应关系</li>
+<li>如果action需要发送数据给视图资源，可以借助DGNL表达式。</li>
+</ol>
+<p>Struts.xml通常放在web应用的类加载路径下，通常是放在WEB-INF/classes路径下，主要作用就是配置action和请求之间的对应关系，还可以使用struts.properties文件来管理常量，标准properties文件，key-value对。这些常量会对整个struts2应用起作用，同样放在WEB-INF/classes下。</p>
+<p>struts2会自动加载struts.xml（开发者自定义配置文件）、struts-default.xml（struts2自带配置文件）、struts-plugin.xml（struts2插件的配置文件）。</p>
+<p>Struts2配置常量有三种方式：struts.properties\struts.xml\web.xml，在struts.xml中可以通过constant元素配置，在web.xml中配置StrutsPrepareAndExecute时也可以配置struts2常量，通过为filter配置初始参数的方法配置struts2常量。</p>
+<p>struts2框架加载常量的顺序是struts-default.xml、struts-plugin.xml、struts.xml、struts.properties、web.xml，后面的重名常量会覆盖之前的常量。</p>
+<p>为了避免struts.xml文件过于庞大，所以可以通过include元素手动导入配置文件。</p>
+<pre><code>&lt;s:textfield name=&quot;Xxx&quot; key=&quot;&quot;&gt;
+name是action定义类中的常量名称，key是显示在页面上的文字
+</code></pre><p>Action中的实例变量不仅可以封装请求参数，也可以用来封装处理结果。</p>
+<p>Action接口规范中统一定义了5个字符串常量：ERROR、NONE、INPUT、LOGIN、SUCCESS，实现类ActionSupport。</p>
+<p>Web应用中经常要用到HttpServletRequest、HttpSession、ServletContext，这三个分别是jsp内置对象中的request、session和application，Struts2提供了ActionContext。</p>
+<p>Action直接访问Servlet API，实现三个接口就可以实现，ServletContextAware、ServletRequestAware、ServletResponseAware。</p>
+<p>ServletContext是在服务器上共享的一片区域，而session则是每一个用户自有的一块区域。</p>
+<p>Struts2中的Action在一个包中，包用package配置，每个包里面有很多个Action和拦截器，package的name属性是引用该包的唯一标识。extend属性可以用来继承另一个包，还有抽象包的概念，抽象包不能有Action的定义。</p>
+<p>interceptors是拦截器，下面的这段代码的action的name是*，代表请求的网页是和action同名的jsp</p>
+<pre><code>&lt;action name=&quot;*&quot;&gt;
+    &lt;result&gt;/WEB-INF/content/{1}.jsp&lt;/result&gt;
+</code></pre><p>每次定义一个package元素的时候，都可以指定一个namespace属性，因为同一个web应用可能会包含同名Action，如果配置package的时候没有指定namespace，当某个包指定了命名空间，该包下所有的action处理的URL应该是命名空间+Action名，当系统收到请求时，会现在命名空间里查找，如果没有的话会去默认空间查找。</p>
+<p>同一个页面里的不同按钮想要交给不同的控制逻辑，也就是说一个jsp页面中的提交想要分别提交给action的不同方法处理，action=“actionName！MethodName”，通过一个jsp的函数在点击按钮之后利用onclick动态的改变了表单的action，这种方法就是动态调用，动态调用的方法除了函数名和execute方法不同之外，其他的都必须一样。使用动态调用必须要设置struts2允许动态调用，设置struts.enable.DynamicMethodInvocation常量为true。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/13/20180313-struts/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-JavaEE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1174,11 +1399,11 @@ chain.doFilter(request,response);
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
         		</li>
       		
 		</ul>
@@ -1218,254 +1443,9 @@ chain.doFilter(request,response);
 
 
   
-    <article id="post-20171120" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/20/20171120/">20171120</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/20/20171120/" class="archive-article-date">
-  	<time datetime="2017-11-20T13:32:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-20</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>http中get请求一般用于幂等操作（请求数据但不改变服务器上的数据），post用于非幂等操作（改变服务器上的数据，上传文件等），过长的请求参数也需要使用post。</p>
-<p>容器是java的一个应用程序，负责和服务器沟通，容器会把jsp网页转译成Servlet，加载到容器中进行管理，最后的所有jsp都会以servlet的实例中存在于容器中。每次有请求进来时，都是使用同一个容器进行处理，由容器开启一个线程，并决定是哪个Servlet来处理，如果有多个请求就启动多个线程来处理。</p>
-<p>当请求来到http服务器的时候，服务器将请求转交给容器，容器会根据请求的参数建立一个代表当次请求的httpServletRequest对象，同时创建一个httpServletResponse对象，接着根据web.xml的设置，找出处理该请求的Servlet，调用他的service方法初始化。</p>
-<p>对于 http:\/\/localhost:8080\/FirstServlet\/hello.do?name=cate 来说，web容器会根据请求的逻辑名称（在前面这个链接就是hello.do来查找哪个Servlet可以处理这个链接的请求），找到Servlet之后根据servlet的名字和物理类名称的对应关系处理请求，调用Servlet的service（）方法，将所创建的HttpServletRequest对象和HttpServletResponse对象传入作为参数，service（）方法会根据http请求的方式调用不同的方法。</p>
-<p>不要在Servlet程序中夹杂着HTML的页面输出，JSP网页中的HTML中也不要夹杂Java程序逻辑。</p>
-<h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p>MVC就是Model，View，Controller。</p>
-<p>Model负责控制逻辑部分，View负责与用户的页面交互，Controller负责收集用户请求，并转发给相对应的模型。</p>
-<p>MVC模型中，http服务器没办法在服务器状态更新的情况下要求浏览器主动查询更新页面（http是基于请求响应的通信协议）在Web应用程序中，将MVC模型经过更新形成Model 2架构。</p>
-<p>控制器收集请求相关信息，并不从事业务逻辑处理Servlet，控制器只顺序调用函数实现跳转。</p>
-<p>模型通常是一个纯粹的java对象  ，页面的逻辑都在java对象中实现<br>视图进行页面的组织，由JSP技术实现。</p>
-<p>html页面中\n不能正常显示，要换行必须要页面中用&lt;br>&lt;/br>包含。</p>
-<h1 id="Http请求、响应处理"><a href="#Http请求、响应处理" class="headerlink" title="Http请求、响应处理"></a>Http请求、响应处理</h1><p>http请求中的所有信息都封装在HttpServletRequest中，这个接口实现了ServletRequest接口</p>
-<p>浏览器接受到相应的html必须知道怎么正确解释文字编码，HttpServletResponse有一个setContentType的方法可以设置，除此之外也可以使用字符串的getbytes方法重新编码字符串。</p>
-<p>利用下面的方法可以实现跳转请求，由其他的servlet和jsp负责处理，其中的request和response可以通过ServletRequeatWrapper、ServletResponseWrapper或者其子类将容器产生的request和respond重新包裹</p>
-<pre><code>request.getRequestDispatcher(&quot;相对url&quot;).forward(request, response)
-</code></pre><p>在执行forward（）之前不能给浏览器确切的回应。执行完forward还会回到原来的servlet/jsp，但是没有办法继续响应（http协议的特性）</p>
-<p>如果打算在目前的servlet/JSP中进行一些对浏览器的响应，而中间想将其他Servlet/JSP包括进来回应，则可以执行RequestDispatcher的include（）方法</p>
-<p>java中常用的输入输出流</p>
-<p>字节流 FileInputStream BufferedInputStream DataInputStream    |||| FileOutputStream  BufferedOutputStream PrintStream</p>
-<p>字符流  BufferedReader FileReader ||||||      BufferedWriter FileWriter PrinterWriter</p>
-<p>使用HttpServletResponse的sendRedirect（）可以要求浏览器重新请求另一个URL，又称为重定向，使用时可指定绝对URL或者相对URL，和Dispatcher 的forward不一样，forward是服务器自己跳转，而sendredirect是让浏览器跳转。</p>
-<p>可以通过在servletReuqest通过setAttribute（）设置属性，该对象只在此次请求范围内有效，在请求/响应之后该对象会被销毁。</p>
-<p><strong>同一个请求周期中，HttpServletResponse的getWriter（）和getOutputStream（）只能使用一个。</strong></p>
-<h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>突然感觉自己好像有点啰嗦，我看书的时候把一些小点记在博客上，但是感觉打字太慢，所以以后需要降低在博客上记载书上已有知识的篇幅</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/20/20171120/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20171114" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/14/20171114/">20171114</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/14/20171114/" class="archive-article-date">
-  	<time datetime="2017-11-14T01:21:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-14</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h1><p>触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即<strong>表的操作事件触发表上的触发器的执行</strong>。</p>
-<pre><code>CREATE TRIGGER trigger_name
-trigger_time
-trigger_event ON tbl_name
-FOR EACH ROW
-trigger_stmt1
-</code></pre><p>其中：</p>
-<p>trigger_name：标识触发器名称，用户自行指定；<br>trigger_time：标识触发时机，取值为 BEFORE 或 AFTER；<br>trigger_event：标识触发事件，取值为 INSERT、UPDATE 或 DELETE；<br>tbl_name：标识建立触发器的表名，即在哪张表上建立触发器；<br>trigger_stmt：触发器程序体，可以是一句SQL语句，或者用 BEGIN 和 END 包含的多条语句。  </p>
-<p>由此可见，可以建立6种触发器，即：BEFORE INSERT、BEFORE UPDATE、BEFORE DELETE、AFTER INSERT、AFTER UPDATE、AFTER DELETE。</p>
-<p>另外有一个限制是<strong>不能同时在一个表上建立2个相同类型的触发器</strong>，因此在一个表上最多建立6个触发器。</p>
-<p><strong>select语句返回的是结果集，就算最终的结果是表中的一个具体部分，也是一个结果集</strong></p>
-<h3 id="查看触发器"><a href="#查看触发器" class="headerlink" title="查看触发器"></a>查看触发器</h3><p>show triggers 查看数据库中所有的触发器</p>
-<p>select * from information_schema.triggers where trigger_name = ’触发器名称‘</p>
-<h1 id="视图（view）"><a href="#视图（view）" class="headerlink" title="视图（view）"></a>视图（view）</h1><p>数据库中只存放了视图的定义，没有视图的数据，所以每次使用视图获得的都是最新的数据，主要作用是保证了应用程序和数据库表的逻辑数据独立性，以及安全性<br>新建视图前先检查是否具有权限。</p>
-<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
-view 视图名（属性清单）
-as select语句
-[with [CASCADED | LOCAL ] check option];
-</code></pre><p>or replace的意思是如果存在的话进行修改，如果不存在的话创建视图</p>
-<p>algorithm表示视图选择的算法</p>
-<p>with check option是可选参数，表示更新视图时要保证在该视图的权限范围内。<br>创建视图时指定了witch check option关键字，这也就是说，更新后的每一条数据仍然要满足创建视图时指定的where条件。通过视图进行的修改，必须也能通过该视图看到修改后的结果<br>如果有with check option的话，默认关键字是cascade</p>
-<p>select语句中不能包含from子句中的子查询</p>
-<p>不能将触发程序和视图关联在一起。</p>
-<p>视图是建立在数据库上的</p>
-<h2 id="查看视图"><a href="#查看视图" class="headerlink" title="查看视图"></a>查看视图</h2><ol>
-<li>DESCRIBE（desc）视图名；</li>
-<li>show table status like ‘视图名’；(不带like就是展示目前数据库中的表和视图)</li>
-<li>show create view 视图名；</li>
-</ol>
-<h2 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h2><ol>
-<li>create or replace</li>
-<li><p>和定义时类似，将create改成alter</p>
-<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
-view 视图名（属性清单）
-as select语句
-[with [CASCADED | LOCAL ] check option];
-</code></pre><h2 id="更新视图（insert、update）"><a href="#更新视图（insert、update）" class="headerlink" title="更新视图（insert、update）"></a>更新视图（insert、update）</h2></li>
-</ol>
-<p>由于视图是一个虚表，所以通过视图的更新都将通过转化为基本的表操作，更新时必须保证拥有权限，更新时将视图看做普通的表。</p>
-<p>有几种情况更新视图是不能成功的。</p>
-<ol>
-<li>视图中包括了count、sum、max、min等函数</li>
-<li>视图中包含了union、UNION all 、distinct、group by、having等关键字</li>
-<li>select中包含了常量或者有子查询。</li>
-<li>由不可能更新的视图产生的视图。</li>
-<li>创建视图时算法为temptable类型。</li>
-<li>视图对应的表上存在没有默认值的非空列，并且这一列也不在视图中，所以插入失败。</li>
-</ol>
-<p>drop view if <strong>exists</strong> 视图名 [restrict | cascade ]</p>
-<h1 id="事务（transaction）"><a href="#事务（transaction）" class="headerlink" title="事务（transaction）"></a>事务（transaction）</h1><p>ACID：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）</p>
-<p>start transaction；后面紧跟由begin和end包含的一些sql语句<br>commit提交事务，rollback回滚事务。<br>事务不支持嵌套功能</p>
-<ol>
-<li>自动提交：autocommit，该变量为1时自动向数据库提交结果，用户在操作数据库的时候不需要start transaction等，如果设置为0，则需要用户输入commit才会将数据表中的资料提交到数据库中(set autocommit=0)；</li>
-<li>事务的孤立级：不同的用户通过不同的会话执行不同的事务，为了保证事务互不影响，保证数据库性能不受到影响，采用事务的孤立级是十分必要的。 </li>
-</ol>
-<p>MySQL提供4种孤立级：<br>serializable（序列化）以序列的形式对事务进行处理，只有当事务提交后用户才能从数据库中查看数据的变化<br>repeatable read（可重读 ）不会被看成序列，提交之后才能看到结果<br>read commited（提交后读）用户可以看到其他事务添加的新记录，在同一事务的不同时间内，应用查询语句可能会得到不同的结果<br>read uncommited（未提交读）容易产生虚幻读操作，其他用户可以在该孤立级上看到未提交的事务。</p>
-<p>修改事务的孤立级：（set  事务名 transaction isolation level 孤立级；）<br>select @@tx_isolation；</p>
-<h2 id="MySQL伪事务"><a href="#MySQL伪事务" class="headerlink" title="MySQL伪事务"></a>MySQL伪事务</h2><p>MyISAM类型表不支持事务，所以采用表锁定替代事务</p>
-<pre><code>lock tables 表名 lock_type；
-unlock tables；
-</code></pre><p>lock_type包括只读和只写</p>
-<h1 id="其他相关知识"><a href="#其他相关知识" class="headerlink" title="其他相关知识"></a>其他相关知识</h1><h2 id="数据库备份"><a href="#数据库备份" class="headerlink" title="数据库备份"></a>数据库备份</h2><p>备份一个数据库中的若干表</p>
-<pre><code>mysqldump  -u username -p 数据库名 数据表名 (可以是多个表，没有该参数默认备份整个数据库) &gt;  备份文件名.sql
-</code></pre><p>备份多个数据库</p>
-<pre><code>mysqldump -u username -p --databases 数据库名1 数据库名2  &gt;备份文件名.sql
-</code></pre><p>备份所有数据库</p>
-<pre><code>mysqldump -u username -p --all -databases &gt; 备份文件名.sql
-</code></pre><p>数据库查询的时候利用索引会加快查询速度，可以用explain和describe来分析查询语句，之后可以看到查询所需要的查询行数</p>
-<p>插入记录时，索引和唯一性校验都会影响到插入记录的速度</p>
-<ol>
-<li>alter table 表名 disable keys；</li>
-<li>alter table 表名 enable keys；</li>
-</ol>
-<p>唯一性校验set unique_check=0/1;</p>
-<h2 id="分析、检查、优化表"><a href="#分析、检查、优化表" class="headerlink" title="分析、检查、优化表"></a>分析、检查、优化表</h2><pre><code>analyze/check/optimize table 表名
-</code></pre><p>如果一个表中使用了TEXT或者BLOB这样的数据类型，那么更新删除等操作就会造成磁盘空间的浪费，所以需要使用optimize进行优化</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/14/20171114/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 
@@ -1560,11 +1540,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1572,11 +1552,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1584,11 +1564,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">essay</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color1">essay</a>
               </li>
             
             <div class="clearfix"></div>
