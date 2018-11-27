@@ -139,6 +139,95 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-第二周学习成果" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/11/第二周学习成果/">第二周学习成果</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/11/第二周学习成果/" class="archive-article-date">
+  	<time datetime="2017-09-11T05:50:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这一周的学习成果做个简单的记录吧，以后说不定还会看。</p>
+<ol>
+<li>符号引用和直接引用（符号引用就是变量名这种间接访问的方式，直接引用就是分配在常量池中的东西）</li>
+<li>内存泄露和内存溢出（内存溢出就是你想要的大小的内存系统不能分配给你，一旦分配给你就会发生溢出，内存泄露是指由于资源没有被正常释放，导致系统最后瘫痪。。。内存泄漏最终会导致内存溢出）</li>
+<li>悲观锁和乐观锁（悲观锁就是锁被占用时，剩下的所有进程都需要等待）</li>
+<li>并行和并发（并行是一并执行的意思，就是同时运行在不同的cpu上，同时执行；并发就是在一个cpu上执行，真正不能同时，因为一个cpu时间内只能执行一个进程）</li>
+<li>java虚拟机运行时数据区域分为以下几部分：一是程序计数器，线程私有，每一个线程都必须要有自己的程序计数器，虚拟机才能知道该线程已经运行到哪里了。第二个是本地方法栈和虚拟机栈，这两部分也是线程私有的，本地方法栈主要执行涉及到JNI 的方法，虚拟机栈是执行所有java方法的地方，每个java方法都是一个栈帧，不断地入栈出栈。第三个是方法区，这个部分里面就是所有的实质性内容，包括类的信息和一些编译后的代码，方法区是线程共享的，方法区包括所有被虚拟机加载的类等。最后一部分是堆，新建对象都存储在这里，但java虚拟机需要查询方法区才知道这个对象的数据里都是什么内容。</li>
+<li>java的GC（垃圾回收）需要解决三个问题，哪些内存需要回收，什么时候需要回收，如何回收，判断是否需要回收一般使用引用计数算法和可达性分析算法，引用计数算法就是引用加1，引用失效减1，始终为0就说明已经可以回收（有缺陷），可达性分析就是选择GC roots，如果到GC roots没有可达的路径就说明可以回收。什么时候回收主要就是安全区和安全点，指令序列复用的地方就是安全点，安全区就是很多个安全点。。如何回收就涉及到垃圾回收算法，主要包括复制算法（有缓冲区和使用区，用完使用区之后把有效数据放在缓冲区，然后把当前正在使用的使用区清空，使用区变缓冲区，缓冲区变成使用区），标记整理算法（所有存活对象向一端移动，从端向右直接清空），标记清除算法（直接把无效数据区清空）</li>
+</ol>
+<p>一些零碎的知识点：</p>
+<ol>
+<li>java中String的创建有两种方式，一种是使用new新建，另一种是直接用双引号定义，new新建的String变量在java Heap中，双引号声明的String变量在字符串常量池中，就是字符串的内容相同，他们的变量也不相同。</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/11/第二周学习成果/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20170911" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     

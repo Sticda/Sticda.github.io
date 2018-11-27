@@ -488,6 +488,147 @@ chain.doFilter(request,response);
 
 
   
+    <article id="post-20171114" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/14/20171114/">20171114</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/14/20171114/" class="archive-article-date">
+  	<time datetime="2017-11-14T01:21:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-14</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h1><p>触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即<strong>表的操作事件触发表上的触发器的执行</strong>。</p>
+<pre><code>CREATE TRIGGER trigger_name
+trigger_time
+trigger_event ON tbl_name
+FOR EACH ROW
+trigger_stmt1
+</code></pre><p>其中：</p>
+<p>trigger_name：标识触发器名称，用户自行指定；<br>trigger_time：标识触发时机，取值为 BEFORE 或 AFTER；<br>trigger_event：标识触发事件，取值为 INSERT、UPDATE 或 DELETE；<br>tbl_name：标识建立触发器的表名，即在哪张表上建立触发器；<br>trigger_stmt：触发器程序体，可以是一句SQL语句，或者用 BEGIN 和 END 包含的多条语句。  </p>
+<p>由此可见，可以建立6种触发器，即：BEFORE INSERT、BEFORE UPDATE、BEFORE DELETE、AFTER INSERT、AFTER UPDATE、AFTER DELETE。</p>
+<p>另外有一个限制是<strong>不能同时在一个表上建立2个相同类型的触发器</strong>，因此在一个表上最多建立6个触发器。</p>
+<p><strong>select语句返回的是结果集，就算最终的结果是表中的一个具体部分，也是一个结果集</strong></p>
+<h3 id="查看触发器"><a href="#查看触发器" class="headerlink" title="查看触发器"></a>查看触发器</h3><p>show triggers 查看数据库中所有的触发器</p>
+<p>select * from information_schema.triggers where trigger_name = ’触发器名称‘</p>
+<h1 id="视图（view）"><a href="#视图（view）" class="headerlink" title="视图（view）"></a>视图（view）</h1><p>数据库中只存放了视图的定义，没有视图的数据，所以每次使用视图获得的都是最新的数据，主要作用是保证了应用程序和数据库表的逻辑数据独立性，以及安全性<br>新建视图前先检查是否具有权限。</p>
+<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
+view 视图名（属性清单）
+as select语句
+[with [CASCADED | LOCAL ] check option];
+</code></pre><p>or replace的意思是如果存在的话进行修改，如果不存在的话创建视图</p>
+<p>algorithm表示视图选择的算法</p>
+<p>with check option是可选参数，表示更新视图时要保证在该视图的权限范围内。<br>创建视图时指定了witch check option关键字，这也就是说，更新后的每一条数据仍然要满足创建视图时指定的where条件。通过视图进行的修改，必须也能通过该视图看到修改后的结果<br>如果有with check option的话，默认关键字是cascade</p>
+<p>select语句中不能包含from子句中的子查询</p>
+<p>不能将触发程序和视图关联在一起。</p>
+<p>视图是建立在数据库上的</p>
+<h2 id="查看视图"><a href="#查看视图" class="headerlink" title="查看视图"></a>查看视图</h2><ol>
+<li>DESCRIBE（desc）视图名；</li>
+<li>show table status like ‘视图名’；(不带like就是展示目前数据库中的表和视图)</li>
+<li>show create view 视图名；</li>
+</ol>
+<h2 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h2><ol>
+<li>create or replace</li>
+<li><p>和定义时类似，将create改成alter</p>
+<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
+view 视图名（属性清单）
+as select语句
+[with [CASCADED | LOCAL ] check option];
+</code></pre><h2 id="更新视图（insert、update）"><a href="#更新视图（insert、update）" class="headerlink" title="更新视图（insert、update）"></a>更新视图（insert、update）</h2></li>
+</ol>
+<p>由于视图是一个虚表，所以通过视图的更新都将通过转化为基本的表操作，更新时必须保证拥有权限，更新时将视图看做普通的表。</p>
+<p>有几种情况更新视图是不能成功的。</p>
+<ol>
+<li>视图中包括了count、sum、max、min等函数</li>
+<li>视图中包含了union、UNION all 、distinct、group by、having等关键字</li>
+<li>select中包含了常量或者有子查询。</li>
+<li>由不可能更新的视图产生的视图。</li>
+<li>创建视图时算法为temptable类型。</li>
+<li>视图对应的表上存在没有默认值的非空列，并且这一列也不在视图中，所以插入失败。</li>
+</ol>
+<p>drop view if <strong>exists</strong> 视图名 [restrict | cascade ]</p>
+<h1 id="事务（transaction）"><a href="#事务（transaction）" class="headerlink" title="事务（transaction）"></a>事务（transaction）</h1><p>ACID：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）</p>
+<p>start transaction；后面紧跟由begin和end包含的一些sql语句<br>commit提交事务，rollback回滚事务。<br>事务不支持嵌套功能</p>
+<ol>
+<li>自动提交：autocommit，该变量为1时自动向数据库提交结果，用户在操作数据库的时候不需要start transaction等，如果设置为0，则需要用户输入commit才会将数据表中的资料提交到数据库中(set autocommit=0)；</li>
+<li>事务的孤立级：不同的用户通过不同的会话执行不同的事务，为了保证事务互不影响，保证数据库性能不受到影响，采用事务的孤立级是十分必要的。 </li>
+</ol>
+<p>MySQL提供4种孤立级：<br>serializable（序列化）以序列的形式对事务进行处理，只有当事务提交后用户才能从数据库中查看数据的变化<br>repeatable read（可重读 ）不会被看成序列，提交之后才能看到结果<br>read commited（提交后读）用户可以看到其他事务添加的新记录，在同一事务的不同时间内，应用查询语句可能会得到不同的结果<br>read uncommited（未提交读）容易产生虚幻读操作，其他用户可以在该孤立级上看到未提交的事务。</p>
+<p>修改事务的孤立级：（set  事务名 transaction isolation level 孤立级；）<br>select @@tx_isolation；</p>
+<h2 id="MySQL伪事务"><a href="#MySQL伪事务" class="headerlink" title="MySQL伪事务"></a>MySQL伪事务</h2><p>MyISAM类型表不支持事务，所以采用表锁定替代事务</p>
+<pre><code>lock tables 表名 lock_type；
+unlock tables；
+</code></pre><p>lock_type包括只读和只写</p>
+<h1 id="其他相关知识"><a href="#其他相关知识" class="headerlink" title="其他相关知识"></a>其他相关知识</h1><h2 id="数据库备份"><a href="#数据库备份" class="headerlink" title="数据库备份"></a>数据库备份</h2><p>备份一个数据库中的若干表</p>
+<pre><code>mysqldump  -u username -p 数据库名 数据表名 (可以是多个表，没有该参数默认备份整个数据库) &gt;  备份文件名.sql
+</code></pre><p>备份多个数据库</p>
+<pre><code>mysqldump -u username -p --databases 数据库名1 数据库名2  &gt;备份文件名.sql
+</code></pre><p>备份所有数据库</p>
+<pre><code>mysqldump -u username -p --all -databases &gt; 备份文件名.sql
+</code></pre><p>数据库查询的时候利用索引会加快查询速度，可以用explain和describe来分析查询语句，之后可以看到查询所需要的查询行数</p>
+<p>插入记录时，索引和唯一性校验都会影响到插入记录的速度</p>
+<ol>
+<li>alter table 表名 disable keys；</li>
+<li>alter table 表名 enable keys；</li>
+</ol>
+<p>唯一性校验set unique_check=0/1;</p>
+<h2 id="分析、检查、优化表"><a href="#分析、检查、优化表" class="headerlink" title="分析、检查、优化表"></a>分析、检查、优化表</h2><pre><code>analyze/check/optimize table 表名
+</code></pre><p>如果一个表中使用了TEXT或者BLOB这样的数据类型，那么更新删除等操作就会造成磁盘空间的浪费，所以需要使用optimize进行优化</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/14/20171114/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-正则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1013,95 +1154,6 @@ limit count
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/09/23/20170926/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-第二周学习成果" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/11/第二周学习成果/">第二周学习成果</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/11/第二周学习成果/" class="archive-article-date">
-  	<time datetime="2017-09-11T05:50:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-11</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这一周的学习成果做个简单的记录吧，以后说不定还会看。</p>
-<ol>
-<li>符号引用和直接引用（符号引用就是变量名这种间接访问的方式，直接引用就是分配在常量池中的东西）</li>
-<li>内存泄露和内存溢出（内存溢出就是你想要的大小的内存系统不能分配给你，一旦分配给你就会发生溢出，内存泄露是指由于资源没有被正常释放，导致系统最后瘫痪。。。内存泄漏最终会导致内存溢出）</li>
-<li>悲观锁和乐观锁（悲观锁就是锁被占用时，剩下的所有进程都需要等待）</li>
-<li>并行和并发（并行是一并执行的意思，就是同时运行在不同的cpu上，同时执行；并发就是在一个cpu上执行，真正不能同时，因为一个cpu时间内只能执行一个进程）</li>
-<li>java虚拟机运行时数据区域分为以下几部分：一是程序计数器，线程私有，每一个线程都必须要有自己的程序计数器，虚拟机才能知道该线程已经运行到哪里了。第二个是本地方法栈和虚拟机栈，这两部分也是线程私有的，本地方法栈主要执行涉及到JNI 的方法，虚拟机栈是执行所有java方法的地方，每个java方法都是一个栈帧，不断地入栈出栈。第三个是方法区，这个部分里面就是所有的实质性内容，包括类的信息和一些编译后的代码，方法区是线程共享的，方法区包括所有被虚拟机加载的类等。最后一部分是堆，新建对象都存储在这里，但java虚拟机需要查询方法区才知道这个对象的数据里都是什么内容。</li>
-<li>java的GC（垃圾回收）需要解决三个问题，哪些内存需要回收，什么时候需要回收，如何回收，判断是否需要回收一般使用引用计数算法和可达性分析算法，引用计数算法就是引用加1，引用失效减1，始终为0就说明已经可以回收（有缺陷），可达性分析就是选择GC roots，如果到GC roots没有可达的路径就说明可以回收。什么时候回收主要就是安全区和安全点，指令序列复用的地方就是安全点，安全区就是很多个安全点。。如何回收就涉及到垃圾回收算法，主要包括复制算法（有缓冲区和使用区，用完使用区之后把有效数据放在缓冲区，然后把当前正在使用的使用区清空，使用区变缓冲区，缓冲区变成使用区），标记整理算法（所有存活对象向一端移动，从端向右直接清空），标记清除算法（直接把无效数据区清空）</li>
-</ol>
-<p>一些零碎的知识点：</p>
-<ol>
-<li>java中String的创建有两种方式，一种是使用new新建，另一种是直接用双引号定义，new新建的String变量在java Heap中，双引号声明的String变量在字符串常量池中，就是字符串的内容相同，他们的变量也不相同。</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/11/第二周学习成果/">展开全文 >></a>
         </p>
       
 
