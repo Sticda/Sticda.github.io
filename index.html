@@ -139,6 +139,182 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20181127-hadoop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/27/20181127-hadoop/">20181127-hadoop</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/27/20181127-hadoop/" class="archive-article-date">
+  	<time datetime="2018-11-27T11:29:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-27</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/27/20181127-hadoop/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20181101-hadoop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/11/01/20181101-hadoop/">20181101-hadoop</a>
+    </h1>
+  
+
+        
+        <a href="/2018/11/01/20181101-hadoop/" class="archive-article-date">
+  	<time datetime="2018-11-01T02:03:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-01</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h1><h1 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h1><ol>
+<li>Common：常用工具</li>
+<li>Avro：用于数据序列化的系统</li>
+<li>MapReduce：MapReduce中的Map可以将输入的键值对映射成新的键值对，然后Reduce会对所有相同key的所有value进行处理再输出键值对作为结果</li>
+<li>HDFS：hadoop distributed file system 高容错率</li>
+<li>Chukwa：开源数据收集系统</li>
+<li>Hive：数据仓库，可以通过他自己的查询语言（类似sql）查询hadoop中的数据</li>
+<li>HBase：分布式，面向列的开源数据库。表是疏松的，每一行可以有不同的列</li>
+<li>pig：对数据集进行评估和分析</li>
+<li>ZooKeeper:为分布式应用设计的开源协调服务</li>
+</ol>
+<h1 id="HDFS-体系结构"><a href="#HDFS-体系结构" class="headerlink" title="HDFS 体系结构"></a>HDFS 体系结构</h1><p>由一个NameNode和若干个DataNode组成，NameNode作为主服务器，负责管理文件系统的命名空间和外部设备对于文件的访问，而DataNode则是管理具体存储的数据，一个文件被分成若干数据块放在一些DataNode上，NameNode负责管理文件系统的命名空间，例如打开关闭重命名文件等，管理数据块和DataNode的映射关系，DataNode负责处理具体的文件读写请求，在NameNode的调度下完成数据块的具体操作，也就是DataNode对于数据块的操作需要受到NameNode的管理，用户需要保存的数据不会经过NameNode，直接流向存储数据。</p>
+<h1 id="MapReduce-体系结构"><a href="#MapReduce-体系结构" class="headerlink" title="MapReduce 体系结构"></a>MapReduce 体系结构</h1><p>一个单独运行在主节点的JobTracker和一些运行在从节点上的TaskTracker，主节点负责分发任务和配置信息，并重新执行失败的子任务，从节点就是执行主节点分发的任务。</p>
+<p>一个输入的键值对经过用户自己定义的Map函数，产生中间键值对，有一个迭代器会把具有相同键的中间键值对交给用户自定义的Reduce函数，产生最后的输出。一般来说，Reduce函数的输出是0或者1。</p>
+<p>JobTracker可以运行在集群中的任意一个节点上，但是TaskTracker只能运行在DataNode上</p>
+<p>数据分割（Partition）：将map任务输出的中间结果按照key的范围划分为R份，保证某一段范围的key是由一个reduce函数处理的。</p>
+<p>在Hadoop上运行的作业需要指明输入和输出，并通过实现合适的接口或者抽象类提供Map和Reduce函数，同时指定参数构成作业配置，JobTracker会分发作业和配置信息给TaskTracker。</p>
+<h1 id="Hadoop-数据管理"><a href="#Hadoop-数据管理" class="headerlink" title="Hadoop 数据管理"></a>Hadoop 数据管理</h1><p>分布式文件系统HDFS、分布式数据库Hbase和数据仓库工具Hive</p>
+<h2 id="HDFS"><a href="#HDFS" class="headerlink" title="HDFS"></a>HDFS</h2><p>NameNode主要负责文件系统的命名空间、集群配置信息和存储块的复制等，NameNode会将文件系统的metadata存储在内存中，这些信息包括了文件信息，每个文件对应的文件块信息以及每一个文件块在DataNode中的信息，DataNode将文件块存储在本地文件系统，保存了所有block的metadata，同时周期性的发给NameNode，client就是需要获取文件的应用程序。</p>
+<ol>
+<li>文件写入：client向NameNode发起写入文件的请求，然后NameNode会根据文件大小和文件块的信息，返回给client一堆DataNode的信息，client将文件划分为block，存入到DataNode里</li>
+<li>文件读取：client向NameNode发起读取的请求，NameNode返回给client文件对应的DataNode的信息，然后client读取。</li>
+<li>文件备份：文件有最小复制数，一般为3，也就是说这个文件在整个系统中存在3份，一份是存放在NameNode指定的DataNode上，一份存在与指定DataNode不在一台机器上的DataNode，最后一份存在与DataNode在同一个机架上的DataNode。</li>
+<li>数据管道性的写入：文件写入的时候是一个一个block的写入，先写一个block，然后备份这个block，等这个block备份完成的时候才写下一个block</li>
+<li>安全模式：刚开始启动的时候不允许文件的写入和读取，直到安全模式结束</li>
+</ol>
+<h2 id="HBase的数据管理"><a href="#HBase的数据管理" class="headerlink" title="HBase的数据管理"></a>HBase的数据管理</h2><p>HBase类似于Bigtable，稀疏的、多维度的排序映射表，表的索引有行关键字、列关键字、时间戳。数据都是字符串，没有类型，每一行可以有不同的列，列名字的格式是“<family>:<label>”，每一张表的family集合是固定不变的，只能通过改变表结构改变family集合，label是可以随便变化的。HBase的写操作是锁行的，每一行都是一个原子元素，都可以加锁</label></family></p>
+<p>由三个部分组成</p>
+<h3 id="HBaseMaster：主服务器"><a href="#HBaseMaster：主服务器" class="headerlink" title="HBaseMaster：主服务器"></a>HBaseMaster：主服务器</h3><p>一个HBase只部署一台主服务器，通过领导选举算法确保只有唯一的主服务器是活跃的，zookeeper中保留了主服务器的信息，如果主服务器瘫痪，则会利用领导选举算法从备用中选择新的。主服务器负责集群的初始化，从hdfs中获取根域目录。负责集群中域的分配、域服务器的监视</p>
+<h3 id="HRegionServer：域服务器"><a href="#HRegionServer：域服务器" class="headerlink" title="HRegionServer：域服务器"></a>HRegionServer：域服务器</h3><p>服务于主服务器分配的域，处理客户端读写请求，本地缓冲回写、本地数据压缩等，每个域只有一台域服务器，开始运行的时候会从HDFS中读取域的日志和所有的存储文件，同时管理HDFS文件的持久性存储工作</p>
+<h3 id="HBase-Client：客户端"><a href="#HBase-Client：客户端" class="headerlink" title="HBase Client：客户端"></a>HBase Client：客户端</h3><p>查找用户域所在的域服务器，从根域到元域，再到用户域所在的域服务器，之后这个地址将会被客户端缓存。</p>
+<h2 id="Hive的数据管理"><a href="#Hive的数据管理" class="headerlink" title="Hive的数据管理"></a>Hive的数据管理</h2><p>Hive是建立在Hadoop上的数据仓库基础框架，数据提取、转化、加载，Hive QL类似于SQL，按照使用层次可以分为元数据存储、数据存储和数据交换</p>
+<h3 id="元数据存储："><a href="#元数据存储：" class="headerlink" title="元数据存储："></a>元数据存储：</h3><p>元数据存在RDBMS中，三种模式可以连接到数据库：single user mode（连接到一个In-memory的数据库Derby）multi user mode（网络连接到数据库） remote server mode（非java客户端访问元数据库，在服务端启动一个metaStoreServer，客户端利用thrift协议通过MetaStoreServer访问数据库）</p>
+<h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><p>Hive没有专门的数据存储格式，创建表的时候需要让Hive知道列分隔符和行分隔符，Hive中所有的数据都存储在HDFS中，有四种数据模型：Table、External Table、Partition和Bucket</p>
+<h3 id="数据交换"><a href="#数据交换" class="headerlink" title="数据交换"></a>数据交换</h3><p>用户接口主要有client客户端、web界面以及数据库接口，hive将元数据存储在关系数据库中，解释器、编译器、优化器、执行器会负责HiveQL 的编译和执行，Hive的数据存储在HDFS中。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">hadoop</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/11/01/20181101-hadoop/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20181031-git" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -301,11 +477,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
@@ -403,11 +579,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
@@ -923,291 +1099,6 @@
 
 
   
-    <article id="post-20180514-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/14/20180514-spring/">20180514 spring</a>
-    </h1>
-  
-
-        
-        <a href="/2018/05/14/20180514-spring/" class="archive-article-date">
-  	<time datetime="2018-05-14T03:08:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-14</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容实现依赖注入，利用标签库p的res属性配置资源位置，可以通过前缀指明spring采取的资源访问策略，如果不采用前缀，则spring将采用与ApplicationContext相同的资源访问策略。采取依赖注入的方法就允许动态配置资源文件的位置，无须将资源文件位置写在代码中，当资源文件位置发生变化时，直接修改配置文件。</p>
-<p>在ApplicationContext中确定资源访问策略通常有两种方法，一种是使用ApplicationContext实现类（类似ClassPathXMLApplicationContext一类的。）指定访问策略，另一种是使用前缀指定访问策略。通过前缀指定资源访问策略的方式仅仅对当次访问有效，程序后面进行资源访问的时候，仍然会根据ApplicationContext的实现类来选择对应的资源访问策略。</p>
-<p>classpath*：前缀指定xml配置文件时，系统将搜索类加载路径，找出所有与文件名匹配的文件，然后依次加载文件中的配置定义。classpath就只会加载第一个文件名匹配的文件。一次性加载多个配置文件的方法还有在指定文件的时候使用通配符，A*.xml会加载所有以A开头的xml文件。</p>
-<p>file：前缀可以指定绝对路径和相对路径，但是在FileSystemXMLApplicationContext就会把所有的绝对路径当做相对路径处理。绝对路径以文件系统根路径为路径起点，相对路径以当前工作路径为路径起点。</p>
-<h2 id="Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><a href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）" class="headerlink" title="Spring的AOP（面向切面编程，Aspect Orient Programming）"></a>Spring的AOP（面向切面编程，Aspect Orient Programming）</h2><p>AspectJ是java语言的一个AOP实现，一个部分定义了如何表达、定义AOP编程中的语法规范，另一个部分是工具部分，包括编译器、调试工具等。</p>
-<p>可以添加特殊的java类，就是定义类的时候把class关键字换成aspect（只有aspectj才能识别的关键字），并且在类的定义内容中设置什么时候执行一些具体的内容。“ajc -d . *.java”可以使用ajc.bat编译java程序。</p>
-<p>定义切入点表达式Pointcut（），切入点表达式就是定义可能触发操作的特殊场合。proceed方法代表回调指定的目标方法，就是可以在目标方法前后添加业务代码。</p>
-<p>AOP的本质是依然去修改多个业务代码的源代码，只是这个修改由AOP框架完成。AOP实现可以分为两类（区分的标准是AOP框架修改源代码的时机），一种是静态AOP（在编译阶段生成目标类的代理类）Aspectj，一种是动态AOP（在运行阶段生成AOP代理类）Spring AOP。</p>
-<p>面向切面编程的一些术语：</p>
-<ol>
-<li>切面（aspect）：切面用于组织多个advice，Advice在切面中定义。</li>
-<li>连接点（JointPoint）：程序执行过程中明确的点</li>
-<li>增强处理（Advice）：AOP框架在特定的切入点执行增加处理，处理类型有around、before、after。</li>
-<li>切入点（Pointcut）：可以插入增强处理的连接点。</li>
-<li>引入：将方法或者字段添加到被处理的类中。</li>
-<li>目标对象：被AOP框架进行增强处理的对象</li>
-<li>AOP代理：AOP框架创建的对象，代理就是对目标对象的增强。</li>
-<li>织入（Weaving）：将增强处理添加到目标对象中，并创建一个被增强的对象（AOP代理）。</li>
-</ol>
-<p>spring中的AOP代理由spring的IOC容器负责生成、管理，依赖关系也由IOC容器负责。</p>
-<p>spring目前只支持将方法调用作为连接点，如果需要把对成员变量的访问和更新也作为增强处理的连接点，则考虑使用aspectj。</p>
-<p>spring提供了两种定义切入点和增强处理的方式：</p>
-<ol>
-<li>基于注解的“零配置”方式</li>
-<li>基于XML配置文件的管理方式</li>
-</ol>
-<h3 id="基于注解的“零配置”方式"><a href="#基于注解的“零配置”方式" class="headerlink" title="基于注解的“零配置”方式"></a>基于注解的“零配置”方式</h3><p>为了启用spring对@AspectJ<strong>切面配置</strong>的支持，需要在spring的配置文件中增加aop：aspectj-autoproxy，除此之外还需要添加一个bean ，class是AnnotationAwareAspectJAutoProxyCreator，这个类是一个Bean后处理器，该Bean后处理器会为容器中的所有Bean生成AOP处理。使用aspectj需要添加特定的jar包</p>
-<ol>
-<li>定义切面Bean：@Aspect，使用该注解修饰一个Java类，spring就不会把该Bean当作组件Bean处理，负责自动增强处理的后处理Bean将会略过该Bean，不会对该Bean进行增强处理。</li>
-<li>定义Before增强处理，@Before，这个注解的value值就是切入点，可以是已有的切入点，也可以直接定义。</li>
-<li>定义AfterReturning，@AfterReturning有两个属性，一个是Pointcut/value，就是用来指定切入点的，另一个属性是returning，该属性值指定一个形参名，用于访问目标方法的返回值，只能访问，不能修改。就是该注解修饰的方法的一个参数，当触发切入点定义的条件时，就会执行注解修饰的方法，这个形参的类型能够在一定程度上过滤方法，<strong>不仅仅是符合切入点定义的方法，而且还要这个方法的返回值是形参的类型或者没有返回值，这样的方法才会被自动增强处理</strong>。</li>
-<li>定义AfterThrowing，AfterThrowing增强处理主要用于处理程序中未处理的异常。pointcut/value和throwing，throwing也是一个 形参，在Advice方法中定义该形参的时候指定类型，会限制目标方法必须抛出指定类型的异常才会被处理，而且异常仍然会继续传播。</li>
-<li>@After，无论如何该注解指明的增强处理都会被织入，类似finally块。</li>
-<li>@Around增强处理，类似于before和AfterReturning的总和，定义一个Around增强处理方法的时候，第一个形参必须是ProceedingJoinPoint类型，也就是说这个方法至少包含一个形参，在增强处理方法体内，调用ProceedingJoinPoint参数的proceed方法才会执行目标方法，这个方法可以添加一个object[]数组做参数。但是这个数组的长度跟目标方法的参数类型或者个数不匹配的时候程序就会出现异常。</li>
-<li>访问目标方法的参数就是通过JointPoint类型，ProceedingJoinPoint是JointPoint的子类。</li>
-</ol>
-<p>织入的时候，在进入连接点的时候，优先级高的增强处理会被优先织入（优先级高的先执行），离开连接点的时候，优先级高的增强处理会最后被织入（优先级高的最后执行）</p>
-<p>当不同切面的增强处理需要在同一个连接点被织入的时候，spring AOP将会以随机的顺序插入，要有先后的顺序可以通过@Order注解指定一个int型的value，这个值越小优先级越高，也可以实现一个springframwork的Ordered接口，同样返回值越小优先级越高。</p>
-<p>spring还提供了一种在切入点定义的时候利用args表达式绑定目标方法的参数，@AfterReturning（returning=“rvt”，pointcut=“execution（<em> 全限定包名.</em>..*”(..)) &amp;&amp; args(arg0,arg1)”)，通过在pointcut中增加args（arg0，arg1）会限制目标方法必须有两个形参，在注解修饰的方法中指定了这两个参数的类型之后，这个增强处理就只会匹配指定类型和形参数目的目标方法。args（hhh，..）表示可以匹配多个参数。</p>
-<p>Spring AOP只支持将Spring Bean的方法执行作为连接点，所以可以把切入点看成所有能和切入点表达式匹配的Bean方法。</p>
-<p>切入点定义包含两个部分，一个切入点表达式和一个包含名字和任意参数的方法签名。简单来说就是这个方法签名就是这个切入点的名字，而@Pointcut就是表明这是一个切入点定义，该注解的值就是注入点表达式，切入点签名用一个方法体为空，返回值为void的方法定义提供。这个方法签名中的权限修饰符（private、public等）决定了其他切面类和其他包里的切面类是否可以使用这个切入点。pointcut=“切入点名称（）”，如果是调用其他切面类的切入点必须加上类名前缀。  </p>
-<p>Spring AOP有以下几个比较常用的切入点指示符</p>
-<ol>
-<li>execution：用于匹配执行方法的连接点</li>
-</ol>
-<p>execution（方法修饰符？返回值类型 方法所属的类？ 指定匹配的方法名（指定方法声明中的形参列表）指定方法声明抛出的异常？）</p>
-<p>带问号的部分可以被省略。</p>
-<ol>
-<li>within：用于限定匹配特定类型的连接点</li>
-<li>this:用于限定AOP代理必须是指定类型的实例,匹配该对象的所有连接点.</li>
-<li>target:用于限定目标对象必须是指定类型的实例,匹配该对象的所有连接点.</li>
-<li>args:用于对连接点的参数类型进行限制.</li>
-<li>bean:用于限制只匹配指定Bean实例内的连接点。</li>
-</ol>
-<p>除了基于注解，还可以基于XML配置文件。spring提供了一个新的aop:命名空间来定义切面、切入点和增强处理。</p>
-<p>在spring配置文件中，所有的切面、切入点和增强处理都必须定义在<a href="aop:config../" target="_blank" rel="noopener">aop:config../</a>元素内部，beans元素下面可以包含多个aop：config元素，一个<a href="aop:config" target="_blank" rel="noopener">aop:config</a>可以包含pointcut、advisor和aspect元素。元素定义必须按照这个顺序。</p>
-<p>配置aop：aspect元素的时候有三个属性，id ，ref和order，id就是切面的名称，order就是切面Bean的优先级，切面Bean在配置之前就是一个普通的Bean，在这个bean里面定义了很多增强处理的方法，这个普通bean也需要在spring的配置文件中声明，然后利用ref指明这个bean id就是切面bean。</p>
-<p>配置增强处理就是依赖于aop:before\aop:after\aop:after-returning\aop:after-throwing\aop:around，这元素的属性就是pointcut、pointcut-ref（和pointcut二选一，这个ref就是说明这个切入点在之前定义过了）、method（切面bean里定义的增强处理方法）、throwing（指定一个形参名，是异常）、returning（用于指定形参名表明返回值）</p>
-<p>aop：pointcut可以用来定义切入点，如果pointcut定义在config下面就可以被多个切面共享，如果只是在aspect下定义，说明这个切入点只能在切面中有效。两个属性，一个是id，一个是expression。</p>
-<h2 id="spring3新增的缓存机制"><a href="#spring3新增的缓存机制" class="headerlink" title="spring3新增的缓存机制"></a>spring3新增的缓存机制</h2><p>在导入cache：命名空间之后还需要两步才能启动spring缓存，在spring配置文件中添加cache：annotation-driven cache-manager=“缓存管理器ID”，其次针对不同的缓存实现配置对应的缓存管理器。</p>
-<p>EhCache缓存实现的配置除了添加必需的jar包之外，还需要在应用的类加载路径下添加一个ehcache.xml文件，在其中可以利用cache元素配置多个有名字的缓存区。spring使用EhCacheManager作为Ehcache缓存实现的缓存管理器，spring提供了EhCacheManagerFactoryBean工厂Bean，这个工厂Bean实现了FactoryBean<cachemanager>接口，当程序把这个工厂Bean部署在容器中，请求工厂Bean返回的是他的产品CacheManager。</cachemanager></p>
-<p>@Cacheable可以修饰类或者方法，共享一个缓存区，当修饰类的时候会在类级别进行缓存，类级别的缓存是只要是参数相同，就调用之前缓存过的结果。就算方法名不同也不会调用新方法。这个注解有四个属性，value的值是缓存区的名字，key通过SpEL表达式显示指定缓存的key，比如说这个表达式可以指明缓存的条件，condition和unless的值都是SpEL表达式。</p>
-<p>@Cacheable修饰方法的时候可以控制spring在方法级别进行缓存，只要调用这个方法的时候参数一致，就会使用缓存。</p>
-<p>使用@CacheEvict注解可以清除缓存，这个注解是修饰方法的，属性有value（指定该方法清除哪个缓存区的数据），allEntries（是否清除整个缓存区），beforeInvocation（是否在执行方法之前清除缓存，默认是方法成功执行之后），condition（SpEL表达式为true才清除缓存），这个清除缓存的方法可以根据缓存里的数据进行个性化定制，可以清除特定的数据。</p>
-<h2 id="spring事务"><a href="#spring事务" class="headerlink" title="spring事务"></a>spring事务</h2><p>传统的Java EE事务分为全局事务和局部事务，全局事务由应用服务器管理，需要底层服务器的JTA支持，局部事务和底层采用的持久化技术有关，如果是JDBC，那么就用Connection，如果是Hibernate，就用session。</p>
-<p>spring的事务是通过PlatformTransactionManager接口实现的，这个接口提供了几个和平台无关的获取事务信息的方法，spring具体的实现过程中需要利用这个接口的实现类完成，这个接口里包含了一个GetTransaction（TransactionDefinition definition）方法，返回值是TransactionStatus，表示一个事务，关联在当前线程上，TransactionDefinition类型的参数表示一个事务规则，就是对这个事务返回值的一些限制。</p>
-<p>配置JDBC 的局部事务管理器的时候，选用的PlatformTransactionManager接口实现类是DataSourceTransactionManager，还需要依赖注入DataSource的引用，也就是数据源Bean。</p>
-<p>容器管理的JTA全局事务管理器选用的PlatformTransactionManager接口实现类是jtaTransactionManager，这个Bean不需要依赖注入，原因是全局事务的JTA资源由Java EE服务器提供，而Spring容器能自行从java ee服务器中获得。</p>
-<p>Hibernate局部事务策略的不同点在于依赖注入的不是数据源，而是SessionFactory。spring提供两种事务管理方式。</p>
-<ol>
-<li>编程式事务管理：程序直接获取容器的TransactionManager Bean，该Bean总是PlatformTransactionManager的实现类，可以利用这个bean的方法处理事务。</li>
-<li>声明式事务管理：通过在XML文件中为业务组件配置事务代理（AOP代理的一种）。</li>
-</ol>
-<p>spring提供了tx：命名空间配置事务管理，tx：advice配置事务增强处理，<a href="tx:advice.../" target="_blank" rel="noopener">tx:advice.../</a>元素除了需要transaction-manager属性指定事务管理器之外，还需要配置attributes子元素，这个子元素包含了多个method子元素，method的属性有name、propagation、isolation、timeout、read-only、rollback-for、no-rollback-for。</p>
-<p>业务Bean里面包含了很多数据库的操作方法，在tx：advice里面可以通过method元素来设置这些方法的事务的规则，通过aop：config元素配置一个切入点（这个切入点需要匹配到这个业务Bean），并且利用aop:advisor元素指定在某个切入点处执行事务增强处理（实际上是利用Bean后处理器完成的）。</p>
-<p>默认情况下，只有方法引发运行时异常和unchecked异常，spring就会回滚事务，如果事务方法抛出checked异常，则事务不会回滚，这个时候就要利用method的rollback-for属性和no-rollback-for属性</p>
-<p>使用@Transactional注解可以在java类重定义，他的属性有isolation、noRollbackFor、noRollbackForClassName、propagation、readOnly、rollbackFor、rollbackForClassName、timeout，光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
-<h2 id="spring整合Struts2"><a href="#spring整合Struts2" class="headerlink" title="spring整合Struts2"></a>spring整合Struts2</h2><p>对于使用spring的web应用，创建spring容器的方法有两种：直接在web.xml文件中配置创建和第三方MVC框架的扩展点，创建spring容器。</p>
-<p>为了让spring容器随Web应用启动而自动启动，借助于ServletContextListener监听器即可完成，这个监听器的作用就是在web应用启动的时候回调自定义方法，可以在这个自定义方法中启动spring容器。</p>
-<p>Spring提供了一个ContextLoaderListener监听器类，实现了ServletContextListener接口，创建时会自动查找WEB-INF下的ApplicationContext.xml文件，如果多个配置文件的话需要使用&lt;context-param…/&gt;元素,利用参数名为contextConfigLocation的值来包含所有的配置文件。spring根据指定的配置文件创建WebApplicationContext对象，如果要在应用中获取ApplicationContext实例则可以通过 WebApplicationContextUtils. </p>
-<p>控制器获取业务逻辑组件的方式不是通过new关键字新建组件，而是采用<strong>工厂模式和服务定位器模式</strong>，服务定位器模式是业务逻辑组件已经在运行，控制器直接调用就可以。工厂模式是更适合轻量级Java EE应用的模式。</p>
-<p>为了让Action访问到Spring的业务逻辑组件，有两种策略：</p>
-<ol>
-<li>spring容器负责管理控制器Action，并利用依赖注入为控制器注入业务逻辑组件。</li>
-<li>利用Spring的自动装配，Action将会自动从Spring容器中获取所需的业务逻辑组件。</li>
-</ol>
-<h3 id="Spring管理控制器"><a href="#Spring管理控制器" class="headerlink" title="Spring管理控制器"></a>Spring管理控制器</h3><p>Spring的插件Struts2-spring-plugin.jar提供了一种伪Action，在struts.xml文件中配置action的时候都要利用class属性指定实现类，这个插件可以将class属性指定为Spring容器中的Bean ID，通过这种方式利用spring容器获取action对象。</p>
-<p>在spring的配置文件中配置业务逻辑组件以及action，并且利用依赖注入将业务逻辑组件注入到action实例中。在spring控制action的过程中就涉及到action的生命周期，每一次action对应一次用户的请求，因此不能将action配置成单例模式，因此必须将scope属性指定为prototype或者request。</p>
-<p>这种方式有两种不足，Spring管理Action，需要在Spring容器中配置action，又需要在struts中配置action，其次action的业务逻辑组件需要使用依赖注入，降低了代码可读性。</p>
-<h3 id="使用自动装配"><a href="#使用自动装配" class="headerlink" title="使用自动装配"></a>使用自动装配</h3><p> Action还是由spring插件创建，只不过不需要显式依赖注入，而是采用了自动装配，通过struts.objectFactory.spring.autoWire常量改变spring插件的自动装配策略。默认是byName，在这种整合策略下，配置action的class属性仍然是实现类的全限定名。</p>
-<p> 缺点有两个：</p>
-<ol>
-<li>Action跟业务逻辑组件的耦合降低到代码层次，必须在配置文件中配置与action所需控制器同名的业务逻辑组件。</li>
-<li>action接受spring的自动装配，可读性较差。</li>
-</ol>
-<h2 id="spring整合hibernate"><a href="#spring整合hibernate" class="headerlink" title="spring整合hibernate"></a>spring整合hibernate</h2><p>DAO模式的核心思想是所有的数据库访问都通过DAO组件完成，该组件封装了数据库的增、删、改等原子操作。业务逻辑组件依赖DAO组件提供的操作完成系统逻辑实现、 </p>
-<p>Java EE应用大概都可以分为表现层、业务逻辑层、数据持久层。轻量级Java EE架构以Spring IoC容器为核心，向上管理来自表现层的action，向下管理业务逻辑层组件，同时负责管理业务逻辑层所需的DAO对象</p>
-<p>spring提供了一致的异常抽象，将原有的checked异常转换包装成Runtime异常。</p>
-<p>通过hibernate进行持久层访问的时候，需要SessionFactory，一般情况下，一个JavaEE应用对应一个数据库，也就是一个SessionFactory。在spring的配置文件中配置Hibernate SessionFactory，指明实现类、数据源的bean id，以及annotatedClasses属性下列出所有的持久化类。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/14/20180514-spring/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20180426-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/26/20180426-spring/">20180426 spring</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/26/20180426-spring/" class="archive-article-date">
-  	<time datetime="2018-04-26T07:54:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-26</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>spring的最后一章，也是这本书基础知识介绍的最后一章了，看完这一章基本上spring和struts、hibernate的整合应该没什么问题了，编程这种事一定要提前开始，现在把前面看的基本上忘完了，这本书看完了基本上就要开始自己动手完成一个项目了。</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>Spring框架提供了很好的扩展性，除了与各种第三方框架良好整合之外，IOC容器也允许进行扩展，spring提供了两种常用的后处理器。</p>
-<ol>
-<li>Bean后处理器：这种后处理器会对容器中的Bean进行后处理，对Bean进行额外增强。</li>
-<li>容器后处理器：这种后处理器对IoC容器进行后处理，用于增强容器功能。</li>
-</ol>
-<p>Bean后处理器的类需要实现BeanPostProcessor，这个接口定义了两个方法，一个是postProcessBeforeInitialization，一个是postProcessAfterInitialization，根据名字已经可以判断执行的时间了，如果spring容器是用ApplicationContext实现的，就不需要在xml文件中为这个Bean后处理器的实现类指定Bean id，容器在初始化所有的Bean之后会检测，如果有Bean的实现类实现了BeanPostProcessor接口，会自动注册为Bean后处理器，但是容器要是用BeanFactory实现的话，就需要手动添加绑定Bean后处理器，所以需要为这个Bean后处理器的实现类注册id。</p>
-<p>spring提供的两个常用的后处理器是BeanNameAutoProxyCreator（根据Bean实例的name属性创建Bean实例的代理）和DefaultAdvisorAutoProxyCreator（根据Advisor对容器中所有的Bean实例创建代理），代理Bean的意思就是对目标Bean进行增强，在目标Bean的基础上进行修改得到的新Bean。</p>
-<p>容器后处理器必须实现BeanFactoryPostProcessor接口，这个接口定义了postProcessorBeanFactory，在容器初始化之后执行这个方法，类似于bean后处理器，ApplicationContext会自己检测容器后处理器，并且自动注册，BeanFactory需要手动调用。spring提供了几个常用的容器后处理器，容器后处理器通常对spring容器进行处理，在容器实例化Bean之前执行特定操作。</p>
-<p>属性占位符配置器（PropertyPlaceholderConfigurer）是一个容器后处理器，负责读取Properties属性文件里的属性值，并且把这些属性值设置成为spring配置文件的数据。bean的定义中可以写明某个元素的value=“${变量名}”，变量名的具体值在属性文件。<a href="context:property-placeholder...../" target="_blank" rel="noopener">context:property-placeholder...../</a>是对PropertyPlaceholderConfigurer的简化配置。</p>
-<p>重写占位符配置器（PropertyOverrideConfigurer）的属性文件指定的信息可以直接覆盖spring配置文件的元数据。这个属性文件应该保持beanid.property=value的形式。beanID是属性占位符试图覆盖的Bean的id，property是试图覆盖的属性名，也就是这个属性文件中把这个bean的所有属性值全部写明了，所以说这个配置文件中的beanid必须是容器中真实存在的bean的id。如果多次覆盖的话，那么最后一次会获胜。<a href="context:property-override...../" target="_blank" rel="noopener">context:property-override...../</a>是对PropertyOverrideConfigurer的简化配置。</p>
-<h2 id="Spring的“零配置”支持"><a href="#Spring的“零配置”支持" class="headerlink" title="Spring的“零配置”支持"></a>Spring的“零配置”支持</h2><p>在需要实例化的类前面加上注解告诉spring，注解有@Component（普通的JavaBean）、@Service（业务逻辑组件类）、@Repository（DAO组件，Data Access Object）、@Controller（控制器组件），使用前面的四种注解只能说明我们想要实例化他，还要告诉spring搜索bean的路径（context:component-scan的base-package可以指定这个包），也就是这些类的所在包（全限定名），这个包以及子包的所有类都当做JavaBean。Bean实例的名称 一般默认是Bean类的首字母小写，其他部分不变，@Component标注是指定Bean实例的名称。</p>
-<p>默认情况下。spring会搜索所有以刚才的四种注解标注的java类，把他们当成spring Bean来处理，还可以通过为&lt;component-scan……/&gt;元素添加&lt;include-filter…/&gt;和&lt;exclude-filter…./&gt;子元素，只要位于指定路径下的java类满足这两个子元素的表达式，spring同样会将他们当成bean类处理。前面两个元素的属性有type（过滤器类型）和expression。type有四种：annotation（Annotation过滤器）、assignable（类名过滤器）、regex（正则表达式过滤器）、aspectj（AspectJ过滤器）。</p>
-<p>指定Bean的作用域用@Scope（作用域），@Resource配置依赖，这个注解有一个name属性，在默认情况，spring将这个属性的值作为需要注入的Bean的实例的id，也就是说这个@Resource（name=“”）就和<property>里面的ref属性是一样的作用。这个@Resource注解不仅能修饰setter方法，还可以修饰实例变量，使用field注入，当@Resource不指定name属性的时候，name属性值就是被修饰的setter方法去掉set之后、首字母小写后得到的子串。@PostConstruct和@PreDestroy注解修饰方法的作用就和init-method以及destroy-method一样。除此之外，还有@DependsOn（强制初始化的Bean的id写成一个字符串数组），@Lazy（true）表明当spring容器初始化的时候，不会预初始化被修饰的bean。</property></p>
-<p>@Autowired注解指定自动装配，可以修饰setter方法，实例变量，普通方法和构造器等，当使用@Autowired标注setter方法的时候，默认使用byType自动装配策略。如果在容器找到了恰好一个该类型的bean就会完成依赖注入，如果找到了很多个就会出现异常，一个没找到spring就什么都不会执行。如果@Autowired修饰的是一个数组类型的成员变量就不会出现前面的问题，会把所有同类型的Bean都作为这个数组类型的成员变量的值。@Autowired也可以标注集合类型的实例变量，或者标注形参类型的集合方法，集合类型的参数必须使用泛型。还可以根据泛型进行自动装配。还可以使用@Autowired和@Qualifier（id）的组合进行精确的自动装配，但这种组合和@Resource没什么区别。</p>
-<h2 id="资源访问"><a href="#资源访问" class="headerlink" title="资源访问"></a>资源访问</h2><p>Spring为资源访问提供了一个Resource接口。这个接口有几个方法，底层有很多实现类，以下几种。、、、ByteArrayResource。</p>
-<ol>
-<li>访问网络资源：（UrlResource），通过file:前缀也可以访问本地磁盘资源，访问网络资源使用http:和ftp:前缀。</li>
-<li>访问类加载路径下的资源ClassPathResource：对于web应用，可以自动搜索WEB-INF/classes路径下的文件。</li>
-<li>文件系统资源FileSystemResource</li>
-<li>访问应用相关资源ServletContextResource：访问Web Context下相对路径下的资源，ServletContextResource接受一个代表资源位置的字符串参数，该资源位置是相对于Web应用根路径的位置。</li>
-<li>访问二进制输入流资源InputStreamResource</li>
-<li>访问字节数组资源ByteArrayResource</li>
-</ol>
-<p>spring里面有两个接口：ResourceLoader（接口实现类可以返回Resource实例）和ResourceLoaderAware（接口实现类可以获得ResourceLoader的引用）。通过ApplicationContext获得Resource实例的时候，默认采用和ApplicationContext相同的资源访问策略（也就是ApplicationContext的实现策略，比如说这个ApplicationContext是ClassPathXMLApplicationContext的话，那资源就是ClassPathResource实例）。spring进行资源访问的时候并不会确定使用哪个resource的实现类，而是通过Resourceloader确定具体的资源访问策略。典型的策略模式。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/26/20180426-spring/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1293,11 +1184,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1305,11 +1196,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1317,11 +1208,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1334,6 +1225,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">essay</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
             
             <div class="clearfix"></div>

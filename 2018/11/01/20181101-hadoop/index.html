@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/8 | Sticda</title>
+  <title>20181101-hadoop | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Sticda">
-<meta property="og:url" content="http://yoursite.com/archives/2017/08/index.html">
+  <meta name="description" content="Hadoop主要内容 Common：常用工具 Avro：用于数据序列化的系统 MapReduce：MapReduce中的Map可以将输入的键值对映射成新的键值对，然后Reduce会对所有相同key的所有value进行处理再输出键值对作为结果 HDFS：hadoop distributed file system 高容错率 Chukwa：开源数据收集系统 Hive：数据仓库，可以通过他自己的查询语言">
+<meta name="keywords" content="hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20181101-hadoop">
+<meta property="og:url" content="http://yoursite.com/2018/11/01/20181101-hadoop/index.html">
 <meta property="og:site_name" content="Sticda">
+<meta property="og:description" content="Hadoop主要内容 Common：常用工具 Avro：用于数据序列化的系统 MapReduce：MapReduce中的Map可以将输入的键值对映射成新的键值对，然后Reduce会对所有相同key的所有value进行处理再输出键值对作为结果 HDFS：hadoop distributed file system 高容错率 Chukwa：开源数据收集系统 Hive：数据仓库，可以通过他自己的查询语言">
+<meta property="og:updated_time" content="2018-11-22T10:48:44.163Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Sticda">
+<meta name="twitter:title" content="20181101-hadoop">
+<meta name="twitter:description" content="Hadoop主要内容 Common：常用工具 Avro：用于数据序列化的系统 MapReduce：MapReduce中的Map可以将输入的键值对映射成新的键值对，然后Reduce会对所有相同key的所有value进行处理再输出键值对作为结果 HDFS：hadoop distributed file system 高容错率 Chukwa：开源数据收集系统 Hive：数据仓库，可以通过他自己的查询语言">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -137,102 +142,204 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-20181101-hadoop" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/07/个人项目服务器端之数据库部分/" class="archive-article-date">
-  	<time datetime="2017-08-07T02:57:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-07</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/07/个人项目服务器端之数据库部分/">个人项目服务器端之数据库部分</a>
+    <h1 class="article-title" itemprop="name">
+      20181101-hadoop
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/11/01/20181101-hadoop/" class="archive-article-date">
+  	<time datetime="2018-11-01T02:03:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-01</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Hadoop"><a href="#Hadoop" class="headerlink" title="Hadoop"></a>Hadoop</h1><h1 id="主要内容"><a href="#主要内容" class="headerlink" title="主要内容"></a>主要内容</h1><ol>
+<li>Common：常用工具</li>
+<li>Avro：用于数据序列化的系统</li>
+<li>MapReduce：MapReduce中的Map可以将输入的键值对映射成新的键值对，然后Reduce会对所有相同key的所有value进行处理再输出键值对作为结果</li>
+<li>HDFS：hadoop distributed file system 高容错率</li>
+<li>Chukwa：开源数据收集系统</li>
+<li>Hive：数据仓库，可以通过他自己的查询语言（类似sql）查询hadoop中的数据</li>
+<li>HBase：分布式，面向列的开源数据库。表是疏松的，每一行可以有不同的列</li>
+<li>pig：对数据集进行评估和分析</li>
+<li>ZooKeeper:为分布式应用设计的开源协调服务</li>
+</ol>
+<h1 id="HDFS-体系结构"><a href="#HDFS-体系结构" class="headerlink" title="HDFS 体系结构"></a>HDFS 体系结构</h1><p>由一个NameNode和若干个DataNode组成，NameNode作为主服务器，负责管理文件系统的命名空间和外部设备对于文件的访问，而DataNode则是管理具体存储的数据，一个文件被分成若干数据块放在一些DataNode上，NameNode负责管理文件系统的命名空间，例如打开关闭重命名文件等，管理数据块和DataNode的映射关系，DataNode负责处理具体的文件读写请求，在NameNode的调度下完成数据块的具体操作，也就是DataNode对于数据块的操作需要受到NameNode的管理，用户需要保存的数据不会经过NameNode，直接流向存储数据。</p>
+<h1 id="MapReduce-体系结构"><a href="#MapReduce-体系结构" class="headerlink" title="MapReduce 体系结构"></a>MapReduce 体系结构</h1><p>一个单独运行在主节点的JobTracker和一些运行在从节点上的TaskTracker，主节点负责分发任务和配置信息，并重新执行失败的子任务，从节点就是执行主节点分发的任务。</p>
+<p>一个输入的键值对经过用户自己定义的Map函数，产生中间键值对，有一个迭代器会把具有相同键的中间键值对交给用户自定义的Reduce函数，产生最后的输出。一般来说，Reduce函数的输出是0或者1。</p>
+<p>JobTracker可以运行在集群中的任意一个节点上，但是TaskTracker只能运行在DataNode上</p>
+<p>数据分割（Partition）：将map任务输出的中间结果按照key的范围划分为R份，保证某一段范围的key是由一个reduce函数处理的。</p>
+<p>在Hadoop上运行的作业需要指明输入和输出，并通过实现合适的接口或者抽象类提供Map和Reduce函数，同时指定参数构成作业配置，JobTracker会分发作业和配置信息给TaskTracker。</p>
+<h1 id="Hadoop-数据管理"><a href="#Hadoop-数据管理" class="headerlink" title="Hadoop 数据管理"></a>Hadoop 数据管理</h1><p>分布式文件系统HDFS、分布式数据库Hbase和数据仓库工具Hive</p>
+<h2 id="HDFS"><a href="#HDFS" class="headerlink" title="HDFS"></a>HDFS</h2><p>NameNode主要负责文件系统的命名空间、集群配置信息和存储块的复制等，NameNode会将文件系统的metadata存储在内存中，这些信息包括了文件信息，每个文件对应的文件块信息以及每一个文件块在DataNode中的信息，DataNode将文件块存储在本地文件系统，保存了所有block的metadata，同时周期性的发给NameNode，client就是需要获取文件的应用程序。</p>
+<ol>
+<li>文件写入：client向NameNode发起写入文件的请求，然后NameNode会根据文件大小和文件块的信息，返回给client一堆DataNode的信息，client将文件划分为block，存入到DataNode里</li>
+<li>文件读取：client向NameNode发起读取的请求，NameNode返回给client文件对应的DataNode的信息，然后client读取。</li>
+<li>文件备份：文件有最小复制数，一般为3，也就是说这个文件在整个系统中存在3份，一份是存放在NameNode指定的DataNode上，一份存在与指定DataNode不在一台机器上的DataNode，最后一份存在与DataNode在同一个机架上的DataNode。</li>
+<li>数据管道性的写入：文件写入的时候是一个一个block的写入，先写一个block，然后备份这个block，等这个block备份完成的时候才写下一个block</li>
+<li>安全模式：刚开始启动的时候不允许文件的写入和读取，直到安全模式结束</li>
+</ol>
+<h2 id="HBase的数据管理"><a href="#HBase的数据管理" class="headerlink" title="HBase的数据管理"></a>HBase的数据管理</h2><p>HBase类似于Bigtable，稀疏的、多维度的排序映射表，表的索引有行关键字、列关键字、时间戳。数据都是字符串，没有类型，每一行可以有不同的列，列名字的格式是“<family>:<label>”，每一张表的family集合是固定不变的，只能通过改变表结构改变family集合，label是可以随便变化的。HBase的写操作是锁行的，每一行都是一个原子元素，都可以加锁</label></family></p>
+<p>由三个部分组成</p>
+<h3 id="HBaseMaster：主服务器"><a href="#HBaseMaster：主服务器" class="headerlink" title="HBaseMaster：主服务器"></a>HBaseMaster：主服务器</h3><p>一个HBase只部署一台主服务器，通过领导选举算法确保只有唯一的主服务器是活跃的，zookeeper中保留了主服务器的信息，如果主服务器瘫痪，则会利用领导选举算法从备用中选择新的。主服务器负责集群的初始化，从hdfs中获取根域目录。负责集群中域的分配、域服务器的监视</p>
+<h3 id="HRegionServer：域服务器"><a href="#HRegionServer：域服务器" class="headerlink" title="HRegionServer：域服务器"></a>HRegionServer：域服务器</h3><p>服务于主服务器分配的域，处理客户端读写请求，本地缓冲回写、本地数据压缩等，每个域只有一台域服务器，开始运行的时候会从HDFS中读取域的日志和所有的存储文件，同时管理HDFS文件的持久性存储工作</p>
+<h3 id="HBase-Client：客户端"><a href="#HBase-Client：客户端" class="headerlink" title="HBase Client：客户端"></a>HBase Client：客户端</h3><p>查找用户域所在的域服务器，从根域到元域，再到用户域所在的域服务器，之后这个地址将会被客户端缓存。</p>
+<h2 id="Hive的数据管理"><a href="#Hive的数据管理" class="headerlink" title="Hive的数据管理"></a>Hive的数据管理</h2><p>Hive是建立在Hadoop上的数据仓库基础框架，数据提取、转化、加载，Hive QL类似于SQL，按照使用层次可以分为元数据存储、数据存储和数据交换</p>
+<h3 id="元数据存储："><a href="#元数据存储：" class="headerlink" title="元数据存储："></a>元数据存储：</h3><p>元数据存在RDBMS中，三种模式可以连接到数据库：single user mode（连接到一个In-memory的数据库Derby）multi user mode（网络连接到数据库） remote server mode（非java客户端访问元数据库，在服务端启动一个metaStoreServer，客户端利用thrift协议通过MetaStoreServer访问数据库）</p>
+<h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><p>Hive没有专门的数据存储格式，创建表的时候需要让Hive知道列分隔符和行分隔符，Hive中所有的数据都存储在HDFS中，有四种数据模型：Table、External Table、Partition和Bucket</p>
+<h3 id="数据交换"><a href="#数据交换" class="headerlink" title="数据交换"></a>数据交换</h3><p>用户接口主要有client客户端、web界面以及数据库接口，hive将元数据存储在关系数据库中，解释器、编译器、优化器、执行器会负责HiveQL 的编译和执行，Hive的数据存储在HDFS中。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">hadoop</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/03/20170802/" class="archive-article-date">
-  	<time datetime="2017-08-03T03:17:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-03</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2018/11/27/20181127-hadoop/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          20181127-hadoop
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/31/20181031-git/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">20181031-git</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/03/20170802/">算是个开始吧</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop"><span class="toc-number">1.</span> <span class="toc-text">Hadoop</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#主要内容"><span class="toc-number">2.</span> <span class="toc-text">主要内容</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HDFS-体系结构"><span class="toc-number">3.</span> <span class="toc-text">HDFS 体系结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MapReduce-体系结构"><span class="toc-number">4.</span> <span class="toc-text">MapReduce 体系结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop-数据管理"><span class="toc-number">5.</span> <span class="toc-text">Hadoop 数据管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HDFS"><span class="toc-number">5.1.</span> <span class="toc-text">HDFS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HBase的数据管理"><span class="toc-number">5.2.</span> <span class="toc-text">HBase的数据管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#HBaseMaster：主服务器"><span class="toc-number">5.2.1.</span> <span class="toc-text">HBaseMaster：主服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HRegionServer：域服务器"><span class="toc-number">5.2.2.</span> <span class="toc-text">HRegionServer：域服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HBase-Client：客户端"><span class="toc-number">5.2.3.</span> <span class="toc-text">HBase Client：客户端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive的数据管理"><span class="toc-number">5.3.</span> <span class="toc-text">Hive的数据管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#元数据存储："><span class="toc-number">5.3.1.</span> <span class="toc-text">元数据存储：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据存储"><span class="toc-number">5.3.2.</span> <span class="toc-text">数据存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据交换"><span class="toc-number">5.3.3.</span> <span class="toc-text">数据交换</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
+  
+  <div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="20181101-hadoop" data-title="20181101-hadoop" data-url="http://yoursite.com/2018/11/01/20181101-hadoop/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
   
   
-    </div></section>
+  
+  <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+<script>
+  var cloudTieConfig = {
+    url: "http://yoursite.com/2018/11/01/20181101-hadoop/", 
+    sourceId: "20181101-hadoop",
+    productKey: "true",
+    target: "cloud-tie-wrapper"
+  };
+</script>
+<script src="//img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -255,8 +362,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
