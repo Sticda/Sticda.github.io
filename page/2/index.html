@@ -139,6 +139,209 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180701" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/01/20180701/">20180701</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/01/20180701/" class="archive-article-date">
+  	<time datetime="2018-07-01T06:44:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-01</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="随便说两句"><a href="#随便说两句" class="headerlink" title="随便说两句"></a>随便说两句</h2><p>这学期基本上结束了，已经进入暑假了吧，毕业一年了，今天下午把上学期学习的后台知识的博客看完了，虽然也忘得差不多了，这么多东西要记住真的很难啊，只能通过实战加深印象了，看看博客的时间就知道自己基本上没偷懒，哈哈哈，算是安慰自己吧，只有上个月没有写博客，不过感觉也不太科学啊，上个月虽然比较忙，老师一直让我干各种事，以及为写论文做实验，但是还没有这么忙，下周开始要好好学习了，真的不能偷懒了，我感觉自己真的太懒了，一年以后就要找实习了，给自己的时间不多了，给中国队的时间不多了，这一年学习java和后台实践以及算法，Java好多知识点，基础的差不多都知道了，但是感觉还差很多，慢慢来吧，相信会有进步的，LeetCode的题做了四五道就再也没打开网站了，哈哈哈，还是自己懒啊，虽然有的时候很无聊，而且注意力也不集中，真的有些苦恼，决定做完书上的这个java项目接几个项目来做做，希望自己可以越来越优秀吧，其实我也不是一点事情不干，起码自己知道了很多java的知识，需要通过实战和进一步的学习，我这个人总是喜欢给自己留期限，明天开始加油工作吧，我希望自己对得起自己，完成任务，虽然现在的自己很渣，很缺钱，花钱还大手大脚，但我相信我自己可以越来越好的，接点私活吧，不然活不下去了，哈哈哈，真的很难受啊</p>
+<p>我这个人就是容易学着学着突然没了目标，没了动力，不知道为什么，但我又不想开始养老，所以我想努力，想奋斗，想挣钱，希望我自己加油吧，哈哈哈就写这些吧，没什么写的了，健身，后台，算法，挣钱，刚把得</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/01/20180701/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20180521-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/21/20180521-spring/">20180521 spring</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/21/20180521-spring/" class="archive-article-date">
+  	<time datetime="2018-05-21T06:07:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-21</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Spring整合Hibernate"><a href="#Spring整合Hibernate" class="headerlink" title="Spring整合Hibernate"></a>Spring整合Hibernate</h2><p>使用spring容器管理SessionFactory，spring就可以将SessionFactory注入应用的DAO组件中，对于spring和hibernate的整合，spring推荐调用SessionFactory的getCurrentSession方法获取hibernate session，剩下的持久化操作和直接使用hibernate持久化操作的代码基本相同。</p>
+<p>为了简化应用中DAO组件的设计，所以我们考虑将所有的DAO组件都需要的方法提取出来，由一个BaseDao实现，这样其他的组件只需要继承这个BaseDao即可。</p>
+<p>上面是spring和hibernate4整合的方式，但是传统的hibernate3的整合方式有一些不一样。</p>
+<p>spring为了整合hibernate3提供了HibernateTemplate和HibernateDaoSupport两个工具类，hibernateTemplate提供了持久层访问模板化，他只需要一个SessionFactory，这个参数的传入既可以通过构造参数传入，也可以通过设值参数注入。</p>
+<p>spring为开发者实现DAO组件提供了工具基类：HibernateDaosupport，这个工具类里面也有获取HibernateTemplate的方法，归根到底是利用HibernateTemplate操作，可以通过HibernateCallback对象执行查询。这个接口包含了doInHibernate方法，参数是session类型，当程序实现hibernatecallback的时候必须实现这个方法。在这个方法体内可以获得hibernate session的引用。后面这种方式不推荐。</p>
+<p>有了BaseDao之后就可以通过继承接口，指定对应的泛型类型实现普通的DAO组件。这个普通的DAO组件就可以定义一些和业务相关的查询方法，最后我们就可以通过实现普通的DAO组件接口，并且继承实现了BaseDao的实现类，指定泛型，就可以完成设计。</p>
+<p>IoC容器先创建SessionFactory和DataSource等底层组件，然后将这些底层组件注入给DAO组件，提供一个完整的DAO组件，并将此DAO组件注入到业务逻辑组件，从而提供一个完整的业务逻辑组件，而业务逻辑组件又被注入给控制器组件，控制器组件负责拦截用户请求，并将处理结果呈现给用户。</p>
+<p>在实际应用中，很少会将DAO组件、业务逻辑组件以及控制器组件配置在同一个文件中，而是将不同的java EE组件配置在不同的配置文件中。</p>
+<p>spring只需要在配置文件中增加事务控制片段，</p>
+<ol>
+<li>针对不同的事务策略配置对应的事务管理器。</li>
+<li>使用tx:advice元素配置事务增强处理Bean，配置事务增强处理Bean使用多个method子元素为不同的方法指定相应的事务语义。</li>
+<li>aop:config元素中使用aop:advisor元素配置自动事务代理。</li>
+</ol>
+<h2 id="常见设计模式"><a href="#常见设计模式" class="headerlink" title="常见设计模式"></a>常见设计模式</h2><p>模式是有三个部分组成的通用规则，一个特定环境，一类问题和一个解决方案，软件领域的设计模式是对处于特定环境下，经常出现的某类软件开发问题的，一种相对成熟的设计方案。</p>
+<p>设计模式被分为以下三类：</p>
+<ol>
+<li>创建型：创建对象时不直接新建对象，而是根据特定场景进行选择。</li>
+<li>结构型：将多个对象组织成更大的结构。</li>
+<li>行为型：用于帮助系统间对象的通信，以及如何控制复杂系统中的流程。</li>
+</ol>
+<p>A调用B称为A依赖于B,</p>
+<ol>
+<li>单例模式：一个类始终只能创建一个实例，spring推荐将所有业务逻辑组件、DAO组件、数据源组件等配置成单例模式。也可以手动实现（需要缓存已经创建的实例，隐藏构造器，提供public方法作为该类访问点）。</li>
+<li>简单工厂：将多个类对象交给工厂类来生成的设计方式。（A类调用B对象的时候，不需要自己新建B类的对象，让B类实现一个接口，通过定义了一个B类的工厂类，A类只需要调用B类的工厂类就可以得到B的实例。这个时候A类不但需要和工厂类耦合，还要和B类的接口耦合。）<strong>接口也可以定义类</strong></li>
+<li>抽象工厂模式：简单工厂是由一个工厂类决定逻辑判断，工厂方法则是不同的工厂类生产不同的产品。然后再增加一个工厂类，用来生成不同的工厂类，这个特殊的工厂类被称为抽象工厂类。</li>
+<li>代理模式：当客户端代码需要调用某个对象时，客户端并不一定需要某个对象，只需要一个能提供功能的对象，这时就可以返回该对象的代理。系统会为某个对象提供代理对象，客户端面向接口编程，它仅仅持有一个被代理对象的接口。除了出于性能考虑使用代理模式之外，代理模式还有另一种常用场景：当目标对象的功能不足以满足用户需求的时候，代理对象可以增强原目标对象的功能。JDK动态代理利用InvocationHandler实现类和Proxy类。</li>
+<li>命令模式：某个方法需要完成一个功能，但是这个功能的一些具体步骤无法确定，必须等到执行该方法的时候才可以确定，Java8开始支持的Lambda表达式可以传入一个代码块作为参数。在java语言中，传入该方法的应该是某个接口的匿名实现类的实例，该接口通常被称为命令接口。</li>
+<li>策略模式：该模式用于封装系列的算法，这些算法通常被封装在一个Context的类中，客户端程序可以自由选择。</li>
+<li>门面模式：这种模式用于将一组复杂的类包装到一个简单的外部接口中。使用了门面模式之后，客户端代码只需要和门面类进行交互。Java EE应用里使用业务逻辑组件来封装DAO组件也是典型的门面模式。</li>
+<li>桥接模式：由于实际需要，某个类具有两个或两个以上的维度变化，桥接模式的做法就是把变化部分抽象出来，使变化部分与主类分开，最后提供一个管理类组合不同维度上的变化。</li>
+<li>观察者模式：让一个或者多个观察者对象观察一个主体对象，当主体对象的状态发生改变的时候，系统能够通知所有依赖于此对象的观察者对象，从而使得观察者对象能够自动更新。被观察者的抽象基类Observable、观察者接口Observer、被观察者实现类（继承Observable基类）、观察者实现类（实现Observer接口）</li>
+</ol>
+<h2 id="常见的架构设计策略"><a href="#常见的架构设计策略" class="headerlink" title="常见的架构设计策略"></a>常见的架构设计策略</h2><p>目前轻量级的Java EE应用的架构比较统一，使用Spring作为核心，向上整合MVC框架，向下整合ORM框架，使用Spring的IoC容器来管理各组件的依赖关系，Spring的声明事务将负责业务逻辑层组件的事务管理。业务逻辑层需要把Domain Object和DAO对象组织在一起，执行持久化操作。</p>
+<ol>
+<li>贫血模式（阉割过的面向对象）：Domain Object只是单纯的数据类（属性组合，并且提供setter和getter方法），不包含业务逻辑方法，业务逻辑由业务逻辑组件实现。</li>
+<li>领域对象模型（完整的面向对象编程）：每个java类都应该提供与其相关的业务方法，这种模型的问题是业务逻辑组件比较负责，该组件需要作为DAO组件的门面，还需要包装Domain Object里的业务逻辑方法，暴露这种业务逻辑方法，让Action可以调用。</li>
+<li>合并业务逻辑对象和DAO对象：DAO对象包含了各种CRUD方法，还包含了各种业务逻辑方法。</li>
+<li>合并业务逻辑对象和Domain Object：业务逻辑都放在Domain object里面，业务逻辑层基本上已经没有内容，DO直接依赖于DAO对象进行持久化操作，如果将事务控制、权限控制等逻辑以AOP形式织入到DO中，就可以不要业务逻辑层了。</li>
+</ol>
+<p>抛弃业务逻辑层有两种形式：</p>
+<ol>
+<li>DO彻底取代业务逻辑对象</li>
+<li>控制器完成业务逻辑</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/21/20180521-spring/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180514-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1176,263 +1379,6 @@
 
 
   
-    <article id="post-20180402-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/02/20180402-struts/">20180402 struts</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/02/20180402-struts/" class="archive-article-date">
-  	<time datetime="2018-04-02T00:49:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-02</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="struts2-拦截器"><a href="#struts2-拦截器" class="headerlink" title="struts2 拦截器"></a>struts2 拦截器</h2><p>在struts.xml文件中指定使用特定的拦截器，在struts-default.xml文件中以name-class的形式配置了很多的拦截器。</p>
-<p>配置拦截器最简单的格式</p>
-<pre><code>&lt;interceptor name=“拦截器名”  class=“拦截器实现”/&gt;
-</code></pre><p>如果拦截器需要配置参数的话只需要在其中使用param子标签。除此之外还可以定义拦截器栈，使用&lt;interceptor-stack…/&gt;元素定义拦截器栈，同时还需要在其中利用&lt;interceptor-ref…./&gt;元素来定义多个拦截器引用。</p>
-<p>拦截器栈和拦截器的功能几乎完全相同，所以有可能出现的情况就是拦截器栈里也可以包含拦截器栈（这种方式的存在就是为了软件复用，因为之前已经使用该拦截器栈定义了我们需要在新的拦截器栈中使用的拦截器）。</p>
-<p>拦截器指定参数的时机就只有两个，一个是在定义拦截器的时候配置的默认参数（interceptor标签里的param子标签），还有一个使用拦截器的时候配置的参数（interceptor-ref标签里的param子标签）。使用拦截器的时候是在action里面配置interceptpr-ref，一般使用自己的拦截器之前会先调用defaultStack。</p>
-<p>每一个包都可以配置自己的默认拦截器，default-interceptor-ref标签可以配置默认拦截器，name属性就是已经定义过的拦截器，一个包只能定义一个默认拦 截器，这个包里的某个action要是没有指定拦截器，那么默认的拦截器将会起作用。如果为该包中的Action显式应用了某个拦截器，则默认的拦截器不会起作用，但如果还想继续使用默认拦截器，必须再次手动配置。</p>
-<p>用户想实现自己的拦截器类应该实现com.opensymphony.xwork2.interceptor.Interceptor接口，三个函数分别是init（初始化之前调用）、destroy（销毁之前调用）、intercept。如果自定义的拦截器不需要实现init和destroy函数则只需要继承AbstractInterceptor类，intercept方法中的参数ActionInvocation包含了被拦截Action的引用，ActionInvocation的invoke方法。</p>
-<p>如果为一个Action指定了拦截器，又想继续使用默认的拦截器，必须再次配置。</p>
-<h3 id="拦截方法的拦截器"><a href="#拦截方法的拦截器" class="headerlink" title="拦截方法的拦截器"></a>拦截方法的拦截器</h3><p>如果为某个Action指定了拦截器，那么这个拦截器会拦截该Action里面的所有方法，为了实现方法过滤，可以实现MethodFilterInterceptor类，该类是AbstractInterceptor类的子类，MethodFilterInterceptor类重写了父类的intercept方法，但提供了dointercept方法，这个类中额外增加了两个方法setExcludeMethods（String）、和setIncludeMethods（String），exclude就是不需要拦截的方法，include就是需要拦截的方法，参数的字符串中包含了方法，如果某个方法同时出现在了上面的两个函数中，则这个函数会被拦截。也可以在使用拦截器的时候，在Action中配置interceptor-ref的时候可以在param中配置，name是excludeMethods，参数值用逗号隔开。</p>
-<p><strong>拦截器的执行顺序：在Action的控制方法（action里面配置的method）执行之前，位于拦截器链的前面拦截器将先发生作用，在Action的控制方法执行之后，位于拦截器链前面的拦截器将后发生作用。</strong></p>
-<h3 id="拦截结果的监听器"><a href="#拦截结果的监听器" class="headerlink" title="拦截结果的监听器"></a>拦截结果的监听器</h3><p>之前的控制方法执行之前和之后都是在intercept函数里面写明的，为了解决结构不清晰的问题，所以struts2提供了拦截结果的监听器，PreResultListener监听器，里面有一个beforeResult的函数可以定义在处理Result之前的行为。可以把这个监听器注册在我们自己定义的监听器里。</p>
-<p><strong>不要在PreResultListener监听器的beforeResult方法中通过ActionInvocation参数调用invoke（）方法，</strong>会造成死循环。</p>
-<p>如果需要在使用拦截器栈时直接覆盖某个拦截器的属性值，则在指定需要被覆盖的属性时，不能只指定属性名，必须加上该属性属于的拦截器名，即采用如下形式：&lt;拦截器名&gt;.&lt;属性名&gt;。</p>
-<h2 id="使用struts2-的Ajax支持、"><a href="#使用struts2-的Ajax支持、" class="headerlink" title="使用struts2 的Ajax支持、"></a>使用struts2 的Ajax支持、</h2><p>Ajax（Asynchronous JavaScript And XML）异步JavaScript和XML技术：浏览者和服务器之间采用异步通信机制，当服务器响应成功返回到浏览器，浏览器使用DOM（Document Object Model）将服务器响应装载到当前页面的指定容器内。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/02/20180402-struts/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20180326-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/26/20180326-struts/">20180326 struts</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/26/20180326-struts/" class="archive-article-date">
-  	<time datetime="2018-03-26T01:28:15.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-26</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="数据标签"><a href="#数据标签" class="headerlink" title="数据标签"></a>数据标签</h2><p><strong>Action标签</strong>里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。</p>
-<p><strong>bean标签</strong>的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置JavaBean的属性值只能通过bean属性的子标签。</p>
-<p><strong>date标签</strong>的var属性也会把格式化后的字符串放入Stack Context，并放入requestScope中。</p>
-<p><strong>include标签</strong>用于将jsp页面或者servlet包含到本页面，value属性指定被包含的页面，要传入参数的话需要利用param子标签。<strong>param这个标签</strong>就是name和value参数。可以省略value标签，用param标签把value包在里面。</p>
-<p><strong>push标签</strong>的主要作用就是把某个值放到ValueStack的栈顶，只有在push标签内，被push标签放入VaLueStack中的对象才存在，一旦离开了push标签，刚刚放入的对象就会被立刻溢出ValueStack。</p>
-<p><strong>set标签</strong>用于将某个值放入指定范围内。属性有scope、value(未指定的话就是ValueStack栈顶的值)、var（指定属性后将该值放入ValueStack）。</p>
-<p><strong>url标签</strong>用于生成URL地址（value属性指定要输出的属性值，要是没有指定，则默认输出ValueStack）。</p>
-<p>Struts 2允许在同一个视图界面使用不同的主题，如果需要改变表单的主题需要改变表单标签的theme属性，如果需要让某次用户会话使用特定的主题，可以通过在session中设置一个theme的变量，如果需要改变某个应用的主题，则可以通过修改struts.ui.theme实现。</p>
-<h2 id="Struts2-的类型转换机制"><a href="#Struts2-的类型转换机制" class="headerlink" title="Struts2 的类型转换机制"></a>Struts2 的类型转换机制</h2><p>Struts2提供了类型转化机制，http请求参数都是字符串类型，所以需要转化为自定义类型，字符串与基本类型之间的转化struts2已经实现。</p>
-<p>如果在Action的定义文件中直接指定了某些集合变量的泛型，就可以直接在jsp文件中写明某个参数的name是集合变量的哪个元素的哪个属性。</p>
-<p>将一个字符串转换为一个复合对象，需要重写DefaultTypeConverter类的convertValue（Map context，Object value，Class toType）方法，这个方法需要完成双向转化，也就是要根据toType的类型转换，value是需要转换的东西，必须要注意的是字符串向自定义类型转换的时候value是一个字符串数组，因为请求参数类型就是一个字符串数组，如果只有一个请求参数那么获得的就是长度为1的数组。</p>
-<p>简化版的DefaultTypeConverter是StrutsTypeConverter抽象类，两个方法分别是convertFromString和convertToString。</p>
-<p>如果说开发者没有在定义Action的时候指明集合元素的类型，也可以使用<strong>局部类型转换文件</strong>指定集合元素的类型，文件名为ActionName-conversion.properties形式。</p>
-<p>对于某个具体的action起作用的类型转换器就可以在该action的局部类型转换文件中写明。如果properties文件中包含了非西欧字符则需要使用native2ascii命令处理该文件。</p>
-<p>注册全局类型转换器需要提供xwork-conversion.properties文件，放在WEB-INF/classes文件夹下，内容就是某个类的全限定名=某个转换器的全限定名。</p>
-<p>Action中一般不使用set，因为set中的元素都是无序状态，但是如果为这些元素指定了索引属性，就不存在这个问题了。 索引属性必须是set集合中元素的属性，除了在局部类型转换文件中通过代码明确set集合中元素的索引属性之外，还需要在set中的元素的定义中重写equals和hascode方法来确保索引属性是某个元素。</p>
-<p>在OGNL表达式中访问set元素使用的是圆括号，但对于数组、list和map，则通过方括号访问指定元素。struts2为转换类型错误注册了名为conversionError的拦截器，处理异常之后系统会跳转到名为input的逻辑视图中。想要输出类型转换错误可以使用&lt;s:fielderror/&gt;，如果特定的字段类型转换出现了问题想要输出特定的提示信息，则可以在局部类型文件中设置。</p>
-<pre><code>&lt;s:textfield name=&quot;users[%{#stat.index}]&quot;&gt;和
-&lt;s:property name=&quot;#user.name&quot;&gt;
-两个的区别是前面那个users里面是字符索引，
-如果直接写users[#stat.index]会出错，
-因为struts不能把里面的部分识别为OGNL，加上%{}的作用就是为了告诉系统stat.index是OGNL表达式
-</code></pre><h2 id="struts的国际化"><a href="#struts的国际化" class="headerlink" title="struts的国际化"></a>struts的国际化</h2><p>国际化步骤：1.让系统加载国际化资源文件；2输出国际化。</p>
-<p>加载国际化资源的方式有两种：Action范围的和包范围的国际化可以自动加载；jsp范围、全局范围的国际化资源文件分别使用标签和配置常量的方式。<br>输出国际化的方式也有两种：struts的标签、ActionSupport类中的getText（）方法。</p>
-<p>在JSP页面中指定国际化资源需要&lt;s:i18n&gt;，作为输出标签的父标签会好一点，因为会自动加载国际化资源文件。text标签可以利用name属性从资源文件中取值，如果是form标签则利用key属性取值。</p>
-<p>可以单独为Action定义一个国际化资源文件，在Action类文件所在的路径建立ActionName_language_country.properties的文件，可以自动加载。</p>
-<p>包范围内的国际化资源文件也可以自动加载，package_\&lt;language>_\&lt;country>.properties，该包下的所有action都可以使用这些资源文件。<strong>当包范围和Action范围的资源文件同时存在的时候，系统将优先使用Action范围的资源文件。</strong></p>
-<p><strong>在实际项目中推荐使用Action范围的国际化资源</strong>，所有的action的资源文件放在一起管理会很复杂。</p>
-<p>在struts.xml或者struts.properties文件中配置常量只需要配置struts.custom.i18n.resources常量即可加载全局国际化资源文件，全局国际化资源文件中只保存对于全局有效的东西，如果把所有的国际化资源消息放在一个文件里，很难维护。</p>
-<p>JSP页面中对应的国际化资源文件中有占位符，也就是说消息类似于“welcome={0}，您好！”在text标签中指定name为welcome来展示这条消息，需要利用param子标签为该占位符提供参数。在Action中通过getText获取国际化消息资源，所以现在通过getText里面增加参数来完成占位符的填充；还可以直接在国际化资源文件中使用EL表达式。</p>
-<p>某个XXXAction加载资源文件的顺序是先加载baseName为XXXAction的资源文件，找不到的话找父类Action的baseName同名资源文件，再找不到就找XXXAction实现接口 的资源文件，还找不到就找XXXAction所在的包下的资源文件，找不到就不断上溯，到顶层包还没找到就查找struts.custom.i18n.resources常量指定的baseName的资源文件。再找不到就只能输出key的值了。</p>
-<p>在JSP中访问国际化消息，使用&lt;s:i18n…/&gt;作为text和form标签的父标签，直接会从i18n指定的资源文件中查找key对应的消息，找不到就在struts.custom.i18n.resources中查找，找不到就直接输出key的值。</p>
-<h2 id="输入校验"><a href="#输入校验" class="headerlink" title="输入校验"></a>输入校验</h2><p>struts2提供了基于框架的输入校验，不需要编写代码，只需要编写简单的配置文件，每个Action都有自己的校验文件，ActionName-validation.xml中配置校验规则，保存在同路径下，&lt;validators…./&gt;元素可以包含field-validator（字段校验器）或者validator元素（非字段校验器），如果校验失败（不符合校验规则）也会重新返回到“input” 的逻辑视图中。</p>
-<p>类型转换失败的提示信息和输入校验失败的提示信息都被封装成FieldError，并被放入Action Context，并且使用“&lt;s:fielderror&gt;”标签输出提示信息，如果开发者使用了Struts2的表单标签生成表单，那么表单标签会自动输出错误提示。客户端校验只需要把输入页面的表单使用struts2标签生成，除此之外为form元素增加validate=“true”属性。</p>
-<p>客户端校验支持的种类有限，浏览者不能够直接访问启用了客户端校验的表单页，可以放在WEB-INF下，客户端使用全局的国际化资源文件，不能使用Action范围的国际化资源文件。</p>
-<p>校验规则的根元素是validators</p>
-<h4 id="字段校验器风格（推荐使用）"><a href="#字段校验器风格（推荐使用）" class="headerlink" title="字段校验器风格（推荐使用）"></a>字段校验器风格（推荐使用）</h4><pre><code>&lt;field name=&quot;被校验的字段&quot;&gt;
-    &lt;field-validator type=&quot;校验器名&quot;&gt;
-        &lt;!--此处需要为不同校验器指定数量不等的校验参数 --&gt;
-        &lt;param name=“参数名”&gt;参数值&lt;/param&gt;
-        ………………
-        &lt;!-- 校验失败后的提示信息，其中key指定国际化资源文件中的key --&gt;
-        &lt;message key=&quot;I18Nkey&quot;&gt;校验失败以后的提示信息&lt;/message&gt;
-    &lt;/field-validator&gt;
-    &lt;!-- 如果该字段需要满足多个规则，下面可以配置多个校验器--&gt;
-    ………………
-&lt;/field&gt;
-</code></pre><h4 id="非字段校验器风格"><a href="#非字段校验器风格" class="headerlink" title="非字段校验器风格"></a>非字段校验器风格</h4><pre><code>&lt;validator type=&quot;校验器名&quot;&gt;
-    &lt;param name=&quot;fieldName&quot;&gt;需要校验的字段名&lt;/param&gt;
-    &lt;param name=&quot;校验器需要的参数名&quot;&gt;参数值&lt;/param&gt;
-    ………………
-    &lt;!--校验失败以后的提示信息，其中key指定国际化信息的key --&gt;
-    &lt;message key=&quot;I18Nkey&quot;&gt;校验失败以后的提示信息，这里修改的是I18Nkey&lt;/message&gt;
-&lt;/validator&gt;
-</code></pre><h4 id="短路校验器"><a href="#短路校验器" class="headerlink" title="短路校验器"></a>短路校验器</h4><p>在指明过滤器类型的同时，还可以设置short-circuit属性（validator元素和field-validator元素），这个属性的默认值是false，设置为true之后的效果就是如果同一个字段排在前面的校验器校验失败，那么校验就会直接结束，返回失败信息。</p>
-<p>之前我们提到过每一个action都有自己的校验文件，但是某个action里面可能会通过method配置若干逻辑Action，这时候的校验文件名ActionName-ActionAliasName-validation.xml，这里的ActionAliasName就是在配置Action的时候指明的name属性。</p>
-<p>校验文件的查找规则是从上到下，先查找父类以及父类的别名检验文件，然后再查找本身以及本身别名的校验文件。如果出现冲突，后面的校验文件配置覆盖前面的。所有非字段校验器会优先于字段校验器执行；非字段校验器校验失败，所有的字段校验器将不会被执行；前面的某个非字段校验器校验失败，并不会影响其他的非字段校验器；如果某个字段校验器校验失败，那么之后的字段校验器也不会被执行。</p>
-<h3 id="struts2提供的校验器"><a href="#struts2提供的校验器" class="headerlink" title="struts2提供的校验器"></a>struts2提供的校验器</h3><p>如果开发者开发了一个自己的校验器，则可以通过添加一个validators.xml文件，放在classes目录下，validator元素里的name是校验器类型，class指定的是校验器的实现类（全限定名）,就可以注册自己的校验器了，而且存在的一个问题就是吐过struts2发现在WEB-INF/classes目录下有一个validators.xml的话就不会再去加载系统默认的default.xml文件了，所以需要把default.xml中的内容全部复制到自定义的validators.xml中。下面的校验器都可以直接添加message属性表示校验失败之后的输出信息。</p>
-<ol>
-<li>必填检验器：校验器名为required，要求指定字段必须有值</li>
-<li>必填字符串校验器：名称为requiredstring，trim参数默认为true（截断字符串前后的空白）</li>
-<li>整数校验器：可以为int、short、long，参数类型有min、max</li>
-<li>日期校验器：名称为date，参数有min、max，进行日期转换的时候默认使用struts.properties里面指定的Locale，或者系统默认的Locale的Date.SHORT格式进行日期转换。 </li>
-<li>表达式校验器：名称为expression，非字段校验器，不可以在字段校验器中使用，OGNL表达式返回结果为true表示校验通过，否则没有通过，这个逻辑表达式是基于ValueStack进行求值。</li>
-<li>字段表达式校验器：名称为fieldexpression，expression参数可以基于ValueStack指定一个逻辑表达式，true则验证通过。</li>
-<li>邮件地址校验器：名称为email，推荐使用正则表达式校验器实现功能。</li>
-<li>网址校验器：名称为url，推荐使用正则表达式校验器实现功能。</li>
-<li>Visitor校验器：可以校验一个比较复杂的field，比如说这个field是一个自定义类，我们要对类中的某一个字段进行校验，参数有context（指定校验文件的context）和appendPrefix（指定校验失败之后是否添加message指定的消息，这个参数的值是Boolean类型的），需要在自定义类的相同路径下添加“类名字+context（visitor校验器中需要指定)-validator.xml“，在这个文件中就是针对自定义类进行校验。</li>
-<li>转换校验器：名称是conversion，检查被校验字段在类型转换过程中是否出错，repopulateField参数表明类型转换失败之后返回input界面，表单域是否保留原来的错误输入（true是保留）。</li>
-<li>字符串长度校验器：名称是stringlength，要求被校验字段的长度必须在指定的范围之内，参数有minLength和maxLength，trim（检验该字段前是否截短字段值前后的空白）</li>
-<li>正则表达式校验器：名称是regex，检查被校验字段是否符合匹配一个正则表达式，参数中的regex就指明匹配用的正则表达式，caseSensitive是否区分大小写。</li>
-</ol>
-<p>可以通过在Action类中通过注解指定校验规则。需要使用验证器注解修饰Action里各成员变量对应的setter方法。</p>
-<h3 id="手动完成输入校验"><a href="#手动完成输入校验" class="headerlink" title="手动完成输入校验"></a>手动完成输入校验</h3><p>在Action定义过程中重写ActionSupport类的validate方法，除此之外，一个Action类里可以有很多逻辑Action，也就是通过不同的method指定的逻辑Action，validate会校验所有的处理逻辑，Action可以增加validateXXX（）方法，就可以处理相应的逻辑Action。某个Action类里先调用validateXxx方法，然后调用validate方法，如果输出错误信息，这种方式不会像标签那样自动输出错误提示信息，而是要显式的利用&lt;s:fielderror&gt;标签输出。</p>
-<h3 id="使用struts2控制文件上传"><a href="#使用struts2控制文件上传" class="headerlink" title="使用struts2控制文件上传"></a>使用struts2控制文件上传</h3><p>上传文件时需要将表单的method设置为post，并且将enctype设置为multipart/form-data。&lt;s:file&gt;可以提供一个用于生成一个文件上传域，这个文件上传的Action里面封装了3个变量，File upload（封装上传文件域）、String uploadContentType、String uploadFileName、String savepath（在struts.xml中配置Action的时候配置的变量），有时候需要对浏览者上传的文件进行过滤，</p>
-<ol>
-<li>在action中定义一个用来过滤文件的方法，这个方法的名字是任意的，它的作用就是在validate方法中被调用。</li>
-<li>为了可以动态的配置允许上传的文件类型，为该Action增加了一个allowTypes属性（在action类中的所有变量（都有setter和getter方法），如果页面中提交到Action的变量里有我们想要的变量，那就可以直接用，如果页面里没有，那么就需要在struts.xml中配置action的地方指明这些变量的值）。</li>
-<li>在validate方法中调用第一步中的方法，如果不符合要求，就需要把错误提示添加到FieldError中。</li>
-</ol>
-<p>可以通过拦截器实现文件过滤，struts2提供的文件上传的拦截器是fileUpload，这个拦截器需要指定两个参数，allowedType（多个文件类型中间用逗号）、maximumSize（单位是字节），除此之外还必须显示的配置defaultStack的拦截器引用。</p>
-<p>Struts2的文件下载：该Action需要提供一个返回InputStream流的方法（这个方法将作为被下载文件的入口，而且要用在配置stream类型结果时指定inputName参数，参数值就是这个参数去掉get前缀、首字母小写的字符串，主要利用ServletContext提供的getResourceAsStream方法），某个action类在struts.xml中配置返回结果的类型为stream，需要指定四个属性：contentType（文件类型）、inputName（之前定义的返回stream的方法的参数）、contentDisposition（指定下载的文件名）、bufferSize（缓冲大小）。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/26/20180326-struts/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1522,6 +1468,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -1534,15 +1484,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">jsp</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1550,15 +1492,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color1">essay</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">essay</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">

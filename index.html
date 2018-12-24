@@ -139,20 +139,20 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-20181127-hadoop" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20181224" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/11/27/20181127-hadoop/">20181127-hadoop</a>
+      <a class="article-title" href="/2018/12/24/20181224/">20181224</a>
     </h1>
   
 
         
-        <a href="/2018/11/27/20181127-hadoop/" class="archive-article-date">
-  	<time datetime="2018-11-27T11:29:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-27</time>
+        <a href="/2018/12/24/20181224/" class="archive-article-date">
+  	<time datetime="2018-12-24T01:36:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-24</time>
 </a>
         
       </header>
@@ -174,7 +174,151 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/11/27/20181127-hadoop/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/12/24/20181224/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20181217" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/16/20181217/">20181217</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/16/20181217/" class="archive-article-date">
+  	<time datetime="2018-12-16T09:42:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-16</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Bean-的生命周期"><a href="#Bean-的生命周期" class="headerlink" title="Bean 的生命周期"></a>Bean 的生命周期</h3><p>BeanPostProcessor接口里面的postProcessBeforeInitialization（还没有开始初始化）-&gt; InitializingBean里面的afterPropertiesSet（属性被设置之后）-&gt;init-method(bean的声明定义中) -&gt; BeanPostProcessor接口里面的postProcessBeforeInitialization(初始化完成）-》用完之后-》DisposableBean里面的destory方法-》destory-method（Bean 的声明定义中指明的自定义方法）</p>
+<h3 id="ComponentScan"><a href="#ComponentScan" class="headerlink" title="ComponentScan"></a>ComponentScan</h3><p>spring自动扫描和这个注解在同一个包下所有带了@Component的类，创建Bean，@component和@controller、service、repository一样，componentscan里面可以加basePackages（string数组是包名）和BasePackageClasses（类或者接口所在的包），没有匹配的bean时会抛出异常，@Autowired可以设置required属性为false避免抛出异常。</p>
+<h3 id="Java-Config"><a href="#Java-Config" class="headerlink" title="Java Config"></a>Java Config</h3><p>@Configuration类里的@Bean注解告诉spring返回一个bean，bean id默认是方法名，@Bean修饰的方法并不会每一次返回不同的实例，默认实例是单例模式，只要是调用过一次，就会拦截再次调用，直接返回之前的实例。</p>
+<h3 id="环境与profile"><a href="#环境与profile" class="headerlink" title="环境与profile"></a>环境与profile</h3><p>@Profile会指定哪个Bean属于哪一个profile，可以修饰方法和类，在xml中beans元素的属性profile可以指定，xml中beans下面可以嵌套定义beans，spring.profile.active和spring.profile.default表明激活的profile是哪个，在测试环境中使用@ActiveProfile表明启动哪个profile</p>
+<h3 id="条件化Bean"><a href="#条件化Bean" class="headerlink" title="条件化Bean"></a>条件化Bean</h3><p>@Conditional注解的括号里是实现了condition接口的类，通过这个类得到一个boolean，如果是true的话就创建Bean，false就不，这个condition接口实现的方法有两个参数，一个是ConditionContext，可以获得很多关于应用的信息，另一个是AnnotatedTypeMetadata，可以获得同一类下面的其他注解。@Profile就是一个@conditional类型的注解</p>
+<h3 id="限定自动装配的Bean"><a href="#限定自动装配的Bean" class="headerlink" title="限定自动装配的Bean"></a>限定自动装配的Bean</h3><p>@Qualifier是可以限制选择谁作为装配的Bean，括号里面是bean id的字符串，但是当某个类被重构之后，bean id就会发生变化，可以通过@Qualifier为某个类指定特殊的限定符，不使用bean id作为限定符，这样就不害怕某个类的类名发生变化，但是还有一种可能就是又会出现重复，所以可以自定义注解，通过继承@Qualifier就可以实现限定，将自定义注解标注到需要注入的地方和类定义的地方，就可以保证唯一的注入。</p>
+<ol>
+<li>同时有多个bean满足自动装配的条件的话可以利用@Primary指定首要加载。</li>
+<li>所有使用@Component注解声明的类都会创建为bean，并且id是首字母变为小写的类名。</li>
+<li>c命名空间和正常版的区别：正常版(constructor-arg)可以注入列表，但是c-命名空间不可以</li>
+<li>@Import导入java config，@ImportResource导入xml文件</li>
+<li>classpath 路径在每个J2ee项目中都会用到，即WEB-INF下面的classes目录，所有src目录下面的java、xml、properties等文件编译后都会在此。</li>
+<li>@Scope作用域有四个：prototype是指每次注入或者每次通过spring应用上下文获取的时候都是不同的，ConfigurableBeanFactory和WebApplicationContext下面的常量是scope的value，scope 的另外一个参数proxyMode属性解决了将会话或者请求bean注入到单例bean里的问题，spring会注入一个代理类，然后单例类真正调用其他类的时候，才会去把调用委托给真实存在的类，ScopedProxyMode.INTERFACES(抽象类或者接口) ;ScopedProxyMode.TARGET_CLASS(如果是具体的类，必须使用CGLib生成基于类的代理)</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/16/20181217/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20181203" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/02/20181203/">20181203</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/02/20181203/" class="archive-article-date">
+  	<time datetime="2018-12-02T11:37:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-02</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/02/20181203/">展开全文 >></a>
         </p>
       
 
@@ -262,6 +406,7 @@
 <h3 id="元数据存储："><a href="#元数据存储：" class="headerlink" title="元数据存储："></a>元数据存储：</h3><p>元数据存在RDBMS中，三种模式可以连接到数据库：single user mode（连接到一个In-memory的数据库Derby）multi user mode（网络连接到数据库） remote server mode（非java客户端访问元数据库，在服务端启动一个metaStoreServer，客户端利用thrift协议通过MetaStoreServer访问数据库）</p>
 <h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><p>Hive没有专门的数据存储格式，创建表的时候需要让Hive知道列分隔符和行分隔符，Hive中所有的数据都存储在HDFS中，有四种数据模型：Table、External Table、Partition和Bucket</p>
 <h3 id="数据交换"><a href="#数据交换" class="headerlink" title="数据交换"></a>数据交换</h3><p>用户接口主要有client客户端、web界面以及数据库接口，hive将元数据存储在关系数据库中，解释器、编译器、优化器、执行器会负责HiveQL 的编译和执行，Hive的数据存储在HDFS中。</p>
+<h1 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h1><p>Map函数会接受一个&lt;key,value&gt;的形式的输入，并且产生同样形式的中间输出，Hadoop会将所有具有相同key的value集合在一起传递给Reduce函数，Reduce接受一个&lt;key,list of values&gt;形式的输入，然后对这个value集合进行处理并且输出结果</p>
 
       
 
@@ -896,209 +1041,6 @@
 
 
   
-    <article id="post-20180701" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/01/20180701/">20180701</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/01/20180701/" class="archive-article-date">
-  	<time datetime="2018-07-01T06:44:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-01</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="随便说两句"><a href="#随便说两句" class="headerlink" title="随便说两句"></a>随便说两句</h2><p>这学期基本上结束了，已经进入暑假了吧，毕业一年了，今天下午把上学期学习的后台知识的博客看完了，虽然也忘得差不多了，这么多东西要记住真的很难啊，只能通过实战加深印象了，看看博客的时间就知道自己基本上没偷懒，哈哈哈，算是安慰自己吧，只有上个月没有写博客，不过感觉也不太科学啊，上个月虽然比较忙，老师一直让我干各种事，以及为写论文做实验，但是还没有这么忙，下周开始要好好学习了，真的不能偷懒了，我感觉自己真的太懒了，一年以后就要找实习了，给自己的时间不多了，给中国队的时间不多了，这一年学习java和后台实践以及算法，Java好多知识点，基础的差不多都知道了，但是感觉还差很多，慢慢来吧，相信会有进步的，LeetCode的题做了四五道就再也没打开网站了，哈哈哈，还是自己懒啊，虽然有的时候很无聊，而且注意力也不集中，真的有些苦恼，决定做完书上的这个java项目接几个项目来做做，希望自己可以越来越优秀吧，其实我也不是一点事情不干，起码自己知道了很多java的知识，需要通过实战和进一步的学习，我这个人总是喜欢给自己留期限，明天开始加油工作吧，我希望自己对得起自己，完成任务，虽然现在的自己很渣，很缺钱，花钱还大手大脚，但我相信我自己可以越来越好的，接点私活吧，不然活不下去了，哈哈哈，真的很难受啊</p>
-<p>我这个人就是容易学着学着突然没了目标，没了动力，不知道为什么，但我又不想开始养老，所以我想努力，想奋斗，想挣钱，希望我自己加油吧，哈哈哈就写这些吧，没什么写的了，健身，后台，算法，挣钱，刚把得</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/01/20180701/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20180521-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/21/20180521-spring/">20180521 spring</a>
-    </h1>
-  
-
-        
-        <a href="/2018/05/21/20180521-spring/" class="archive-article-date">
-  	<time datetime="2018-05-21T06:07:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-21</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Spring整合Hibernate"><a href="#Spring整合Hibernate" class="headerlink" title="Spring整合Hibernate"></a>Spring整合Hibernate</h2><p>使用spring容器管理SessionFactory，spring就可以将SessionFactory注入应用的DAO组件中，对于spring和hibernate的整合，spring推荐调用SessionFactory的getCurrentSession方法获取hibernate session，剩下的持久化操作和直接使用hibernate持久化操作的代码基本相同。</p>
-<p>为了简化应用中DAO组件的设计，所以我们考虑将所有的DAO组件都需要的方法提取出来，由一个BaseDao实现，这样其他的组件只需要继承这个BaseDao即可。</p>
-<p>上面是spring和hibernate4整合的方式，但是传统的hibernate3的整合方式有一些不一样。</p>
-<p>spring为了整合hibernate3提供了HibernateTemplate和HibernateDaoSupport两个工具类，hibernateTemplate提供了持久层访问模板化，他只需要一个SessionFactory，这个参数的传入既可以通过构造参数传入，也可以通过设值参数注入。</p>
-<p>spring为开发者实现DAO组件提供了工具基类：HibernateDaosupport，这个工具类里面也有获取HibernateTemplate的方法，归根到底是利用HibernateTemplate操作，可以通过HibernateCallback对象执行查询。这个接口包含了doInHibernate方法，参数是session类型，当程序实现hibernatecallback的时候必须实现这个方法。在这个方法体内可以获得hibernate session的引用。后面这种方式不推荐。</p>
-<p>有了BaseDao之后就可以通过继承接口，指定对应的泛型类型实现普通的DAO组件。这个普通的DAO组件就可以定义一些和业务相关的查询方法，最后我们就可以通过实现普通的DAO组件接口，并且继承实现了BaseDao的实现类，指定泛型，就可以完成设计。</p>
-<p>IoC容器先创建SessionFactory和DataSource等底层组件，然后将这些底层组件注入给DAO组件，提供一个完整的DAO组件，并将此DAO组件注入到业务逻辑组件，从而提供一个完整的业务逻辑组件，而业务逻辑组件又被注入给控制器组件，控制器组件负责拦截用户请求，并将处理结果呈现给用户。</p>
-<p>在实际应用中，很少会将DAO组件、业务逻辑组件以及控制器组件配置在同一个文件中，而是将不同的java EE组件配置在不同的配置文件中。</p>
-<p>spring只需要在配置文件中增加事务控制片段，</p>
-<ol>
-<li>针对不同的事务策略配置对应的事务管理器。</li>
-<li>使用tx:advice元素配置事务增强处理Bean，配置事务增强处理Bean使用多个method子元素为不同的方法指定相应的事务语义。</li>
-<li>aop:config元素中使用aop:advisor元素配置自动事务代理。</li>
-</ol>
-<h2 id="常见设计模式"><a href="#常见设计模式" class="headerlink" title="常见设计模式"></a>常见设计模式</h2><p>模式是有三个部分组成的通用规则，一个特定环境，一类问题和一个解决方案，软件领域的设计模式是对处于特定环境下，经常出现的某类软件开发问题的，一种相对成熟的设计方案。</p>
-<p>设计模式被分为以下三类：</p>
-<ol>
-<li>创建型：创建对象时不直接新建对象，而是根据特定场景进行选择。</li>
-<li>结构型：将多个对象组织成更大的结构。</li>
-<li>行为型：用于帮助系统间对象的通信，以及如何控制复杂系统中的流程。</li>
-</ol>
-<p>A调用B称为A依赖于B,</p>
-<ol>
-<li>单例模式：一个类始终只能创建一个实例，spring推荐将所有业务逻辑组件、DAO组件、数据源组件等配置成单例模式。也可以手动实现（需要缓存已经创建的实例，隐藏构造器，提供public方法作为该类访问点）。</li>
-<li>简单工厂：将多个类对象交给工厂类来生成的设计方式。（A类调用B对象的时候，不需要自己新建B类的对象，让B类实现一个接口，通过定义了一个B类的工厂类，A类只需要调用B类的工厂类就可以得到B的实例。这个时候A类不但需要和工厂类耦合，还要和B类的接口耦合。）<strong>接口也可以定义类</strong></li>
-<li>抽象工厂模式：简单工厂是由一个工厂类决定逻辑判断，工厂方法则是不同的工厂类生产不同的产品。然后再增加一个工厂类，用来生成不同的工厂类，这个特殊的工厂类被称为抽象工厂类。</li>
-<li>代理模式：当客户端代码需要调用某个对象时，客户端并不一定需要某个对象，只需要一个能提供功能的对象，这时就可以返回该对象的代理。系统会为某个对象提供代理对象，客户端面向接口编程，它仅仅持有一个被代理对象的接口。除了出于性能考虑使用代理模式之外，代理模式还有另一种常用场景：当目标对象的功能不足以满足用户需求的时候，代理对象可以增强原目标对象的功能。JDK动态代理利用InvocationHandler实现类和Proxy类。</li>
-<li>命令模式：某个方法需要完成一个功能，但是这个功能的一些具体步骤无法确定，必须等到执行该方法的时候才可以确定，Java8开始支持的Lambda表达式可以传入一个代码块作为参数。在java语言中，传入该方法的应该是某个接口的匿名实现类的实例，该接口通常被称为命令接口。</li>
-<li>策略模式：该模式用于封装系列的算法，这些算法通常被封装在一个Context的类中，客户端程序可以自由选择。</li>
-<li>门面模式：这种模式用于将一组复杂的类包装到一个简单的外部接口中。使用了门面模式之后，客户端代码只需要和门面类进行交互。Java EE应用里使用业务逻辑组件来封装DAO组件也是典型的门面模式。</li>
-<li>桥接模式：由于实际需要，某个类具有两个或两个以上的维度变化，桥接模式的做法就是把变化部分抽象出来，使变化部分与主类分开，最后提供一个管理类组合不同维度上的变化。</li>
-<li>观察者模式：让一个或者多个观察者对象观察一个主体对象，当主体对象的状态发生改变的时候，系统能够通知所有依赖于此对象的观察者对象，从而使得观察者对象能够自动更新。被观察者的抽象基类Observable、观察者接口Observer、被观察者实现类（继承Observable基类）、观察者实现类（实现Observer接口）</li>
-</ol>
-<h2 id="常见的架构设计策略"><a href="#常见的架构设计策略" class="headerlink" title="常见的架构设计策略"></a>常见的架构设计策略</h2><p>目前轻量级的Java EE应用的架构比较统一，使用Spring作为核心，向上整合MVC框架，向下整合ORM框架，使用Spring的IoC容器来管理各组件的依赖关系，Spring的声明事务将负责业务逻辑层组件的事务管理。业务逻辑层需要把Domain Object和DAO对象组织在一起，执行持久化操作。</p>
-<ol>
-<li>贫血模式（阉割过的面向对象）：Domain Object只是单纯的数据类（属性组合，并且提供setter和getter方法），不包含业务逻辑方法，业务逻辑由业务逻辑组件实现。</li>
-<li>领域对象模型（完整的面向对象编程）：每个java类都应该提供与其相关的业务方法，这种模型的问题是业务逻辑组件比较负责，该组件需要作为DAO组件的门面，还需要包装Domain Object里的业务逻辑方法，暴露这种业务逻辑方法，让Action可以调用。</li>
-<li>合并业务逻辑对象和DAO对象：DAO对象包含了各种CRUD方法，还包含了各种业务逻辑方法。</li>
-<li>合并业务逻辑对象和Domain Object：业务逻辑都放在Domain object里面，业务逻辑层基本上已经没有内容，DO直接依赖于DAO对象进行持久化操作，如果将事务控制、权限控制等逻辑以AOP形式织入到DO中，就可以不要业务逻辑层了。</li>
-</ol>
-<p>抛弃业务逻辑层有两种形式：</p>
-<ol>
-<li>DO彻底取代业务逻辑对象</li>
-<li>控制器完成业务逻辑</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/21/20180521-spring/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1188,6 +1130,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -1200,15 +1146,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">jsp</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1216,15 +1154,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Struts</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">spring</a>
+                <a href="javascript:void(0)" class="js-tag color1">essay</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">essay</a>
+                <a href="javascript:void(0)" class="js-tag color2">spring</a>
               </li>
              
               <li class="article-tag-list-item">
