@@ -162,7 +162,19 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="运行时值注入"><a href="#运行时值注入" class="headerlink" title="运行时值注入"></a>运行时值注入</h1><p>通过javaConfig类里自动注入Environment类，在config类注解@PropertySource，通过Environment类的getProperty方法获取属性值；</p>
+<p>PropertySourcesPlaceholderConfigurer类(也可以通过xml配置)     和@Value占位符（${}）（也可以通过xml配置）。。。“${属性名}”这个叫属性占位符</p>
+<h1 id="SpEL"><a href="#SpEL" class="headerlink" title="SpEL"></a>SpEL</h1><p>“#{SpEL表达式}”   ：   括号里面的东西就是java</p>
+<ol>
+<li>SpEL表达式可以通过Bean id引用其他bean或者他们的属性</li>
+<li>@Value中也可以使用SpEL表达式，在SpEL中使用systemproperty对象引用系统属性。</li>
+<li>“?. 运算符”可以在访问他右边的内容之前确保左边不是null，是null的话就不访问了。</li>
+<li>#{  a   matches  ‘正则表达式’}</li>
+<li>.?[] 过滤运算符： #{fruit.names .?[from eq ‘tree’]} 来自树上的水果，from也是fruit的属性</li>
+<li>“.^[]” 第一个匹配项   “.$[]”最后一个匹配项 </li>
+<li>“.![]”投影运算符 ，选择[]里面的某个属性。</li>
+</ol>
+
       
 
       
@@ -170,6 +182,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -254,71 +277,6 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/12/16/20181217/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20181203" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/02/20181203/">20181203</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/02/20181203/" class="archive-article-date">
-  	<time datetime="2018-12-02T11:37:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-02</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/02/20181203/">展开全文 >></a>
         </p>
       
 
@@ -553,19 +511,19 @@
 
 
   
-    <article id="post-20180918" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20180918-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/18/20180918/">20180918</a>
+      <a class="article-title" href="/2018/09/18/20180918-java/">20180918</a>
     </h1>
   
 
         
-        <a href="/2018/09/18/20180918/" class="archive-article-date">
+        <a href="/2018/09/18/20180918-java/" class="archive-article-date">
   	<time datetime="2018-09-18T06:41:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-18</time>
 </a>
         
@@ -636,7 +594,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/18/20180918/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/09/18/20180918-java/">展开全文 >></a>
         </p>
       
 
@@ -666,19 +624,19 @@
 
 
   
-    <article id="post-20180813" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20180813-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/13/20180813/">20180813</a>
+      <a class="article-title" href="/2018/08/13/20180813-java/">20180813</a>
     </h1>
   
 
         
-        <a href="/2018/08/13/20180813/" class="archive-article-date">
+        <a href="/2018/08/13/20180813-java/" class="archive-article-date">
   	<time datetime="2018-08-13T10:01:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-13</time>
 </a>
         
@@ -738,7 +696,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/13/20180813/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/08/13/20180813-java/">展开全文 >></a>
         </p>
       
 
@@ -768,19 +726,19 @@
 
 
   
-    <article id="post-20180806" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20180806-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/20180806/">20180806</a>
+      <a class="article-title" href="/2018/08/06/20180806-java/">20180806</a>
     </h1>
   
 
         
-        <a href="/2018/08/06/20180806/" class="archive-article-date">
+        <a href="/2018/08/06/20180806-java/" class="archive-article-date">
   	<time datetime="2018-08-06T01:39:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-06</time>
 </a>
         
@@ -844,7 +802,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/06/20180806/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/08/06/20180806-java/">展开全文 >></a>
         </p>
       
 
@@ -1012,6 +970,84 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/07/02/2018/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20180701" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/01/20180701/">20180701</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/01/20180701/" class="archive-article-date">
+  	<time datetime="2018-07-01T06:44:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-01</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="随便说两句"><a href="#随便说两句" class="headerlink" title="随便说两句"></a>随便说两句</h2><p>这学期基本上结束了，已经进入暑假了吧，毕业一年了，今天下午把上学期学习的后台知识的博客看完了，虽然也忘得差不多了，这么多东西要记住真的很难啊，只能通过实战加深印象了，看看博客的时间就知道自己基本上没偷懒，哈哈哈，算是安慰自己吧，只有上个月没有写博客，不过感觉也不太科学啊，上个月虽然比较忙，老师一直让我干各种事，以及为写论文做实验，但是还没有这么忙，下周开始要好好学习了，真的不能偷懒了，我感觉自己真的太懒了，一年以后就要找实习了，给自己的时间不多了，给中国队的时间不多了，这一年学习java和后台实践以及算法，Java好多知识点，基础的差不多都知道了，但是感觉还差很多，慢慢来吧，相信会有进步的，LeetCode的题做了四五道就再也没打开网站了，哈哈哈，还是自己懒啊，虽然有的时候很无聊，而且注意力也不集中，真的有些苦恼，决定做完书上的这个java项目接几个项目来做做，希望自己可以越来越优秀吧，其实我也不是一点事情不干，起码自己知道了很多java的知识，需要通过实战和进一步的学习，我这个人总是喜欢给自己留期限，明天开始加油工作吧，我希望自己对得起自己，完成任务，虽然现在的自己很渣，很缺钱，花钱还大手大脚，但我相信我自己可以越来越好的，接点私活吧，不然活不下去了，哈哈哈，真的很难受啊</p>
+<p>我这个人就是容易学着学着突然没了目标，没了动力，不知道为什么，但我又不想开始养老，所以我想努力，想奋斗，想挣钱，希望我自己加油吧，哈哈哈就写这些吧，没什么写的了，健身，后台，算法，挣钱，刚把得</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/01/20180701/">展开全文 >></a>
         </p>
       
 

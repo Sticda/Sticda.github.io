@@ -8,13 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>20181224 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
+  <meta name="description" content="运行时值注入通过javaConfig类里自动注入Environment类，在config类注解@PropertySource，通过Environment类的getProperty方法获取属性值； PropertySourcesPlaceholderConfigurer类(也可以通过xml配置)     和@Value占位符（${}）（也可以通过xml配置）。。。“${属性名}”这个叫属性占位符 S">
+<meta name="keywords" content="spring">
+<meta property="og:type" content="article">
 <meta property="og:title" content="20181224">
 <meta property="og:url" content="http://yoursite.com/2018/12/24/20181224/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:updated_time" content="2018-12-24T01:36:42.886Z">
+<meta property="og:description" content="运行时值注入通过javaConfig类里自动注入Environment类，在config类注解@PropertySource，通过Environment类的getProperty方法获取属性值； PropertySourcesPlaceholderConfigurer类(也可以通过xml配置)     和@Value占位符（${}）（也可以通过xml配置）。。。“${属性名}”这个叫属性占位符 S">
+<meta property="og:updated_time" content="2018-12-24T11:10:02.972Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20181224">
+<meta name="twitter:description" content="运行时值注入通过javaConfig类里自动注入Environment类，在config类注解@PropertySource，通过Environment类的getProperty方法获取属性值； PropertySourcesPlaceholderConfigurer类(也可以通过xml配置)     和@Value占位符（${}）（也可以通过xml配置）。。。“${属性名}”这个叫属性占位符 S">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -161,7 +165,19 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h1 id="运行时值注入"><a href="#运行时值注入" class="headerlink" title="运行时值注入"></a>运行时值注入</h1><p>通过javaConfig类里自动注入Environment类，在config类注解@PropertySource，通过Environment类的getProperty方法获取属性值；</p>
+<p>PropertySourcesPlaceholderConfigurer类(也可以通过xml配置)     和@Value占位符（${}）（也可以通过xml配置）。。。“${属性名}”这个叫属性占位符</p>
+<h1 id="SpEL"><a href="#SpEL" class="headerlink" title="SpEL"></a>SpEL</h1><p>“#{SpEL表达式}”   ：   括号里面的东西就是java</p>
+<ol>
+<li>SpEL表达式可以通过Bean id引用其他bean或者他们的属性</li>
+<li>@Value中也可以使用SpEL表达式，在SpEL中使用systemproperty对象引用系统属性。</li>
+<li>“?. 运算符”可以在访问他右边的内容之前确保左边不是null，是null的话就不访问了。</li>
+<li>#{  a   matches  ‘正则表达式’}</li>
+<li>.?[] 过滤运算符： #{fruit.names .?[from eq ‘tree’]} 来自树上的水果，from也是fruit的属性</li>
+<li>“.^[]” 第一个匹配项   “.$[]”最后一个匹配项 </li>
+<li>“.![]”投影运算符 ，选择[]里面的某个属性。</li>
+</ol>
+
       
 
       
@@ -190,6 +206,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -232,7 +259,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#运行时值注入"><span class="toc-number">1.</span> <span class="toc-text">运行时值注入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SpEL"><span class="toc-number">2.</span> <span class="toc-text">SpEL</span></a></li></ol>
                     </div>
                 </span>
             </div>

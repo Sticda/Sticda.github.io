@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/12/27/20171227/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="表达式语言（EL）替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断。 EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换。 可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置标签为true，不使用EL。">
-<meta property="og:updated_time" content="2018-06-07T07:34:13.186Z">
+<meta property="og:updated_time" content="2018-12-24T01:41:09.459Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20171227">
 <meta name="twitter:description" content="表达式语言（EL）替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断。 EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换。 可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置标签为true，不使用EL。">
@@ -194,6 +194,14 @@ ${login[&quot;pass.word&quot;]}
 </ol>
 <h2 id="EL运算符"><a href="#EL运算符" class="headerlink" title="EL运算符"></a>EL运算符</h2><p>%和mod都是求余运算符，关系运算符都有相应的符号和英文简称，比如&lt;以及lt（less than）、&gt;与gt（greater than）、!=与ne（not equal）</p>
 <h2 id="自定义EL函数"><a href="#自定义EL函数" class="headerlink" title="自定义EL函数"></a>自定义EL函数</h2><p>第一步：编写类，这个类必须是公开类，想调用的方法必须是公开的且为静态方法。第二步：web容器必须知道如何将这个类中的方法当作EL函数使用，必须编写一个标签链接库描述文件（TLD）文件，tld文件中需要指明自定义的函数名称，对应到的类和对应到的那个类的具体方法，以及特定的URI，使用的jsp中&lt;%@taglib uri=””  prefix=””%&gt;uri是为了能够快速找到tld文件，prefix的作用是为了避免当jsp中有多个来自不同设计者的EL自定义函数会出现名称冲突。</p>
+<h2 id="JSTL"><a href="#JSTL" class="headerlink" title="JSTL"></a>JSTL</h2><p>（JavaServer Pages Standard Tag Library）来替换JSP页面中用来实现页面逻辑的scriptlet。</p>
+<p>提供的标签库可以分为五类，核心标签库、格式标签库、SQL标签库、XML标签库、函数标签库。</p>
+<p>要使用JSTL标签库，必须在网页上使用taglib指示元素定义前置名称与uri引用，JSTL的jar包需要手动添加到项目的WEB-INF/lib文件夹中，惯例上使用JSTL核心标签库的时候，会使用c作为前置名称，URI引用则告知容器如何引用JSTL标签库实现。</p>
+<pre><code>&lt;%@taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt; 
+</code></pre><p>&lt;c:if&gt;就相当于java中一个单一的if语句</p>
+<p>&lt;c:choose&gt;、&lt;c:otherwise&gt;、&lt;c:when&gt;搭配使用就相当于java中ifelse语句以及该语句的嵌套</p>
+<p>&lt;c:foreach&gt;就是轮询某个集合或者数组，里面的var属性就是轮询变量，items就是数组或者Collection变量</p>
+<p>&lt;c:fortoken&gt;的主要作用就是为了将字符串按照指定的分隔符分为多个字符串，var属性表示轮询变量，delims表示分隔符，items仍然表示字符串。</p>
 
       
 
@@ -251,11 +259,11 @@ ${login[&quot;pass.word&quot;]}
   
 <nav id="article-nav">
   
-    <a href="/2017/12/27/2017122702/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/01/08/20180108/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          2017122702
+          20180108
         
       </div>
     </a>
@@ -289,7 +297,7 @@ ${login[&quot;pass.word&quot;]}
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#表达式语言（EL）"><span class="toc-number">1.</span> <span class="toc-text">表达式语言（EL）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EL隐含对象"><span class="toc-number">1.1.</span> <span class="toc-text">EL隐含对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EL运算符"><span class="toc-number">1.2.</span> <span class="toc-text">EL运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义EL函数"><span class="toc-number">1.3.</span> <span class="toc-text">自定义EL函数</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#表达式语言（EL）"><span class="toc-number">1.</span> <span class="toc-text">表达式语言（EL）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EL隐含对象"><span class="toc-number">1.1.</span> <span class="toc-text">EL隐含对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EL运算符"><span class="toc-number">1.2.</span> <span class="toc-text">EL运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义EL函数"><span class="toc-number">1.3.</span> <span class="toc-text">自定义EL函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSTL"><span class="toc-number">1.4.</span> <span class="toc-text">JSTL</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
