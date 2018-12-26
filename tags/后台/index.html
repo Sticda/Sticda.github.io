@@ -6,19 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>20180806 | Sticda</title>
+  <title>Tag: 后台 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。 hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而==在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值 java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、">
-<meta name="keywords" content="java">
-<meta property="og:type" content="article">
-<meta property="og:title" content="20180806">
-<meta property="og:url" content="http://yoursite.com/2018/08/06/20180806-java/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Sticda">
+<meta property="og:url" content="http://yoursite.com/tags/后台/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。 hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而==在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值 java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、">
-<meta property="og:updated_time" content="2018-08-14T00:43:32.882Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20180806">
-<meta name="twitter:description" content="字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。 hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而==在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值 java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、">
+<meta name="twitter:title" content="Sticda">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -142,199 +137,106 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-20180806-java" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      20180806
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/12/11/20171211/" class="archive-article-date">
+  	<time datetime="2017-12-11T09:04:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-11</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/12/11/20171211/">20171211</a>
     </h1>
   
 
-        
-        <a href="/2018/08/06/20180806-java/" class="archive-article-date">
-  	<time datetime="2018-08-06T01:39:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-06</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。</li>
-<li>hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而==在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值</li>
-<li>java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、RuntimeException（唯一的运行时异常），前三种异常必须在编译之前就捕捉或者抛出。</li>
-<li>+连接字符串可以连接null或者其他类型，但是concat不行，建议使用Stringbuilder</li>
-<li>try和finally里都有return，会直接返回finally里的return，finally一定会执行，在try中return，finally会把结果保存，基本类型一切以try中保存的值为准，但是引用类型就会与finally修改以后的为准</li>
-<li>序列化之后属性有变化会导致值的丢失；父类没有序列化，但是子类序列化了，子类的属性可以序列化，但是父类的属性会丢失；不想序列化的字段加上transient即可。</li>
-<li>正整数的<strong>原码补码反码</strong>都是一样的，负整数的<strong>原码</strong>首位为1，<strong>反码</strong>是符号位不变，其余相反，<strong>补码</strong>是符号位不变，反码加1</li>
-<li>Set中的元素是无序且不重复的，这句话中的Set指的是HashSet，LinkedHashSet是按照添加的顺序排列，而TreeSet是按照自然顺序a~z</li>
-<li>URLClassLoader是ClassLoader的子类，URLClassLoader可以加载任意路径下的类，ClassLoader只能加载ClassPath下的类</li>
-<li>long类型不同进制的转换是从左到右依次遍历每个字符乘以进制数，再加上下一个字符，接着再乘以进制数，不断重复。</li>
-<li><strong>集合遍历</strong>是使用Iterator, Iterator是工作在一个独立的线程中，并且拥有一个互斥锁。Iterator 被创建之后会建立一个指向原来对象的单链索引表，当原来的对象数量发生变化时，这个索引表的内容不会同步改变，所以当索引指针往后移动的时候就找不到要迭代的对象，所以按照 fail-fast原则 Iterator 会马上抛出java.util.ConcurrentModificationException 异常。所以 Iterator 在工作的时候是不允许被迭代的对象被改变的</li>
-<li><strong>装箱过程</strong>是通过调用包装器的valueOf方法实现的，而<strong>拆箱过程</strong>是通过调用包装器的 xxxValue方法实现的。（xxx代表对应的基本数据类型）</li>
-<li><strong>“==”运算符</strong>既可以用来比较基本类型变量和引用类型变量。当两个操作数都是包装器类型的变量时，判定标准为他们是否指向同一个对象；而如果其中有一个操作数是表达式（即包含算术运算）则会先进行自动拆箱，再进行对应基本类型变量比较。</li>
-<li><strong>静态变量</strong>被所有的对象所共享，在内存中只有一个副本，它当且仅当在类初次加载时会被初始化。而非静态变量是对象所拥有的，在创建对象的时候被初始化，存在多个副本，各个对象拥有的副本互不影响。</li>
-<li>先加载父类，然后再加载子类，先调用父类的构造器，在调用自身的构造器。</li>
-<li><strong>static关键字</strong>有一个比较关键的作用就是 用来形成静态代码块以优化程序性能。static块可以置于类中的任何地方，类中可以有多个static块。在类初次被加载的时候，会按照static块的顺序来执行每个static块，并且只会执行一次。</li>
-<li><strong>ArrayList</strong>底层是数组，<strong>LinkedList</strong>底层是链表，<strong>Vector</strong>底层也是数组，Vector支持线程同步，前两个不支持，链表的查找速度较慢，因为需要移动指针，数组的查找速度较快（索引），数组的增删速度比较慢，因为需要移动后面的内容，这时候链表就比较快。<strong>stack</strong>是Vector的子类，主要实现了后进先出的栈的功能。当需要扩展数组长度的时候，Vector会扩展为原来的一倍，ArrayList会扩展50%，</li>
-<li><strong>SynchronizedList和Vector的区别：</strong>SynchronizedList是由Collections静态工具类提供的一个可以实现线程同步的list，和Vector的区别在于以下几点：Vector和SynchronizedList在长度扩展上的区别；Vector是通过同步方法实现同步，而SynchronizedList是通过同步代码块的方式实现（同步代码块内部还是list的方法），SynchronizedList可以通过传入的参数指定锁定的对象，Vector只能锁定this；使用SynchronizedList的时候，进行遍历需要手动同步处理；SynchronizedList可以将list的所有子类转换为线程安全的类</li>
-<li><strong>HashTable和HashMap以及ConcurrentHashMap的区别：</strong>hashtable可以实现同步；HashMap支持插入null值和null key，原因在于HashMap会将null的hashcode定为0，底层都是Entry数组的实现方式，Entry四个属性：Key、Value、hash、Entry（指向下一个Entry，出现hash碰撞）；HashMap的大小总是2的幂次，所以说每次扩容都变成原来的两倍，通过位运算实现除法，提高效率；ConcurrentHashMap允许多个修改操作并发进行，锁定Map中的某个段，而HashTable 是锁定整个Map的。对于HashMap来说jdk1.7使用数组加链表（Entry），jdk1.8使用数组加链表和红黑树实现（Node）</li>
-<li>Java7提供了一种并行任务框架，<strong>Fork/Join框架</strong> ，ForkJoinPool是框架的任务调度器，提供了三个调度子任务的方法：execute（没有返回结果），invoke、invokeAll（有返回结果），submit（返回future对象），具体的任务执行类需要实现RecursiveAction（无结果返回）和RecursiveTask（有结果返回），任务执行类里面有一个compute函数，类似于递归的思想，这个compute判断是否可以计算，如果可以计算就直接计算，不能计算就进行拆分，fork就是执行execute，join函数就是得到返回值。</li>
-<li><strong>并发</strong>就是在一段时间内多个任务在执行，交替或者串行或者其他，但是<strong>并行</strong>就是指并行执行，多个任务在同时执行，</li>
-<li><strong>java实现多线程的三种方式：</strong>继承Thread类；实现Runnable接口，重写run方法（一个子类只能继承一个父类），将Runnable实例传给Thread对象；实现Callable接口，重写call方法，将Callable实例传给FutureTask对象，再传给Thread对象</li>
-<li><strong> Futuretask</strong>是实现了RunnableFuture接口的类，RunnableFuture接口继承了Runnable接口和Future接口，所以FutureTask的使用方法有两种：FutureTask+ExecuteService和FutureTask+Thread，第一种方法就是把实现了Callable接口的类传递给FutureTask，第二种方法就是把FutureTask传给Thread，并利用FutureTask获得结果。</li>
-<li><strong>Join方法</strong>的主要作用是挂起当前线程，等到调用了Join方法的线程结束之后，当前线程才会继续运行。</li>
-<li><strong>线程的状态</strong>一共有6个，NEW是刚创建的线程，还没有启动；RUNNABLE是正在运行的线程；TIME_WAITING是有时限的等待线程；而WAITING是无限的等待，等待一个特殊事件的唤醒；BLOCKED表明这个线程当前处于等待锁的阻塞状态，一旦获得锁将进入RUNNABLE状态；TERMINATED是指线程运行结束，进入终止状态。</li>
-<li><strong>死锁</strong>：多个线程拿了对方需要的锁，同时又在等待对方释放自己需要的锁；<strong>活锁</strong>就是多线程相互谦让，导致没有线程正常执行；<strong>饥饿</strong>就是说低优先级一直抢不过高优先级的线程，导致低优先级的线程得不到执行；<strong>无锁</strong>就是对资源不锁定，一堆线程抢着修改共享资源。</li>
-<li><strong>避免死锁</strong>的方法：按顺序加锁（这样能保证只能有一个线程获得锁）；获取锁时限（一定时间之后放弃自己已经拥有的锁）；检测死锁（出现死锁就采取策略）</li>
-<li><strong>线程池核心类：ThreadPoolExecutor类的主要参数</strong>是corePoolSize（核心线程池的大小。线程池的最小线程数量）、maximumPoolSize（线程池的最大线程数量），KeepAliveTime（超过corePoolSize的线程空闲超过KeepAliveTime就会被销毁），unit（KeepAliveTime这个时间的单位），WorkQueue(存储等待执行的工作队列)，ThreadFactory（创建线程的工厂），handler（拒绝策略，默认抛出异常）；<strong>线程池的工作流程</strong>：如果线程池中的线程数量小于corePoolSize的话，就会直接创建新线程执行任务，如果已经超过corePoolSize的话就会存到workQueue，workQueue存满之后，当线程数小于maximumPoolSize的时候就会新建线程执行任务，当线程数超过maximumPoolSize就会利用handler执行拒绝策略。<strong>核心类ThreadPoolExecutor有四个在Executor下的静态实现类</strong>：newFixThreadPool（固定大小的线程池，核心和最大线程数相等），newCacheThreadPool（带缓冲的线程池，核心线程池大小为0，有新任务就会执行），newSingleThreadPool（单线程线程池，核心和最大线程数为1，每次保证有1个线程在执行）、newSchedulerThreadPool（调度线程池，按照一定的周期执行任务），<strong>拒绝策略</strong>：AbortPolicy（直接抛出拒绝异常）、CallerRunsPolicy（让调用者线程执行新任务）、DiscardPolicy（直接丢弃）、DiscardOldestPolicy（从队列中丢弃掉最老的任务），提交线程使用execute和submit，不同点在于submit会返回一个future对象，关闭线程池使用shutdown（执行完所有任务再关闭）和shutdownNow。</li>
-</ol>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
   
-<nav id="article-nav">
-  
-    <a href="/2018/08/13/20180813-java/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          20180813
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/08/01/20180801/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">20180801</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/11/20/20171120/" class="archive-article-date">
+  	<time datetime="2017-11-20T13:32:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-20</time>
+</a>
         </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    目录，不存在的…
-                    </div>
-                </span>
-            </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/11/20/20171120/">20171120</a>
+    </h1>
+  
+
+        <div class="article-info info-on-right">
+          
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+          
+
         </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  <div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="20180806-java" data-title="20180806" data-url="http://yoursite.com/2018/08/06/20180806-java/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
   
   
-  
-  <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
-<script>
-  var cloudTieConfig = {
-    url: "http://yoursite.com/2018/08/06/20180806-java/", 
-    sourceId: "20180806-java",
-    productKey: "true",
-    target: "cloud-tie-wrapper"
-  };
-</script>
-<script src="//img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
+    </div></section>
   
 
-  
-
-  
+    
 
 
           </div>
@@ -357,9 +259,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
