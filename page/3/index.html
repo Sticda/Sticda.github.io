@@ -139,6 +139,101 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180402-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/02/20180402-struts/">20180402 struts</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/02/20180402-struts/" class="archive-article-date">
+  	<time datetime="2018-04-02T00:49:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-02</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="struts2-拦截器"><a href="#struts2-拦截器" class="headerlink" title="struts2 拦截器"></a>struts2 拦截器</h2><p>在struts.xml文件中指定使用特定的拦截器，在struts-default.xml文件中以name-class的形式配置了很多的拦截器。</p>
+<p>配置拦截器最简单的格式</p>
+<pre><code>&lt;interceptor name=“拦截器名”  class=“拦截器实现”/&gt;
+</code></pre><p>如果拦截器需要配置参数的话只需要在其中使用param子标签。除此之外还可以定义拦截器栈，使用&lt;interceptor-stack…/&gt;元素定义拦截器栈，同时还需要在其中利用&lt;interceptor-ref…./&gt;元素来定义多个拦截器引用。</p>
+<p>拦截器栈和拦截器的功能几乎完全相同，所以有可能出现的情况就是拦截器栈里也可以包含拦截器栈（这种方式的存在就是为了软件复用，因为之前已经使用该拦截器栈定义了我们需要在新的拦截器栈中使用的拦截器）。</p>
+<p>拦截器指定参数的时机就只有两个，一个是在定义拦截器的时候配置的默认参数（interceptor标签里的param子标签），还有一个使用拦截器的时候配置的参数（interceptor-ref标签里的param子标签）。使用拦截器的时候是在action里面配置interceptpr-ref，一般使用自己的拦截器之前会先调用defaultStack。</p>
+<p>每一个包都可以配置自己的默认拦截器，default-interceptor-ref标签可以配置默认拦截器，name属性就是已经定义过的拦截器，一个包只能定义一个默认拦 截器，这个包里的某个action要是没有指定拦截器，那么默认的拦截器将会起作用。如果为该包中的Action显式应用了某个拦截器，则默认的拦截器不会起作用，但如果还想继续使用默认拦截器，必须再次手动配置。</p>
+<p>用户想实现自己的拦截器类应该实现com.opensymphony.xwork2.interceptor.Interceptor接口，三个函数分别是init（初始化之前调用）、destroy（销毁之前调用）、intercept。如果自定义的拦截器不需要实现init和destroy函数则只需要继承AbstractInterceptor类，intercept方法中的参数ActionInvocation包含了被拦截Action的引用，ActionInvocation的invoke方法。</p>
+<p>如果为一个Action指定了拦截器，又想继续使用默认的拦截器，必须再次配置。</p>
+<h3 id="拦截方法的拦截器"><a href="#拦截方法的拦截器" class="headerlink" title="拦截方法的拦截器"></a>拦截方法的拦截器</h3><p>如果为某个Action指定了拦截器，那么这个拦截器会拦截该Action里面的所有方法，为了实现方法过滤，可以实现MethodFilterInterceptor类，该类是AbstractInterceptor类的子类，MethodFilterInterceptor类重写了父类的intercept方法，但提供了dointercept方法，这个类中额外增加了两个方法setExcludeMethods（String）、和setIncludeMethods（String），exclude就是不需要拦截的方法，include就是需要拦截的方法，参数的字符串中包含了方法，如果某个方法同时出现在了上面的两个函数中，则这个函数会被拦截。也可以在使用拦截器的时候，在Action中配置interceptor-ref的时候可以在param中配置，name是excludeMethods，参数值用逗号隔开。</p>
+<p><strong>拦截器的执行顺序：在Action的控制方法（action里面配置的method）执行之前，位于拦截器链的前面拦截器将先发生作用，在Action的控制方法执行之后，位于拦截器链前面的拦截器将后发生作用。</strong></p>
+<h3 id="拦截结果的监听器"><a href="#拦截结果的监听器" class="headerlink" title="拦截结果的监听器"></a>拦截结果的监听器</h3><p>之前的控制方法执行之前和之后都是在intercept函数里面写明的，为了解决结构不清晰的问题，所以struts2提供了拦截结果的监听器，PreResultListener监听器，里面有一个beforeResult的函数可以定义在处理Result之前的行为。可以把这个监听器注册在我们自己定义的监听器里。</p>
+<p><strong>不要在PreResultListener监听器的beforeResult方法中通过ActionInvocation参数调用invoke（）方法，</strong>会造成死循环。</p>
+<p>如果需要在使用拦截器栈时直接覆盖某个拦截器的属性值，则在指定需要被覆盖的属性时，不能只指定属性名，必须加上该属性属于的拦截器名，即采用如下形式：&lt;拦截器名&gt;.&lt;属性名&gt;。</p>
+<h2 id="使用struts2-的Ajax支持、"><a href="#使用struts2-的Ajax支持、" class="headerlink" title="使用struts2 的Ajax支持、"></a>使用struts2 的Ajax支持、</h2><p>Ajax（Asynchronous JavaScript And XML）异步JavaScript和XML技术：浏览者和服务器之间采用异步通信机制，当服务器响应成功返回到浏览器，浏览器使用DOM（Document Object Model）将服务器响应装载到当前页面的指定容器内。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Struts</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/02/20180402-struts/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180326-struts" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1451,118 +1546,6 @@ ${login[&quot;pass.word&quot;]}
 
 
   
-    <article id="post-20171226" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/26/20171226/">20171226</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/26/20171226/" class="archive-article-date">
-  	<time datetime="2017-12-26T01:54:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>JSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误</p>
-<p>不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候做一些事情，可以选择重写JSPInit（）和jspDestroy（）。</p>
-<h2 id="指示元素"><a href="#指示元素" class="headerlink" title="指示元素"></a>指示元素</h2><p>&lt;%@ 指示类型  [属性=“值”] <em> %&gt;（[属性=“值”] </em>是正则表达式）</p>
-<p>常用的指示类型：page（告知容器如何转译目前的jsp网页）、include（将其他的jsp页面包括进来进行转译）、taglib（告知容器如何转译这个页面中的标签库）</p>
-<p>include将其他页面包含的时候是一种静态的包含方式，就是把包含的文件直接拼接在一起。</p>
-<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>在&lt;%!与%&gt;之间声明的程序代码，都将转译为Servlet中的类成员或者方法。也就是说把<strong>所有的成员变量声明和方法声明的java代码</strong>都写在这个&lt;%!与%&gt;之间，容器会使用同一个Servlet来服务不同用户的请求，每个请求就是一个线程，声明 变量的时候必须小心数据共享与线程安全的问题，使用该方法声明的变量是类成员变量，JSPInit（）和JSPDestroy（）就需要使用这种方式重写。</p>
-<h2 id="Scriptlet元素"><a href="#Scriptlet元素" class="headerlink" title="Scriptlet元素"></a>Scriptlet元素</h2><p>&lt;%  java语句  %&gt;所有的内容将被转译到Servlet源代码中的_JSPService（），可以利用java语句的注释方式进行注释（//或者/<em>········</em>/)</p>
-<h2 id="表达式元素"><a href="#表达式元素" class="headerlink" title="表达式元素"></a>表达式元素</h2><p>&lt;%= java 表达式&gt;表达式元素不用加分号，表达式元素中的表达式会直接转译成out对象输出时的指定内容。</p>
-<p>因此在jsp中输出&lt;%或者%&gt;符号，要将角括号置换为替代字符，&lt;%可以换成&lt;%  ，%&gt; 可以换成%&gt;或者%>。</p>
-<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>JSP有自己专用的注释，即&lt;%–与–%&gt;，容器在转译JSP到Servlet的时候，会忽略两者之间包括的文字。</p>
-<hr>
-<p>Scriptlet中的一些类似于out和request的对象，转译成Servlet之后会对应到Servlet中的某个对象，request对应HttpServletRequest，像request和out的对象就被称为隐含对象。</p>
-<p>pageContext转译后对应PageContext对象，提供了jsp页面资源的封装，page对应this。</p>
-<p>out并不直接对应于有HttpServletResponse得到的PrintWriter对象，out对应JspWriter对象，该对象模拟了BufferedWriter与PrintWriter的功能。jspWriter具有缓冲区功能，这时候就决定于页面是否具有缓冲区的功能了，如果没有则会立即输出，有的话只有在清空缓冲区才会输出，page指示元素的buffer属性设置缓冲区的大小，满了之后的行为采用autoFlush属性决定。</p>
-<p>可以通过PageContext获得所有的隐含对象，除了封装所有的jsp页面信息之外 ，还可以使用pageContext来设置页面范围属性setAttribute、getAttribute、removeAttribute</p>
-<p>在jsp页面中设置属性的方式有两种，一种是通过pageContext获得HttpServletRequest、ServletContext、HttpSession，另一种是利用pageContext统一提供的接口。getAttribute（String name，int Scope），setAttribute（String name，Object value,int scope）,remove(String name, int scope)，Scope是标识不同的范围，pageContext提供了findAttribute（），从页面，请求，会话到应用程序范围以此寻找。</p>
-<h2 id="错误页面"><a href="#错误页面" class="headerlink" title="错误页面"></a>错误页面</h2><p>使用page指示元素，设置errorPage属性便可以指定错误处理的JSP页面。错误页面的page指示元素的isErrorPage属性设置为true。</p>
-<h2 id="标准标签"><a href="#标准标签" class="headerlink" title="标准标签"></a>标准标签</h2><p>主要作用是减少scriptlet的使用，include指示元素可以把另一个JSP页面包含进来转移成一个Servlet类，无法在运行时动态调整想要的页面。如果想要在运行时依条件动态调整想要包括的JSP页面，则可以使用<a href="jsp:include" target="_blank" rel="noopener">jsp:include</a>标签，可以动态包括要给该页面的请求参数。</p>
-<p>转发页面可以使用<a href="jsp:forward" target="_blank" rel="noopener">jsp:forward</a>，与前者的使用方法相同。</p>
-<pre><code>&lt;jsp:forward page=&apos;&quot;add.jsp&quot;&gt;
-    &lt;jsp:param name=&quot;a&quot; value=&quot;1&quot;&gt;
-    &lt;jsp:param name=&quot;a&quot; value=&quot;2&quot;&gt;
-&lt;/jsp:forward&gt;
-</code></pre><p><strong><a href="jsp:useBean" target="_blank" rel="noopener">jsp:useBean</a>、<a href="jsp:setProperty" target="_blank" rel="noopener">jsp:setProperty</a>、<a href="jsp:getProperty" target="_blank" rel="noopener">jsp:getProperty</a></strong></p>
-<p>JavaBean指的是满足以下条件的java对象，必须实现了Java.io.Serializable接口，没有公开的类变量，具有无参数的构造函数，具有公开的设值方法和取值方法，setter和getter，可以直接使用标签在页面中赋值。</p>
-<pre><code>&lt;jsp:useBean id=&quot;名称（类实例变量名称）&quot; class=&quot;包名.类名&quot; 
-scope=&quot;page、request、session、application&quot;
-type=&quot;想要指定的类型&quot;/&gt;
-&lt;jsp:setProperty name=&quot;类实例变量名&quot; property=&quot;属性值&quot;/&gt;
-</code></pre><p>setProperty标签的property为“*”时，表示将自动寻找符合JavaBean中设值方法名称的请求参数值，如果请求参数的名称为xxx，就将请求参数值使用setXxx（）方法设置给JavaBean实例。</p>
-<p>在jsp中就可以写直接 调用id.方法（），赋值可以直接写&lt;jsp:getProperty name=”变量名” property=”属性名”&gt;</p>
-<p>赋值的时候可以通过&lt;jsp:setProperty name=”user” property=”password” value=”123456”/&gt;</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/26/20171226/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1648,7 +1631,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1656,15 +1647,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">数据库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
               </li>
              
               <li class="article-tag-list-item">

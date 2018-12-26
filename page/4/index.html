@@ -139,6 +139,118 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20171226" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/26/20171226/">20171226</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/26/20171226/" class="archive-article-date">
+  	<time datetime="2017-12-26T01:54:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>JSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误</p>
+<p>不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候做一些事情，可以选择重写JSPInit（）和jspDestroy（）。</p>
+<h2 id="指示元素"><a href="#指示元素" class="headerlink" title="指示元素"></a>指示元素</h2><p>&lt;%@ 指示类型  [属性=“值”] <em> %&gt;（[属性=“值”] </em>是正则表达式）</p>
+<p>常用的指示类型：page（告知容器如何转译目前的jsp网页）、include（将其他的jsp页面包括进来进行转译）、taglib（告知容器如何转译这个页面中的标签库）</p>
+<p>include将其他页面包含的时候是一种静态的包含方式，就是把包含的文件直接拼接在一起。</p>
+<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>在&lt;%!与%&gt;之间声明的程序代码，都将转译为Servlet中的类成员或者方法。也就是说把<strong>所有的成员变量声明和方法声明的java代码</strong>都写在这个&lt;%!与%&gt;之间，容器会使用同一个Servlet来服务不同用户的请求，每个请求就是一个线程，声明 变量的时候必须小心数据共享与线程安全的问题，使用该方法声明的变量是类成员变量，JSPInit（）和JSPDestroy（）就需要使用这种方式重写。</p>
+<h2 id="Scriptlet元素"><a href="#Scriptlet元素" class="headerlink" title="Scriptlet元素"></a>Scriptlet元素</h2><p>&lt;%  java语句  %&gt;所有的内容将被转译到Servlet源代码中的_JSPService（），可以利用java语句的注释方式进行注释（//或者/<em>········</em>/)</p>
+<h2 id="表达式元素"><a href="#表达式元素" class="headerlink" title="表达式元素"></a>表达式元素</h2><p>&lt;%= java 表达式&gt;表达式元素不用加分号，表达式元素中的表达式会直接转译成out对象输出时的指定内容。</p>
+<p>因此在jsp中输出&lt;%或者%&gt;符号，要将角括号置换为替代字符，&lt;%可以换成&lt;%  ，%&gt; 可以换成%&gt;或者%>。</p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>JSP有自己专用的注释，即&lt;%–与–%&gt;，容器在转译JSP到Servlet的时候，会忽略两者之间包括的文字。</p>
+<hr>
+<p>Scriptlet中的一些类似于out和request的对象，转译成Servlet之后会对应到Servlet中的某个对象，request对应HttpServletRequest，像request和out的对象就被称为隐含对象。</p>
+<p>pageContext转译后对应PageContext对象，提供了jsp页面资源的封装，page对应this。</p>
+<p>out并不直接对应于有HttpServletResponse得到的PrintWriter对象，out对应JspWriter对象，该对象模拟了BufferedWriter与PrintWriter的功能。jspWriter具有缓冲区功能，这时候就决定于页面是否具有缓冲区的功能了，如果没有则会立即输出，有的话只有在清空缓冲区才会输出，page指示元素的buffer属性设置缓冲区的大小，满了之后的行为采用autoFlush属性决定。</p>
+<p>可以通过PageContext获得所有的隐含对象，除了封装所有的jsp页面信息之外 ，还可以使用pageContext来设置页面范围属性setAttribute、getAttribute、removeAttribute</p>
+<p>在jsp页面中设置属性的方式有两种，一种是通过pageContext获得HttpServletRequest、ServletContext、HttpSession，另一种是利用pageContext统一提供的接口。getAttribute（String name，int Scope），setAttribute（String name，Object value,int scope）,remove(String name, int scope)，Scope是标识不同的范围，pageContext提供了findAttribute（），从页面，请求，会话到应用程序范围以此寻找。</p>
+<h2 id="错误页面"><a href="#错误页面" class="headerlink" title="错误页面"></a>错误页面</h2><p>使用page指示元素，设置errorPage属性便可以指定错误处理的JSP页面。错误页面的page指示元素的isErrorPage属性设置为true。</p>
+<h2 id="标准标签"><a href="#标准标签" class="headerlink" title="标准标签"></a>标准标签</h2><p>主要作用是减少scriptlet的使用，include指示元素可以把另一个JSP页面包含进来转移成一个Servlet类，无法在运行时动态调整想要的页面。如果想要在运行时依条件动态调整想要包括的JSP页面，则可以使用<a href="jsp:include" target="_blank" rel="noopener">jsp:include</a>标签，可以动态包括要给该页面的请求参数。</p>
+<p>转发页面可以使用<a href="jsp:forward" target="_blank" rel="noopener">jsp:forward</a>，与前者的使用方法相同。</p>
+<pre><code>&lt;jsp:forward page=&apos;&quot;add.jsp&quot;&gt;
+    &lt;jsp:param name=&quot;a&quot; value=&quot;1&quot;&gt;
+    &lt;jsp:param name=&quot;a&quot; value=&quot;2&quot;&gt;
+&lt;/jsp:forward&gt;
+</code></pre><p><strong><a href="jsp:useBean" target="_blank" rel="noopener">jsp:useBean</a>、<a href="jsp:setProperty" target="_blank" rel="noopener">jsp:setProperty</a>、<a href="jsp:getProperty" target="_blank" rel="noopener">jsp:getProperty</a></strong></p>
+<p>JavaBean指的是满足以下条件的java对象，必须实现了Java.io.Serializable接口，没有公开的类变量，具有无参数的构造函数，具有公开的设值方法和取值方法，setter和getter，可以直接使用标签在页面中赋值。</p>
+<pre><code>&lt;jsp:useBean id=&quot;名称（类实例变量名称）&quot; class=&quot;包名.类名&quot; 
+scope=&quot;page、request、session、application&quot;
+type=&quot;想要指定的类型&quot;/&gt;
+&lt;jsp:setProperty name=&quot;类实例变量名&quot; property=&quot;属性值&quot;/&gt;
+</code></pre><p>setProperty标签的property为“*”时，表示将自动寻找符合JavaBean中设值方法名称的请求参数值，如果请求参数的名称为xxx，就将请求参数值使用setXxx（）方法设置给JavaBean实例。</p>
+<p>在jsp中就可以写直接 调用id.方法（），赋值可以直接写&lt;jsp:getProperty name=”变量名” property=”属性名”&gt;</p>
+<p>赋值的时候可以通过&lt;jsp:setProperty name=”user” property=”password” value=”123456”/&gt;</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/26/20171226/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20171219" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -340,11 +452,11 @@ chain.doFilter(request,response);
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
         		</li>
       		
 		</ul>
@@ -444,11 +556,11 @@ chain.doFilter(request,response);
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
         		</li>
       		
 		</ul>
@@ -667,11 +779,11 @@ unlock tables；
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -1089,100 +1201,6 @@ limit count
 
 
   
-    <article id="post-20170926" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/23/20170926/">20170926</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/23/20170926/" class="archive-article-date">
-  	<time datetime="2017-09-23T02:19:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-23</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》，</p>
-<p>虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。</p>
-<ol>
-<li>程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。</li>
-<li>虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI编写的方法，这里就要说到虚拟机栈和本地方法栈中的内容了，首先这两个栈肯定也是线程私有的，因为每一个线程都有自己调用的不同方法，虚拟机栈和本地方法栈中的最小单元是栈帧，栈帧也就是每一个方法产生的结构，每一个栈帧中都有局部变量表、操作数栈、动态连接和返回地址，局部变量表的最小单位是slot，一般情况下只有float和double需要两个slot存放，操作数栈也是，操作数栈和局部变量表的大小在java代码编译之后就已经写入class文件中了，动态连接的内容是运行时常量池这个方法的一个引用，因为在方法执行过程中可能需要动态连接，所以要在栈帧中保持这个信息，返回地址肯定是需要的，因为每一个栈帧代表一个方法，这个方法执行完成之后肯定需要回到原来的地方，所以就需要每个栈帧拥有自己的返回地址。</li>
-<li>方法区和堆是线程共享的，方法区里面包含类的信息，版本，以及经过的编译的代码，方法区内部有运行时常量池，运行时常量池中存放着class编译期生成的各种字面量和符号引用所转变出来的直接引用，堆的主要内容是新建的对象，线程需要使用的时候，从堆里把内容拿出来，然后对照着方法区里类的格式区分堆里对象每一个部分代表的意义。</li>
-</ol>
-<p>class文件中存放的是经过编译的内容，常量池，字段表，方法表，属性表。常量池里面是一些字面量和符号引用，字段表的主要内容是访问标志、名称索引、描述符索引、属性数量和属性值。方法表的内容也是和字段表差不多。<br>另外一块内容是java的垃圾收集器和内存分配策略。java的GC机制算是java的一大特色了。垃圾回收主要有三个主要的问题，判断对象是否已经废弃，怎么回收，何时回收。</p>
-<ol>
-<li>对象是否已死有两种办法，引用计数算法和可达性分析算法。引用计数算法是为每一个对象保留一个引用计数器，如果这个对象被引用就加1，被引用的对象被销毁就减1，不能解决相互引用的问题，比如说ab相互引用，但ab已经不会被用到了，所以就不能被回收。所以主流算法采用的方法都是可达性分析算法，一般选择GC Roots，当一个对象和GC roots之间不能可达的时候就说明这个对象已经死了。但是真正要回收一个对象所占的内存，还需要观察这个对象是否需要有必要执行finalize()方法，方法区也需要回收</li>
-<li>垃圾回收算法有三个：标记清除算法。复制算法。标记清除算法；标记清除就是标记已死亡的内存然后直接清理。复制算法是有两块半区，一块满了就把所有未死亡的对象复制到另一块上，把原先的那块全部清除。。标记整理算法是把标记已死亡的内存都清理，然后把活着的对象都向一端移动，直接清除活着的对象之外的所有的内存。</li>
-<li>算法执行在安全点或者安全区，安全点就是程序长时间执行的地方。</li>
-</ol>
-<p>垃圾收集器的种类。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/23/20170926/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -1268,7 +1286,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1276,15 +1302,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">数据库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
               </li>
              
               <li class="article-tag-list-item">

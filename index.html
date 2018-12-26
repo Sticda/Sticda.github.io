@@ -139,6 +139,93 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20181225-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/25/20181225-java/">20181225-java</a>
+    </h1>
+  
+
+        
+        <a href="/2018/12/25/20181225-java/" class="archive-article-date">
+  	<time datetime="2018-12-25T03:05:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-25</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>final方法表示不能被子类重写，但可以被继承，如果认为一个方法的功能足够完善，子类不需要改变的话，就声明为final</li>
+<li>final修饰类的时候不能被继承，比如包装类Integer等。</li>
+<li><h2 id="Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"><a href="#Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。" class="headerlink" title="Stream ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"></a><strong>Stream</strong> ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。</h2></li>
+<li>深拷贝</li>
+<li>HashMap长度为2的n次方的原因是为了存取高效，需要尽量减少碰撞，就是让链表长度均匀，算法就是取模，hash%length，但是计算机中求余效率比较低，当length为2的n次方的时候，求余和与运算结果一样，这样的话查找存取速度更快。</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/12/25/20181225-java/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20181224" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -580,11 +667,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		
 		</ul>
@@ -665,7 +752,7 @@
 <li>lambda表达式专门针对只有一个方法的接口（<strong>函数式接口</strong>），使用@FunctionalInterface可以构造自己的函数式接口。jdk提供了常用的函数式接口，Function：提供任意一种类型的参数，返回另外一个任意类型返回值。 R apply(T t); Consumer：提供任意一种类型的参数，返回空值。 void accept(T t); Supplier：参数为空，得到任意一种类型的返回值。T get(); Predicate：提供任意一种类型的参数，返回boolean返回值。boolean test(T t); BinaryOperator：提供两个参数，返回一个参数。当lambda表达式想要代替这些函数式接口的时候返回的类型和参数应该满足这些函数式接口的方法签名。<strong>函数式接口作为参数会在特定的类或者方法中被调用接口的方法，这时候可以直接使用lambda表达式替代传入的函数式接口。</strong>lambda表达式内部的this指的是包含lambda表达式的类，使用内部匿名类的方法this指的是匿名内部类本身。</li>
 <li><strong>方法引用</strong>：只要是方法的返回值类型和参数与函数式接口中抽象方法的参数和返回值类型保持一致就可以使用方法引用代替函数式方法，方法引用有三种方式：构造器方法引用(Class::new)、类普通方法引用(Class::method)、类静态方法引用(Class::static_method)、实例方法引用(instance::method)，System.out::println就是实例方法引用。</li>
 <li>lambda表达式在编译阶段会被转换为匿名内部类，自由变量是在lambda表达式之外定义的变量，自由变量在lambda表达式内部不能被改变。</li>
-<li><strong> Stream</strong>：<strong>不存储数据、不改变原数据同时延迟执行</strong>，这里的stream和IO流不一样，这里的Stream是对数组和集合的操作流，对于stream的聚合、消费或收集操作只能进行一次，创建流的方式Arrays.stream、集合.stream、集合.parallelStream、Stream.empty、Stream.generate().limit()，map函数可以把一种类型的流转换为另一种类型。</li>
+<li><strong> Stream</strong>：<strong>不存储数据、不改变原数据同时延迟执行</strong>，这里的stream和IO流不一样，这里的Stream是<strong>对数组和集合的操作流</strong>，对于stream的聚合、消费或收集操作只能进行一次，创建流的方式Arrays.stream、集合.stream、集合.parallelStream、Stream.empty、Stream.generate().limit()，map函数可以把一种类型的流转换为另一种类型。</li>
 <li><strong>Optional类型</strong>：Optional表示一个安全的指定结果类型，所谓的安全指的是避免直接调用返回类型的null值而造成空指针异常，调用optional.ifPresent()可以判断返回值是否为空，或者直接调用ifPresent(Consumer&lt;? super T&gt; consumer)在结果部位空时进行消费操作，Optional创建的静态方法of和ofNullable(可以接受空值)；</li>
 <li><strong>接口的默认方法和静态方法</strong>：接口的默认方法的应用场景是当接口中新增了方法声明之后，所有实现了该接口的方法都需要重新实现该方法，而接口的默认方法则是可以让接口的实现类不需要重写方法也可以执行该函数，静态方法是可以直接被调用的，不需要接口的实现类，default和static不能同时使用，当一个类实现的多个接口出现同样的默认方法的时候，这个类必须覆写这个方法，不然会报错，还有就是接口的方法的优先级：子接口的优先级高，类实现的同名方法的优先级高。</li>
 </ol>
@@ -682,11 +769,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		
 		</ul>
@@ -999,84 +1086,6 @@
 
 
   
-    <article id="post-20180701" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/01/20180701/">20180701</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/01/20180701/" class="archive-article-date">
-  	<time datetime="2018-07-01T06:44:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-01</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="随便说两句"><a href="#随便说两句" class="headerlink" title="随便说两句"></a>随便说两句</h2><p>这学期基本上结束了，已经进入暑假了吧，毕业一年了，今天下午把上学期学习的后台知识的博客看完了，虽然也忘得差不多了，这么多东西要记住真的很难啊，只能通过实战加深印象了，看看博客的时间就知道自己基本上没偷懒，哈哈哈，算是安慰自己吧，只有上个月没有写博客，不过感觉也不太科学啊，上个月虽然比较忙，老师一直让我干各种事，以及为写论文做实验，但是还没有这么忙，下周开始要好好学习了，真的不能偷懒了，我感觉自己真的太懒了，一年以后就要找实习了，给自己的时间不多了，给中国队的时间不多了，这一年学习java和后台实践以及算法，Java好多知识点，基础的差不多都知道了，但是感觉还差很多，慢慢来吧，相信会有进步的，LeetCode的题做了四五道就再也没打开网站了，哈哈哈，还是自己懒啊，虽然有的时候很无聊，而且注意力也不集中，真的有些苦恼，决定做完书上的这个java项目接几个项目来做做，希望自己可以越来越优秀吧，其实我也不是一点事情不干，起码自己知道了很多java的知识，需要通过实战和进一步的学习，我这个人总是喜欢给自己留期限，明天开始加油工作吧，我希望自己对得起自己，完成任务，虽然现在的自己很渣，很缺钱，花钱还大手大脚，但我相信我自己可以越来越好的，接点私活吧，不然活不下去了，哈哈哈，真的很难受啊</p>
-<p>我这个人就是容易学着学着突然没了目标，没了动力，不知道为什么，但我又不想开始养老，所以我想努力，想奋斗，想挣钱，希望我自己加油吧，哈哈哈就写这些吧，没什么写的了，健身，后台，算法，挣钱，刚把得</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/01/20180701/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1162,7 +1171,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1170,15 +1187,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">数据库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
               </li>
              
               <li class="article-tag-list-item">

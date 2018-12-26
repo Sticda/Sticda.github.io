@@ -9,13 +9,13 @@
   <title>20180813 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="System.out.println的具体执行方法里加了Synchronized同步块。 守护线程：守护用户线程，在用户线程结束后自动结束，thread的setDaemon（true）必须在start之前执行，不能将正在运行的用户线程设置为守护线程。在守护线程里产生的线程也是守护线程 ThreadLocal:线程本地变量，每个线程都会在本地存储一个副本，不会对其他线程的变量副本造成影响，Thre">
-<meta name="keywords" content="笔记,java">
+<meta name="keywords" content="java,笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20180813">
 <meta property="og:url" content="http://yoursite.com/2018/08/13/20180813-java/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="System.out.println的具体执行方法里加了Synchronized同步块。 守护线程：守护用户线程，在用户线程结束后自动结束，thread的setDaemon（true）必须在start之前执行，不能将正在运行的用户线程设置为守护线程。在守护线程里产生的线程也是守护线程 ThreadLocal:线程本地变量，每个线程都会在本地存储一个副本，不会对其他线程的变量副本造成影响，Thre">
-<meta property="og:updated_time" content="2018-08-17T03:11:42.844Z">
+<meta property="og:updated_time" content="2018-12-25T03:21:34.204Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180813">
 <meta name="twitter:description" content="System.out.println的具体执行方法里加了Synchronized同步块。 守护线程：守护用户线程，在用户线程结束后自动结束，thread的setDaemon（true）必须在start之前执行，不能将正在运行的用户线程设置为守护线程。在守护线程里产生的线程也是守护线程 ThreadLocal:线程本地变量，每个线程都会在本地存储一个副本，不会对其他线程的变量副本造成影响，Thre">
@@ -183,7 +183,7 @@
 <li>lambda表达式专门针对只有一个方法的接口（<strong>函数式接口</strong>），使用@FunctionalInterface可以构造自己的函数式接口。jdk提供了常用的函数式接口，Function：提供任意一种类型的参数，返回另外一个任意类型返回值。 R apply(T t); Consumer：提供任意一种类型的参数，返回空值。 void accept(T t); Supplier：参数为空，得到任意一种类型的返回值。T get(); Predicate：提供任意一种类型的参数，返回boolean返回值。boolean test(T t); BinaryOperator：提供两个参数，返回一个参数。当lambda表达式想要代替这些函数式接口的时候返回的类型和参数应该满足这些函数式接口的方法签名。<strong>函数式接口作为参数会在特定的类或者方法中被调用接口的方法，这时候可以直接使用lambda表达式替代传入的函数式接口。</strong>lambda表达式内部的this指的是包含lambda表达式的类，使用内部匿名类的方法this指的是匿名内部类本身。</li>
 <li><strong>方法引用</strong>：只要是方法的返回值类型和参数与函数式接口中抽象方法的参数和返回值类型保持一致就可以使用方法引用代替函数式方法，方法引用有三种方式：构造器方法引用(Class::new)、类普通方法引用(Class::method)、类静态方法引用(Class::static_method)、实例方法引用(instance::method)，System.out::println就是实例方法引用。</li>
 <li>lambda表达式在编译阶段会被转换为匿名内部类，自由变量是在lambda表达式之外定义的变量，自由变量在lambda表达式内部不能被改变。</li>
-<li><strong> Stream</strong>：<strong>不存储数据、不改变原数据同时延迟执行</strong>，这里的stream和IO流不一样，这里的Stream是对数组和集合的操作流，对于stream的聚合、消费或收集操作只能进行一次，创建流的方式Arrays.stream、集合.stream、集合.parallelStream、Stream.empty、Stream.generate().limit()，map函数可以把一种类型的流转换为另一种类型。</li>
+<li><strong> Stream</strong>：<strong>不存储数据、不改变原数据同时延迟执行</strong>，这里的stream和IO流不一样，这里的Stream是<strong>对数组和集合的操作流</strong>，对于stream的聚合、消费或收集操作只能进行一次，创建流的方式Arrays.stream、集合.stream、集合.parallelStream、Stream.empty、Stream.generate().limit()，map函数可以把一种类型的流转换为另一种类型。</li>
 <li><strong>Optional类型</strong>：Optional表示一个安全的指定结果类型，所谓的安全指的是避免直接调用返回类型的null值而造成空指针异常，调用optional.ifPresent()可以判断返回值是否为空，或者直接调用ifPresent(Consumer&lt;? super T&gt; consumer)在结果部位空时进行消费操作，Optional创建的静态方法of和ofNullable(可以接受空值)；</li>
 <li><strong>接口的默认方法和静态方法</strong>：接口的默认方法的应用场景是当接口中新增了方法声明之后，所有实现了该接口的方法都需要重新实现该方法，而接口的默认方法则是可以让接口的实现类不需要重写方法也可以执行该函数，静态方法是可以直接被调用的，不需要接口的实现类，default和static不能同时使用，当一个类实现的多个接口出现同样的默认方法的时候，这个类必须覆写这个方法，不然会报错，还有就是接口的方法的优先级：子接口的优先级高，类实现的同名方法的优先级高。</li>
 </ol>
@@ -221,11 +221,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		
 		</ul>
@@ -411,7 +411,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -419,15 +427,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">数据库</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
               </li>
              
               <li class="article-tag-list-item">
