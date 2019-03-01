@@ -139,6 +139,403 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20180813-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/13/20180813-java/">20180813</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/13/20180813-java/" class="archive-article-date">
+  	<time datetime="2018-08-13T10:01:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-13</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>System.out.println的具体执行方法里加了Synchronized同步块。</li>
+<li><strong>守护线程</strong>：守护用户线程，在用户线程结束后自动结束，thread的setDaemon（true）必须在start之前执行，不能将正在运行的用户线程设置为守护线程。在守护线程里产生的线程也是守护线程</li>
+<li><strong>ThreadLocal</strong>:线程本地变量，每个线程都会在本地存储一个副本，不会对其他线程的变量副本造成影响，<strong>ThreadLocal可以重写的方法</strong>包括initialValue、ge、set、remove，ThreadLocal底层是由ThreadLocalMap实现的，每个Thread都有自己的一个ThreadLocalMap，为了避免内存泄漏，key都是对ThreadLocal 的弱引用，value是变量的本地值，<strong>防止内存泄漏的方法</strong>：ThreadLocal已经被回收，但是ThreadLocalMap节点中的key对应的value仍然被强引用，会有内存泄漏。replaceStaleEntry会将所有key为null 的value设置为null，expungeStaleEntry方法将键值都为null的Entry设置为null。这样就可以在下一次gc的时候被回收<strong>ThreadLocal的使用场景</strong>是每个线程都有自己的变量副本，还有就是实例需要在多个方法之间共享，但却不想在多个线程之间共享。</li>
+<li><strong>CountDownLatch倒计时</strong>器：CountDownLatch有四个方法，构造器CountDownLatch（int n）、await、await（time,unit），countdown，等待n个线程执行完毕之后，才会继续接下来的操作，每个线程执行完之后都要调用countdown函数使得倒计时器减1，在主线程中调用await方法，就会使得主线程阻塞直到倒计时器数为0，才会继续执行操作。</li>
+<li><strong>CycleBarrier循环栅栏</strong>：所有的线程需要等待到达一个状态之后才可以继续进行下面的操作，CycleBarrier有两个参数是n和Runnable barrierAction，n就是当CycleBarrier上等待的线程到达n时就会继续下面的操作，CycleBarrier也有一个await方法，使得当前线程暂停等待，在线程执行完之后，还可以调用Runnable的action继续后续的操作，也可以没有barrierAction这个参数。</li>
+<li><strong>Semaphore信号量</strong>：信号量可以控制访问变量的线程个数，通过acquire获取许可，release释放许可（acquire和release都是阻塞的）还可以释放或者获取多个许可，前面加try就是非阻塞的，构造器参数就是permits或者permits和fair（等待越久越先获得许可）。<br>7.<strong> 线程的终结</strong>：线程有一个stop方法，调用它可以直接终止线程，但是这个方法是Deprecated（过时的），因为直接stop线程会导致正在进行的线程发生数据不一致的问题，方法应该是在循环中检验一个变量的值，完成业务之后修改变量的值，导致循环退出，这样在循环的一个流程里面执行完业务，然后退出。</li>
+<li><strong>sleep和wait的区别</strong>：sleep是让线程休眠，到时间之后会自动唤醒，然而wait是等待，必须等待唤醒才可以使用。sleep是Thread线程类的静态方法，而wait是Object顶级类的方法，sleep可以在任何地方使用，但是wait只能在同步代码块中使用，而且调用wait的类就是同步代码块锁定的类；sleep和wait的区别还在于sleep在休眠的时候并不会释放已经获得的锁，而wait就会释放已经获得的锁，sleep和wait都会暂停当前线程让出CPU执行时间；sleep需要捕获异常（在休眠的时候被异常中断），而wait不需要。</li>
+<li><strong>JVM重排序规则</strong>：volatile和监视器锁；final字段（1.final字段的写入（构造器内）以及final字段对象本身的引用写入都不能和后续的构造器外持有该final字段的对象的写入重排序，2.final字段的第一次加载不能和持有这个final字段的对象的写入重排序）；内存屏障（LoadLoad,StoreStore,LoadStore,StoreLoad,最后这个最常用，先store后load不能打乱，防止读到旧数据，但是StoreLoad开销很大）；</li>
+<li>HappenBefore规则:两个操作之间具有happens-before关系，并不意味着前一个操作必须要在后一个操作之前执行！happens-before仅仅要求前一个操作（执行的结果）对后一个操作可见。</li>
+<li><strong>内存泄漏</strong>：有一些对象已经不需要使用了，按理说这部分内存应该被垃圾收集器回收，但是这部分对象仍然在被引用，所以无法回收，程序也无法使用，导致内存泄漏。<strong>防止内存泄漏</strong>：注意集合类ArrayList、HashMap等，因为他们是内存泄漏常见的地方，注意事件监听器和回调，如果一个类自己管理自己的内存，那么指向其他对象的成员变量需要为null。</li>
+<li><strong>Java6中字符串的subString方法存在内存泄漏的问题</strong>：因为JDK6中的string底层是char数组和起始标识以及数组长度，substring只会修改新生成字符串的起始标识和数组长度，可能会导致原来存在的一个很长的字符串无法被回收，而在Java7中subString方法会直接新建字符串。</li>
+<li><strong>java运行时区域</strong>：线程不共享的区域：程序计数器（当前线程指令运行到的地址）、虚拟机栈（java方法的栈，每一次方法的调用都是一个栈帧的出栈和入栈，每一个栈帧包括了局部变量表、操作数栈、动态链接、方法出口）、本地方法栈（native方法的栈）；线程共享的区域：堆（JVM启动时创建的对象和数组，真实的数据内容）、方法区（存储了每一个类的结构信息，运行时常量池，字段和方法数据、构造函数等等，<strong>运行时常量池</strong>里面主要是编译器可知的数值字面量和在运行期才能解析获得的方法或字段的引用）</li>
+<li>JDK7之后，所有需要关闭的资源只要实现了java.lang.AutoCloseable接口，程序结束之后资源就会自动关闭，在<strong>try-with-resource</strong>语句中这样使用才会有效果，在try（）里定义多个资源，在结束之后是按照在try里的定义顺序自动关闭。</li>
+<li>JDK8里面通过lambda表达式以及函数式接口提供了很多排序手段，JDK8之前需要自己定义实现了Comparator接口的类，jdk8中可以利用list.sort函数添加，还可以利用Collections.sort函数（参数是list和Comparator提供的静态方法）</li>
+<li><strong>lambda表达式</strong>：（parameters）-&gt;{表达式}，lambda语句可以指定参数类型和return，也可以不指定，编译器会自动推断，后面的表达式如果只有一句就可以不用加大括号了。参数的括号不能省略。</li>
+<li>lambda表达式专门针对只有一个方法的接口（<strong>函数式接口</strong>），使用@FunctionalInterface可以构造自己的函数式接口。jdk提供了常用的函数式接口，Function：提供任意一种类型的参数，返回另外一个任意类型返回值。 R apply(T t); Consumer：提供任意一种类型的参数，返回空值。 void accept(T t); Supplier：参数为空，得到任意一种类型的返回值。T get(); Predicate：提供任意一种类型的参数，返回boolean返回值。boolean test(T t); BinaryOperator：提供两个参数，返回一个参数。当lambda表达式想要代替这些函数式接口的时候返回的类型和参数应该满足这些函数式接口的方法签名。<strong>函数式接口作为参数会在特定的类或者方法中被调用接口的方法，这时候可以直接使用lambda表达式替代传入的函数式接口。</strong>lambda表达式内部的this指的是包含lambda表达式的类，使用内部匿名类的方法this指的是匿名内部类本身。</li>
+<li><strong>方法引用</strong>：只要是方法的返回值类型和参数与函数式接口中抽象方法的参数和返回值类型保持一致就可以使用方法引用代替函数式方法，方法引用有三种方式：构造器方法引用(Class::new)、类普通方法引用(Class::method)、类静态方法引用(Class::static_method)、实例方法引用(instance::method)，System.out::println就是实例方法引用。</li>
+<li>lambda表达式在编译阶段会被转换为匿名内部类，自由变量是在lambda表达式之外定义的变量，自由变量在lambda表达式内部不能被改变。</li>
+<li><strong> Stream</strong>：<strong>不存储数据、不改变原数据同时延迟执行</strong>，这里的stream和IO流不一样，这里的Stream是<strong>对数组和集合的操作流</strong>，对于stream的聚合、消费或收集操作只能进行一次，创建流的方式Arrays.stream、集合.stream、集合.parallelStream、Stream.empty、Stream.generate().limit()，map函数可以把一种类型的流转换为另一种类型。</li>
+<li><strong>Optional类型</strong>：Optional表示一个安全的指定结果类型，所谓的安全指的是避免直接调用返回类型的null值而造成空指针异常，调用optional.ifPresent()可以判断返回值是否为空，或者直接调用ifPresent(Consumer&lt;? super T&gt; consumer)在结果部位空时进行消费操作，Optional创建的静态方法of和ofNullable(可以接受空值)；</li>
+<li><strong>接口的默认方法和静态方法</strong>：接口的默认方法的应用场景是当接口中新增了方法声明之后，所有实现了该接口的方法都需要重新实现该方法，而接口的默认方法则是可以让接口的实现类不需要重写方法也可以执行该函数，静态方法是可以直接被调用的，不需要接口的实现类，default和static不能同时使用，当一个类实现的多个接口出现同样的默认方法的时候，这个类必须覆写这个方法，不然会报错，还有就是接口的方法的优先级：子接口的优先级高，类实现的同名方法的优先级高。</li>
+<li><strong>悲观锁</strong>：总是假设最坏的情况，每次去拿数据的时候都认为别人会修改，所以每次在拿数据的时候都会上锁，这样别人想拿这个数据就会阻塞直到它拿到锁。传统的关系型数据库里边就用到了很多这种锁机制，比如行锁，表锁等，读锁，写锁等，都是在做操作之前先上锁。再比如Java里面的同步原语synchronized关键字的实现也是悲观锁。</li>
+<li><strong>乐观锁</strong>：顾名思义，就是很乐观，每次去拿数据的时候都认为别人不会修改，所以不会上锁，但是在更新的时候会判断一下在此期间别人有没有去更新这个数据，可以使用版本号等机制。乐观锁适用于多读的应用类型，这样可以提高吞吐量，像数据库提供的类似于write_condition机制，其实都是提供的乐观锁。在Java中java.util.concurrent.atomic包下面的原子变量类就是使用了乐观锁的一种实现方式CAS实现的。</li>
+<li><strong>分布式锁</strong>：在分布式的部署环境下，通过锁机制来让多客户端互斥的对共享资源进行访问。排他性：在同一时间只会有一个客户端能获取到锁，其它客户端无法同时获取；避免死锁：这把锁在一段有限的时间之后，一定会被释放（正常释放或异常释放）高可用：获取或释放锁的机制必须高可用且性能佳。</li>
+<li><strong>自旋锁</strong>：如果持有锁的线程能在很短时间内释放锁资源，那么那些等待竞争锁的线程就不需要做内核态和用户态之间的切换进入阻塞挂起状态，它们只需要等一等（自旋），等持有锁的线程释放锁后即可立即获取锁，这样就避免用户线程和内核的切换的消耗</li>
+<li><strong>偏向锁</strong>：会偏向于第一个访问锁的线程，如果在运行过程中，同步锁只有一个线程访问，不存在多线程争用的情况，则线程是不需要触发同步的，这种情况下，就会给线程加一个偏向锁。 如果在运行过程中，遇到了其他线程抢占锁，则持有偏向锁的线程会被挂起，JVM会消除它身上的偏向锁，将锁恢复到标准的轻量级锁。</li>
+<li><strong>锁膨胀</strong>：检测Mark Word里面是不是当前线程的ID，如果是，表示当前线程处于偏向锁 ；如果不是，则使用CAS将当前线程的ID替换Mard Word，如果成功则表示当前线程获得偏向锁，置偏向标志位1 ；如果失败，则说明发生竞争，撤销偏向锁，进而升级为轻量级锁； 当前线程使用CAS将对象头的Mark Word替换为锁记录指针，如果成功，当前线程获得锁 ；如果失败，表示其他线程竞争锁，当前线程便尝试使用自旋来获取锁； 如果自旋成功则依然处于轻量级状态； 如果自旋失败，则升级为重量级锁。</li>
+<li>如果一个对象有多个<strong>synchronized方法</strong>，只要一个线程访问了其中的一个synchronized方法，相当于该线程获得对象锁，其它线程不能同时访问这个对象中任何一个synchronized方法。</li>
+<li>某个类的范围，<strong>synchronized static aStaticMethod{}</strong>防止多个线程同时访问这个类中的synchronized static 方法。它可以对类的所有对象实例起作用，锁对象是class对象。</li>
+<li>synchronized可以保证方法或者代码块在运行时，同一时刻只有一个方法可以进入到临界区，同时它还可以保证共享变量的内存可见性。</li>
+<li><strong>同步代码块</strong>是使用monitorenter和monitorexit指令实现的，<strong>同步方法</strong>在Class文件的方法表中将该方法的access_flags字段中的synchronized标志位置1，表示该方法是同步方法并使用调用该方法的对象或该方法所属的Class在JVM的内部对象表示Klass做为锁对象。</li>
+<li><strong>Monitor</strong>：Monitor Record是线程私有的数据结构，每一个线程都有一个<strong>可用monitor record列表</strong>，同时还有一个全局的可用列表。每一个被锁住的对象都会和一个monitor Record关联（<strong>对象头的MarkWord中的LockWord指向monitor record的起始地址</strong>），同时monitor Record中有一个Owner字段存放拥有该锁的线程的唯一标识，表示该锁被这个线程占用。</li>
+<li><strong>as-if-serial语义</strong>：不管怎么重排序（编译器和处理器为了提高并行度），单线程程序的执行结果不能被改变。编译器，runtime 和处理器都必须遵守as-if-serial语义。</li>
+<li><strong>synchronized和lock的区别</strong>：lock可以不让等待的线程一直无期限地等待下去（比如只等待一定的时间或者能够响应中断），Synchronized不能实现读写锁，也不能知道线程有没有成功获取到锁。但是他可以自动释放锁。Lock需要主动释放。</li>
+<li>守护线程：在程序运行的时候在后台提供一种通用服务的线程，比如垃圾回收线程，并不属于程序中不可或缺的部分</li>
+<li>当所有的非守护线程结束时，程序也就终止了，同时会杀死进程中的所有守护线程。反过来说，只要任何非守护线程还在运行，程序就不会终止。</li>
+<li>thread.setDaemon(true)必须在thread.start()之前设置，否则会跑出一个IllegalThreadStateException异常。不能把正在运行的常规线程设置为守护线程。</li>
+<li>守护线程产生的子线程也是守护线程。守护线程应该永远不去访问固有资源，如文件、数据库，因为它会在任何时候甚至在一个操作的中间发生中断</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/13/20180813-java/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20180806-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/06/20180806-java/">20180806</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/06/20180806-java/" class="archive-article-date">
+  	<time datetime="2018-08-06T01:39:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-06</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。</li>
+<li>hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而==在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值</li>
+<li>java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、RuntimeException（唯一的运行时异常），前三种异常必须在编译之前就捕捉或者抛出。</li>
+<li>+连接字符串可以连接null或者其他类型，但是concat不行，建议使用Stringbuilder</li>
+<li>try和finally里都有return，会直接返回finally里的return，finally一定会执行，在try中return，finally会把结果保存，基本类型一切以try中保存的值为准，但是引用类型就会与finally修改以后的为准</li>
+<li>序列化之后属性有变化会导致值的丢失；父类没有序列化，但是子类序列化了，子类的属性可以序列化，但是父类的属性会丢失；不想序列化的字段加上transient即可。</li>
+<li>正整数的<strong>原码补码反码</strong>都是一样的，负整数的<strong>原码</strong>首位为1，<strong>反码</strong>是符号位不变，其余相反，<strong>补码</strong>是符号位不变，反码加1</li>
+<li>Set中的元素是无序且不重复的，这句话中的Set指的是HashSet，LinkedHashSet是按照添加的顺序排列，而TreeSet是按照自然顺序a~z</li>
+<li>URLClassLoader是ClassLoader的子类，URLClassLoader可以加载任意路径下的类，ClassLoader只能加载ClassPath下的类</li>
+<li>long类型不同进制的转换是从左到右依次遍历每个字符乘以进制数，再加上下一个字符，接着再乘以进制数，不断重复。</li>
+<li><strong>集合遍历</strong>是使用Iterator, Iterator是工作在一个独立的线程中，并且拥有一个互斥锁。Iterator 被创建之后会建立一个指向原来对象的单链索引表，当原来的对象数量发生变化时，这个索引表的内容不会同步改变，所以当索引指针往后移动的时候就找不到要迭代的对象，所以按照 fail-fast原则 Iterator 会马上抛出java.util.ConcurrentModificationException 异常。所以 Iterator 在工作的时候是不允许被迭代的对象被改变的</li>
+<li><strong>装箱过程</strong>是通过调用包装器的valueOf方法实现的，而<strong>拆箱过程</strong>是通过调用包装器的 xxxValue方法实现的。（xxx代表对应的基本数据类型）</li>
+<li><strong>“==”运算符</strong>既可以用来比较基本类型变量和引用类型变量。当两个操作数都是包装器类型的变量时，判定标准为他们是否指向同一个对象；而如果其中有一个操作数是表达式（即包含算术运算）则会先进行自动拆箱，再进行对应基本类型变量比较。</li>
+<li><strong>静态变量</strong>被所有的对象所共享，在内存中只有一个副本，它当且仅当在类初次加载时会被初始化。而非静态变量是对象所拥有的，在创建对象的时候被初始化，存在多个副本，各个对象拥有的副本互不影响。</li>
+<li>先加载父类，然后再加载子类，先调用父类的构造器，在调用自身的构造器。</li>
+<li><strong>static关键字</strong>有一个比较关键的作用就是 用来形成静态代码块以优化程序性能。static块可以置于类中的任何地方，类中可以有多个static块。在类初次被加载的时候，会按照static块的顺序来执行每个static块，并且只会执行一次。</li>
+<li><strong>ArrayList</strong>底层是数组，<strong>LinkedList</strong>底层是链表，<strong>Vector</strong>底层也是数组，Vector支持线程同步，前两个不支持，链表的查找速度较慢，因为需要移动指针，数组的查找速度较快（索引），数组的增删速度比较慢，因为需要移动后面的内容，这时候链表就比较快。<strong>stack</strong>是Vector的子类，主要实现了后进先出的栈的功能。当需要扩展数组长度的时候，Vector会扩展为原来的一倍，ArrayList会扩展50%，</li>
+<li><strong>SynchronizedList和Vector的区别：</strong>SynchronizedList是由Collections静态工具类提供的一个可以实现线程同步的list，和Vector的区别在于以下几点：Vector和SynchronizedList在长度扩展上的区别；Vector是通过同步方法实现同步，而SynchronizedList是通过同步代码块的方式实现（同步代码块内部还是list的方法），SynchronizedList可以通过传入的参数指定锁定的对象，Vector只能锁定this；使用SynchronizedList的时候，进行遍历需要手动同步处理；SynchronizedList可以将list的所有子类转换为线程安全的类</li>
+<li><strong>HashTable和HashMap以及ConcurrentHashMap的区别：</strong>hashtable可以实现同步；HashMap支持插入null值和null key，原因在于HashMap会将null的hashcode定为0，底层都是Entry数组的实现方式，Entry四个属性：Key、Value、hash、Entry（指向下一个Entry，出现hash碰撞）；HashMap的大小总是2的幂次，所以说每次扩容都变成原来的两倍，通过位运算实现除法，提高效率；ConcurrentHashMap允许多个修改操作并发进行，锁定Map中的某个段，而HashTable 是锁定整个Map的。对于HashMap来说jdk1.7使用数组加链表（Entry），jdk1.8使用数组加链表和红黑树实现（Node）</li>
+<li>Java7提供了一种并行任务框架，<strong>Fork/Join框架</strong> ，ForkJoinPool是框架的任务调度器，提供了三个调度子任务的方法：execute（没有返回结果），invoke、invokeAll（有返回结果），submit（返回future对象），具体的任务执行类需要实现RecursiveAction（无结果返回）和RecursiveTask（有结果返回），任务执行类里面有一个compute函数，类似于递归的思想，这个compute判断是否可以计算，如果可以计算就直接计算，不能计算就进行拆分，fork就是执行execute，join函数就是得到返回值。</li>
+<li><strong>并发</strong>就是在一段时间内多个任务在执行，交替或者串行或者其他，但是<strong>并行</strong>就是指并行执行，多个任务在同时执行，</li>
+<li><strong>java实现多线程的三种方式：</strong>继承Thread类；实现Runnable接口，重写run方法（一个子类只能继承一个父类），将Runnable实例传给Thread对象；实现Callable接口，重写call方法，将Callable实例传给FutureTask对象，再传给Thread对象</li>
+<li><strong> Futuretask</strong>是实现了RunnableFuture接口的类，RunnableFuture接口继承了Runnable接口和Future接口，所以FutureTask的使用方法有两种：FutureTask+ExecuteService和FutureTask+Thread，第一种方法就是把实现了Callable接口的类传递给FutureTask，第二种方法就是把FutureTask传给Thread，并利用FutureTask获得结果。</li>
+<li><strong>Join方法</strong>的主要作用是挂起当前线程，等到调用了Join方法的线程结束之后，当前线程才会继续运行。</li>
+<li><strong>线程的状态</strong>一共有6个，NEW是刚创建的线程，还没有启动；RUNNABLE是正在运行的线程；TIME_WAITING是有时限的等待线程；而WAITING是无限的等待，等待一个特殊事件的唤醒；BLOCKED表明这个线程当前处于等待锁的阻塞状态，一旦获得锁将进入RUNNABLE状态；TERMINATED是指线程运行结束，进入终止状态。</li>
+<li><strong>死锁</strong>：多个线程拿了对方需要的锁，同时又在等待对方释放自己需要的锁；<strong>活锁</strong>就是多线程相互谦让，导致没有线程正常执行；<strong>饥饿</strong>就是说低优先级一直抢不过高优先级的线程，导致低优先级的线程得不到执行；<strong>无锁</strong>就是对资源不锁定，一堆线程抢着修改共享资源。</li>
+<li><strong>避免死锁</strong>的方法：按顺序加锁（这样能保证只能有一个线程获得锁）；获取锁时限（一定时间之后放弃自己已经拥有的锁）；检测死锁（出现死锁就采取策略）</li>
+<li><strong>线程池核心类：ThreadPoolExecutor类的主要参数</strong>是corePoolSize（核心线程池的大小。线程池的最小线程数量）、maximumPoolSize（线程池的最大线程数量），KeepAliveTime（超过corePoolSize的线程空闲超过KeepAliveTime就会被销毁），unit（KeepAliveTime这个时间的单位），WorkQueue(存储等待执行的工作队列)，ThreadFactory（创建线程的工厂），handler（拒绝策略，默认抛出异常）；<strong>线程池的工作流程</strong>：如果线程池中的线程数量小于corePoolSize的话，就会直接创建新线程执行任务，如果已经超过corePoolSize的话就会存到workQueue，workQueue存满之后，当线程数小于maximumPoolSize的时候就会新建线程执行任务，当线程数超过maximumPoolSize就会利用handler执行拒绝策略。<strong>核心类ThreadPoolExecutor有四个在Executor下的静态实现类</strong>：newFixThreadPool（固定大小的线程池，核心和最大线程数相等），newCacheThreadPool（带缓冲的线程池，核心线程池大小为0，有新任务就会执行），newSingleThreadPool（单线程线程池，核心和最大线程数为1，每次保证有1个线程在执行）、newSchedulerThreadPool（调度线程池，按照一定的周期执行任务），<strong>拒绝策略</strong>：AbortPolicy（直接抛出拒绝异常）、CallerRunsPolicy（让调用者线程执行新任务）、DiscardPolicy（直接丢弃）、DiscardOldestPolicy（从队列中丢弃掉最老的任务），提交线程使用execute和submit，不同点在于submit会返回一个future对象，关闭线程池使用shutdown（执行完所有任务再关闭）和shutdownNow。</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/06/20180806-java/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20180801" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/01/20180801/">20180801</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/01/20180801/" class="archive-article-date">
+  	<time datetime="2018-08-01T09:17:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h2><ol>
+<li>注释:&lt;%– 注释 –%&gt;</li>
+<li>声明:&lt;%！ 声明 %&gt;</li>
+<li>输出:&lt;%= 表达式（函数或者变量）%&gt;</li>
+<li>jsp脚本:&lt;%  java代码  %&gt;</li>
+<li>编译指令:&lt;%@ include page taglib%&gt;</li>
+<li>动作指令：就是jsp的一些标签</li>
+<li>可以直接在jsp脚本中使用的内置对象：page、request、response、out、application、config、exception、session、pageCotext</li>
+<li>自定义标签类实现simpleTagSupport，在tld文件中声明</li>
+<li>jsp的表达式语言（EL）： \${expression}</li>
+</ol>
+<h2 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h2><ol>
+<li>Servlet需要继承httpServlet</li>
+<li>@WebServlet进行配置 </li>
+</ol>
+<h2 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h2><ol>
+<li>继承Filter</li>
+<li>@WebFilter配置</li>
+</ol>
+<h2 id="Listener"><a href="#Listener" class="headerlink" title="Listener"></a>Listener</h2><ol>
+<li>根据想要监听的web时间继承的listener接口也不同</li>
+<li>@WebListener配置</li>
+</ol>
+<h2 id="Struts-Action"><a href="#Struts-Action" class="headerlink" title="Struts  Action"></a>Struts  Action</h2><ol>
+<li>继承ActionSupport</li>
+<li>三种方式访问ServletAPI：使用ActionContext，实现可以访问API的接口，工具类ServletActionContext</li>
+<li>Action配置：指定某个method实现某个action以及使用通配符</li>
+<li>Action处理结果配置：处理结果类型，可以使用${属性名}访问对应Action的实例，全局结果配置</li>
+<li>PreResultListener接口是在action处理完成转入物理资源之间被调用</li>
+<li>配置Action的异常：<exception-mapping>标签有exception和result</exception-mapping></li>
+<li>Action的约定支持Convention，通过设置指定扫描哪些包下的action</li>
+<li>在jsp访问中通过action标签或者uri访问action的时候需要指定命名空间</li>
+<li>Convention也可以按照约定映射result，提供从一个action跳入另一个action的方法</li>
+<li>OGNL语言  #变量.变量名</li>
+</ol>
+<p>这本书上的知识点基本上都看过一遍了，书中最后一章的程序我也手敲了一边，也能跑通，现在就是下一步的主要任务是什么，现在能想到的需要解决的问题就是java的基础问题，因为java编程很少，其实有一些比较重要的知识点我还不是特别清楚，既然以后要找java后台的工作，那么java的问题也是需要考虑的，算法我暂时不准备看，找工作的时候再看，现在看了肯定到时候就会忘掉，等下结束这个博客之后，我就把那个成神之路上的知识点挨个看一遍，也算是在进步，每天学几个，这样自己也能不断进步，不至于太差，leetcode什么的等国庆之后再说吧，现在先看看基础。从今天开始又要保持周周写博客的好习惯，白天学完之后晚上花一个小时回顾一下，写个博客也是极好的，反正现在也比较闲，希望可以好好学习，健身，最后找个好点的工作，哈哈，我的目标也不是很远大，找个工作就好了，欲望这种事情只要出现了满足他就行，谁又不是一直有欲望，想死在床上，好了，今日份的废话就到这里为止了，我们需要好好学习了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/01/20180801/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="w-2018" class="article article-type-w  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/02/2018/">2018</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/02/2018/" class="archive-article-date">
+  	<time datetime="2018-07-02T01:18:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>今天突然决定看一些大佬的微信号，但是有一些东西看了就会忘，所以我决定还是把他们粘贴在这个博客里</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/02/2018/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180701" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -865,520 +1262,6 @@
 
 
   
-    <article id="post-20180418" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/18/20180418/">20180418</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/18/20180418/" class="archive-article-date">
-  	<time datetime="2018-04-18T07:25:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-18</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>好久都没写点什么了，最近的状态也不是特别好，从以下几个方面随便写写吧。</p>
-<ol>
-<li>学习：自己在看一本java后台的书，这本书有800+页，现在看到了500页，好久也没写程序了，这波书看完可能就会进入实战操作，写一写程序，做做算法题，最近研究方向又换了，之前的论文看了白看了，主要是对于看论文这件事情比较抵触，也很难做下去，让我最近有点烦，虽然我知道自己是学硕，肯定是有论文的要求，但是看论文仍然是一件很烦恼的事情，今天晚上睡一觉明天又是新的一天。晚上找到了新的事情，就是背背单词啥的，给自己一些事情干。</li>
-<li>生活：分手好久了，说真的，自己还挺享受这种单身生活的，之前总是因为要照顾她导致我心很累，现在自己一个人了就可以想干嘛干嘛，健身打游戏睡觉都随自己想法，但是人嘛，一个人过久了总是会寂寞，我有的时候其实也想被别人照顾，想找一个人照顾我，所以我说真的，我对男女没什么感觉，能给我爱情的感觉最重要，可是说到底，爱情是什么，爱情也就是一种心安的感觉吧，一种让人想稳定下来的感觉，希望早日遇到那个对的人，女生的话我希望她是那种看起来很开朗，又有一些感性的，依赖我的女生，男孩子可能就希望他是那种可以照顾我的，考虑我感受，也不敢说一辈子，起码会有几年的那种，不过说真的，感觉爱情有点奢侈，哈哈，要钱。最近就像是被包养了，这个人花在我身上的钱也2000+了，我觉得总得给他一些什么他想要的作为回报，要不然我自己也不爽，他也不爽。他也不给我现金，总是买东西，清空购物车，我需要钱啊。。哈哈哈，能出去旅游最好，五一出去玩感觉不现实，因为玩了之后我肯定又要欠马爸爸更多的钱了，所以我是拒绝的，想要先把这些钱还干净，起码把债务水平降低一点。。是个人都想要爱情吧，我感觉他也想在我这里要这个东西。但是说真的，我给不了他这些东西，因为我不想照顾别人，但是又不能拒绝他，因为他有钱，在北京有房子，其实这些也给我压力，让我变强，用尽力气去追求自己想要的生活，当然有哪个大款瞎了眼看上我也行啊，男女不限，我希望可以凭借自己的努力以后能够过上幸福的生活，哈哈哈，我对幸福生活的定义是有几个朋友，有房有车，时不时带上父母爷爷奶奶去旅游，感觉也就差不多了，昨天写了一半被师姐拉走做产品笔试了，感觉这事真不简单，找工作任重而道远啊，又要有逻辑分析能力，又要有项目，又要会算法，如果我这个是后端还要会用linux，心累。。。</li>
-<li>展望：最近就继续看java EE这本书，看完了在编程的时候顺便看看linux，看完了linux搞一搞算法，有时候我遇到逻辑问题直接就懵逼了，。。一些比较复杂的题目直接把我看懵了，我感觉自己应该需要一些锻炼，就是大脑很抗拒这种特别费心费力的，主要是感觉做不出来的东西。上面这些还要搞，单词还要背，论文还要看。。真的心累，主要是感觉事儿多，学习上就这样了，生活上一个真的挺好，哈哈哈，坚持健身，想撸就撸，也不需要管什么，钱稍微攒一攒，毕竟我想出去旅游，不管是一个人也好，还是和别人，旅游总是要钱的，哈哈哈。攒钱，学习，健身，=-=，感觉也就这些了。</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/18/20180418/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20180416-hibernate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/16/20180416-hibernate/">20180416 hibernate</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/16/20180416-hibernate/" class="archive-article-date">
-  	<time datetime="2018-04-16T00:58:17.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-16</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="HQL"><a href="#HQL" class="headerlink" title="HQL"></a>HQL</h2><p>where子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。</p>
-<p><strong>当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。</strong></p>
-<p>因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discriminator Value），嵌入where子句的java类名，将被作为该类的辨别值。当where子句的运算符只支持基本类型和字符串类型的时候，where子句中的属性表达式应该以基本类型或者字符串结尾，不要使用组件类型属性结尾。</p>
-<p>size可以返回一个集合的大小，对于有序集合，可以使用minindex与maxindex两个函数代表最小与最大的索引序数，也可以使用minelement（）与maxelement（）函数代表集合中最小和最大的元素，elements()和indices（）函数返回指定集合的所有元素和所有索引。这些东西只能在where子句中使用。</p>
-<p>在where子句中，有序集合（数组，list，map）的元素可以通过[]运算符访问。</p>
-<p>order by 可以根据类或者组件属性的任何属性进行排序。asc或者desc关键字指定升序或者降序的排序规则。默认升序规则，group by之后用having子句对分组进行过滤。<strong>HQL子查询只能出现在select子句或者where子句中。</strong></p>
-<h3 id="命名查询"><a href="#命名查询" class="headerlink" title="命名查询"></a>命名查询</h3><p>Hibernate支持使用@NamedQuery注解来配置命名查询，两个属性，name、query。在程序中使用session的getNamedQuery（String name）函数获得Query对象。</p>
-<h3 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h3><p>条件查询通过以下三个类来完成，Criteria（代表一次查询）、Criterion（代表查询条件）、Restrictions（产生criterion的工具类）使用HQL条件查询的顺序是：</p>
-<ol>
-<li>利用session的方法创建criteria对象</li>
-<li>通过Restrictions的静态方法创建一系列的criterion</li>
-<li>把创建的criterion全部添加到criteria</li>
-<li>执行criteria对象的list或者uniqueResult方法返回结果。</li>
-</ol>
-<p>Session调用createCriteria(Class clazz)方法创建针对某个具体持久化类的条件查询实例。Criteria和Query类似有两个用于完成查询分页的方法，除此之外还有add和addOrder。Order实例代表一个排序标准，Order有两个静态方法asc和desc，参数是参照的属性的名称。</p>
-<p>如果需要使用关联实体的属性来增加查询条件，可以对属性再次使用createCriteria方法。返回的结果依然是原本的持久化类的实例。createCriteria有四个重载版本，参数中固有的部分是associationpath属性的名称，可以随机添加的是关联的方式JoinType、关联实体的别名alias、自定义的连接条件withClause。</p>
-<p>createAlias和createCriteria的参数和效果差不多，createAlias的参数也固定了alias参数。Criteria的setFetchMode()方法接受一个FetchMode枚举类型的值。</p>
-<p>Hibernate中使用Projection代表投影运算，Projections是Projection的工厂，负责产生Projection，Criteria提供了setProjection方法绑定projection，ProjectionList类是Projection类的子类，因此可以作为setProjection的参数，ProjectionList也算是一个List，可以使用add的方法增加元素。<br><strong><br>SQL和HQL中的分组函数先执行，然后执行聚集函数，也就是先执行group by，再执行各种聚集函数。</strong></p>
-<p><strong>增加了投影运算后的条件查询，查询返回的结果是数组，数组的前N个元素依次是投影运算的结果，最后一个数组元素才是条件查询得到的实体。</strong></p>
-<p>HQL中分组之后如果还需要排序的话，就需要为投影运算指定一 个别名，指定别名有三种方法，Projections有名为alias的静态方法，可以指定别名，并返回原Projection对象；add的时候也可以指定别名；如果条件查询使用的投影运算是SimpleProjection及其子类，则可以直接使用该投影对象的as方法为自身指定别名。</p>
-<p>Hibernate还提供了Property执行投影预算，Property类似于select，条件查询的结果只有被Property投影的列才会被选出。Property的静态方法forName就可以选出我们想要的列。  </p>
-<p>条件查询的离线查询通过DetachedCriteria来实现，允许在一个session范围之外创建一个查询，并且可以使用任意Session执行。通过DetachedCriteria的静态方法forClass获得离线查询，当DetachedCriteria被传入Criteria作为查询条件的时候，就是子查询。</p>
-<p>如果程序使用Session的getExecutableCriteria方法执行DetachedCriteria对象，那么这个对象就是离线查询，如果使用了Property或者Subqueries的系列方法来操作DetachedCriteria对象，则他被当成子查询使用。</p>
-<h2 id="SQL查询"><a href="#SQL查询" class="headerlink" title="SQL查询"></a>SQL查询</h2><p>Hibernate支持原生SQl查询，SQL查询是通过SQLQuery接口实现的，这个SQLQuery是Query接口的子接口。因此完全可以调用Query接口的方法。</p>
-<p>SQLQuery比Query多了两个方法，一个是addEntity（查询到的记录与特定实体关联），一个是addScalar（查询到的记录关联成标量值）</p>
-<p>执行SQL查询的步骤：</p>
-<ol>
-<li>调用Session的createSQLQuery方法创建查询对象。</li>
-<li>调用SQLQuery对象的addScalar或者addEntity方法将选出的结果与标量值或实体进行关联，分别用于进行标量查询或者实体查询。</li>
-<li>如果SQL语句包含参数，调用Query的setXxx方法赋值。</li>
-<li>调用query的list或者uniqueResult方法返回查询的结果集。</li>
-</ol>
-<p>SQLQuery的addScalar方法是可以选出指定列的数据，如果是仅仅希望Hibernate选出某个字段的值，但又不想明确的指出该字段的值，可以使用addScalar（String 列别名），但是推荐还是使用addScalar（String 列别名，Type 列数据类型）</p>
-<p>如果某一次查询返回的是某个类的全部数据列，那么就可以选择绑定到某个具体的实体，addEntity（Class clazz），最后的结果就会是实体的list，因为SQL中存在多表查询，所以可以为不同的表指定不同的别名，addEntity（String alias，Class entityClass）。除此之外，Hibernate还支持将查询结果转化为非持久化实体（JavaBean对象），需要在select语句中的列指定JavaBean里的属性的别名，除此之外还需要为SQLQuery指定一个Transformer对象，setResultTransformer（）对象，Transformer提供了一个方法，aliasToBean，  然后就可以使用。</p>
-<h3 id="处理关联和继承"><a href="#处理关联和继承" class="headerlink" title="处理关联和继承"></a>处理关联和继承</h3><p>Hibernate还提供把查询结果转化成关联实体，SQLQuery的addJoin(String alias，String path)，第一个参数是转化后的实体，第二个参数是持久化实体对于关联实体的引用方式。</p>
-<h3 id="命名SQL查询"><a href="#命名SQL查询" class="headerlink" title="命名SQL查询"></a>命名SQL查询</h3><p>使用@NamedNativeQuery来自定义命名SQL查询，如果有多个的话就是用@NamedNativeQueries注解，用于组合多个命名SQL查询，这里面的属性有name、query（SQL查询的字符串）、resultClass（查询的结果映射到实体类）、resultSetMapping（里面的值是@SQLResultSetMapping的name）</p>
-<p>@SqlResultSetMapping的作用就是将查询到的结果集转换为标量查询或者实体查询，属性有name（resultSetMapping里面需要使用的属性值）、columns的属性值是@ColumnResult注解数组，每一个都是标量查询addScalar()，entities的属性值是@EntityResult注解数组，每个都是实体查询addEntities()，还有一个classes属性，值是@ConstructorResult注解数组，每个都负责转化成非持久化类对象。相当于setResultTransformer（）。通过Session的getNamedQuery就可以直接获取到命名查询。实体这里有个需要注意的地方，如果持久化类的构造器只需要两个参数就可以，可以在@EntityResult中通过fields属性中@FieldResult指定name（实体属性）和column（查询中的列名）。</p>
-<h3 id="调用存储过程"><a href="#调用存储过程" class="headerlink" title="调用存储过程"></a>调用存储过程</h3><p>Hibernate可以通过命名SQL查询来调用存储过程或函数。需要先定义好存储过程，然后在命名SQL查询中，query的部分中调用存储过程</p>
-<p>使用@SQLInsert、@SQLUpdate、@SQLDelete、@SQLDeleteAll修饰某个类，那么这个类就在持久化的过程中就会使用上面几个注解的sql属性指定的语句执行任务。想要在sql属性中调用存储过程只需要在指定callable=true即可。</p>
-<h2 id="数据过滤"><a href="#数据过滤" class="headerlink" title="数据过滤"></a>数据过滤</h2><p>数据过滤和@Where注解不一样，数据过滤可以带参数，可以有选择的使用或者不使用，但是@Where注解一旦指定，就肯定会在抓取数据的时候执行，并且不能带参数。</p>
-<p>数据过滤器的定义方式是@FilterDef，如果需要定义多个过滤器，则使用@FilterDefs，使用过滤器时候应用@Filter元素应用过滤器，如果要应用多个过滤器的话可以使用@Filters，这个过滤器可以放置在某个持久化类或者该类的关联实体上以及集合属性上。系统默认不使用过滤器，必须使用session的enableFilter(String name )返回一个filter，利用filter的setParameter方法设置参数。不想使用过滤器的时候，调用session的disableFilter方法，<strong>如果只是临时的数据筛选还是使用常规查询比较好，如果很频繁的使用则可以使用过滤器</strong></p>
-<p>@FilterDef中可以指定的属性有name、defaultCondition（默认的sql语句）、parameters（SQL表达式中支持的参数），这个的主要作用就是定义过滤器，也就是只需要指定name和parameters两个属性，具体的SQL语句可以在使用的时候指定。parameters的具体值也是@parameter，属性有name和type，都是字符串。使用过滤器的地方就是@Filter注解，属性有name（要和使用的过滤器的定义对应起来）、condition（这里需要具体指定使用的SQL语句），这里面的参数在session中调用他的地方利用filter的setParameter方法指定。</p>
-<h2 id="事务控制"><a href="#事务控制" class="headerlink" title="事务控制"></a>事务控制</h2><p>ACID（Atomicity、Consistency、Isolation、Durablity）</p>
-<p><strong>几乎在所有情况下，都不要使用每个应用对应一次Hibernate Session，也尽量不要使用每次HTTP Session对应一个Hibernate Session</strong></p>
-<p>Hibernate的事务就是一次Transaction，通过session的beginTransaction方法开始一次事务。底层上看Transaction是由TransactionFactory产生的。SessionFactory是线程安全的，一旦创建了该对象，只有在应用退出时才会关闭SessionFactory。Session对象是轻量级的，也是线程不安全的。Session一般情况下只会在需要使用数据库的时候才会打开JDBC连接，因此长Session对于性能的影响不大，只要不长时间打开数据连接。Hibernate建议采用每个请求对应一次Session。</p>
-<p>应用程序长事务（打开一个Session并且需要长时间保持，最后还需要持久化）有三种方法：自动版本化、脱管对象、长生命周期Session</p>
-<p>Session需要一直处于打开状态，直到装入所有需要的集合或者代理，两种方法：使用过滤器（在用户请求结束、页面生成结束时关闭Session，也就是在视图显示层一直打开Session）、让业务逻辑层负责准备数据（在业务逻辑层返回数据之前，业务逻辑层对每个所需集合调用Hibernate.initialize方法（该静态方法可以强制初始化某个集合或者代理）或者使用带fetch的子句或者FetchMode.JOIN的查询，事先获得所有的数据。）</p>
-<p>Hibernate引入了CurrentSessionContext接口，并通过hibernate.current_session_context_class参数来管理上下文相关的Session的底层实现。这个接口有三个实现类：org.hibernate.context.JTASessionContext、org…………ThreadLocalSessionContext、org…………ManagedSessionContext。</p>
-<p>如果使用ThreadLSessionContext策略，Hibernate的Session会随着getCurrentSession方法自动打开，在容器中使用hibernate使用第一种方式。</p>
-<h2 id="二级缓存和查询缓存"><a href="#二级缓存和查询缓存" class="headerlink" title="二级缓存和查询缓存"></a>二级缓存和查询缓存</h2><p><strong>Hibernate默认启用一级缓存，可选的二级缓存。</strong></p>
-<p>SessionFactory的二级缓存是全局性的，应用的所有Session都共享这个二级缓存，开启二级缓存需要在hibernate.cfg.xml中指定hibernate.cache.use_second_level_cache参数的值为true。指定了开启二级缓存之外，还需要指定二级缓存的实现类hibernate.cache.region.factory_class。常用的实现类有EhCache和Infinispan，指定实现类的时候要求的是全限定名。对于EhCache需要一个ehcache.xml配置文件。设置对哪些类和类的集合属性启用二级缓存，有两种方法，第一种就是使用@Cache，第二种就是使用&lt;class-cache…./&gt;或者&lt;collection-cache…../&gt;，使用注解的方法比较多，但是在@Cache的时候需要指定usage属性，这个属性指的是缓存的策略。</p>
-<p>CacheConcurrencyStrategy.READ_ONLY\READ_WRITE：如果要在JTA环境中使用该缓存策略，必须指定hibernate.transaction.manager_lookup_class属性的值。如果要在集群环境中使用，必须保证底层的缓存实现支持锁定。NONSTRICT_READ_WRITE（非严格读写）\TRANSACTION（全事务的缓存支持，只能在JTA环境中）</p>
-<p>Session的evict(Object object)方法，可以将括号里的对象或集合从一级缓存中剔除。查询某个对象是否在一级缓存中使用contains方法，清除一级缓存里的所有对象使用clear。</p>
-<p>SessionFactory提供了一个getCache的方法，返回一个Cache对象，通过这个对象可以操作二级缓存。</p>
-<p>一级缓存和二级缓存都是对整个实体进行缓存的，不会缓存普通属性，如果想对普通属性进行缓存，则可以考虑使用查询缓存。</p>
-<h2 id="事件机制"><a href="#事件机制" class="headerlink" title="事件机制"></a>事件机制</h2><p>hibernate中的数据持久化操作对于用户是透明的，通过事件框架能够让应用程序响应特定的内部事件。事件框架由两个部分组成，拦截器机制（特定动作拦截回调）和事件系统（重写事件监听器）。</p>
-<p>通过继承EmptyInterceptor实现拦截器，通过SessionFactory的openSession（Interceptor in）打开一个带有局部拦截器的Session，通过Configuration的setInterceptor方法设置全局拦截器。</p>
-<p>Hibernate自己有自己默认的事件系统，Session接口的每个方法都有自己的时间，并且有对应的事件监听器，用户可以实现自己的监听器代替系统默认的事件监听器。</p>
-<p>自定义事件监听器的方法有三种：实现对应的监听器接口，继承事件适配器、继承事件监听器。前两种都需要程序员替代hibernate实现持久化的操作。一定要记得调用父类监听器的方法实现持久化操作。</p>
-<p>定义完事件监听器，hibernate提供了一个EventListenerRegistry接口，三个方法注册事件监听器，appendListeners（追加在默认监听器后面）、prependListeners（追加在默认监听器前面）、setListeners（替代默认监听器）。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hibernate</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/16/20180416-hibernate/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20180409-hibernate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/09/20180409-hibernate/">20180409 Hibernate</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/09/20180409-hibernate/" class="archive-article-date">
-  	<time datetime="2018-04-09T08:46:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-09</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h2><p>关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。</p>
-<h3 id="单向N-1关联"><a href="#单向N-1关联" class="headerlink" title="单向N-1关联"></a>单向N-1关联</h3><p>对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeType.ALL（所有的持久化操作）、MERGE（指定Hibernate将merge操作级联到关联实体）、PERSIST、REFRESH、REMOVE，fetch属性包括FetchType.EAGER（立即抓取关联实体）\LAZY（延迟抓取关联实体），targetEntity属性指定关联实体的类名。</p>
-<p>对于无连接表的N-1关联，<strong>程序只需要在N的一端增加外键，使用@joinColumn来修饰代表关联实体的属性。相当于也是1-1的外键，所以应该添加unique属性为true。这个外键列会映射到当前表中。</strong></p>
-<p><strong>ThreadLocal在每个线程中对该变量会创建一个副本，即每个线程内部都会有一个该变量，且在线程内部任何地方都可以使用，线程之间互不影响</strong></p>
-<p>A类里面有B类变量，当A类需要持久化的时候，B类变量还没有被保存，这时候有两种情况可能发生，抛出TransientObjectException异常，另一种是先插入主表记录，再插入从表记录。</p>
-<p>对于需要使用连接表映射的N-1关联，程序必须显式使用@JoinTable注解来映射连接表。属性有name，joinColumns（当前实体对应表的主键列）和inverseJoinColumns（当前实体的关联实体对应表的主键列）。后两个属性中都可以指定@JoinColumn，里面的referencedColumnName，指定的是该列参照的主键列的列名。</p>
-<h3 id="单向1-1关联"><a href="#单向1-1关联" class="headerlink" title="单向1-1关联"></a>单向1-1关联</h3><p>对于基于外键的1-1关联而言，要使用@OneToOne注解，再使用@JoinColumn映射外键列，由于是1-1关联，因此还应该在@JoinColumn中添加unique=true。这个注解中还有一个属性是orphanRemoval（是否删除“孤儿”实体，如果某个实体所关联的父实体不存在，该实体就是所谓的孤儿实体）如果是基于连接表映射同样应该是用@JoinTable注解。</p>
-<h3 id="单向1-N"><a href="#单向1-N" class="headerlink" title="单向1-N"></a>单向1-N</h3><p>在1的一端需要增加set类型的成员变量。@OneToMany注解属性有cascade、fetch、orphanRemoval，targetEntity</p>
-<p><strong>同样在1的一端添加@JoinColumn映射外键列，但此处的外键列会添加到关联实体对应的数据表中</strong>，少用单向1-N关联，性能不好。</p>
-<p>有连接表的1-N和N-1中unique索引的添加方法，1-N和N-1两种关联关系中，1-N的意思是1个A对象可以关联N个B对象，所以这个unique索引应该在B对象的列声明中。</p>
-<p>单向的N-N关联和1-N关联比较类似，@ManyToMany注解，并且去掉了N端的unique属性即可完成使用连接表的N-N关联。</p>
-<h3 id="双向1-N关联"><a href="#双向1-N关联" class="headerlink" title="双向1-N关联"></a>双向1-N关联</h3><p><strong>Hibernate推荐使用N的一端控制关联关系</strong>，无连接表的双向1-N关联在N的一端使用@ManyToOne，在1的一端使用@OneToMany。</p>
-<p>在N的一端数据表中增加一个外键列，使用@ManyToOne注解的同时，使用@JoinColumn映射外键列。为了让在1的一端不能控制关联关系，在1的一端的注解@OneToMany中指定mappedBy属性为关联实体，表明当前实体不能控制关联关系，在这种情况下先持久化1一端的实体，才能持久化N一端的实体，因为在持久化N一端的实体时，需要插入对应的外键列的键值。当@OneToMany、@ManyToMany、@OneToOne所在的实体放弃控制关联关系之后，就不能使用@JoinColumn或者@JoinTable修饰代表关联实体的属性了；有连接表的双向1-N关联在N的一端使用@JoinTable映射连接表。如果想让1的一端控制关联关系，只需要把mappedBy删除，然后配合@JoinTable，只是1和N的两端的键值列要对应。这时候就不要考虑先持久化哪个实体了。</p>
-<h3 id="双向N-N关联"><a href="#双向N-N关联" class="headerlink" title="双向N-N关联"></a>双向N-N关联</h3><p>双向N-N关联只能使用有连接表的关联方式，在两边都使用@ManyToMany注解修饰Set集合属性，使用@JoinTable显式映射连接表，在两端映射连接表的时候，表名应该相同，两端使用@JoinTable指定的外键列的列名也应该是相互对应的。</p>
-<h3 id="双向1-1关联"><a href="#双向1-1关联" class="headerlink" title="双向1-1关联"></a>双向1-1关联</h3><p>双向1-1关联需要让两个持久化类都增加引用关联实体的属性，并为该属性提供setter和getter方法，本来双向1-1是平等的关联关系，当某一边使用了@OneToOne注解和@JoinColumn之后，这一端就变成了从表，因为这个表的外键列对应另一个表的主键列，为了保持两个持久化类的平等关系，需要在主表一端的@OneToOne注解中指定mappedBy属性，这样就表明该实体不管理关联关系。</p>
-<p>有连接表的1-1关联不建议使用，和之前是很类似的，使用@OneToOne注解和@JoinTable，@JoinTable里面指定JoinColumns和inverseJoinColumns属性，这两个属性都是用@JoinColumn定义的。<strong>在@JoinColumn的属性里面referencedColumnName的值就是对应的具体表里的列名，而name属性就只是在连接表里的列名</strong></p>
-<p><strong>单向1-N和N-1都是在前面的实体添加@JoinColumn，但是最后的外键列都会添加到后面的实体对应的表中。</strong></p>
-<h3 id="组件属性包含的关联实体"><a href="#组件属性包含的关联实体" class="headerlink" title="组件属性包含的关联实体"></a>组件属性包含的关联实体</h3><p>组件属性类里面包括了一个组件属性，包含了一个set类型的组件属性，是关联实体，仍然和之前的关联是差不多的，如果是不带关联表，则使用@OneToMany和@JoinColumn，如果是带关联表，则使用@OneToMany和@JoinTable。</p>
-<h3 id="基于复合主键的关联关系"><a href="#基于复合主键的关联关系" class="headerlink" title="基于复合主键的关联关系"></a>基于复合主键的关联关系</h3><p>基于复合主键的关联关系是在对应的另一端使用@JoinColumns，在这个里面使用@JoinColumn分别映射复合主键</p>
-<p>Hibernate默认不使用实体到其他关联实体之间的级联操作。当程序希望某个操作能被级联传播到关联实体，则可以在配置@OneToMany、@OneToOne、@ManyToMany时通过cascade属性指定，还有一个特殊的级联策略，删除孤儿记录（@OneToMany、@OneToOne的orphanRemoval属性），只针对1的一端，如果程序切断了主表和从表的联系，那么从表就是孤儿记录了，会被删除掉。</p>
-<h2 id="继承映射"><a href="#继承映射" class="headerlink" title="继承映射"></a>继承映射</h2><p>对于类与类之间的继承关系，hibernate提供了三种策略（在继承树的根类中使用@Inheritance指明映射策略，通过该注解的strategy属性指明策略）：</p>
-<ol>
-<li>整个类层次对应一个表（InheritanceType.SINGLE_TABLE，默认值）</li>
-<li>连接子类的映射策略（InheritanceType.JOINED）</li>
-<li>每个具体类对应一个表(TABLE_PER_CLASS)</li>
-</ol>
-<p>这些注解都是在类上进行注解的，不是 在类里面注解。</p>
-<p>整个类层次对应一个表的映射策略是Hibernate继承映射的默认策略。就是把父类和子类存在一个表中，通过增加辨别者列来区分每一行到底属于哪个类，在父类中使用注解@DiscriminatorColumn配置辨别者列，columnDefinition（通过这个属性指定的SQL语句创建该列）、name（该列的名称）、discriminatorType（DiscriminatorType.CHAR\INTERGER\STRING，默认是STRING），每一个类（包括父类）都使用@DiscriminatorValue，这个注解的唯一属性就是value，根据设置的DiscriminatorType的值，使用不同的值标识每一个类。</p>
-<p>这种方法存在的缺陷就是表中会有大量的null，每一个属性都不能增加非空约束。但是优点是一张表所以性能好。</p>
-<p>第二种继承映射的映射策略是将子类和父类共同的部分保存在父类中，子类特有的属性保存在子类的表中。如果需要查询就在底层将多个表采用join（多表连接）的方式连接查询，这种方式的属性就可以定义非空约束了。</p>
-<p>第三种映射策略就和他的名字一样，每个类用自己的表存起来，从所有的表上基本上看不出来这些类之间的继承关系，只有它们的主键值具有一定的连续性，因此不能让数据库自动生成主键值，不能使用GenerationType.IDENTITY、AUTO两种主键生成策略。</p>
-<p>利用@GenericGenerator定义自己的主键生成器，name属性和strategy属性。</p>
-<p><strong>批量插入记录</strong>的时候，如果记录太多一般会在某个时候抛出异常，因为hibernate的session持有一个必选的一级缓存，没有写入数据库的时候都是存在session的缓存里的，大量的数据肯定会抛出内存异常，所以需要对于session执行flush和clear。这种情况下最好关闭二级缓存，因为session的二级缓存也可能出现这样的问题。</p>
-<h2 id="使用HQL查询"><a href="#使用HQL查询" class="headerlink" title="使用HQL查询"></a>使用HQL查询</h2><p>Hibernate Query Language，SQL操作对象是数据表、列等数据库对象，而HQL操作对象是类、实例、属性等。</p>
-<p>HQL查询依赖于Query类，每个query实例对应于一个查询对象。</p>
-<ol>
-<li>获取hibernate Session。</li>
-<li>编写HQL语句，并且作为参数调用session的createQuery方法</li>
-<li>如果HQL里面有参数则使用Query的setXxx方法</li>
-<li>调用Query对象的list（）或者uniqueResult方法返回查询结果。</li>
-</ol>
-<p>HQL既可以使用英文问号+索引的占位符形式（？N），也可以使用有名字的占位符，使用有名字的占位符的时候应该在占位符名字之前增加英文冒号（:）。</p>
-<p>HQL区分大小写，query对象可以为HQL参数多次赋值，因为query的setXxx方法返回的是Query本身。Query调用list方法得到结果，Query本身还包括如下两个方法，setFirstResult，设置返回的记录从第几条记录开始，setMaxResults，设置本次查询返回的结果数目。</p>
-<p>HQL支持两种关联连接：隐式和显式，隐式连接就是通过”.”来实现的MySQL的交叉连接，隐式连接形式不使用join关键字，显式连接使用Xxx join关键字，MySQL中的连接和HQL中的关键字的对应方式是inner join（join）、left outer join（left join）、right outer join（right join），使用显式连接的时候可以使用HQL的with关键字提供额外的连接条件。</p>
-<p><strong>如果关联实体是单个实体或者单个的组件属性，HQL依然可以使用英文点号来隐式连接关联实体或者组件，但如果关联实体是集合（包括1-N。N-N和集合元素是组件），则必须使用xxx join来显式连接关联实体或者组件，如果说某个组件的加载策略是延迟加载，在查询的时候可以使用join fetch采用立即加载的方式。</strong></p>
-<p>使用select语句查询得到的结果是集合，集合元素是select以后的实例、属性等组成的数组，如果后面只有一项，查询到的集合元素就是持久化实例或者属性，如果select后面有多项，则每个集合元素都是选出的多项组成的数组。也可以将select选择的属性封装到一个list中，这个select语句返回的结果是集合，集合元素是list，select new list（属性），还可以使用构造器直接生成类的实例。</p>
-<p>HQL的聚集函数和SQL类似，有min、max、avg、count、sum。</p>
-<p>HQL 的查询语句可以执行多态查询，不仅会查询出满足条件的from后面的持久化类，还会查询出满足条件的持久化类的子类。HQL支持在from子句中指定任何java类和接口，查询会返回继承了该类的持久化类的实例或者返回实现了该接口的持久化类的实例。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hibernate</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/09/20180409-hibernate/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20180402-hibernate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/02/20180402-hibernate/">20180402 Hibernate</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/02/20180402-hibernate/" class="archive-article-date">
-  	<time datetime="2018-04-02T08:31:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-02</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>##hibernate</p>
-<p>Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。</p>
-<p>Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计）</p>
-<p>ORM的全称是Object/Relation Mapping（对象/关系数据库映射），ORM的唯一作用就是：把对持久化对象的保存、删除、修改等操作转换成对数据库的操作，数据库表中每一行是一个实例，某一行的列是这个实例的属性。</p>
-<p>PO=POJO（普通的，传统的Java对象） +持久化注解</p>
-<p>连接数据库的信息都是配置信息，配置信息使用 *.properties属性文件，也可以使用XML文件配置。</p>
-<p>Hibernate配置文件的默认文件名是hibernate.cfg.xml，当程序调用configuration对象的configure方法时，会自动加载该文件。根元素是&lt;hibernate-configuration…./&gt;，子元素是&lt;session-factory…../&gt;，其中可以使用property配置很多hibernate连接数据的必要信息。Hibernate为了保证性能推荐使用C3P0数据源（维持一个数据连接池）。在配置文件名中要把需要持久化的类名通过mapping子标签指明，属性是class。</p>
-<p>为了使用Hibernate进行持久化操作，通常有以下操作步骤：</p>
-<ol>
-<li>开发持久化类（POJO+持久化注解）</li>
-<li>获取Configuration</li>
-<li>获取SessionFactory</li>
-<li>获取Session，开始事务</li>
-<li>面向对象操作数据库，session.save(特定对象)</li>
-<li>事务提交，关闭session和sessionFactory。</li>
-</ol>
-<p>SessionFactory是数据库编译之后的内存镜像，通常一个应用对应一个SessionFactory对象，SessionFactory对象由Configuration对象生成，Configuration对象负责加载Hibernate配置文件。</p>
-<p>只有处于session管理下的POJO才有持久化操作的能力 。</p>
-<ol>
-<li>SessionFactory：单个数据库映射关系经过编译后的内存镜像，也是线程安全的。</li>
-<li>Session：应用程序与持久存储层之间相互操作的一个单线程操作，也是Hibernate持久化操作的关键对象，底层封装了JDBC连接，是Transaction的工厂，在显式执行flush之前，所有持久化操作的数据都在session的缓存中。</li>
-<li>持久化对象（Persistent Object）：POJO与session相关联。</li>
-</ol>
-<p>Hibernate的持久化操作离不开SessionFactory对象，这个对象的openSession方法可以打开Session对象，SessionFactory对象通常由Configuration对象产生。</p>
-<p>Configuration对象提供了一个buildSessionFactory（）方法，可以产生一个不可变的SessionFactory对象，也可以直接新建一个Configuration对象，然后通过addAnnotatedClass（）方法逐一添加持久化类，并且可以通过addPackage（）方法添加指定包下的所有持久化类。</p>
-<h3 id="hibernate配置文件"><a href="#hibernate配置文件" class="headerlink" title="hibernate配置文件"></a>hibernate配置文件</h3><p>目前创建Configuration对象的方法有三种：</p>
-<ol>
-<li>使用hibernate.properties作为配置文件（通过新建的Configuration对象直接手动添加持久化类）。</li>
-<li>使用hibernate.cfg.xml作为配置文件（新建Configuration对象直接调用configure对象）。</li>
-<li>直接创建Configuration对象。</li>
-</ol>
-<p>数据库方言的意思就是大部分的数据库都对标准SQL进行了扩展，所以需要指明是哪一种数据库，从而能够让hibernate识别不同的数据库语言的差异。</p>
-<p>如果hibernate不需要自己管理数据源，而是直接访问容器管理数据源，hibernate可以使用JNDI（Java Naming Directory Interface，Java命名目录接口）数据源的相关配置。</p>
-<p>Hibernate的SessionFactory可持有一个可选的二级缓存，外连接抓取能限制执行SQL语句的次数提高效率，这种外连接抓取可以通过在单个select语句中使用outer join来一次抓取多个数据表的数据。</p>
-<p>hibernate持久化类的要求有以下几个：</p>
-<ol>
-<li>提供一个无参数的构造器</li>
-<li>提供一个标识属性：映射到数据表里的主键字段（虽然hibernate允许使用八种基本类型作为标识属性的类型，但是会有很多问题，<strong>建议使用基本类型的包装属性作为标识属性的类型</strong>）</li>
-<li>为持久化类所有的成员变量提供setter和getter方法</li>
-<li>使用非final的类，因为在实例化该类的时候可能会使用代理的方式，这个代理对象是持久化类的子类的实例，同时还应该避免使用public final的方法，如果必须使用这种方法则需要设置变量来禁用代理。</li>
-<li>重写equals和hashCode方法，因为我们需要把持久化类放入Set中，需要比较相等。通过标识属性是比较方便的，但是如果是hibernate自动生成的那种，hibernate只为持久化对象指定标识值，一个新创建的实例不会有任何标识。</li>
-</ol>
-<h3 id="持久化对象的状态"><a href="#持久化对象的状态" class="headerlink" title="持久化对象的状态"></a>持久化对象的状态</h3><ol>
-<li>瞬态：使用new创建的类实例，还没来得及跟session关联，如果引用丢失，则会被垃圾回收机制回收。</li>
-<li>持久化：将某个实例和session相关联，这个时候这个实例在数据库中有对应的记录和持久化标识，如果有改动会被立刻写入到数据库中</li>
-<li>脱管：曾经和session相关联，但是现在关联的session被关闭了，所以该对象就变成了脱管对象，脱管对象仍然可以被修改，一旦重新持久化，这之间的改动也可以被写入数据库。</li>
-</ol>
-<h3 id="改变持久化对象状态的方法"><a href="#改变持久化对象状态的方法" class="headerlink" title="改变持久化对象状态的方法"></a>改变持久化对象状态的方法</h3><p>Hibernate Session提供了save和persist方法，可以在该方法的参数中指明主键。如果持久化类的标识属性是generated类型，那么hibernate会在save的时候就给这个持久化类的实例分配标识属性值，如果标识属性是assigned类型或者是复合主键，那么这个标识属性值应该在调用save之前被手动给定。</p>
-<p>save和persist 的方法区别在于save方法 返回插入的实例的标识属性值，而且save会立刻生成insert语句将该实例插入数据库中。这种方法是瞬态对象转变为持久化状态。</p>
-<p>程序可以使用load方法加载一个持久化实例，load方法的参数是类以及主键键值，如果不存在这个实例可能会返回一个异常，如果在持久化注解中指定了延迟加载，那么会返回一个未初始化的代理对象，这个对象只有在调用实例的方法的时候才会去数据库加载这个实例；与此相同的还有get方法，get方法会立即到数据库查找，如果不存在的话会返回null。</p>
-<p>程序对于持久化实例所做的更改会在Session flush之前被自动保存到数据库。</p>
-<p>对于一个脱管对象，可以使用session的update（）方法，update方法会将脱管对象更新到数据库，如果不记得之前是否持久化过，可以使用updateOrSave方法，如果没有该实例则save，还有一个方法是merge，这个方法执行并不会持久化自己的参数里的对象，会将该对象的副本返回，这个副本处于持久化状态。 </p>
-<p>load和get方法可以指定一个锁模式参数，LockOptions对象代表锁模式，提供了READ和UPGRADE两个静态属性代表共享、修改锁，除此之外Session.LockRequest的lock（）方法也可以将某个脱管对象重新持久化，但是这个脱管对象必须是没有经过修改的。</p>
-<p>session的delete方法可以删除持久化实例，但是都必须先加载，然后再删除。</p>
-<h2 id="Hibernate注解"><a href="#Hibernate注解" class="headerlink" title="Hibernate注解"></a>Hibernate注解</h2><p>对于Hibernate PO类来说通常会使用如下两个注解：</p>
-<ol>
-<li>@Entity可以指定name属性，通常情况下系统默认以该类类名作为实体类的名称。</li>
-<li>@Table：该注解指定持久化类所映射的表。（支持的属性中有name（设置持久化类所映射的表的表名））</li>
-<li>@UniqueConstraint：为数据表定义唯一约束，唯一属性是columnNames，这个属性值是一个字符串数组，每一个字符串代表一个数据列。</li>
-<li>@Index，它的属性可以设置有哪些列构建索引，索引的名字以及索引是否具有唯一性。</li>
-<li>@Proxy：该注解的ProxyClass属性指定一个接口作为延迟加载的代理使用</li>
-<li>@DynamicInsert和DynamicUpdate：在insert和update的时候是否动态生成SQL语句，只插入非空字段或者只更新修改过的字段。默认值是false。（DynamicUpdate可以指定几种乐观锁定的策略）</li>
-<li>@SelectBeforeUpdate：指定hibernate在update之前是否会select一次语句，如果持久化对象的状态没有变化过，那么就不会update，默认false（如果该持久化对象状态很少变化但又经常需要保存）</li>
-<li>@Where：该注解的clause属性可以指定一个SQL过滤查询条件，每次试图加载该持久化对象的时候只有符合条件的记录才会被加载。</li>
-<li>@Check：该注解可以通过constraints指定一个SQL表达式，用于为该持久化类所对应的表指定一个Check约束。</li>
-<li>@BatchSize：当hibernate抓取集合属性或者延迟加载的时候，注解的size属性能够指定每批抓取的记录数量。</li>
-</ol>
-<h3 id="映射属性"><a href="#映射属性" class="headerlink" title="映射属性"></a>映射属性</h3><p>默认情况下，使用@Entity注解的持久化类的所有属性都将被映射到底层数据库，为了指定某个属性对应的列的信息，需要使用@Column修饰该属性。@Access用于改变对该属性的访问策略。@Formula用于指定某个属性是根据value指定的表达式动态生成的，这个属性不会被保存到数据库中。@Generated用于指定该属性的值是否由数据库生成，接受的三个值是GenerationTime.INSERT（只在insert的时候生成）、GenerationTime.Never、Generation.ALWAYS（insert和update都会生成）</p>
-<p>@Formula的value属性就是计算的表达式，这个表达式就是一个sql语句，value=“（SQL语句）”，如果需要使用参数就直接写，hibernate会自己调用参数值。</p>
-<p>使用@Transient修饰的属性不会被持久化保存。@EmbeddedId可以修饰自定义类作为主键。</p>
-<p>使用@Enumerated修饰枚举类型，这个注解的value属性负责指定保存到数据库中的内容，EnumType.ORDINAL保存的是枚举值的序号，EnumType.STRING保存的是枚举值的名称。</p>
-<p>数据库中经常需要存放比较大的数据，当持久化类的属性是byte[]、Byte[]和java.io.Serializable类型时，@Lob修饰的属性将映射为底层的Blob，当@Lob修饰的属性是char[]、Character[]和java.lang.String时，会被映射成Clob列。</p>
-<p><strong>对于超大类型的数据属性可能不需要每次都加载这个属性，所以存在延迟加载这个方式</strong>，使用@ Basic修饰该属性，@ BASIC有两个属性，fetch有两个值：FetchType.LAZY（延迟加载）、FetchType.EAGER（立即加载），另外一个属性是optional，指明该属性对应的数据列是否可以为空</p>
-<p>因为Java中日期类型比较少，而数据库中比较多，Java中的date类型翻译成什么类型的列，可以使用@Temporal，该注解的value属性可以支持TemporalType.DATE、TemporalType.TIME、TemporalType.TIMESTAMP三个值之一，用于指定将该属性映射到数据表的date、time和timestamp类型的数据列。</p>
-<p>hibernate推荐每条记录都有自己的逻辑主键，不要使用物理主键，使用@Id注解时无需指定任何属性，如果希望hibernate为逻辑主键自动生成主键值，还需要使用@GeneratedValue来修饰实体的标识属性，这个注解有两个属性分别是strategy和generator，strategy的可选值是GenerationType.AUTO（自动选择）、IDENTITY（自增策略）、SEQUENCE、TABLE（辅助表），后面两个需要搭配着另一个属性generator使用，@TableGenerator定义的主键生成器会在底层生成过一个辅助表。</p>
-<h4 id="映射集合属性"><a href="#映射集合属性" class="headerlink" title="映射集合属性"></a>映射集合属性</h4><p>Hibernate要求持久化集合值字段必须声明为接口，原因是当程序持久化某个实例时，hibernate会自动把程序中的集合实现更改为自己的的集合实现类，因此不要把hibernate集合属性强制类型转换为集合实现类（如HashSet、HashMap），但可以转换成Map和Set等集合，不管哪种类型的集合属性，都统一使用@ElementCollection注解进行映射，该注解的属性有fetch（抓取策略，FetchType.EAGER\LAZY）和targetClass（集合属性中集合元素的类型）。</p>
-<p>由于集合属性总需要保存到另一个数据表中，所以保存集合属性的数据表必须包含一个外键列，用于参照到主键列，该外键列使用@JoinColumn进行映射 。</p>
-<p>Hibernate使用标准的@CollectionTable注解映射保存集合属性的表。@JoinColumn注解专门用于定义存放集合属性的数据表的外键列，属性中有name（外键列的列名）、table（指定该列所在数据表的表名）、referencedColumnName（指定该列所参照的主键列的列名）</p>
-<p>如果要映射带索引的集合，就需要为集合元素所在的数据表指定一个索引列。有两种，@OrderColumn（用于定义List集合、数组的索引列），@MapKeyColumn（映射Map的索引列），有的时候这个Map Key的类型也需要指定，使用@MapKeyClass注解，该注解只有一个value属性。@Column在存储集合元素的表中的定义存储集合内容的列。</p>
-<p>Hibernate还支持使用SortedSet和SortedMap两个有序集合，使用@SortNatural或者@SortComparator注解，后者需要通过value属性指明自定义的comparator实现类。</p>
-<h4 id="映射自定义类属性"><a href="#映射自定义类属性" class="headerlink" title="映射自定义类属性"></a>映射自定义类属性</h4><p>对于自定义类用@Embeddable修饰，告诉hibernate这个类将作为持久化类的属性，hibernate会把自定义类的每个属性都当做是数据列的一列进行储存。可以通过@Column指定这些属性对应的数据列；还有一种策略是在持久化类中使用@Embedded注解修饰组件属性，如果需要为组件属性所包含的子属性指定列名，则可以使用@AttributedOverrides和@AttributedOverride注解，@AtrributedOverride注解有name和Column两个属性，name指定针对组件类的哪个属性。</p>
-<p>组件类中有集合的注解方法和映射集合属性一样，但是集合属性的元素中有自定义类就需要额外的处理，程序不再使用@Column映射保存集合元素的数据列，不能用单独的数据列保存集合元素，只能利用@Embeddable在自定义类中@Column注解将组件类的属性映射到底层数据表中。自定义类作为Map的key元素的时候需要重写自定义类的equals和hashcode两个方法。</p>
-<p>持久化类选择多列作为联合主键的条件是具有无参数的构造器，实现java.io.Serializable接口；重写equals和hashcode方法，指定多列作为联合主键的方法就是使用@Id注解。</p>
-<p>使用@ElementCollection修饰的集合属性都会新建表来存储这个集合，原表中将不会存储这个集合的值，这两个表相关联的部分只有外键列。当自定义类作为Map的key的时候，可以使用@Column修饰该集合属性，新表中就有了使用@Column设置的列、外键列以及自定义类的属性。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hibernate</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/02/20180402-hibernate/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1393,7 +1276,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 Sticda
+    		&copy; 2019 Sticda
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1460,15 +1343,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1488,19 +1371,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">essay</a>
+                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1509,6 +1388,46 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Reflect</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Serialiable</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Annotation</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">JMS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">语法糖</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
             
             <div class="clearfix"></div>

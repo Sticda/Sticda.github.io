@@ -139,6 +139,380 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20171107" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/07/20171107/">20171107</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/07/20171107/" class="archive-article-date">
+  	<time datetime="2017-11-07T01:08:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-07</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>mysql有三个比较常用的存储引擎，存储引擎就是定义如何存储数据，如何为存储的数据建立索引和如何更新查询数据等具体问题的技术实现，“show engines；”比较常用的存储引擎有三个：InnoDB、MyISAM、MEMORY。</p>
+<ol>
+<li>InnoDB：可以实现事务处理，支持外键，频繁的更新删除操作可以选用。</li>
+<li>MyISAM：管理非事务表， 占用空间小，处理速度快，主要用于插入新记录和读出记录。</li>
+<li>MEMORY：该存储引擎所有数据都在内存中，处理速度高，但是安全性不高，只能适用于相对较小的数据库</li>
+</ol>
+<hr>
+<p>如果要搜索的内容不区分大小写，可以使用TEXT类型。<br>如果要搜索的内容区分大小写，可以使用BLOB类型。</p>
+<hr>
+<ol>
+<li>在SQL中null不能用=来判断，“=”能判断的字符串相等都是根据ASCII码。如果相等返回1，不相等返回0；</li>
+<li>NULL值可以用运算符（IS NULL和IS NOT NULL）</li>
+<li>NULL和‘NULL’不一样，一个是空值，一个是字符串</li>
+<li>BETWEEN AND技术就是在某个取值范围之内，IN用于判断数据是否存在于某个集合之中。LIKE用来匹配字符串，x1 LIKE s1，如果x1与字符串s1匹配成功，结果将返回1，否则将返回0。REGEXP用于字符串的正则匹配</li>
+<li>&amp;&amp;和“AND”作用一致，除了返回0和1之外，当一个数据为NULL并且没有数据为0，则结果返回NULL。或运算与之相似。</li>
+<li>非运算“NOT”和“！”返回与操作数相反的结果，如果是非0数字，结果返回0；如果操作数是0，则返回1，如果操作数是NULL，结果返回NULL</li>
+<li>异或运算符也是一样，如果其中一个为NULL，那么最后的结果也是NULL。</li>
+<li>位运算符有6种，“&amp;“、”|“、”~“(按位取反)、”^”、”&lt;&lt;”、”&gt;&gt;“</li>
+</ol>
+<hr>
+<h2 id="常用sql语句"><a href="#常用sql语句" class="headerlink" title="常用sql语句"></a>常用sql语句</h2><ol>
+<li>create\drop database 数据库名； use 数据库名（设置默认数据库）；</li>
+<li>列名 类型 [not null | null] [DEFAULT value] [auto_increment] [primary_key] [reference_definition]</li>
+<li>alter table 表名 {具体操作，没有大括号，用逗号可以多个动作连续操作，add，drop，modify，change， rename }；modify和change没有特别大的区别。最后可以加上after|first 列名的关键字，表示这一列将会在哪一列前面或者后面。</li>
+<li>SELECT查询中，distinct去除重复行，like模糊查询，like只有两个通配符”%”和”_”，前者可以匹配一个或多个字符，后者只匹配一个字符。limit限制输出的记录条数。</li>
+<li>update 表名 set 列名=新值 where 条件。</li>
+<li>delete from 表名 where condition</li>
+</ol>
+<hr>
+<h2 id="条件判断函数"><a href="#条件判断函数" class="headerlink" title="条件判断函数"></a>条件判断函数</h2><ol>
+<li>IF（expr，v1，v2）</li>
+<li>IFNULL（v1，v2）</li>
+<li>CASE WHEN expr1 THEN v1 [WHEN expr2 THEN v2] [ELSE vn] END</li>
+<li>CASE  expr WHEN e1 THEN v1[WHEN e2 THEN v2] [ELSE vn]END</li>
+</ol>
+<pre><code>select id,user,case when strcmp(email,&quot;@1995&quot;)=0  then &apos;good&apos; when strcmp(email,&quot;LL1192759422@163.com&quot;)=0 then &apos;very good&apos; else &apos;normal&apos; end level from tb_admin;
+</code></pre><p>sql中条件语句不需要写双等号，判断当某个式子是否成立</p>
+<p>字符串常量一定要记得加引号</p>
+<hr>
+<h2 id="查询语句"><a href="#查询语句" class="headerlink" title="查询语句"></a>查询语句</h2><pre><code>select selection_list
+from 数据表名
+where primary_constraint
+group_by grouping_columns
+order_by sorting_columns
+having secondary_constraint
+limit count
+</code></pre><p>这个里面关键词的顺序是固定的</p>
+<ol>
+<li>一些SQL内置的函数只能用在selection_list中。</li>
+<li>IN，BETWEEN AND，LIKE，IS NULL，AND，OR都是用在where中的</li>
+<li>distinct去除重复记录，select distinct 字段名 from 表名</li>
+</ol>
+<h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><h4 id="内连接查询"><a href="#内连接查询" class="headerlink" title="内连接查询"></a>内连接查询</h4><p> 最正常的查询方式，两个表里有相等的部分。</p>
+<h4 id="外连接查询"><a href="#外连接查询" class="headerlink" title="外连接查询"></a>外连接查询</h4><ol>
+<li>左外连接</li>
+<li>右外连接</li>
+<li>全外连接</li>
+</ol>
+<p>外连接就是将数据进行混合，左外连接就是将左表中每一条数据分别与右表中每条数据进行连接组合，返回的数据除了内连接的数据还包括了左表中不符合条件的数据，并在右表的相应列中增加null值，简单来说就是左外连接最后返回的结果中必须包含左表的所有数据。右外连接亦然。</p>
+<pre><code>select 字段名称 from 左表 left||right join 右表 on 表名1.字段名=表名2.字段名 where conditions
+</code></pre><p>IN关键字（集合）EXISTS关键字（返回真或假）ANY关键字（any（）表示括号内数据的任意一个）ALL关键字（和ANY用法类似）AS关键字（用来给字段起别名）<br>UNION和UNION ALL将两个select语句的结果合并在一起，二者区别在于不带all会去除重复记录。<br>正则匹配中只有匹配字符集合时用到了方括号</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/07/20171107/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20171105" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/01/20171105/">20171105</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/01/20171105/" class="archive-article-date">
+  	<time datetime="2017-11-01T02:45:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-01</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="先交代一下"><a href="#先交代一下" class="headerlink" title="先交代一下"></a>先交代一下</h1><p>上周没写博客，是因为上周忙着搞理论工作了，没时间实践了，全部都是无聊的看论文，无fuck可说，因此没写，这周继续学习JavaScript，还有mysql，mysql主要是熟悉一下基本操作，然后就是关于他的高级编程的部分。</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>本来之前过一点点html的书，对html有简单的了解，但现在发现html的正常使用以及CSS样式表也是非常关键的一部分内容，只能在学习的过程中不断接触了。</p>
+<p>Cookie这个东西简单来说是用来在本地存储一些信息，减轻服务器的压力。<br>Cookie里面的信息保存是内容累加的，各段内容之间由分号隔开，cookie里面的键值对就是key=value，比如说<br>    document.cookie=”a”;<br>    document.cookie=”b”;<br>    document.cookie=”key=value”;<br>最终cookie里面的内容就是“a；b；key=value”，cookie中有一些编码的限制（保存的内容中不能出现“=”和“；”），所以JavaScript提供了内置的编码和解码函数，用来将非英文的字符编码或者解码，编码函数和解码函数分别为escape和unescape。<br>cookie有自己的生命周期，利用“expires=过期日期字符串”</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/01/20171105/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20171019" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/16/20171019/">20171019</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/16/20171019/" class="archive-article-date">
+  	<time datetime="2017-10-16T02:12:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。</li>
+<li>java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器（Application ClassLoader），自定义类加载器（User ClassLoader），前者是后者的父加载器，应用程序类加载器负责加载用户类路径（Classpath）上所指定的类库。</li>
+<li>CAS操作是指当且仅当内存位置V符合旧的预期值A时，处理器才会用新值B更新V 的值，否则他就不执行更新，但是无论是否更新了V 的值，都会返回V的旧值。</li>
+</ol>
+<p>17号早上《深入理解java虚拟机》这本书基本上看完了，第四部分没看，第四部分是程序编译与代码优化，具体内容是早期编译期优化和晚期运行期优化，最终也就是第四章，第五章，第九章没有看。看完之后可能还是有点懵逼，有一些部分还不是很清楚，但总算是了解了一些，今天刚好有点时间，总结一下这本书里大概学到的知识点。</p>
+<ol>
+<li>java内存区域和内存溢出异常：每次打开一个java程序就会打开一个java虚拟机实例，也就是每一个运行main函数就会生成一个java虚拟机的实例，这每一个java虚拟机上运行的每一个线程都有自己的程序计数器，虚拟机栈和本地方法栈。程序计数器是当前程序运行的字节码的行号指示器，虚拟机栈和本地方法栈简单来说一个运行的是java方法，一个是本地的方法，也就是JNI方法，java的每一个方法都是以栈帧的方法执行的（栈帧的内容就是局部变量表、操作数栈、动态链接、方法返回地址）。堆和方法区是共享部分，java堆中都是新建的对象实例，但是只有存储的数据，对于里面数据的解读则要到方法区中查询。方法区中存储的是被虚拟机加载的类信息，常量和静态常量、即时编译器编译后的代码等数据，方法区中有运行时常量池，用于存放编译器生成的各种字面量和符号引用</li>
+<li>垃圾收集器和内存分配策略：【哪些内存需要回收？什么时候回收？如何回收？ 判断内存需要回收使用的算法是引用计数算法和可达性分析算法，java使用的是可达性分析算法（GC roots 的选取），回收的时间选择安全点或者安全区，就是在这部分区域里进行垃圾回收。垃圾收集算法一共有三种，复制算法，标记整理算法和标记清除算法。垃圾收集器的种类：Serial收集器（新生代复制算法），Serial Old（老年代标记整理算法）、ParNew收集器（Serial收集器的多线程版本）Parallel Scavenge收集器（新生代收集器，与CMS的不同在于控制吞吐量，而不是缩短停顿时间）Parallel Old收集器（Parallel Scavenge的老年版本）Parallel Scavenge只能和Serial Old、Parallel Old搭配，CMS收集器和G1收集器】【对象在堆上分配，堆上有一个Eden和两个Survivor，对象优先在Eden上分配，大对象直接进入老年代、长期存活的对象将进入老年代、动态对象年龄判定】</li>
+<li>类文件结构以及类加载机制：每个class类文件都需要被加载，加载的时候就按照类文件里的定义直接加载到方法区中。类文件里对于每个模块的定义以及内容之间的联系。这部分内容有自定义的类加载器以及双亲委派模型和双亲委派模型被破坏的情况。</li>
+<li>java内存模型与线程安全：java的主内存和线程的工作内存，工作内存之间的数据交换只能通过主内存，java内存模型在执行时必须满足一些特定的规则【不允许一个变量从主内存读取但工作内存不接受、从工作内存发起回写但主内存不接受、变量在发生了更改之后必须把该变化同步到主内存中、不允许毫无理由的把工作内存中的数据同步到主内存、新变量只能在主内存之中产生、一个变量同一时刻只允许一条线程对其进行lock操作、对一个变量执行lock操作将会清空工作内存中 的值、没有被lock就不能被unlock、执行unlock操作之前必须把此变量同步回主内存中】线程安全的实现方法包括利用Synchronized和ReentrantLock【自旋锁、自适应自旋锁、轻量级锁、偏向锁】</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/16/20171019/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20171009" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/09/20171009/">20171009</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/09/20171009/" class="archive-article-date">
+  	<time datetime="2017-10-09T03:14:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-09</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天开始每天一道leetcode，今天这道题做的让我怀疑人生，虽然好像是学习了很多javaSE的知识，但还是什么都不会，一写程序的时候就只会数组。真的是服了我自己了，还是代码写的太少，今天的这道题目是two sum，就是从数组中找到给定的数的两个加数，我自己的方法就是先排序，然后去寻找目标数的位置，然后从前往后减，这种方法在全部都是正数的情况下复杂度比较低，如果是有负数的话就会比较复杂，然而最简单的方法看完之后就开始怀疑人生了。。。用了一种很巧妙的方法，是那种我自己从来不会想到的方法。<br>从那天过后，这几天过的真是更累，以后每周例会要讲一个ppt，也就是我每周至少要看一篇论文，然后又做了助教，帮老师做ppt，就是感觉自己做事效率太低，而且这样的生活和我想象的研究生生活也不太一样了，这周就做了一道题。<br>之前的那个我想做的android的仿qq项目也感觉要无疾而终了，自己的时间不太够用，也许是我现在还是比较懵逼，不知道自己想要什么，如果是想做一个合格的java程序员为什么要去搞这个，总想着什么都会，到最后什么都不会，以后的主营方向是java，还要学习一下Python，直接进入Python的实战编程阶段了，还想要学习一下JavaScript，但是感觉自己的时间都被狗吃了。。。不知道为什么没有成就感，周末还要加班搞一下两个ppt和一些知识点。<br>先立flag，要学的是JavaScript和Python，Python先写一个比较简单的爬虫，JavaScript还需要看书，起码要做到简单的界面，因为我现在还处在没入门的阶段，每天用java做一道LeetCode，背单词，健身，跑步。每天晚上花两个小时来学习吧。。。时间感觉真的很少。就这样吧，这周的这篇博客就水过去了，没什么干活。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/09/20171009/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20170926" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -603,7 +977,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 Sticda
+    		&copy; 2019 Sticda
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -670,15 +1044,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -698,19 +1072,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">essay</a>
+                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -719,6 +1089,46 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Reflect</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Serialiable</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Annotation</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">JMS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">语法糖</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
             
             <div class="clearfix"></div>

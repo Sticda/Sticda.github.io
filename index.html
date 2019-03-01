@@ -139,6 +139,507 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20190226-算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/26/20190226-算法/">20190226-算法</a>
+    </h1>
+  
+
+        
+        <a href="/2019/02/26/20190226-算法/" class="archive-article-date">
+  	<time datetime="2019-02-26T06:29:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-02-26</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>在合并两个数组（包括字符串）的时候，如果从前往后复制的话，则需要移动每个元素很多次，考虑从后往前复制，就可以减少移动的次数，降低时间复杂度。</li>
+<li>在某一种情况下，跳转的结果可能有好几种，这个时候递归的方式可能很容易解决问题。</li>
+<li>如果需要统计字符串中多个数字出现的次数，可以考虑使用字符的ASCII码作为数组索引，创建一个简单的hash表，当然java中也可以直接使用hash一类的集合。</li>
+<li>一些类似的操作可以抽象出函数处理。</li>
+<li>有的时候问题需要分解，使用多个函数解决，大多数题目都是数组等需要遍历的内容，可以使用全局变量。</li>
+<li>在数组中操作还想要保持原来的顺序，只能相邻的两个元素进行交换，类似于冒泡排序。</li>
+<li>从尾到头的方法可以使用递归的思路，先递归到末尾，然后再对最后一个进行操作，完成每一个函数依次向上层函数执行。递归在本质上是一个栈结构。但是当数据量巨大的时候，递归可能导致函数调用栈溢出。</li>
+<li>在做数组相关的题目，用到递归的方法的时候，可以设置多个变量标记位置，不用减少变量的个数，同时数组的索引是非常重要的便捷条件。</li>
+<li>基于递归的实现方法代码会比较简洁，但是性能不如基于循环的实现方法。基于递归实现的代码比基于循环实现的代码要简洁，递归也可以通过栈的方式实现。</li>
+<li>快速排序在序列中元素很少时，效率将比较低，不然插入排序，因此一般在序列中元素很少时使用插入排序，这样可以提高整体效率。</li>
+<li>二维数组上搜索路径可以尝试使用回溯法。</li>
+<li>某个问题的最优解，这个问题还可以分为多个子问题，可以尝试使用动态规划，自上而下分解可能会出现重叠，所以使用自下而上的循环代码实现，子问题的最优解算出来保存在数组中，再计算大问题的解。</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/02/26/20190226-算法/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20190114-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/14/20190114-java/">20190114-java</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/14/20190114-java/" class="archive-article-date">
+  	<time datetime="2019-01-14T06:24:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-14</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">多线程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/14/20190114-java/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="w-20190108-java" class="article article-type-w  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/08/20190108-java/">20190108-java</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/08/20190108-java/" class="archive-article-date">
+  	<time datetime="2019-01-08T10:43:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-08</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h1><p>反射机制允许程序在运行时取得任何一个已知名称的class的内部信息，包括包括其modifiers(修饰符)，fields(属性)，methods(方法)等，并可于运行时改变fields内容或调用methods</p>
+<p><strong>反射使用不当会造成很高的资源消耗</strong></p>
+<p><strong>一个类</strong>在<strong>JVM</strong>中只会有<strong>一个 Class 实例</strong></p>
+<p>class.setAccessible(true)启用和禁用访问安全检查的开关，值为 true，则表示反射的对象在使用时应该取消 java 语言的访问检查；反之不取消。由于 JDK的安全检查耗时较多，所以通过setAccessible(true)的方式关闭安全检查来提升反射速度 </p>
+<pre><code>//创建这个类的一个对象
+Object p2 =  c2.newInstance();
+//将 p2 对象的  f2 属性赋值为 Bob，f2 属性即为 私有属性 name
+f2.set(p2,&quot;Bob&quot;);
+</code></pre><p><strong>使用反射机制可以打破封装性，导致了java对象的属性不安全</strong></p>
+<p>直接通过反射获取子类的对象是不能得到父类的属性值的，必须根据反射获得的子类 Class 对象在调用  getSuperclass() 方法获取父类对象，然后在通过父类对象去获取父类的属性值。而且要循环调用，因为不知道这个属性来自他的父类还是父类的父类，终止条件是c是object</p>
+<h1 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h1><h2 id="简单工厂模式（静态工厂）"><a href="#简单工厂模式（静态工厂）" class="headerlink" title="简单工厂模式（静态工厂）"></a>简单工厂模式（静态工厂）</h2><p>抽象基类或者接口，工厂类返回实现了具体基类或者接口的类，工厂类是一个具体类，内部通过switch或者if实现工厂化。扩展性差</p>
+<h2 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h2><p>工厂类实现了工厂类的接口或者抽象基类，产品类实现了产品类的接口或者抽象基类，工厂类的工厂方法返回的是产品类的接口或者抽象基类</p>
+<h2 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h2><p>为创建一组相关或相互依赖的对象提供一个接口，而且无需指定他们的具体类。和工厂方法模式的区别在于该模式下工厂类的接口或者方法有多个方法可以返回实现了不同产品类接口的类。</p>
+<h1 id="序列化和反序列化"><a href="#序列化和反序列化" class="headerlink" title="序列化和反序列化"></a>序列化和反序列化</h1><p>把对象转换为字节序列的过程称为对象的序列化。把字节序列恢复为对象的过程称为对象的反序列化。</p>
+<p><strong>可序列化类的所有子类型本身都是可序列化的</strong></p>
+<p>对象的序列化主要有两种用途：<br>　　1） 把对象的字节序列永久地保存到硬盘上，通常存放在一个文件中；<br>　　2） 在网络上传送对象的字节序列。</p>
+<p>java.io.ObjectOutputStream代表对象输出流，它的writeObject(Object obj)方法可对参数指定的obj对象进行序列化，把得到的字节序列写到一个目标输出流中。java.io.ObjectInputStream代表对象输入流，它的readObject()方法从一个源输入流中读取字节序列，再把它们反序列化为一个对象，并将其返回。只有实现了Serializable和Externalizable接口的类的对象才能被序列化。Externalizable接口继承自 Serializable接口，<strong>实现Externalizable接口的类完全由自身来控制序列化的行为</strong>，而<strong>仅实现Serializable接口的类可以采用默认的序列化方式</strong> 。序列化必须通过对象输出流或者输入流实现序列化，输出流和输入流是包装流，</p>
+<p>s​e​r​i​a​l​V​e​r​s​i​o​n​U​I​D​:​ ​字​面​意​思​上​是​序​列​化​的​版​本​号​，凡是实现Serializable接口的类都有一个表示序列化版本标识符的静态变量，他的作用就是在反序列化的时候判断这个类的s​e​r​i​a​l​V​e​r​s​i​o​n​U​I​D是否相同，一般情况下实现了Serializable 接口的类，ide都会提示添加serialVersionUID，当我们不指定serialVersionUID的时候，编译器会根据类文件指定一个，只要类文件发生微小的变化，这个默认机制生成的serialVersionUID都会不一样，因此在不指定serialVersionUID的情况下，如果序列化之后的类结构发生了变化，反序列化的时候报错，因为如果还想仍然能够反序列化的话，需要指定一个相同的serialVersionUID</p>
+<p>Externalizable继承了Serializable，该接口中定义了两个抽象方法：writeExternal()与readExternal()。当使用Externalizable接口来进行序列化与反序列化的时候需要开发人员重写writeExternal()与readExternal()方法，<strong>实现Externalizable接口的类必须要提供一个public的无参的构造器</strong></p>
+<p>序列化保存的是对象的状态，静态变量属于类的状态，因此 序列化并不保存静态变量</p>
+<p>Java 序列化机制为了节省磁盘空间，具有特定的存储规则，当写入文件的为同一对象时，并不会再将对象的内容进行存储，而只是再次存储一份引用</p>
+<h2 id="序列化的原因"><a href="#序列化的原因" class="headerlink" title="序列化的原因"></a>序列化的原因</h2><p>序列化就是一种用来处理对象流的机制，所谓对象流也就是将对象的内容进行流化，可以对流化后的对象进行读写操作，也可将流化后的对象传输于网络之间(注：要想将对象传输于网络必须进行流化)！在对对象流进行读写操作时会引发一些问题，而且序列化还可以实现跨平台的传输。</p>
+<h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>在整个全局中（无论是单线程还是多线程），该对象只存在一个实例，而且只应该存在一个实例，没有副本。</p>
+<p>序列化对单例有破坏<br>1、通过对某个对象的序列化与反序列化得到的对象是一个新的对象，这就破坏了单例模式的单例性。<br>2、我们知道readObject()的时候，底层运用了反射的技术，</p>
+<h2 id="为什么说序列化并不安全"><a href="#为什么说序列化并不安全" class="headerlink" title="为什么说序列化并不安全"></a>为什么说序列化并不安全</h2><p>因为序列化的对象数据转换为二进制，并且完全可逆。但是在RMI调用时所有private字段的数据都以明文二进制的形式出现在网络的套接字上，这显然是不安全的<br>解决方案<br>1、 序列化Hook化（移位和复位）<br>2、 序列数据加密和签名<br>3、 利用transient的特性解决<br>4、 打包和解包代理</p>
+<h1 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h1><p>@Deprecated 意思是“废弃的，过时的”，@Override 意思是“重写、覆盖”，@SuppressWarnings 意思是“压缩警告。</p>
+<h2 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h2><p>通过@interface自定义注解，@Retention（RetentionPolicy.Source（源文件）、CLASS（class文件）、RunTime（字节码）），@Target元注解决定了一个注解可以标识到哪些成分上，如标识在在类身上，或者属性身上，或者方法身上等成分，@Target默认值为任何元素(成分)；@Document：说明该注解将被包含在javadoc中；@Inherited：说明子类可以继承父类中的该注解</p>
+<p>注解也可以添加属性，和正常类不同的地方在属性名后面要加小括号，语法：类型 属性名（）default 默认值；通过反射可以获取类的Annotation，这个Annotation相当于就是一个类，通过强制类型转换可以转换为<br>自定义的注解，可以在使用注解的时候在括号里应用属性，</p>
+<h1 id="JMS"><a href="#JMS" class="headerlink" title="JMS"></a>JMS</h1><p>Java消息服务（Java Message Service）<strong>应用程序接口</strong>，是一个Java平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。Java消息服务是一个与具体平台无关的API</p>
+<p>JMS具有两种通信模式：</p>
+<p>　　　　　　1、Point-to-Point Messaging Domain （点对点）</p>
+<p>　　　　　　2、Publish/Subscribe Messaging Domain （发布/订阅模式）</p>
+<h2 id="点对点通信模型"><a href="#点对点通信模型" class="headerlink" title="点对点通信模型"></a>点对点通信模型</h2><p>在点对点通信模式中，应用程序由消息队列，发送方，接收方组成。每个消息都被发送到一个特定的队列，接收者从队列中获取消息。队列保留着消息，直到他们被消费或超时</p>
+<p>每个消息只要一个消费者<br>发送者和接收者在时间上是没有时间的约束，也就是说发送者在发送完消息之后，不管接收者有没有接受消息，都不会影响发送方发送消息到消息队列中。<br>发送方不管是否在发送消息，接收方都可以从消息队列中去到消息（The receiver can fetch message whether it is running or not when the sender sends the message）<br>接收方在接收完消息之后，需要向消息队列应答成功</p>
+<h2 id="发布-订阅通信模型"><a href="#发布-订阅通信模型" class="headerlink" title="发布/订阅通信模型"></a>发布/订阅通信模型</h2><p>在发布/订阅消息模型中，发布者发布一个消息，该消息通过topic传递给所有的客户端。该模式下，发布者与订阅者都是匿名的，即发布者与订阅者都不知道对方是谁。并且可以动态的发布与订阅Topic。Topic主要用于保存和传递消息，且会一直保存消息直到消息被传递给客户端。</p>
+<p>一个消息可以传递个多个订阅者（即：一个消息可以有多个接受方）<br>发布者与订阅者具有时间约束，针对某个主题（Topic）的订阅者，它必须创建一个订阅者之后，才能消费发布者的消息，而且为了消费消息，订阅者必须保持运行的状态。<br>为了缓和这样严格的时间相关性，JMS允许订阅者创建一个可持久化的订阅。这样，即使订阅者没有被激活（运行），它也能接收到发布者的消息。</p>
+<p>消息的产生是异步的，但是消息的消费可以是异步或者同步，通过receive方法阻塞直到接受到消息，异步的方式则通过消息监听者，类似于事件监听器。</p>
+<p>JMS编程模型</p>
+<p>(1) ConnectionFactory</p>
+<p>创建Connection对象的工厂，针对两种不同的jms消息模型，分别有QueueConnectionFactory和TopicConnectionFactory两种。可以通过JNDI来查找ConnectionFactory对象。</p>
+<p>(2) Destination</p>
+<p>Destination的意思是消息生产者的消息发送目标或者说消息消费者的消息来源。 </p>
+<p>所以，Destination实际上就是<strong>两种类型的对象</strong>：Queue、Topic可以通过JNDI来查找Destination。</p>
+<p>(3) Connection</p>
+<p>Connection表示在客户端和JMS系统之间建立的链接（对TCP/IP socket的包装）。Connection可以产生一个或多个Session。Connection也有两种类型：QueueConnection和TopicConnection。</p>
+<p>(4) Session</p>
+<p>Session是操作消息的接口。可以通过session创建生产者、消费者、消息等。Session提供了事务的功能。当我们需要使用session发送/接收多个消息时，可以将这些发送/接收动作放到一个事务中。同样，也分QueueSession和TopicSession。</p>
+<p>(5) 消息的生产者</p>
+<p>消息生产者由Session创建，并用于将消息发送到Destination。同样，消息生产者分两种类型：QueueSender和TopicPublisher。可以调用消息生产者的方法（send或publish方法）发送消息。</p>
+<p>(6) 消息消费者</p>
+<p>消息消费者由Session创建，用于接收被发送到Destination的消息。两种类型：QueueReceiver和TopicSubscriber。可分别通过session的createReceiver(Queue)或createSubscriber(Topic)来创建。当然，也可以session的creatDurableSubscriber方法来创建持久化的订阅者。</p>
+<p>(7) MessageListener</p>
+<p>消息监听器。如果注册了消息监听器，一旦消息到达，将自动调用监听器的onMessage方法。</p>
+<h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><p>泛型类、泛型方法、泛型接口</p>
+<ol>
+<li>T 代表一般的任何类。 </li>
+<li>E 代表 Element 的意思，或者 Exception 异常的意思。 </li>
+<li>K 代表 Key 的意思。 </li>
+<li>V 代表 Value 的意思，通常与 K 一起配合使用。 </li>
+<li>S 代表 Subtype 的意思</li>
+</ol>
+<p>通配符有 3 种形式。</p>
+<ol>
+<li>&lt;?&gt; 被称作无限定的通配符。</li>
+<li>&lt;? extends T&gt; 被称作有上限的通配符。</li>
+<li>&lt;? super T&gt; 被称作有下限的通配符。</li>
+</ol>
+<p><strong>Java 不能创建具体类型的泛型数组</strong></p>
+<h2 id="类型擦除"><a href="#类型擦除" class="headerlink" title="类型擦除"></a>类型擦除</h2><p>泛型信息只存在于代码编译阶段，在进入 JVM 之前，与泛型相关的信息会被擦除掉，专业术语叫做类型擦除。</p>
+<p>泛型类被类型擦除的时候，之前泛型类中的类型参数部分如果没有指定上限，如 <t> 则会被转译成普通的 Object 类型，如果指定了上限如 <t extends="" string=""> 则类型参数就被替换成类型上限</t></t></p>
+<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p>Pattern类就是正则表达式的编译表示，Pattern类没有公共构造方法，只有公共静态编译方法。<br>Matcher类是对输入字符串进行解释和匹配操作的引擎。与Pattern 类一样，Matcher 也没有公共构造方法。需要调用 <strong>Pattern 对象的 matcher 方法</strong>来获得一个 Matcher 对象</p>
+<p>捕获组</p>
+<p>把多个字符当一个单独单元进行处理的方法，它通过对括号内的字符分组来创建。</p>
+<h1 id="API和SPI"><a href="#API和SPI" class="headerlink" title="API和SPI"></a>API和SPI</h1><p>Application Programming Interface     Service Provider Interface</p>
+<p>API是你可以调用或者使用类/接口/方法等去完成某个目标的意思。通过调用api就能实现某种功能</p>
+<p>SPI是你需要继承或实现某些类/接口/方法等去完成某个目标的意思。提供了公用的标准或者实现。</p>
+<h1 id="java-时间处理"><a href="#java-时间处理" class="headerlink" title="java 时间处理"></a>java 时间处理</h1><p>类 Date 表示特定的瞬间，精确到毫秒。从 JDK 1.1 开始，应该使用 Calendar 类实现日期和时间字段之间转换，使用 DateFormat 类来格式化和分析日期字符串。<strong>Date 中的把日期解释为年、月、日、小时、分钟和秒值的方法已废弃</strong></p>
+<p>DateFormat 是日期/时间格式化子类的抽象类，它以与语言无关的方式格式化并分析日期或时间。日期/时间格式化子类（如 <strong>SimpleDateFormat</strong>）允许进行格式化（也就是日期 -&gt; 文本）、分析（文本-&gt; 日期）和标准化</p>
+<p>Calendar（抽象类）<br>Calendar 类是一个抽象类，它为特定瞬间与一组诸如 YEAR、MONTH、DAY_OF_MONTH、HOUR 等 日历字段之间的转换提供了一些方法，并为操作日历字段（例如获得下星期的日期）提供了一些方法。瞬间可用毫秒值来表示，它是距历元（即格林威治标准时间 1970 年 1 月 1 日的 00:00:00.000，格里高利历）的偏移量。与其他语言环境敏感类一样，Calendar 提供了一个类方法 getInstance，以获得此类型的一个通用的对象。Calendar 的 getInstance 方法返回一个 Calendar 对象，其日历字段已由当前日期和时间初始化。</p>
+<h1 id="字符编码"><a href="#字符编码" class="headerlink" title="字符编码"></a>字符编码</h1><p><strong>不要轻易地使用或滥用String类的getBytes(encoding)方法</strong>，更要尽量避免使用getBytes()方法。因为这个方法是平台依赖的，在平台不可预知的情况下完全可能得到不同的结果。</p>
+<p>java的string是Unicode编码，字符和数字一对一的对应关系。GBK、UTF-8是一种“编码格式”，是用来序列化或存储前面提到的那个“编号(数字)”的一种“格式”</p>
+<p>java的String使用的编码是Unicode，当String存在于内存中时(在代码中用string类型的引用对它进行操作时)，是”只有编码而没有编码格式的”，所以java程序中的任何String对象，说它是gbk还是utf-8都是错的，String在内存中不需要“编码格式”, 它只是一个Unicode的字符串而已。</p>
+<p>当字符串需要在网络中传输或要被写入文件时，就需要使用编码格式了。乱码问题也因此出现</p>
+<p>BK和UTF-8都是用来序列化或存储Unicode编码的数据的，但是分别是2种不同的格式，他们都是Unicode编码的实现方式；他们俩除了格式不一样之外，他们所关心的Unicode编码范围也不一样</p>
+<p><strong>ASCII码，和Unicode编码一样</strong>，也是一种”编码”。</p>
+<p>ASCII码的范围比较小，一共规定了128个字符的编码。</p>
+<p>Unicode编码是一个很大的集合，现在的规模可以容纳100多万个符号。就像它的名字都表示的，这是一种包含所有符号的编码</p>
+<h1 id="语法糖"><a href="#语法糖" class="headerlink" title="语法糖"></a>语法糖</h1><p>语法糖（Syntactic Sugar），也称糖衣语法，是由英国计算机学家 Peter.J.Landin 发明的一个术语，指在计算机语言中添加的某种语法</p>
+<p>语法糖的存在主要是方便开发人员使用。但其实，Java 虚拟机并不支持这些语法糖，这些语法糖在编译阶段就会被还原成简单的基础语法结构，这个过程就是<strong>解语法糖</strong></p>
+<ol>
+<li>switch 支持 String 与枚举</li>
+</ol>
+<p>Java 中的swith自身原本就支持基本类型。比如int、char等。对于int类型，直接进行数值的比较。对于char类型则是比较其 ascii 码。所以，对于编译器来说，switch中其实只能使用整型，任何类型的比较都要转换成整型。比如byte、short、char（ackii 码是整型）以及int。</p>
+<p>字符串的 switch 是通过equals()和hashCode()方法来实现的吗，进行switch的实际是哈希值，然后通过使用equals方法比较进行安全检查，这个检查是必要的，因为哈希可能会发生碰撞</p>
+<ol>
+<li>泛型</li>
+</ol>
+<p>类型擦除的主要过程如下：将所有的泛型参数用其最左边界（最顶级的父类型）类型替换。移除所有的类型参数。</p>
+<ol>
+<li>自动装箱与拆箱</li>
+</ol>
+<p>装箱过程是通过调用包装器的 valueOf 方法实现的，而拆箱过程是通过调用包装器的 xxxValue 方法实现的</p>
+<ol>
+<li>方法变长参数</li>
+</ol>
+<p>可变参数在被使用的时候，他首先会创建一个数组，数组的长度就是调用该方法是传递的实参的个数。然后再把参数值全部放到这个数组当中，然后再把这个数组作为参数传递到被调用的方法中</p>
+<ol>
+<li>枚举</li>
+</ol>
+<p>关键字enum可以将一组具名的值的有限集合创建为一种新的类型，<strong>当我们使用enmu来定义一个枚举类型的时候，编译器会自动帮我们创建一个final类型的类继承Enum类，所以枚举类型不能被继承</strong></p>
+<ol>
+<li>内部类</li>
+</ol>
+<p>outer.java里面定义了一个内部类inner，一旦编译成功，就会生成两个完全不同的.class文件了，分别是outer.class和outer$inner.class。所以内部类的名字完全可以和它的外部类名字相同</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Reflect</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Serialiable</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Annotation</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">JMS</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">语法糖</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编码</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/08/20190108-java/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20190102-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/02/20190102-java/">20190102-java</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/02/20190102-java/" class="archive-article-date">
+  	<time datetime="2019-01-02T06:26:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-02</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>把 enum 看成是一个普通的 class，它们都可以定义一些属性和方法，不同之处是：enum 不能使用 extends 关键字继承其他类，因为 enum 已经继承了 java.lang.Enum（java是单一继承）</li>
+</ol>
+<h1 id="Java-IO"><a href="#Java-IO" class="headerlink" title="Java IO"></a>Java IO</h1><ol>
+<li>同步或者异步是针对应用程序和内核而言的，阻塞和非阻塞是指进程在访问数据的时候根据IO的状态采取不同的操作。</li>
+<li>同步：用户进程触发IO操作之后需要等待或者轮询IO操作是否完成</li>
+<li>异步：用户进程触发IO操作之后就去完成其他的任务，等到IO操作完成的时候用户进程会收到通知。</li>
+<li>阻塞：对文件进行读取，没有东西可读或者不可写的时候程序进入等待状态</li>
+<li>非阻塞：对文件进行读取，没有东西可读或者不可写的时候读写函数马上返回</li>
+<li>一个IO操作被分为两步，发起IO请求和实际完成IO操作，同步和异步关注的是实际完成IO操作会不会被阻塞，也就是说同步需要一直关注IO操作是否完成，通过轮询或者等待的方式；阻塞和非阻塞关注的是第一步，发起IO请求会不会被阻塞。<h2 id="同步阻塞（Java-BIO）"><a href="#同步阻塞（Java-BIO）" class="headerlink" title="同步阻塞（Java BIO）"></a>同步阻塞（Java BIO）</h2>用户进程在发起一个IO操作之后，就会一直等到这个操作完成用户进程才继续运行，<strong>Java的传统IO，一个连接一个线程，客户端有连接请求的时候服务器端就新建线程处理，适用于连接数目比较小而且固定的架构<br>#异步非阻塞（Java AIO）<br>用户进程只需要发起一个IO操作，然后立即返回，等IO操作完成之后，应用程序会得到IO操作完成的通知。</strong>连接数目多且连接比较长（重操作）的架构，比如相册服务器**</li>
+</ol>
+<p>jdk7主要增加了三个新的异步通道:</p>
+<p>AsynchronousFileChannel: 用于文件异步读写；<br>AsynchronousSocketChannel: 客户端异步socket；<br>AsynchronousServerSocketChannel: 服务器异步socket。</p>
+<h2 id="Reactor模式"><a href="#Reactor模式" class="headerlink" title="Reactor模式"></a>Reactor模式</h2><p>应用于同步I/O的场景，注册读就绪事件和事件处理器，一旦读就绪，就利用事件处理器完成具体的读取操作，然后根据读取到的内容进行进一步处理。</p>
+<h2 id="Proactor模式"><a href="#Proactor模式" class="headerlink" title="Proactor模式"></a>Proactor模式</h2><p>应用程序初始化一个异步读取操作，然后注册相应的事件处理器，这个关注的是读完成事件，<strong>这是与Reactor模式不同的地方，</strong>事件处理器从缓冲区读取到数据完成后续操作。</p>
+<h1 id="Java-NIO"><a href="#Java-NIO" class="headerlink" title="Java NIO"></a>Java NIO</h1><p>同步非阻塞：用户进程在发起IO请求之后可以继续完成其他的操作，但用户进程需要经过一段时间间隔轮询IO操作是否完成。<br><strong>一个请求一个线程</strong>，客户端的所有请求都会注册到多路复用器上。<strong>连接数目多而且连接比较短（轻操作）的架构，聊天服务器</strong>，缓冲区（Buffers）、通道（Channels）和非阻塞I/O的核心类组成</p>
+<h2 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h2><p>•  既可以从通道中读取数据，又可以写数据到通道。但流的读写通常是单向的。<br>•  通道可以异步地读写。<br>•  通道中的数据总是要先读到一个Buffer，或者总是要从一个Buffer中写入<br>channel的实现<br>• FileChannel：从文件中读写数据。<br>• DatagramChannel：能通过UDP读写网络中的数据。<br>• SocketChannel：能通过TCP读写网络中的数据。<br>• ServerSocketChannel：可以监听新进来的TCP连接，像Web服务器那样。对每一个新进来的连接都会创建一个SocketChannel。</p>
+<h2 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h2><p>使用Buffer读写数据一般遵循以下四个步骤：<br>• 从channel写入数据到Buffer<br>• 调用flip()方法，从写模式到读模式<br>• 从Buffer中读取数据到进程处理<br>• 调用clear()方法或者compact()方法</p>
+<h3 id="capacity"><a href="#capacity" class="headerlink" title="capacity"></a>capacity</h3><p>作为一个内存块，Buffer有一个固定的大小值，也叫“capacity”.你只能往里写capacity个byte、long，char等类型。一旦Buffer满了，需要将其清空（通过读数据或者清除数据）才能继续写数据往里写数据。</p>
+<h3 id="position"><a href="#position" class="headerlink" title="position"></a>position</h3><p>当你写数据到Buffer中时，position表示当前的位置。初始的position值为0.当一个byte、long等数据写到Buffer后， position会向前移动到下一个可插入数据的Buffer单元。position最大可为capacity – 1。</p>
+<p>当读取数据时，也是从某个特定位置读。当将Buffer从写模式切换到读模式，position会被重置为0。当从Buffer的position处读取数据时，position向前移动到下一个可读的位置。</p>
+<h3 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h3><p>在写模式下，Buffer的limit表示你最多能往Buffer里写多少数据。 写模式下，limit等于Buffer的capacity。</p>
+<p>当切换Buffer到读模式时， limit表示你最多能读到多少数据。因此，当切换Buffer到读模式时，limit会被设置成写模式下的position值。换句话说，你能读到之前写入的所有数据（limit被设置成已写数据的数量，这个值在写模式下就是position）</p>
+<h3 id="向Buffer中写数据"><a href="#向Buffer中写数据" class="headerlink" title="向Buffer中写数据"></a>向Buffer中写数据</h3><p>写数据到Buffer有两种方式：<br>• 从Channel写到Buffer。 channel.read(buffer)<br>• 通过Buffer的put()方法写到Buffer里</p>
+<h3 id="从Buffer中读取数据"><a href="#从Buffer中读取数据" class="headerlink" title="从Buffer中读取数据"></a>从Buffer中读取数据</h3><p>从Buffer中读取数据有两种方式：<br>• 从Buffer读取数据到Channel。 channel.write(buffer)<br>• 使用get()方法从Buffer中读取数据。</p>
+<h3 id="rewind-方法"><a href="#rewind-方法" class="headerlink" title="rewind()方法"></a>rewind()方法</h3><p>Buffer.rewind()将position设回0，所以你可以重读Buffer中的所有数据。limit保持不变，仍然表示能从Buffer中读取多少个元素（byte、char等）</p>
+<h2 id="选择器（Selector）"><a href="#选择器（Selector）" class="headerlink" title="选择器（Selector）"></a>选择器（Selector）</h2><p>Selector（选择器）是Java NIO中能够检测一到多个NIO通道，并能够知晓通道是否为诸如读写事件做好准备的组件。这样，一个单独的线程可以管理多个channel，从而管理多个网络连接</p>
+<p>为了将Channel和Selector配合使用，必须将channel注册到selector上。通过SelectableChannel.register()方法来实现，register()方法的第二个参数。这是一个“interest集合”，意思是在通过Selector监听Channel时对什么事件感兴趣。可以监听四种不同类型的事件： SelectionKey.OP_CONNECT 、 SelectionKey.OP_ACCEPT 、 SelectionKey.OP_READ、 SelectionKey.OP_WRITE 。某个channel成功连接到另一个服务器称为<strong>“连接就绪OP_CONNECT”</strong>。一个server socket channel准备好接收新进入的连接称为<strong>“接收就绪”OP_ACCEPT</strong>。一个有数据可读的通道可以说是“读就绪”。等待写数据的通道可以说是“写就绪”</p>
+<p>register()方法会返回一个SelectionKey对象。</p>
+<p>一旦向Selector注册了一或多个通道，就可以调用几个重载的select()方法。这些方法返回你所感兴趣的事件（如连接、接受、读或写）已经准备就绪的那些通道</p>
+<h2 id="fileChannel"><a href="#fileChannel" class="headerlink" title="fileChannel"></a>fileChannel</h2><p>在使用FileChannel之前，必须先打开它。但是，我们无法直接打开一个FileChannel，需要通过使用一个InputStream、OutputStream或RandomAccessFile来获取一个FileChannel实例</p>
+<h2 id="Socket-通道"><a href="#Socket-通道" class="headerlink" title="Socket 通道"></a>Socket 通道</h2><p>Java NIO中的SocketChannel是一个连接到TCP网络套接字的通道。可以通过以下2种方式创建SocketChannel：<br>• 打开一个SocketChannel并连接到互联网上的某台服务器。<br>• 一个新连接到达ServerSocketChannel时，会创建一个SocketChannel。</p>
+<p>有非阻塞模式，可以在异步模式下调用connect(), read() 和write()</p>
+<h2 id="ServerSocket-通道"><a href="#ServerSocket-通道" class="headerlink" title="ServerSocket 通道"></a>ServerSocket 通道</h2><p>Java NIO中的 ServerSocketChannel 是一个可以监听新进来的TCP连接的通道，就像标准IO中的ServerSocket一样。ServerSocketChannel类在 java.nio.channels包中。</p>
+<p>在非阻塞模式下，accept() 方法会立刻返回，如果还没有新进来的连接，返回的将是null。 因此，需要检查返回的SocketChannel是否是null。</p>
+<h2 id="管道（Pipe）"><a href="#管道（Pipe）" class="headerlink" title="管道（Pipe）"></a>管道（Pipe）</h2><p>Java NIO 管道是2个线程之间的单向数据连接。Pipe有一个source通道和一个sink通道。数据会被写到sink通道，从source通道读取。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">IO</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/02/20190102-java/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20181225-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -187,6 +688,10 @@
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Map</a>
         		</li>
       		
 		</ul>
@@ -722,381 +1227,6 @@
 
 
   
-    <article id="post-20180813-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/13/20180813-java/">20180813</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/13/20180813-java/" class="archive-article-date">
-  	<time datetime="2018-08-13T10:01:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-13</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>System.out.println的具体执行方法里加了Synchronized同步块。</li>
-<li><strong>守护线程</strong>：守护用户线程，在用户线程结束后自动结束，thread的setDaemon（true）必须在start之前执行，不能将正在运行的用户线程设置为守护线程。在守护线程里产生的线程也是守护线程</li>
-<li><strong>ThreadLocal</strong>:线程本地变量，每个线程都会在本地存储一个副本，不会对其他线程的变量副本造成影响，<strong>ThreadLocal可以重写的方法</strong>包括initialValue、ge、set、remove，ThreadLocal底层是由ThreadLocalMap实现的，每个Thread都有自己的一个ThreadLocalMap，为了避免内存泄漏，key都是对ThreadLocal 的弱引用，value是变量的本地值，<strong>防止内存泄漏的方法</strong>：ThreadLocal已经被回收，但是ThreadLocalMap中仍然被强引用，会有内存泄漏。replaceStaleEntry会将所有key为null 的value设置为null，expungeStaleEntry方法将键值都为null的Entry设置为null。<strong>ThreadLocal的使用场景</strong>是每个线程都有自己的变量副本，还有就是实例需要在多个方法之间共享，但却不想在多个线程之间共享。</li>
-<li><strong>CountDownLatch倒计时</strong>器：CountDownLatch有四个方法，构造器CountDownLatch（int n）、await、await（time,unit），countdown，等待n个线程执行完毕之后，才会继续接下来的操作，每个线程执行完之后都要调用countdown函数使得倒计时器减1，在主线程中调用await方法，就会使得主线程阻塞直到倒计时器数为0，才会继续执行操作。</li>
-<li><strong>CycleBarrier循环栅栏</strong>：所有的线程需要等待到达一个状态之后才可以继续进行下面的操作，CycleBarrier有两个参数是n和Runnable barrierAction，n就是当CycleBarrier上等待的线程到达n时就会继续下面的操作，CycleBarrier也有一个await方法，使得当前线程暂停等待，在线程执行完之后，还可以调用Runnable的action继续后续的操作，也可以没有barrierAction这个参数。</li>
-<li><strong>Semaphore信号量</strong>：信号量可以控制访问变量的线程个数，通过acquire获取许可，release释放许可（acquire和release都是阻塞的）还可以释放或者获取多个许可，前面加try就是非阻塞的，构造器参数就是permits或者permits和fair（等待越久越先获得许可）。<br>7.<strong> 线程的终结</strong>：线程有一个stop方法，调用它可以直接终止线程，但是这个方法是Deprecated（过时的），因为直接stop线程会导致正在进行的线程发生数据不一致的问题，方法应该是在循环中检验一个变量的值，完成业务之后修改变量的值，导致循环退出，这样在循环的一个流程里面执行完业务，然后退出。</li>
-<li><strong>sleep和wait的区别</strong>：sleep是让线程休眠，到时间之后会自动唤醒，然而wait是等待，必须等待唤醒才可以使用。sleep是Thread线程类的静态方法，而wait是Object顶级类的方法，sleep可以在任何地方使用，但是wait只能在同步代码块中使用，而且调用wait的类就是同步代码块锁定的类；sleep和wait的区别还在于sleep在休眠的时候并不会释放已经获得的锁，而wait就会释放已经获得的锁，sleep和wait都会暂停当前线程让出CPU执行时间；sleep需要捕获异常（在休眠的时候被异常中断），而wait不需要。</li>
-<li><strong>JVM重排序规则</strong>：volatile和监视器锁；final字段（1.final字段的写入（构造器内）以及final字段对象本身的引用写入都不能和后续的构造器外持有该final字段的对象的写入重排序，2.final字段的第一次加载不能和持有这个final字段的对象的写入重排序）；内存屏障（LoadLoad,StoreStore,LoadStore,StoreLoad,最后这个最常用，先store后load不能打乱，防止读到旧数据，但是StoreLoad开销很大）；HappenBefore规则</li>
-<li><strong>内存泄漏</strong>：有一些对象已经不需要使用了，按理说这部分内存应该被垃圾收集器回收，但是这部分对象仍然在被引用，所以无法回收，程序也无法使用，导致内存泄漏。<strong>防止内存泄漏</strong>：注意集合类ArrayList、HashMap等，因为他们是内存泄漏常见的地方，注意事件监听器和回调，如果一个类自己管理自己的内存，那么指向其他对象的成员变量需要为null。</li>
-<li><strong>Java6中字符串的subString方法存在内存泄漏的问题</strong>：因为JDK6中的string底层是char数组和起始标识以及数组长度，substring只会修改新生成字符串的起始标识和数组长度，可能会导致原来存在的一个很长的字符串无法被回收，而在Java7中subString方法会直接新建字符串。</li>
-<li><strong>java运行时区域</strong>：线程不共享的区域：程序计数器（当前线程指令运行到的地址）、虚拟机栈（java方法的栈，每一次方法的调用都是一个栈帧的出栈和入栈，每一个栈帧包括了局部变量表、操作数栈、动态链接、方法出口）、本地方法栈（native方法的栈）；线程共享的区域：堆（JVM启动时创建的对象和数组，真实的数据内容）、方法区（存储了每一个类的结构信息，运行时常量池，字段和方法数据、构造函数等等，<strong>运行时常量池</strong>里面主要是编译器可知的数值字面量和在运行期才能解析获得的方法或字段的引用）</li>
-<li>JDK7之后，所有需要关闭的资源只要实现了java.lang.AutoCloseable接口，程序结束之后资源就会自动关闭，在<strong>try-with-resource</strong>语句中这样使用才会有效果，在try（）里定义多个资源，在结束之后是按照在try里的定义顺序自动关闭。</li>
-<li>JDK8里面通过lambda表达式以及函数式接口提供了很多排序手段，JDK8之前需要自己定义实现了Comparator接口的类，jdk8中可以利用list.sort函数添加，还可以利用Collections.sort函数（参数是list和Comparator提供的静态方法）</li>
-<li><strong>lambda表达式</strong>：（parameters）-&gt;{表达式}，lambda语句可以指定参数类型和return，也可以不指定，编译器会自动推断，后面的表达式如果只有一句就可以不用加大括号了。参数的括号不能省略。</li>
-<li>lambda表达式专门针对只有一个方法的接口（<strong>函数式接口</strong>），使用@FunctionalInterface可以构造自己的函数式接口。jdk提供了常用的函数式接口，Function：提供任意一种类型的参数，返回另外一个任意类型返回值。 R apply(T t); Consumer：提供任意一种类型的参数，返回空值。 void accept(T t); Supplier：参数为空，得到任意一种类型的返回值。T get(); Predicate：提供任意一种类型的参数，返回boolean返回值。boolean test(T t); BinaryOperator：提供两个参数，返回一个参数。当lambda表达式想要代替这些函数式接口的时候返回的类型和参数应该满足这些函数式接口的方法签名。<strong>函数式接口作为参数会在特定的类或者方法中被调用接口的方法，这时候可以直接使用lambda表达式替代传入的函数式接口。</strong>lambda表达式内部的this指的是包含lambda表达式的类，使用内部匿名类的方法this指的是匿名内部类本身。</li>
-<li><strong>方法引用</strong>：只要是方法的返回值类型和参数与函数式接口中抽象方法的参数和返回值类型保持一致就可以使用方法引用代替函数式方法，方法引用有三种方式：构造器方法引用(Class::new)、类普通方法引用(Class::method)、类静态方法引用(Class::static_method)、实例方法引用(instance::method)，System.out::println就是实例方法引用。</li>
-<li>lambda表达式在编译阶段会被转换为匿名内部类，自由变量是在lambda表达式之外定义的变量，自由变量在lambda表达式内部不能被改变。</li>
-<li><strong> Stream</strong>：<strong>不存储数据、不改变原数据同时延迟执行</strong>，这里的stream和IO流不一样，这里的Stream是<strong>对数组和集合的操作流</strong>，对于stream的聚合、消费或收集操作只能进行一次，创建流的方式Arrays.stream、集合.stream、集合.parallelStream、Stream.empty、Stream.generate().limit()，map函数可以把一种类型的流转换为另一种类型。</li>
-<li><strong>Optional类型</strong>：Optional表示一个安全的指定结果类型，所谓的安全指的是避免直接调用返回类型的null值而造成空指针异常，调用optional.ifPresent()可以判断返回值是否为空，或者直接调用ifPresent(Consumer&lt;? super T&gt; consumer)在结果部位空时进行消费操作，Optional创建的静态方法of和ofNullable(可以接受空值)；</li>
-<li><strong>接口的默认方法和静态方法</strong>：接口的默认方法的应用场景是当接口中新增了方法声明之后，所有实现了该接口的方法都需要重新实现该方法，而接口的默认方法则是可以让接口的实现类不需要重写方法也可以执行该函数，静态方法是可以直接被调用的，不需要接口的实现类，default和static不能同时使用，当一个类实现的多个接口出现同样的默认方法的时候，这个类必须覆写这个方法，不然会报错，还有就是接口的方法的优先级：子接口的优先级高，类实现的同名方法的优先级高。</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/13/20180813-java/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20180806-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/06/20180806-java/">20180806</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/06/20180806-java/" class="archive-article-date">
-  	<time datetime="2018-08-06T01:39:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-06</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。</li>
-<li>hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而==在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值</li>
-<li>java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、RuntimeException（唯一的运行时异常），前三种异常必须在编译之前就捕捉或者抛出。</li>
-<li>+连接字符串可以连接null或者其他类型，但是concat不行，建议使用Stringbuilder</li>
-<li>try和finally里都有return，会直接返回finally里的return，finally一定会执行，在try中return，finally会把结果保存，基本类型一切以try中保存的值为准，但是引用类型就会与finally修改以后的为准</li>
-<li>序列化之后属性有变化会导致值的丢失；父类没有序列化，但是子类序列化了，子类的属性可以序列化，但是父类的属性会丢失；不想序列化的字段加上transient即可。</li>
-<li>正整数的<strong>原码补码反码</strong>都是一样的，负整数的<strong>原码</strong>首位为1，<strong>反码</strong>是符号位不变，其余相反，<strong>补码</strong>是符号位不变，反码加1</li>
-<li>Set中的元素是无序且不重复的，这句话中的Set指的是HashSet，LinkedHashSet是按照添加的顺序排列，而TreeSet是按照自然顺序a~z</li>
-<li>URLClassLoader是ClassLoader的子类，URLClassLoader可以加载任意路径下的类，ClassLoader只能加载ClassPath下的类</li>
-<li>long类型不同进制的转换是从左到右依次遍历每个字符乘以进制数，再加上下一个字符，接着再乘以进制数，不断重复。</li>
-<li><strong>集合遍历</strong>是使用Iterator, Iterator是工作在一个独立的线程中，并且拥有一个互斥锁。Iterator 被创建之后会建立一个指向原来对象的单链索引表，当原来的对象数量发生变化时，这个索引表的内容不会同步改变，所以当索引指针往后移动的时候就找不到要迭代的对象，所以按照 fail-fast原则 Iterator 会马上抛出java.util.ConcurrentModificationException 异常。所以 Iterator 在工作的时候是不允许被迭代的对象被改变的</li>
-<li><strong>装箱过程</strong>是通过调用包装器的valueOf方法实现的，而<strong>拆箱过程</strong>是通过调用包装器的 xxxValue方法实现的。（xxx代表对应的基本数据类型）</li>
-<li><strong>“==”运算符</strong>既可以用来比较基本类型变量和引用类型变量。当两个操作数都是包装器类型的变量时，判定标准为他们是否指向同一个对象；而如果其中有一个操作数是表达式（即包含算术运算）则会先进行自动拆箱，再进行对应基本类型变量比较。</li>
-<li><strong>静态变量</strong>被所有的对象所共享，在内存中只有一个副本，它当且仅当在类初次加载时会被初始化。而非静态变量是对象所拥有的，在创建对象的时候被初始化，存在多个副本，各个对象拥有的副本互不影响。</li>
-<li>先加载父类，然后再加载子类，先调用父类的构造器，在调用自身的构造器。</li>
-<li><strong>static关键字</strong>有一个比较关键的作用就是 用来形成静态代码块以优化程序性能。static块可以置于类中的任何地方，类中可以有多个static块。在类初次被加载的时候，会按照static块的顺序来执行每个static块，并且只会执行一次。</li>
-<li><strong>ArrayList</strong>底层是数组，<strong>LinkedList</strong>底层是链表，<strong>Vector</strong>底层也是数组，Vector支持线程同步，前两个不支持，链表的查找速度较慢，因为需要移动指针，数组的查找速度较快（索引），数组的增删速度比较慢，因为需要移动后面的内容，这时候链表就比较快。<strong>stack</strong>是Vector的子类，主要实现了后进先出的栈的功能。当需要扩展数组长度的时候，Vector会扩展为原来的一倍，ArrayList会扩展50%，</li>
-<li><strong>SynchronizedList和Vector的区别：</strong>SynchronizedList是由Collections静态工具类提供的一个可以实现线程同步的list，和Vector的区别在于以下几点：Vector和SynchronizedList在长度扩展上的区别；Vector是通过同步方法实现同步，而SynchronizedList是通过同步代码块的方式实现（同步代码块内部还是list的方法），SynchronizedList可以通过传入的参数指定锁定的对象，Vector只能锁定this；使用SynchronizedList的时候，进行遍历需要手动同步处理；SynchronizedList可以将list的所有子类转换为线程安全的类</li>
-<li><strong>HashTable和HashMap以及ConcurrentHashMap的区别：</strong>hashtable可以实现同步；HashMap支持插入null值和null key，原因在于HashMap会将null的hashcode定为0，底层都是Entry数组的实现方式，Entry四个属性：Key、Value、hash、Entry（指向下一个Entry，出现hash碰撞）；HashMap的大小总是2的幂次，所以说每次扩容都变成原来的两倍，通过位运算实现除法，提高效率；ConcurrentHashMap允许多个修改操作并发进行，锁定Map中的某个段，而HashTable 是锁定整个Map的。对于HashMap来说jdk1.7使用数组加链表（Entry），jdk1.8使用数组加链表和红黑树实现（Node）</li>
-<li>Java7提供了一种并行任务框架，<strong>Fork/Join框架</strong> ，ForkJoinPool是框架的任务调度器，提供了三个调度子任务的方法：execute（没有返回结果），invoke、invokeAll（有返回结果），submit（返回future对象），具体的任务执行类需要实现RecursiveAction（无结果返回）和RecursiveTask（有结果返回），任务执行类里面有一个compute函数，类似于递归的思想，这个compute判断是否可以计算，如果可以计算就直接计算，不能计算就进行拆分，fork就是执行execute，join函数就是得到返回值。</li>
-<li><strong>并发</strong>就是在一段时间内多个任务在执行，交替或者串行或者其他，但是<strong>并行</strong>就是指并行执行，多个任务在同时执行，</li>
-<li><strong>java实现多线程的三种方式：</strong>继承Thread类；实现Runnable接口，重写run方法（一个子类只能继承一个父类），将Runnable实例传给Thread对象；实现Callable接口，重写call方法，将Callable实例传给FutureTask对象，再传给Thread对象</li>
-<li><strong> Futuretask</strong>是实现了RunnableFuture接口的类，RunnableFuture接口继承了Runnable接口和Future接口，所以FutureTask的使用方法有两种：FutureTask+ExecuteService和FutureTask+Thread，第一种方法就是把实现了Callable接口的类传递给FutureTask，第二种方法就是把FutureTask传给Thread，并利用FutureTask获得结果。</li>
-<li><strong>Join方法</strong>的主要作用是挂起当前线程，等到调用了Join方法的线程结束之后，当前线程才会继续运行。</li>
-<li><strong>线程的状态</strong>一共有6个，NEW是刚创建的线程，还没有启动；RUNNABLE是正在运行的线程；TIME_WAITING是有时限的等待线程；而WAITING是无限的等待，等待一个特殊事件的唤醒；BLOCKED表明这个线程当前处于等待锁的阻塞状态，一旦获得锁将进入RUNNABLE状态；TERMINATED是指线程运行结束，进入终止状态。</li>
-<li><strong>死锁</strong>：多个线程拿了对方需要的锁，同时又在等待对方释放自己需要的锁；<strong>活锁</strong>就是多线程相互谦让，导致没有线程正常执行；<strong>饥饿</strong>就是说低优先级一直抢不过高优先级的线程，导致低优先级的线程得不到执行；<strong>无锁</strong>就是对资源不锁定，一堆线程抢着修改共享资源。</li>
-<li><strong>避免死锁</strong>的方法：按顺序加锁（这样能保证只能有一个线程获得锁）；获取锁时限（一定时间之后放弃自己已经拥有的锁）；检测死锁（出现死锁就采取策略）</li>
-<li><strong>线程池核心类：ThreadPoolExecutor类的主要参数</strong>是corePoolSize（核心线程池的大小。线程池的最小线程数量）、maximumPoolSize（线程池的最大线程数量），KeepAliveTime（超过corePoolSize的线程空闲超过KeepAliveTime就会被销毁），unit（KeepAliveTime这个时间的单位），WorkQueue(存储等待执行的工作队列)，ThreadFactory（创建线程的工厂），handler（拒绝策略，默认抛出异常）；<strong>线程池的工作流程</strong>：如果线程池中的线程数量小于corePoolSize的话，就会直接创建新线程执行任务，如果已经超过corePoolSize的话就会存到workQueue，workQueue存满之后，当线程数小于maximumPoolSize的时候就会新建线程执行任务，当线程数超过maximumPoolSize就会利用handler执行拒绝策略。<strong>核心类ThreadPoolExecutor有四个在Executor下的静态实现类</strong>：newFixThreadPool（固定大小的线程池，核心和最大线程数相等），newCacheThreadPool（带缓冲的线程池，核心线程池大小为0，有新任务就会执行），newSingleThreadPool（单线程线程池，核心和最大线程数为1，每次保证有1个线程在执行）、newSchedulerThreadPool（调度线程池，按照一定的周期执行任务），<strong>拒绝策略</strong>：AbortPolicy（直接抛出拒绝异常）、CallerRunsPolicy（让调用者线程执行新任务）、DiscardPolicy（直接丢弃）、DiscardOldestPolicy（从队列中丢弃掉最老的任务），提交线程使用execute和submit，不同点在于submit会返回一个future对象，关闭线程池使用shutdown（执行完所有任务再关闭）和shutdownNow。</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/06/20180806-java/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20180801" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/01/20180801/">20180801</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/01/20180801/" class="archive-article-date">
-  	<time datetime="2018-08-01T09:17:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-01</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h2><ol>
-<li>注释:&lt;%– 注释 –%&gt;</li>
-<li>声明:&lt;%！ 声明 %&gt;</li>
-<li>输出:&lt;%= 表达式（函数或者变量）%&gt;</li>
-<li>jsp脚本:&lt;%  java代码  %&gt;</li>
-<li>编译指令:&lt;%@ include page taglib%&gt;</li>
-<li>动作指令：就是jsp的一些标签</li>
-<li>可以直接在jsp脚本中使用的内置对象：page、request、response、out、application、config、exception、session、pageCotext</li>
-<li>自定义标签类实现simpleTagSupport，在tld文件中声明</li>
-<li>jsp的表达式语言（EL）： \${expression}</li>
-</ol>
-<h2 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h2><ol>
-<li>Servlet需要继承httpServlet</li>
-<li>@WebServlet进行配置 </li>
-</ol>
-<h2 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h2><ol>
-<li>继承Filter</li>
-<li>@WebFilter配置</li>
-</ol>
-<h2 id="Listener"><a href="#Listener" class="headerlink" title="Listener"></a>Listener</h2><ol>
-<li>根据想要监听的web时间继承的listener接口也不同</li>
-<li>@WebListener配置</li>
-</ol>
-<h2 id="Struts-Action"><a href="#Struts-Action" class="headerlink" title="Struts  Action"></a>Struts  Action</h2><ol>
-<li>继承ActionSupport</li>
-<li>三种方式访问ServletAPI：使用ActionContext，实现可以访问API的接口，工具类ServletActionContext</li>
-<li>Action配置：指定某个method实现某个action以及使用通配符</li>
-<li>Action处理结果配置：处理结果类型，可以使用${属性名}访问对应Action的实例，全局结果配置</li>
-<li>PreResultListener接口是在action处理完成转入物理资源之间被调用</li>
-<li>配置Action的异常：<exception-mapping>标签有exception和result</exception-mapping></li>
-<li>Action的约定支持Convention，通过设置指定扫描哪些包下的action</li>
-<li>在jsp访问中通过action标签或者uri访问action的时候需要指定命名空间</li>
-<li>Convention也可以按照约定映射result，提供从一个action跳入另一个action的方法</li>
-<li>OGNL语言  #变量.变量名</li>
-</ol>
-<p>这本书上的知识点基本上都看过一遍了，书中最后一章的程序我也手敲了一边，也能跑通，现在就是下一步的主要任务是什么，现在能想到的需要解决的问题就是java的基础问题，因为java编程很少，其实有一些比较重要的知识点我还不是特别清楚，既然以后要找java后台的工作，那么java的问题也是需要考虑的，算法我暂时不准备看，找工作的时候再看，现在看了肯定到时候就会忘掉，等下结束这个博客之后，我就把那个成神之路上的知识点挨个看一遍，也算是在进步，每天学几个，这样自己也能不断进步，不至于太差，leetcode什么的等国庆之后再说吧，现在先看看基础。从今天开始又要保持周周写博客的好习惯，白天学完之后晚上花一个小时回顾一下，写个博客也是极好的，反正现在也比较闲，希望可以好好学习，健身，最后找个好点的工作，哈哈，我的目标也不是很远大，找个工作就好了，欲望这种事情只要出现了满足他就行，谁又不是一直有欲望，想死在床上，好了，今日份的废话就到这里为止了，我们需要好好学习了。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/01/20180801/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="w-2018" class="article article-type-w  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/02/2018/">2018</a>
-    </h1>
-  
-
-        
-        <a href="/2018/07/02/2018/" class="archive-article-date">
-  	<time datetime="2018-07-02T01:18:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>今天突然决定看一些大佬的微信号，但是有一些东西看了就会忘，所以我决定还是把他们粘贴在这个博客里</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/02/2018/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1111,7 +1241,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 Sticda
+    		&copy; 2019 Sticda
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1178,15 +1308,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1206,19 +1336,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Struts</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">essay</a>
+                <a href="javascript:void(0)" class="js-tag color5">hibernate</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1227,6 +1353,46 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Reflect</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Serialiable</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Annotation</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">JMS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">语法糖</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编码</a>
               </li>
             
             <div class="clearfix"></div>
