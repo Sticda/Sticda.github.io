@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>20171211 | Sticda</title>
+  <title>20171226 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近太忙了，期末了各种作业. 客户端也可以通过js进行窗体验证，用来节省服务器的运算资源，但是客户端验证只针对格式等与安全无关的部分进行验证，用户可以选择跳过客户端窗体验证。 利用forward（）请求转发的时候浏览器并不知道在服务器上发生了转发，可以获得WEB_INF中的数据，sendRedirect（）要求浏览器重定向请求其他的数据，这个函数可以使用相对或者绝对URL。 在使用sendRedi">
-<meta name="keywords" content="后台,servlet">
+  <meta name="description" content="JSPJSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误 不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候">
+<meta name="keywords" content="笔记,jsp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="20171211">
-<meta property="og:url" content="http://yoursite.com/2017/12/11/20171211/index.html">
+<meta property="og:title" content="20171226">
+<meta property="og:url" content="http://yoursite.com/2017/12/26/20171226-jsp/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="最近太忙了，期末了各种作业. 客户端也可以通过js进行窗体验证，用来节省服务器的运算资源，但是客户端验证只针对格式等与安全无关的部分进行验证，用户可以选择跳过客户端窗体验证。 利用forward（）请求转发的时候浏览器并不知道在服务器上发生了转发，可以获得WEB_INF中的数据，sendRedirect（）要求浏览器重定向请求其他的数据，这个函数可以使用相对或者绝对URL。 在使用sendRedi">
-<meta property="og:updated_time" content="2018-06-05T10:40:33.974Z">
+<meta property="og:description" content="JSPJSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误 不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候">
+<meta property="og:updated_time" content="2018-06-07T07:19:05.512Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20171211">
-<meta name="twitter:description" content="最近太忙了，期末了各种作业. 客户端也可以通过js进行窗体验证，用来节省服务器的运算资源，但是客户端验证只针对格式等与安全无关的部分进行验证，用户可以选择跳过客户端窗体验证。 利用forward（）请求转发的时候浏览器并不知道在服务器上发生了转发，可以获得WEB_INF中的数据，sendRedirect（）要求浏览器重定向请求其他的数据，这个函数可以使用相对或者绝对URL。 在使用sendRedi">
+<meta name="twitter:title" content="20171226">
+<meta name="twitter:description" content="JSPJSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误 不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -142,20 +142,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-20171211" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-20171226-jsp" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      20171211
+      20171226
     </h1>
   
 
         
-        <a href="/2017/12/11/20171211/" class="archive-article-date">
-  	<time datetime="2017-12-11T09:04:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-11</time>
+        <a href="/2017/12/26/20171226-jsp/" class="archive-article-date">
+  	<time datetime="2017-12-26T01:54:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
 </a>
         
       </header>
@@ -165,38 +165,38 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近太忙了，期末了各种作业.</p>
-<p>客户端也可以通过js进行窗体验证，用来节省服务器的运算资源，但是客户端验证只针对格式等与安全无关的部分进行验证，用户可以选择跳过客户端窗体验证。</p>
-<p>利用forward（）请求转发的时候浏览器并不知道在服务器上发生了转发，可以获得WEB_INF中的数据，sendRedirect（）要求浏览器重定向请求其他的数据，这个函数可以使用相对或者绝对URL。</p>
-<p><strong>在使用sendRedirect（）的时候，最好使用绝对路径，比如说<a href="http://localhost:8080/exercise/index,我们现在想利用该函数到某个页面，在该页面的前面加上当前web应用的上下文路径，也就是exercise" target="_blank" rel="noopener">http://localhost:8080/exercise/index,我们现在想利用该函数到某个页面，在该页面的前面加上当前web应用的上下文路径，也就是exercise</a></strong></p>
-<p>请求转发(forward)：Servlet（源组件）先对客户请求做一些预处理操作，然后把请求转发给其他Web组件（目标组件）来完成包括生成响应结果在内的后续操作；</p>
-<p>请求包含(include)：Servlet（源组件）把其他Web组件（目标组件）生成的响应结果包含到自身的响应结果中；</p>
-<ol>
-<li>转发和包含路径</li>
-</ol>
-<p>以“/”开头：相对当前项目路径，即默认为<a href="http://localhost:8080/项目名/" target="_blank" rel="noopener">http://localhost:8080/项目名/</a></p>
-<p>不以“/”开头：相对当前Servlet路径。eg:在Aservlet中写“Bservlet”，Aservlet的路径为： <a href="http://localhost:8080/项目名/servlet/Aservlet" target="_blank" rel="noopener">http://localhost:8080/项目名/servlet/Aservlet</a> ，那么Bservlet的路径为：<a href="http://localhost:8080/项目名/servlet/Bservlet" target="_blank" rel="noopener">http://localhost:8080/项目名/servlet/Bservlet</a></p>
-<ol>
-<li>重定向路径（客户端路径）： </li>
-</ol>
-<p>以“/”开头：相对当前主机（端口号之后），即默认为<a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a></p>
-<p>不以“/”开头：相对当前Servlet路径</p>
-<p><strong>ServletConfig</strong>是容器根据web.xml的内容生成的Servlet的设置的实例对象，和每一个Servlet对应，在实例化Servlet的时候，容器还没有调用init（）方法传入ServletConfig，所以不会有servletConfig实例，也就是说ServletConfig必须在web容器将Servlet实例化以后，调用有参数的init（）方法再将之传入，所以在继承HttpServlet后通常会重写<strong>无参数的init（）方法【最适合读取初始参数的地方】</strong>来获取Servlet的初始参数。</p>
-<p>初始参数通常用作常数来设置，可以将一些Servlet程序中不想写死的信息放到初始参数中，一个<init-param>定义一组<param-name>和<param-value></param-value></param-name></init-param></p>
-<p><strong>ServletContext</strong>是<strong>整个web应用程序</strong>运行后的代表对象，通过ServletConfig的getServletContext（）方法来获得，之后就可以利用ServletContext来取得web应用程序的相关资源或信息。</p>
-<p>以“/”开头的路径称为环境相对路径，没有以“/”作为开头则称为请求相对路径。</p>
-<p>getResourceAsStream()的参数路径必须以“/”作为开头，表示相对应于应用程序环境根目录，运行结果会返回InputStream实例，如果在java EE中使用java.io下的File、FileReader等等与文件读取相关的类时，可以指定绝对路径和相对路径，绝对路径是文件在服务器上的真实路径，相对路径相对的是启动web容器时的命令执行目录，比如说Tomcat的根目录。</p>
-<p><strong>ServletContextListener</strong>可以知道web应用程序何时初始化或者何时结束销毁，并在web.xml中设置告知web容器，在web应用程序初始化后或者即将结束销毁之前，调用ServletContextListener实现类的相对应的contextInitialized（）或contextDestroyed()。{在web.xml中配置某个Servlet的Listener，并且重写这个listener的contextInitialized（）}</p>
-<p>在整个web应用程序生命周期内，Servlet所需共享的数据可以设置为ServletContext属性。</p>
+        <h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>JSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误</p>
+<p>不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候做一些事情，可以选择重写JSPInit（）和jspDestroy（）。</p>
+<h2 id="指示元素"><a href="#指示元素" class="headerlink" title="指示元素"></a>指示元素</h2><p>&lt;%@ 指示类型  [属性=“值”] <em> %&gt;（[属性=“值”] </em>是正则表达式）</p>
+<p>常用的指示类型：page（告知容器如何转译目前的jsp网页）、include（将其他的jsp页面包括进来进行转译）、taglib（告知容器如何转译这个页面中的标签库）</p>
+<p>include将其他页面包含的时候是一种静态的包含方式，就是把包含的文件直接拼接在一起。</p>
+<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>在&lt;%!与%&gt;之间声明的程序代码，都将转译为Servlet中的类成员或者方法。也就是说把<strong>所有的成员变量声明和方法声明的java代码</strong>都写在这个&lt;%!与%&gt;之间，容器会使用同一个Servlet来服务不同用户的请求，每个请求就是一个线程，声明 变量的时候必须小心数据共享与线程安全的问题，使用该方法声明的变量是类成员变量，JSPInit（）和JSPDestroy（）就需要使用这种方式重写。</p>
+<h2 id="Scriptlet元素"><a href="#Scriptlet元素" class="headerlink" title="Scriptlet元素"></a>Scriptlet元素</h2><p>&lt;%  java语句  %&gt;所有的内容将被转译到Servlet源代码中的_JSPService（），可以利用java语句的注释方式进行注释（//或者/<em>········</em>/)</p>
+<h2 id="表达式元素"><a href="#表达式元素" class="headerlink" title="表达式元素"></a>表达式元素</h2><p>&lt;%= java 表达式&gt;表达式元素不用加分号，表达式元素中的表达式会直接转译成out对象输出时的指定内容。</p>
+<p>因此在jsp中输出&lt;%或者%&gt;符号，要将角括号置换为替代字符，&lt;%可以换成&lt;%  ，%&gt; 可以换成%&gt;或者%>。</p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>JSP有自己专用的注释，即&lt;%–与–%&gt;，容器在转译JSP到Servlet的时候，会忽略两者之间包括的文字。</p>
 <hr>
-<h1 id="会话管理："><a href="#会话管理：" class="headerlink" title="会话管理："></a><strong>会话管理</strong>：</h1><p>此次请求和之后请求的关系</p>
-<p><strong>隐藏字段</strong></p>
-<p>服务器不会记得两次请求之间的关系，需要浏览器在每次请求的时候告诉服务器这些请求之间的关系，服务器只需要处理就好了。服务器把上一次请求的结果以<strong>隐藏字段</strong>的方式存储在下一页的窗体中响应给浏览器，然后浏览器把上一次的结果和这一次的结果都发给服务器，具体使用是 “&lt;input type=”hidden” name=””  value=””> “，但是右键查看源码是可以看见这些隐藏字段的值，所以不适合用于隐秘性较高的数据。</p>
-<p><strong>Cookie的使用</strong></p>
-<p>Cookie类，使用HttpServletResponse的addCookie（）方法在响应中添加Cookie，setMaxAge（）可以用来设置Cookie的有效期限，利用HTTPServletRequest的getCookies（）方法可以获得该网页所属域的所有cookie，cookie类的getName和getValue方法可以用来取得cookie的值。</p>
-<p><strong>getAttribute（）获取的是request在web容器内部转发的数据，而getParameter（）获取的是从web客户端传送来的数据</strong></p>
-<p><strong>URL重写的使用</strong></p>
-<p>get请求参数的应用，当服务器响应的浏览器的上一次请求时，将某些相关信息以超链接方式响应给浏览器，get请求参数长度有限，因此大量的客户端信息保留并不适合使用URL重写。</p>
+<p>Scriptlet中的一些类似于out和request的对象，转译成Servlet之后会对应到Servlet中的某个对象，request对应HttpServletRequest，像request和out的对象就被称为隐含对象。</p>
+<p>pageContext转译后对应PageContext对象，提供了jsp页面资源的封装，page对应this。</p>
+<p>out并不直接对应于有HttpServletResponse得到的PrintWriter对象，out对应JspWriter对象，该对象模拟了BufferedWriter与PrintWriter的功能。jspWriter具有缓冲区功能，这时候就决定于页面是否具有缓冲区的功能了，如果没有则会立即输出，有的话只有在清空缓冲区才会输出，page指示元素的buffer属性设置缓冲区的大小，满了之后的行为采用autoFlush属性决定。</p>
+<p>可以通过PageContext获得所有的隐含对象，除了封装所有的jsp页面信息之外 ，还可以使用pageContext来设置页面范围属性setAttribute、getAttribute、removeAttribute</p>
+<p>在jsp页面中设置属性的方式有两种，一种是通过pageContext获得HttpServletRequest、ServletContext、HttpSession，另一种是利用pageContext统一提供的接口。getAttribute（String name，int Scope），setAttribute（String name，Object value,int scope）,remove(String name, int scope)，Scope是标识不同的范围，pageContext提供了findAttribute（），从页面，请求，会话到应用程序范围以此寻找。</p>
+<h2 id="错误页面"><a href="#错误页面" class="headerlink" title="错误页面"></a>错误页面</h2><p>使用page指示元素，设置errorPage属性便可以指定错误处理的JSP页面。错误页面的page指示元素的isErrorPage属性设置为true。</p>
+<h2 id="标准标签"><a href="#标准标签" class="headerlink" title="标准标签"></a>标准标签</h2><p>主要作用是减少scriptlet的使用，include指示元素可以把另一个JSP页面包含进来转移成一个Servlet类，无法在运行时动态调整想要的页面。如果想要在运行时依条件动态调整想要包括的JSP页面，则可以使用<a href="jsp:include" target="_blank" rel="noopener">jsp:include</a>标签，可以动态包括要给该页面的请求参数。</p>
+<p>转发页面可以使用<a href="jsp:forward" target="_blank" rel="noopener">jsp:forward</a>，与前者的使用方法相同。</p>
+<pre><code>&lt;jsp:forward page=&apos;&quot;add.jsp&quot;&gt;
+    &lt;jsp:param name=&quot;a&quot; value=&quot;1&quot;&gt;
+    &lt;jsp:param name=&quot;a&quot; value=&quot;2&quot;&gt;
+&lt;/jsp:forward&gt;
+</code></pre><p><strong><a href="jsp:useBean" target="_blank" rel="noopener">jsp:useBean</a>、<a href="jsp:setProperty" target="_blank" rel="noopener">jsp:setProperty</a>、<a href="jsp:getProperty" target="_blank" rel="noopener">jsp:getProperty</a></strong></p>
+<p>JavaBean指的是满足以下条件的java对象，必须实现了Java.io.Serializable接口，没有公开的类变量，具有无参数的构造函数，具有公开的设值方法和取值方法，setter和getter，可以直接使用标签在页面中赋值。</p>
+<pre><code>&lt;jsp:useBean id=&quot;名称（类实例变量名称）&quot; class=&quot;包名.类名&quot; 
+scope=&quot;page、request、session、application&quot;
+type=&quot;想要指定的类型&quot;/&gt;
+&lt;jsp:setProperty name=&quot;类实例变量名&quot; property=&quot;属性值&quot;/&gt;
+</code></pre><p>setProperty标签的property为“*”时，表示将自动寻找符合JavaBean中设值方法名称的请求参数值，如果请求参数的名称为xxx，就将请求参数值使用setXxx（）方法设置给JavaBean实例。</p>
+<p>在jsp中就可以写直接 调用id.方法（），赋值可以直接写&lt;jsp:getProperty name=”变量名” property=”属性名”&gt;</p>
+<p>赋值的时候可以通过&lt;jsp:setProperty name=”user” property=”password” value=”123456”/&gt;</p>
 
       
 
@@ -231,11 +231,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">后台</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
         		</li>
       		
 		</ul>
@@ -254,18 +254,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/12/15/20171219/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/12/27/20171227-jsp/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          20171219
+          20171227
         
       </div>
     </a>
   
   
-    <a href="/2017/11/20/20171120/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">20171120</div>
+    <a href="/2017/12/15/20171219-servlet/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">20171219</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -292,7 +292,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#会话管理："><span class="toc-number">1.</span> <span class="toc-text">会话管理：</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JSP"><span class="toc-number">1.</span> <span class="toc-text">JSP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#指示元素"><span class="toc-number">1.1.</span> <span class="toc-text">指示元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#声明"><span class="toc-number">1.2.</span> <span class="toc-text">声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scriptlet元素"><span class="toc-number">1.3.</span> <span class="toc-text">Scriptlet元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表达式元素"><span class="toc-number">1.4.</span> <span class="toc-text">表达式元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注释"><span class="toc-number">1.5.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#错误页面"><span class="toc-number">1.6.</span> <span class="toc-text">错误页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准标签"><span class="toc-number">1.7.</span> <span class="toc-text">标准标签</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -306,7 +306,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="20171211" data-title="20171211" data-url="http://yoursite.com/2017/12/11/20171211/"></div>
+	<div class="ds-thread" data-thread-key="20171226-jsp" data-title="20171226" data-url="http://yoursite.com/2017/12/26/20171226-jsp/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -329,8 +329,8 @@
   <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 <script>
   var cloudTieConfig = {
-    url: "http://yoursite.com/2017/12/11/20171211/", 
-    sourceId: "20171211",
+    url: "http://yoursite.com/2017/12/26/20171226-jsp/", 
+    sourceId: "20171226-jsp",
     productKey: "true",
     target: "cloud-tie-wrapper"
   };

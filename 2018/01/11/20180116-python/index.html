@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>20171227 | Sticda</title>
+  <title>20180116 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="表达式语言（EL）替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断。 EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换。 可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置标签为true，不使用EL。">
-<meta name="keywords" content="笔记,jsp">
+  <meta name="description" content="Web容器安全管理&amp;lt;login-config&amp;gt;     &amp;lt;auth-method&amp;gt;BASIC&amp;lt;/auth-method&amp;gt;&amp;lt;!--定义验证方式,basic是基本验证方式--&amp;gt; &amp;lt;/login-config&amp;gt; &amp;lt;security-role&amp;gt;     &amp;lt;role-name&amp;gt;admin&amp;lt;/role-name&amp;gt;">
+<meta name="keywords" content="笔记,数据库,servlet,jsp,python">
 <meta property="og:type" content="article">
-<meta property="og:title" content="20171227">
-<meta property="og:url" content="http://yoursite.com/2017/12/27/20171227/index.html">
+<meta property="og:title" content="20180116">
+<meta property="og:url" content="http://yoursite.com/2018/01/11/20180116-python/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="表达式语言（EL）替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断。 EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换。 可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置标签为true，不使用EL。">
-<meta property="og:updated_time" content="2018-12-24T01:41:09.459Z">
+<meta property="og:description" content="Web容器安全管理&amp;lt;login-config&amp;gt;     &amp;lt;auth-method&amp;gt;BASIC&amp;lt;/auth-method&amp;gt;&amp;lt;!--定义验证方式,basic是基本验证方式--&amp;gt; &amp;lt;/login-config&amp;gt; &amp;lt;security-role&amp;gt;     &amp;lt;role-name&amp;gt;admin&amp;lt;/role-name&amp;gt;">
+<meta property="og:updated_time" content="2018-06-14T03:02:39.466Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20171227">
-<meta name="twitter:description" content="表达式语言（EL）替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断。 EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换。 可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置标签为true，不使用EL。">
+<meta name="twitter:title" content="20180116">
+<meta name="twitter:description" content="Web容器安全管理&amp;lt;login-config&amp;gt;     &amp;lt;auth-method&amp;gt;BASIC&amp;lt;/auth-method&amp;gt;&amp;lt;!--定义验证方式,basic是基本验证方式--&amp;gt; &amp;lt;/login-config&amp;gt; &amp;lt;security-role&amp;gt;     &amp;lt;role-name&amp;gt;admin&amp;lt;/role-name&amp;gt;">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -142,20 +142,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-20171227" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-20180116-python" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      20171227
+      20180116
     </h1>
   
 
         
-        <a href="/2017/12/27/20171227/" class="archive-article-date">
-  	<time datetime="2017-12-27T01:06:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-27</time>
+        <a href="/2018/01/11/20180116-python/" class="archive-article-date">
+  	<time datetime="2018-01-11T08:40:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-11</time>
 </a>
         
       </header>
@@ -165,43 +165,145 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="表达式语言（EL）"><a href="#表达式语言（EL）" class="headerlink" title="表达式语言（EL）"></a>表达式语言（EL）</h1><p>替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断。</p>
-<p>EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换。</p>
-<p>可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置<el-ignored>标签为true，不使用EL。两种方式以前者为主。</el-ignored></p>
-<p>EL的应用实例</p>
-<pre><code>&lt;h1&gt;${user.name}&lt;/h1&gt;&lt;%--按照page、request、session、application
-的顺序来寻找EL中指定的属性&gt;--%
-&lt;h1&gt;${user[&quot;name&quot;]}&lt;/h1&gt;&lt;%--和上面的效果相同--%&gt;
-</code></pre><p>如果数组元素被设置的索引为array，setAttribute（索引，内容），List也可以使用下面的方法访问。</p>
-<pre><code>${array[0]}&lt;%--第一个元素--%&gt;
-${array[1]}&lt;%--第二个元素--%&gt;
-${array[2]}&lt;%--第三个元素--%&gt;
+        <h1 id="Web容器安全管理"><a href="#Web容器安全管理" class="headerlink" title="Web容器安全管理"></a>Web容器安全管理</h1><pre><code>&lt;login-config&gt;
+    &lt;auth-method&gt;BASIC&lt;/auth-method&gt;&lt;!--定义验证方式,basic是基本验证方式--&gt;
+&lt;/login-config&gt;
+&lt;security-role&gt;
+    &lt;role-name&gt;admin&lt;/role-name&gt;
+&lt;/security-role&gt;
+&lt;security-role&gt;
+    &lt;role-name&gt;manager&lt;/role-name&gt;
+&lt;/security-role&gt;
+&lt;security-constraint&gt;
+    &lt;web-resource-collection&gt;
+        &lt;web-resource-name&gt;Admin&lt;/web-resource-name&gt;
+        &lt;url-pattern&gt;/admin/*&lt;/url-pattern&gt;
+        &lt;http-method&gt;GET&lt;/http-method&gt;&lt;!--可以添加多个，只能分开写,默认设置代表所有的http方法都会受到限制--&gt;
+    &lt;/web-resource-collection&gt;
+    &lt;auth-constraint&gt;
+        &lt;role-name&gt;admin&lt;/role-name&gt;
+    &lt;/auth-constraint&gt;
+&lt;/security-constraint&gt;
+</code></pre><p>BASIC的验证方式只能通过对话框输入名称和密码，使用基本验证时无法自定义登录页面，如果需要自定义登录界面和登陆错误的页面，则可以改用容器所提供窗体验证。</p>
+<pre><code>&lt;login-config&gt;
+        &lt;auth-method&gt;FORM&lt;/auth-method&gt;
+        &lt;form-login-config&gt;
+            &lt;form-error-page&gt;登录错误页面&lt;/form-error-page&gt;
+            &lt;form-login-page&gt;登录页面（路径必须从应用程序的根目录开始）&lt;/form-login-page&gt;
+        &lt;/form-login-config&gt;
+&lt;/login-config&gt;
+</code></pre><p>这种FORM的方式在容器验证成功之后会在HttpSession中设置登录字符，所以可以通过检查字段的方式确实是否登录以及完成注销机制的设计。发送的URL、发送名称的请求参数和发送密码的请求参数都是固定不变的。</p>
+<p>除了BASIC和FORM之外，还可以设置DIGEST（摘要验证，在网络上传输的是密码的MD5值）和CLIENT-CERT（采用证书的安全机制）</p>
+<p>web应用程序采用HTTP over SSL是比较安全的方式，也就是HTTPS，在web.xml中的<security-constraint>设置</security-constraint></p>
+<pre><code>&lt;user-data-constraint&gt;
+    &lt;transport-guarantee&gt;CONFIDENTIAL&lt;/transport-guarantee&gt;
+&lt;/user-data-constraint&gt;
+</code></pre><p><transport-guarantee>的默认值是NONE，还可以设置为CONFIDENTIAL（机密性），INTEGRAL（完整性），两个效果都是一样的</transport-guarantee></p>
+<p>request.isUserInRole方法可以判断登录用户的角色。</p>
+<h1 id="整合数据库"><a href="#整合数据库" class="headerlink" title="整合数据库"></a>整合数据库</h1><ol>
+<li>加载JDBC驱动程序：通过java.lang.Class类的forName，动态加载驱动程序类，Class.forName(“com.mysql.jdbc.Driver”)，不同的数据加载不同的类。</li>
+<li>提供JDBC URL，JDBC URL定义了连接数据库时的协议等标识。。jdbc：mysql:://主机名称：连接端口/数据库名称？参数=值&amp;参数=值，参数包括用户名、密码、useUnicode（是否使用unicode）、character-Encoding（字符编码方式），<strong>xml文件中不能出现“&amp;”，所以用“&amp;amp；”代替</strong>。</li>
+<li>取得Connection实例：coon=DriverManager.getConnection（url），url是第二步里面的URL；当数据库管理人员不想告诉开发人员数据库的密码和用户名时，开发者可以通过JNDI的方式获得Connection</li>
+</ol>
+<h1 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h1><ol>
+<li>Template Method模式（Gof设计模式）：父类会定义服务流程的方法，子类继承或者覆写实现具体的流程。</li>
+<li>Intercepting Filter模式（Java EE设计模式）：过滤器</li>
+<li>Model-View-Controller模式（架构模式）：MVC以及Model 2 模式</li>
+<li>Business Delegate模式： Business Delegate是中间件，它接收到请求之后交给其他部分处理并由其他部分返回结果，降低耦合度。</li>
+<li>Service Locator模式：类似于前一个，隐藏复杂的操作。</li>
+<li>Transfer Object模式：可以把一些信息封装在某个类中，传输类，比如说图书管理系统里的图书类或者用户类。</li>
+<li>Front Controller模式：FrontController负责了集中管理所有与请求相关的动作，处理完毕之后委托给其他对象（不建议）</li>
+</ol>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>看到今天，这本Servlet与Jsp终于看完了，java web的路线还有spring、struts和MyBatis，Hibernate，这几个准备在暑假看看有没有实战的项目，设计模式现在不准备深入研究，只是先通过项目学习一下。以后也不一定就一定搞这个，但是干一行精一行还是很有必要地~~~~下次准备把一本书的内容都写在一起，每周分开就好了，之前这本书看的太乱，大概写了十几个md文件。</p>
+<hr>
+<h1 id="python"><a href="#python" class="headerlink" title="python"></a>python</h1><ol>
+<li>从raw_input()读取的内容永远以字符串的形式返回。</li>
+<li>list是可变列表，tuple是不变元组，变不变指的是内存指向。</li>
+<li>dict相当于其他语言里的map，python里面在交互式命令行模式下当返回None的时候不显示结果。dict里的key是不可变对象。</li>
+<li>set是集合，没有重复元素。可以重复添加，但没有效果。两个集合可以利用“&amp;“和”|“做数学意义上的交集和并集。</li>
+<li>在Python中，定义一个函数要使用def语句，依次写出函数名、括号、括号中的参数和冒号:，然后，在缩进块中编写函数体，函数的返回值用return语句返回。</li>
+<li>python里面函数不需要写明返回值的类型，可以返回多个值，但实际上仍然是一个tuple。函数的默认参数写在定义函数的地方。</li>
+</ol>
+<pre><code>def enroll(name, gender, age=6, city=&apos;Beijing&apos;):
+    enroll(&apos;Sarah&apos;, &apos;F&apos;) 
+    enroll(&apos;Bob&apos;, &apos;M&apos;, 7)
+    enroll(&apos;Adam&apos;, &apos;M&apos;, city=&apos;Tianjin&apos;)`
 </code></pre><ol>
-<li>点运算符左边可以是JavaBean或者Map对象</li>
-<li>如果使用[]运算符，则左边可以是JavaBean、Map、数组或者List对象</li>
+<li>默认参数必须指向不变对象。</li>
+<li>可变参数传入函数的时候会自动组装成一个tuple.</li>
 </ol>
-<p>当左边是map对象的时候，推荐使用[]运算符，因为map对象的key有可能是空白或者带有点运算符的，取值的时候两个点运算符在一起会引起错误。[]运算符内部可以进行嵌套</p>
-<pre><code>${login[&quot;user name&quot;]}
-${login[&quot;pass.word&quot;]}
-</code></pre><h2 id="EL隐含对象"><a href="#EL隐含对象" class="headerlink" title="EL隐含对象"></a>EL隐含对象</h2><p>11个隐含对象，pageContext对应PageContext，其他的隐含对象都对应Map类型。</p>
+<pre><code>def calc(*numbers):
+    sum=0
+    for n in numbers
+        sum=sum+n*n
+    return sum
+</code></pre><ol>
+<li>可变参数允许你传入0个或任意个参数，这些可变参数在函数调用时自动组装为一个tuple。而关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个dict。</li>
+<li>关键字参数有什么用？它可以扩展函数的功能。</li>
+</ol>
+<pre><code>def person(name,age,**kw): #kw是关键字参数
+</code></pre><ol>
+<li>参数定义的顺序必须是：必选参数、默认参数、可变参数和关键字参数。</li>
+<li>尾递归是指在函数返回的时候，调用自身本身，并且，return语句不能包含表达式，理论上可以防止栈溢出，但是Python标准的解释器没有针对尾递归做优化，任何递归函数都存在栈溢出的问题。</li>
+<li>字符串、元组、列表切片[起始元素:终止元素:步长]，步长省略时为1，起始元素从0开始，不包括终止元素。</li>
+<li>默认情况下，dict迭代的是key。如果要迭代value，可以用for value in d.itervalues()，如果要同时迭代key和value，可以用for k, v in d.iteritems()</li>
+<li>如何判断一个对象是可迭代对象呢？方法是通过collections模块的Iterable类型判断，isinstance(‘abc’, Iterable) # str是否可迭代</li>
+<li><p>列表生成式 [要生成的元素 for 迭代元素 in 迭代的集合或者列表等等一切可以迭代的东西)]</p>
+<p>>&gt;&gt;L=[x*x for x in range(10)]<br>>&gt;&gt;L<br>[0,1,4,9,16,25,36,49,64,81]</p>
+</li>
+<li><p>创建一个generator，只要把一个列表生成式的[]改成()，就创建了一个generator，通过for循环迭代所有的内容。</p>
+</li>
+<li>如果一个函数定义中包含yield关键字，那么这个函数就不再是一个普通函数，而是一个generator。</li>
+<li>函数名也是变量，函数名也可以赋值给其他变量，一个函数就可以接收另一个函数作为参数，这种函数就称之为<strong>高阶函数</strong>。</li>
+<li>map()函数接收两个参数，一个是函数，一个是序列，map将传入的函数依次作用到序列的每个元素，并把结果作为新的list返回。</li>
+<li>reduce把一个函数作用在一个序列[x1, x2, x3…]上，这个函数必须接收两个参数，reduce把结果继续和序列的下一个元素做累积计算</li>
+<li>字典的定义是用大花括号{}，集合set的输出结果中[]并不代表是列表。</li>
+<li>Python内建的filter()函数用于过滤序列。filter()接收一个函数和一个序列。和map()不同的时，filter()把传入的函数依次作用于每个元素，然后根据返回值是True还是False决定保留还是丢弃该元素。</li>
+<li>通常规定，对于两个元素x和y，如果认为x &lt; y，则返回-1，如果认为x == y，则返回0，如果认为x &gt; y，则返回1。</li>
+<li>sorted()函数也是一个高阶函数，它还可以接收一个比较函数来实现自定义的排序。</li>
+<li>高阶函数除了可以接受函数作为参数外，还可以把函数作为结果值返回。</li>
+<li>在函数lazy_sum中又定义了函数sum，并且，内部函数sum可以引用外部函数lazy_sum的参数和局部变量，当lazy_sum返回函数sum时，相关参数和变量都保存在返回的函数中，这种称为<strong>“闭包（Closure）”</strong>的程序结构拥有极大的威力。<strong>返回闭包时牢记的一点就是：返回函数不要引用任何循环变量，或者后续会发生变化的变量</strong>。如果一定要引用循环变量怎么办？方法是再创建一个函数，用该函数的参数绑定循环变量当前的值，无论该循环变量后续如何更改，已绑定到函数参数的值不变。</li>
+<li>关键字lambda表示匿名函数，冒号前面的x表示函数参数。匿名函数有个限制，就是只能有一个表达式，不用写return，返回值就是该表达式的结果。匿名函数也是函数。</li>
+<li>在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator）</li>
+<li>把@log放到now()函数的定义处，相当于执行了语句：now = log(now)</li>
+<li>functools.partial的作用就是，把一个函数的某些参数给固定住（也就是设置默认值），返回一个新的函数，调用这个新函数会更简单.</li>
+<li>每一个包目录下面都会有一个<strong>init</strong>.py的文件，这个文件是必须存在的，否则，Python就把这个目录当成普通目录，而不是一个包。<strong>init</strong>.py可以是空文件，也可以有Python代码，因为<strong>init</strong>.py本身就是一个模块。</li>
+</ol>
+<hr>
+<p>今天决定python只学习自己需要的部分，所以不准备所有都看了，之前看的一些高级特性都没搞明白。</p>
 <ol>
-<li>pageContext：PageContext本身就是JavaBean</li>
-<li>与属性相关的隐含对象</li>
-<li>与请求参数相关的隐含对象： param与paramValues，param可以取得某个参数的值，paramValues可以取得所有请求参数，返回值是数组</li>
-<li>与标头（header）相关的隐含对象：header或者headerValues</li>
-<li>cookie隐含对象：取得用户设置的cookie值</li>
-<li>初始参数隐含对象：initParam可以用来取得web.xml中设置的ServletContext初始参数。</li>
+<li>当我们在命令行运行模块文件时，Python解释器把一个特殊变量<strong>name</strong>置为<strong>main</strong>，而如果在其他地方导入该模块时，if判断将失败。</li>
 </ol>
-<h2 id="EL运算符"><a href="#EL运算符" class="headerlink" title="EL运算符"></a>EL运算符</h2><p>%和mod都是求余运算符，关系运算符都有相应的符号和英文简称，比如&lt;以及lt（less than）、&gt;与gt（greater than）、!=与ne（not equal）</p>
-<h2 id="自定义EL函数"><a href="#自定义EL函数" class="headerlink" title="自定义EL函数"></a>自定义EL函数</h2><p>第一步：编写类，这个类必须是公开类，想调用的方法必须是公开的且为静态方法。第二步：web容器必须知道如何将这个类中的方法当作EL函数使用，必须编写一个标签链接库描述文件（TLD）文件，tld文件中需要指明自定义的函数名称，对应到的类和对应到的那个类的具体方法，以及特定的URI，使用的jsp中&lt;%@taglib uri=””  prefix=””%&gt;uri是为了能够快速找到tld文件，prefix的作用是为了避免当jsp中有多个来自不同设计者的EL自定义函数会出现名称冲突。</p>
-<h2 id="JSTL"><a href="#JSTL" class="headerlink" title="JSTL"></a>JSTL</h2><p>（JavaServer Pages Standard Tag Library）来替换JSP页面中用来实现页面逻辑的scriptlet。</p>
-<p>提供的标签库可以分为五类，核心标签库、格式标签库、SQL标签库、XML标签库、函数标签库。</p>
-<p>要使用JSTL标签库，必须在网页上使用taglib指示元素定义前置名称与uri引用，JSTL的jar包需要手动添加到项目的WEB-INF/lib文件夹中，惯例上使用JSTL核心标签库的时候，会使用c作为前置名称，URI引用则告知容器如何引用JSTL标签库实现。</p>
-<pre><code>&lt;%@taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt; 
-</code></pre><p>&lt;c:if&gt;就相当于java中一个单一的if语句</p>
-<p>&lt;c:choose&gt;、&lt;c:otherwise&gt;、&lt;c:when&gt;搭配使用就相当于java中ifelse语句以及该语句的嵌套</p>
-<p>&lt;c:foreach&gt;就是轮询某个集合或者数组，里面的var属性就是轮询变量，items就是数组或者Collection变量</p>
-<p>&lt;c:fortoken&gt;的主要作用就是为了将字符串按照指定的分隔符分为多个字符串，var属性表示轮询变量，delims表示分隔符，items仍然表示字符串。</p>
+<pre><code>if __name__=&apos;__main__&apos;:
+    test()
+</code></pre><ol>
+<li>外部不需要引用的函数全部定义成private，只有外部需要引用的函数才定义为public，类似_xxx和__xxx这样的函数或变量就是非公开的（private），不应该被直接引用。</li>
+<li><p>安装第三方库的时候使用“pip install  模块名” 。</p>
+</li>
+<li><p>定义类，<strong>init</strong>方法的第一个参数永远是self，表示创建的实例本身，因此，在<strong>init</strong>方法内部，就可以把各种属性绑定到self，因为self就指向创建的实例本身</p>
+</li>
+</ol>
+<pre><code>class Student(object):
+
+def __init__(self,name,score):
+    self.name=name
+    self.score=score
+</code></pre><ol>
+<li>和普通的函数相比，在类中定义的函数只有一点不同，就是第一个参数永远是实例变量self，并且，调用时，不用传递该参数。</li>
+<li>当我们认为某些代码可能会出错时，就可以用try来运行这段代码，如果执行出错，则后续代码不会继续执行，而是直接跳转至错误处理代码，即except语句块，执行完except后，如果有finally语句块，则执行finally语句块，至此，执行完毕。</li>
+<li>如果错误没有被捕获，它就会一直往上抛，最后被Python解释器捕获，打印一个错误信息，然后程序退出。</li>
+<li>如果不捕获错误，自然可以让Python解释器来打印出错误堆栈，但程序也被结束了。既然我们能捕获错误，就可以把错误堆栈打印出来，然后分析错误原因，同时，让程序继续执行下去。Python内置的logging模块可以非常容易地记录错误信息。</li>
+<li>可以捕获错误之后打印错误又把错误抛出，因为当前函数可能不能处理，raise语句如果不带参数，就会把当前错误原样抛出。此外，在except中raise一个Error，还可以把一种类型的错误转化成另一种类型。 </li>
+<li>调试的方法有以下几种：用print发现错误的地方、用assert发现错误的地方、用logging记录错误的地方、启动Python的调试器pdb。</li>
+<li>pdb.set_trace()是用来调试比较简单的部分，只需要import pdb，然后，在可能出错的地方放一个pdb.set_trace()，就可以设置一个断点，程序会自动在pdb.set_trace()暂停并进入pdb调试环境，可以用命令p查看变量，或者用命令c继续运行。</li>
+<li>要以读文件的模式打开一个文件对象，使用Python内置的open()函数，传入文件名和标示符。文件对象必须close，但是“with open(‘/path/to/file’, ‘r’) as f：  ”，使用前面这种方式打开就不必调用f.close()方法，<strong>调用read()会一次性读取文件的全部内容，可以反复调用read(size)方法，每次最多读取size个字节的内容。调用readline()可以每次读取一行内容，调用readlines()一次读取所有内容并按行返回list</strong>。</li>
+<li>要读取二进制文件，比如图片、视频等等，用’rb’模式打开文件即可。</li>
+<li>multiprocessing模块提供了一个Process类来代表一个进程对象，创建子进程时，只需要传入一个执行函数和函数的参数，创建一个Process实例，用start()方法启动。</li>
+<li>如果要启动大量的子进程，可以用进程池的方式批量创建子进程。</li>
+<li>启动一个线程就是把一个函数传入并创建Thread实例，然后调用start()开始执行。</li>
+<li>多线程和多进程最大的不同在于，多进程中，同一个变量，各自有一份拷贝存在于每个进程中，互不影响，而多线程中，所有变量都由所有线程共享，<strong>多线程需要考虑同步的问题。</strong></li>
+<li>线程同步的时候需要用到lock， lock.acquire()， lock.release()，当多个线程同时执行lock.acquire()时，只有一个线程能成功地获取锁，然后继续执行代码，其他线程就继续等待直到获得锁为止。用try…finally来确保锁一定会被释放。</li>
+</ol>
 
       
 
@@ -240,7 +342,19 @@ ${login[&quot;pass.word&quot;]}
         		</li>
       		 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">python</a>
         		</li>
       		
 		</ul>
@@ -259,18 +373,18 @@ ${login[&quot;pass.word&quot;]}
   
 <nav id="article-nav">
   
-    <a href="/2018/01/08/20180108/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/01/18/JavaEE/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          20180108
+          JavaEE
         
       </div>
     </a>
   
   
-    <a href="/2017/12/26/20171226/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">20171226</div>
+    <a href="/2018/01/08/20180108-jsp/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">20180108</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -297,7 +411,7 @@ ${login[&quot;pass.word&quot;]}
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#表达式语言（EL）"><span class="toc-number">1.</span> <span class="toc-text">表达式语言（EL）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EL隐含对象"><span class="toc-number">1.1.</span> <span class="toc-text">EL隐含对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EL运算符"><span class="toc-number">1.2.</span> <span class="toc-text">EL运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义EL函数"><span class="toc-number">1.3.</span> <span class="toc-text">自定义EL函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSTL"><span class="toc-number">1.4.</span> <span class="toc-text">JSTL</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web容器安全管理"><span class="toc-number">1.</span> <span class="toc-text">Web容器安全管理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#整合数据库"><span class="toc-number">2.</span> <span class="toc-text">整合数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设计模式"><span class="toc-number">3.</span> <span class="toc-text">设计模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#结语"><span class="toc-number">4.</span> <span class="toc-text">结语</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#python"><span class="toc-number">5.</span> <span class="toc-text">python</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -311,7 +425,7 @@ ${login[&quot;pass.word&quot;]}
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="20171227" data-title="20171227" data-url="http://yoursite.com/2017/12/27/20171227/"></div>
+	<div class="ds-thread" data-thread-key="20180116-python" data-title="20180116" data-url="http://yoursite.com/2018/01/11/20180116-python/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -334,8 +448,8 @@ ${login[&quot;pass.word&quot;]}
   <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 <script>
   var cloudTieConfig = {
-    url: "http://yoursite.com/2017/12/27/20171227/", 
-    sourceId: "20171227",
+    url: "http://yoursite.com/2018/01/11/20180116-python/", 
+    sourceId: "20180116-python",
     productKey: "true",
     target: "cloud-tie-wrapper"
   };

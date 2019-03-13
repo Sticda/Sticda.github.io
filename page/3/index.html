@@ -434,7 +434,7 @@
 <p>Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。</p>
 <p>Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计）</p>
 <p>ORM的全称是Object/Relation Mapping（对象/关系数据库映射），ORM的唯一作用就是：把对持久化对象的保存、删除、修改等操作转换成对数据库的操作，数据库表中每一行是一个实例，某一行的列是这个实例的属性。</p>
-<p>PO=POJO（普通的，传统的Java对象） +持久化注解</p>
+<p>PO=POJO（普通的，传统的Java对象）+持久化注解</p>
 <p>连接数据库的信息都是配置信息，配置信息使用 *.properties属性文件，也可以使用XML文件配置。</p>
 <p>Hibernate配置文件的默认文件名是hibernate.cfg.xml，当程序调用configuration对象的configure方法时，会自动加载该文件。根元素是&lt;hibernate-configuration…./&gt;，子元素是&lt;session-factory…../&gt;，其中可以使用property配置很多hibernate连接数据的必要信息。Hibernate为了保证性能推荐使用C3P0数据源（维持一个数据连接池）。在配置文件名中要把需要持久化的类名通过mapping子标签指明，属性是class。</p>
 <p>为了使用Hibernate进行持久化操作，通常有以下操作步骤：</p>
@@ -458,7 +458,7 @@
 <h3 id="hibernate配置文件"><a href="#hibernate配置文件" class="headerlink" title="hibernate配置文件"></a>hibernate配置文件</h3><p>目前创建Configuration对象的方法有三种：</p>
 <ol>
 <li>使用hibernate.properties作为配置文件（通过新建的Configuration对象直接手动添加持久化类）。</li>
-<li>使用hibernate.cfg.xml作为配置文件（新建Configuration对象直接调用configure对象）。</li>
+<li>使用hibernate.cfg.xml作为配置文件（新666建Configuration对象直接调用configure对象）。</li>
 <li>直接创建Configuration对象。</li>
 </ol>
 <p>数据库方言的意思就是大部分的数据库都对标准SQL进行了扩展，所以需要指明是哪一种数据库，从而能够让hibernate识别不同的数据库语言的差异。</p>
@@ -475,18 +475,22 @@
 <h3 id="持久化对象的状态"><a href="#持久化对象的状态" class="headerlink" title="持久化对象的状态"></a>持久化对象的状态</h3><ol>
 <li>瞬态：使用new创建的类实例，还没来得及跟session关联，如果引用丢失，则会被垃圾回收机制回收。</li>
 <li>持久化：将某个实例和session相关联，这个时候这个实例在数据库中有对应的记录和持久化标识，如果有改动会被立刻写入到数据库中</li>
-<li>脱管：曾经和session相关联，但是现在关联的session被关闭了，所以该对象就变成了脱管对象，脱管对象仍然可以被修改，一旦重新持久化，这之间的改动也可以被写入数据库。</li>
+<li>脱管：曾经和session相关联，但是现在关联的session被关闭了，所以该对象就变成了脱管对象，脱管对象仍然可以被修改，一旦重新持久化，这之间的改动也可以被写入数据库。数据库中有，但是session中不存在该对象</li>
 </ol>
-<h3 id="改变持久化对象状态的方法"><a href="#改变持久化对象状态的方法" class="headerlink" title="改变持久化对象状态的方法"></a>改变持久化对象状态的方法</h3><p>Hibernate Session提供了save和persist方法，可以在该方法的参数中指明主键。如果持久化类的标识属性是generated类型，那么hibernate会在save的时候就给这个持久化类的实例分配标识属性值，如果标识属性是assigned类型或者是复合主键，那么这个标识属性值应该在调用save之前被手动给定。</p>
+<h3 id="改变持久化对象状态的方法"><a href="#改变持久化对象状态的方法" class="headerlink" title="改变持久化对象状态的方法"></a>改变持久化对象状态的方法</h3><p>临时对象在内存中是孤立存在的，它的意义是携带信息载体，不和数据库中的数据由任何的关联。通过Session的save（）方法和saveOrUpdate（）方法可以把一个临时对象和数据库相关联，并把临时对象携带的信息通过配置文件所做的映射插入数据库中，这个临时对象就成为持久化对象。</p>
+<p>使用delete（）方法，持久化对象变为临时对象，并且删除数据库中相应的记录，这个对象不再与数据库有任何的联系。</p>
+<p>当一个session（）执行close（）、clear（）、或evict（）之后，持久化对象就变为离线对象，这时对象的id虽然拥有数据库的识别值，但已经不在Hibernate持久层的管理下，他和临时对象基本上一样的，只不过比临时对象多了数据库标识id。没有任何变量引用时，jvm将对其进行回收。</p>
+<p> 离线状态——&gt;临时状态：执行Delete方法。</p>
+<p> 持久化对象总是与Session和事务(Transaction)关联在一起，在一个session中，对持久化对象的操作不会立即写到数据库，只有当Transaction（事务）结束时也就是提交事务执行commit方法的时候，才真正的对数据库更新，从而完成持久化对象和数据库的同步。在同步之前的持久化对象成为脏对象。</p>
+<p>Hibernate Session提供了save和persist方法，可以在该方法的参数中指明主键。如果持久化类的标识属性是generated类型，那么hibernate会在save的时候就给这个持久化类的实例分配标识属性值，如果标识属性是assigned类型或者是复合主键，那么这个标识属性值应该在调用save之前被手动给定。</p>
 <p>save和persist 的方法区别在于save方法 返回插入的实例的标识属性值，而且save会立刻生成insert语句将该实例插入数据库中。这种方法是瞬态对象转变为持久化状态。</p>
-<p>程序可以使用load方法加载一个持久化实例，load方法的参数是类以及主键键值，如果不存在这个实例可能会返回一个异常，如果在持久化注解中指定了延迟加载，那么会返回一个未初始化的代理对象，这个对象只有在调用实例的方法的时候才会去数据库加载这个实例；与此相同的还有get方法，get方法会立即到数据库查找，如果不存在的话会返回null。</p>
+<p>程序可以使用load方法加载一个持久化实例，load方法的参数是类以及主键键值，如果不存在这个实例可能会返回一个异常，如果在持久化注解中指定了延迟加载，那么会返回一个未初始化的代理对象，这个对象只有在调用实例的方法的时候才会去数据库加载这个实例；与此相同的还有get方法，get方法会立即到数据库查找，如果不存在的话会返回null。load和get方法可以指定一个锁模式参数，LockOptions对象代表锁模式，提供了READ和UPGRADE两个静态属性代表共享、修改锁，除此之外Session.LockRequest的lock（）方法也可以将某个脱管对象重新持久化，但是这个脱管对象必须是没有经过修改的。</p>
 <p>程序对于持久化实例所做的更改会在Session flush之前被自动保存到数据库。</p>
 <p>对于一个脱管对象，可以使用session的update（）方法，update方法会将脱管对象更新到数据库，如果不记得之前是否持久化过，可以使用updateOrSave方法，如果没有该实例则save，还有一个方法是merge，这个方法执行并不会持久化自己的参数里的对象，会将该对象的副本返回，这个副本处于持久化状态。 </p>
-<p>load和get方法可以指定一个锁模式参数，LockOptions对象代表锁模式，提供了READ和UPGRADE两个静态属性代表共享、修改锁，除此之外Session.LockRequest的lock（）方法也可以将某个脱管对象重新持久化，但是这个脱管对象必须是没有经过修改的。</p>
 <p>session的delete方法可以删除持久化实例，但是都必须先加载，然后再删除。</p>
 <h2 id="Hibernate注解"><a href="#Hibernate注解" class="headerlink" title="Hibernate注解"></a>Hibernate注解</h2><p>对于Hibernate PO类来说通常会使用如下两个注解：</p>
 <ol>
-<li>@Entity可以指定name属性，通常情况下系统默认以该类类名作为实体类的名称。</li>
+<li>@Entity：可以指定name属性，通常情况下系统默认以该类类名作为实体类的名称。</li>
 <li>@Table：该注解指定持久化类所映射的表。（支持的属性中有name（设置持久化类所映射的表的表名））</li>
 <li>@UniqueConstraint：为数据表定义唯一约束，唯一属性是columnNames，这个属性值是一个字符串数组，每一个字符串代表一个数据列。</li>
 <li>@Index，它的属性可以设置有哪些列构建索引，索引的名字以及索引是否具有唯一性。</li>
@@ -928,19 +932,19 @@
 
 
   
-    <article id="post-20171110" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20171110-mysql" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/22/20171110/">20171110</a>
+      <a class="article-title" href="/2018/03/22/20171110-mysql/">20171110</a>
     </h1>
   
 
         
-        <a href="/2018/03/22/20171110/" class="archive-article-date">
+        <a href="/2018/03/22/20171110-mysql/" class="archive-article-date">
   	<time datetime="2018-03-22T08:18:03.719Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-22</time>
 </a>
         
@@ -972,13 +976,14 @@ ON table_name(属性 [(length)] [ASC | DESC]);
 <pre><code>alter table 表名 ADD [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name (属性 [(length)] [ASC | DESC]);
 </code></pre><p>注意上面两种的区别，主要需要注意的地方是前者是表名+列名“table_name(属性 [(length)] [ASC | DESC])”，后者是索引名+列名“INDEX index_name (属性 [(length)] [ASC | DESC])”。<br>用show create table 表名可以查看该表的定义</p>
 <h1 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h1><pre><code>delimiter //
-create procedure 存储过程名（参数的输入输出类型 参数名 参数类型，………）
+create procedure 存储过程名（IN/OUT 参数名 参数类型，………）
 begin 
 SQL语句
 end//
 </code></pre><p><strong>sql语句中用“；”作为结束标志，所以在定义存储过程之前应该将语句结束标志换成其他字符，更改结束标志可以用关键字“delimiter”。  </strong></p>
+<p>IN表示输入参数，OUT表示输出参数，INOUT表示既可以输入也可以输出；</p>
 <h1 id="存储函数"><a href="#存储函数" class="headerlink" title="存储函数"></a>存储函数</h1><pre><code>delimiter //
-create function 存储函数名（参数名 参数类型，………）
+create function 存储函数名（IN/OUT 参数名 参数类型，………）
 returns 返回值类型 
 begin 
 SQL语句
@@ -991,8 +996,9 @@ end//
 <li>set 变量名=值；</li>
 <li>select 字段1名  INTO 变量名 FROM 表名 where condition 。。。。将表中满足condition的部分的字段1的内容赋值给变量。这种方式只能在begin和end之间使用。</li>
 </ol>
-<h2 id="游标"><a href="#游标" class="headerlink" title="游标"></a>游标</h2><p>有时候查询语句的结果是多条语句，使用游标必须先声明</p>
+<h2 id="游标"><a href="#游标" class="headerlink" title="游标"></a>游标</h2><p>有时候查询语句的结果是多条语句，使用游标必须先声明，以及没有发现数据的处理</p>
 <pre><code>declare 游标名 cursor for SELECT_STATEMENT
+DECLARE  CONTINUE HANDLER FOR NOT FOUND  SET  no_more_record = 1;
 </code></pre><p>使用游标之前必须“open 游标名”，游标在顺利打开之后可以使用FETCH·····INTO语句来读取数据。</p>
 <pre><code>FETCH 游标名 INTO 变量名········
 </code></pre><p>变量名必须提前定义好，使用完毕之后要关闭游标 “close 游标名”</p>
@@ -1002,8 +1008,7 @@ ELSE condition THEN
 ELSE
 ······
 ENDIF;
-</code></pre><p>CASE语句</p>
-<pre><code>case 变量名
+</code></pre><h3 id="CASE语句"><a href="#CASE语句" class="headerlink" title="CASE语句"></a>CASE语句</h3><pre><code>case 变量名
     when value THEN······
     when value THEN······
     else （和switch里面的default类似，默认语句）
@@ -1066,7 +1071,7 @@ show create{ procedure | function } 存储过程和函数的名字
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/03/22/20171110/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/03/22/20171110-mysql/">展开全文 >></a>
         </p>
       
 
@@ -1241,7 +1246,7 @@ show create{ procedure | function } 存储过程和函数的名字
 <h2 id="Struts2应用的开发步骤"><a href="#Struts2应用的开发步骤" class="headerlink" title="Struts2应用的开发步骤"></a>Struts2应用的开发步骤</h2><ol>
 <li>在web.xml中定义filter拦截用户请求</li>
 <li>如果以post方式提交请求，则需要定义包含表单数据的jsp页面，如果仅仅是get方式，则无需经过这一步。</li>
-<li>定义处理用户请求的Action类（Actionsupport）。Action是MVC里的C</li>
+<li>定义处理用户请求的Action类（ActionSupport）。Action是MVC里的C</li>
 <li>配置Action。指定哪个请求对应于哪个Action进行处理。Convention插件支持“约定优于配置”的思想，采用约定的方式来规定请求和action之间的对应关系。</li>
 <li>通常action处理用户请求之后会返回一个字符串，在struts.xml中可以配置这个字符串和物理视图（要返回给用户的界面）之间的对应关系</li>
 <li>如果action需要发送数据给视图资源，可以借助DGNL表达式。</li>

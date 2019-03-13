@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/13/20180313-struts/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="eclipse生成部署Web项目的时候，会自动将src路径下除了*.java外的所有文件都复制到web应用的WEB-INF\classes路径下。 在WebContent下面的文件在配置中就是从根目录开始的，如果是WebContent下面的子文件夹，比如是WEB-INF中的content文件下的mo.jsp文件需要设置为/WEB-INF/content/mo.jsp Struts2推荐把所有视图页">
-<meta property="og:updated_time" content="2018-06-12T08:34:30.504Z">
+<meta property="og:updated_time" content="2019-03-13T07:21:30.116Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180313">
 <meta name="twitter:description" content="eclipse生成部署Web项目的时候，会自动将src路径下除了*.java外的所有文件都复制到web应用的WEB-INF\classes路径下。 在WebContent下面的文件在配置中就是从根目录开始的，如果是WebContent下面的子文件夹，比如是WEB-INF中的content文件下的mo.jsp文件需要设置为/WEB-INF/content/mo.jsp Struts2推荐把所有视图页">
@@ -171,7 +171,7 @@
 <h2 id="Struts2应用的开发步骤"><a href="#Struts2应用的开发步骤" class="headerlink" title="Struts2应用的开发步骤"></a>Struts2应用的开发步骤</h2><ol>
 <li>在web.xml中定义filter拦截用户请求</li>
 <li>如果以post方式提交请求，则需要定义包含表单数据的jsp页面，如果仅仅是get方式，则无需经过这一步。</li>
-<li>定义处理用户请求的Action类（Actionsupport）。Action是MVC里的C</li>
+<li>定义处理用户请求的Action类（ActionSupport）。Action是MVC里的C</li>
 <li>配置Action。指定哪个请求对应于哪个Action进行处理。Convention插件支持“约定优于配置”的思想，采用约定的方式来规定请求和action之间的对应关系。</li>
 <li>通常action处理用户请求之后会返回一个字符串，在struts.xml中可以配置这个字符串和物理视图（要返回给用户的界面）之间的对应关系</li>
 <li>如果action需要发送数据给视图资源，可以借助DGNL表达式。</li>

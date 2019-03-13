@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>20171219 | Sticda</title>
+  <title>20171227 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
-<meta name="keywords" content="笔记,servlet">
+  <meta name="description" content="JSP九大隐含对象request            HttpServletRequest类的实例response        HttpServletResponse类的实例out                PrintWriter类的实例，用于把结果输出至网页上session            HttpSession类的实例application        ServletConte">
+<meta name="keywords" content="笔记,jsp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="20171219">
-<meta property="og:url" content="http://yoursite.com/2017/12/15/20171219/index.html">
+<meta property="og:title" content="20171227">
+<meta property="og:url" content="http://yoursite.com/2017/12/27/20171227-jsp/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
-<meta property="og:updated_time" content="2018-06-05T11:00:09.465Z">
+<meta property="og:description" content="JSP九大隐含对象request            HttpServletRequest类的实例response        HttpServletResponse类的实例out                PrintWriter类的实例，用于把结果输出至网页上session            HttpSession类的实例application        ServletConte">
+<meta property="og:updated_time" content="2019-03-13T01:48:26.084Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20171219">
-<meta name="twitter:description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
+<meta name="twitter:title" content="20171227">
+<meta name="twitter:description" content="JSP九大隐含对象request            HttpServletRequest类的实例response        HttpServletResponse类的实例out                PrintWriter类的实例，用于把结果输出至网页上session            HttpSession类的实例application        ServletConte">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -142,20 +142,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-20171219" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-20171227-jsp" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      20171219
+      20171227
     </h1>
   
 
         
-        <a href="/2017/12/15/20171219/" class="archive-article-date">
-  	<time datetime="2017-12-15T06:54:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-15</time>
+        <a href="/2017/12/27/20171227-jsp/" class="archive-article-date">
+  	<time datetime="2017-12-27T01:06:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-27</time>
 </a>
         
       </header>
@@ -165,59 +165,44 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h1><p>HttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。</p>
-<p>如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可以通过使用HttpSession的setAttribute方法将相关信息设置为属性。</p>
-<p>HttpSession的invalidate()方法可以直接使目前的HttpSession失效，可以用来实现注销机制。</p>
-<p>浏览器默认将SessionID存放在本地的cookie中，Cookie会在浏览器请求应用程序的时候被发送到应用程序。Web容器存储SessionId 的Cookie被默认设置为关闭浏览器就会失效，所以重新打开浏览器请求应用程序的时候通过getSession获得是新的HttpSession对象，如果浏览器没有被关闭，那么每次请求来到应用程序的时候容器会根据SessionID取得相应的HttpSession。可以使用serMaxAge()来设置Cookie的有效期限。</p>
-<p>Session的另一种实现方式是URL重写，服务器向浏览器响应一段超链接，超链接URL后附加SessionID，当用户点击超链接时，则将SessionID以GET请求方式发送给Web应用程序。response.encodeURL协助产生所需的URL重写，如果禁用Cookie的话，encodeURL会自动产生带有SessionID的URL重写。</p>
-<p>HttpSession用于当次会话阶段的状态维持，如果有相关的信息希望在关闭浏览器后，下次打开浏览器请求web应用程序时，仍然可以发送给应用程序，则需要使用Cookie。</p>
-<p>执行HttpSession的setMaxInactiveInterval（）方法，设置的是HttpSession对象在浏览器多久没活动就失效的时间，而不是保存SessionID的cookie失效的时间。</p>
-<h1 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h1><p>Servlet的生命周期大概是init（）、service（）、destroy（）,service决定要调用什么函数响应浏览器的响应。过滤器（Filter）位于Servlet之前，可以拦截过滤浏览器对Servlet的请求 。</p>
-<p>实现Filter接口，Filter接口有三个要实现的方法init（）、dofilter（）、destroy()。</p>
-<p>web.xml中定义过滤器对象时设置了初始参数，可以通过FilterConfig的getInitParameter方法来获取初始参数，设置参数和Servlet很类似，都是在声明的时候在一个init-param。</p>
-<p>当请求来到容器，容器发现了调用了servlet的service方法之前，可以应用某个过滤器，就会调用该过滤器的dofilter方法，然后决定是否调用FilterChain的doFilter方法。</p>
-<pre><code>//service()前置处理
-chain.doFilter(request,response);
-//service（）后置处理
-</code></pre><p>FilterChain执行过后会以堆栈顺序返回</p>
-<pre><code>&lt;filter-mapping&gt;
-&lt;filter-name&gt;PerformanceFilter&lt;/filter-name&gt;
-&lt;url-pattern&gt;/index&lt;/url-pattern&gt;哪些URL请求将应用此过滤器
-&lt;servlet-name&gt;SessionDemo&lt;/servlet-name&gt;或者是通过这个来指定Servlet名称，表示哪些Servlet将应用到此过滤器上
-&lt;/filter-mapping&gt;
-</code></pre><p>如果想要一次性符合所有Servlet名称，则可以使用 *号</p>
-<p>触发过滤器的时机，默认是浏览器直接发出请求，如果是通过RequestDispatcher的forward和include的请求，则可以在web.xml中设置dispatcher标签，指定那些请求转发类型可以触发过滤器。</p>
-<pre><code>&lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;
-&lt;dispatcher&gt;ERROR&lt;/dispatcher&gt;
-&lt;dispatcher&gt;INCLUDE&lt;/dispatcher&gt;
-&lt;dispatcher&gt;FORWARD&lt;/dispatcher&gt;
-</code></pre><p>过滤器可以进行一些前置和后置处理，在service方法执行前改变请求对象的信息，或者改变响应，就需要利用封装器Wrapper，HttpServletRequestWrapper中实现了HttpServletRequest的getParameter方法，可以把requestWrapper当作request使用。</p>
-<h1 id="响应封装器"><a href="#响应封装器" class="headerlink" title="响应封装器"></a><strong>响应封装器</strong></h1><p>对浏览器进行输出响应，必须通过getWriter获得PrintWriter或者getOutputStream获得ServletOutputStream两种方法，针对压缩输出的需求，主要是继承HttpServletResponseWrapper之后，重写这两个方法。</p>
-<hr>
-<h1 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h1><p>Servlet/JSP中的监听器可以分为三个类别</p>
-<h2 id="生命周期监听器"><a href="#生命周期监听器" class="headerlink" title="生命周期监听器"></a>生命周期监听器</h2><p>在某个对象生成到被容器销毁之前，监听对象生命周期的状态改变</p>
+        <h1 id="JSP九大隐含对象"><a href="#JSP九大隐含对象" class="headerlink" title="JSP九大隐含对象"></a>JSP九大隐含对象</h1><p>request            HttpServletRequest类的实例<br>response        HttpServletResponse类的实例<br>out                PrintWriter类的实例，用于把结果输出至网页上<br>session            HttpSession类的实例<br>application        ServletContext类的实例，与应用上下文有关<br>config            ServletConfig类的实例<br>pageContext    PageContext类的实例，提供对JSP页面所有对象以及命名空间的访问<br>page            类似于Java类中的this关键字<br>Exception        Exception类的对象，代表发生错误的JSP页面中对应的异常对象</p>
+<h1 id="表达式语言（EL）"><a href="#表达式语言（EL）" class="headerlink" title="表达式语言（EL）"></a>表达式语言（EL）</h1><p>替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断。</p>
+<p>EL是使用“${”与“}”来包括所要进行处理的表达式，EL会自行进行类型转换。</p>
+<p>可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置<el-ignored>标签为true，不使用EL。两种方式以前者为主。</el-ignored></p>
+<p>EL的应用实例</p>
+<pre><code>&lt;h1&gt;${user.name}&lt;/h1&gt;&lt;%--按照page、request、session、application
+的顺序来寻找EL中指定的属性&gt;--%
+&lt;h1&gt;${user[&quot;name&quot;]}&lt;/h1&gt;&lt;%--和上面的效果相同--%&gt;
+</code></pre><p>如果数组元素被设置的索引为array，setAttribute（索引，内容），List也可以使用下面的方法访问。</p>
+<pre><code>${array[0]}&lt;%--第一个元素--%&gt;
+${array[1]}&lt;%--第二个元素--%&gt;
+${array[2]}&lt;%--第三个元素--%&gt;
+</code></pre><ol>
+<li>点运算符左边可以是JavaBean或者Map对象</li>
+<li>如果使用[]运算符，则左边可以是JavaBean、Map、数组或者List对象</li>
+</ol>
+<p>当左边是map对象的时候，推荐使用[]运算符，因为map对象的key有可能是空白或者带有点运算符的，取值的时候两个点运算符在一起会引起错误。[]运算符内部可以进行嵌套</p>
+<pre><code>${login[&quot;user name&quot;]}
+${login[&quot;pass.word&quot;]}
+</code></pre><h2 id="EL隐含对象"><a href="#EL隐含对象" class="headerlink" title="EL隐含对象"></a>EL隐含对象</h2><p>11个隐含对象，pageContext对应PageContext，其他的隐含对象都对应Map类型。</p>
 <ol>
-<li>ServletContextListener： contextInitialized（）与contextDestroyed（），通过传入的ServletContextEvent取得ServletContext。</li>
-<li>ServletRequestListener： RequestInitialized（）与RequestDestroyed（），通过传入的ServletRequestEvent取得ServletRequest。</li>
-<li>HttpSessionListener： SessionInitialized（）与SessionDestroyed（），通过传入的HttpSessionEvent取得HttpSession。</li>
+<li>pageContext：PageContext本身就是JavaBean</li>
+<li>与属性相关的隐含对象   pageScope    page 作用域      requestScope    request 作用域            sessionScope    session 作用域        applicationScope    application 作用域</li>
+<li>与请求参数相关的隐含对象： param与paramValues，param可以取得某个参数的值，paramValues可以取得所有请求参数，返回值是数组</li>
+<li>与标头（header）相关的隐含对象：header或者headerValues</li>
+<li>cookie隐含对象：取得用户设置的cookie值</li>
+<li>初始参数隐含对象：initParam可以用来取得web.xml中设置的ServletContext初始参数。</li>
 </ol>
-<p>##属性操作监听器</p>
-<p>ServletContext、HttpSession、ServletRequest，对象的属性发生变化时进行一些动作，监听器的参数XxxxxxEvent代表事件，有getName和gatValue的方法</p>
-<p>ServletContextAttributeListener、HttpSessionAttributeListener、ServletRequestAttributeListener</p>
-<p>HttpSessionAttributeListener的事件名称是HttpSessionBindingEvent</p>
-<p>##会话属性类监听器（不需要在web.xml中声明）</p>
-<p>如果有个即将加入HttpSession的属性对象，希望在成为HttpSession或者被删除的时候得到通知，需要实现HttpSessionBindingListener，属性被加入到HttpSession或从中删除的时候，就会调用对应的valueBound与valueUnbound方法，并传入HttpSessionBindingEvent</p>
-<p>HttpSessionActivationListener的主要作用在于将HttpSession从一个JVM迁移到另外一个的时候需要序列化，如果一个对象实现了这个监听器，在序列化的时候就会<br>调用sessionWillPassivate，反序列化的时候调用sessionDidActivate</p>
-<p>在web.xml中对于servlet进行设置的时候，可以添加标签load-on-startup，表示在应用程序启动的时候就将servlet进行实例化并做好初始化</p>
-<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a><url-pattern>设置</url-pattern></h2><ol>
-<li>完全符合模式：以斜杠开头，从web应用程序环境的根目录开始，指定完整的URL模式</li>
-<li>目录符合模式：以目录开头，之后加星号，某个目录下的所有URL都交由某个Servlet处理。”/guest/*”</li>
-<li>扩展名符合模式：以某个扩展名为结尾的所有URL请求，都交由对应的Servlet处理，可以使用星号作为开头.“*.do”</li>
-</ol>
-<p>如果url请求在模式有重合的时候，按照从1到3的顺序</p>
-<p>welcome-file-list标签中使用<welcome-file>来设置默认欢迎界面，不能以斜杠开头，如果浏览器请求的/hhh/user不存在的时候，容器会按照welcome-file-list的顺序依次打开/hhh/user/（welcome-file中包含的文件），找不到的时候会到上一层/hhh去寻找/hhh/（welcome-file中包含的文件）。</welcome-file></p>
-<p>如果发生错误的时候又没有处理，容器会直接显示错误信息，可以通过在web.xml中设置error-page进行设置。error-page的标签里还可以使用exception-type和location的组合来决定不同的type去往不同的错误界面，如果想要把http的错误状态码发送到处理页面，还可以加入error-code标签。</p>
-<p>为了让浏览器知道如何处理收到的串流数据，需要告知MIME类型，如果在web.xml中设置了mime-mapping，则可以通过ServletContext的getMimeType（）方法获取MIME类型，这个方法的参数是文件名称，自动匹配对应的扩展名。</p>
+<h2 id="EL运算符"><a href="#EL运算符" class="headerlink" title="EL运算符"></a>EL运算符</h2><p>%和mod都是求余运算符，关系运算符都有相应的符号和英文简称，比如&lt;以及lt（less than）、&gt;与gt（greater than）、!=与ne（not equal）</p>
+<h2 id="自定义EL函数"><a href="#自定义EL函数" class="headerlink" title="自定义EL函数"></a>自定义EL函数</h2><p>第一步：编写类，这个类必须是公开类，想调用的方法必须是公开的且为静态方法。第二步：web容器必须知道如何将这个类中的方法当作EL函数使用，必须编写一个标签链接库描述文件（TLD）文件，tld文件中需要指明自定义的函数名称，对应到的类和对应到的那个类的具体方法，以及特定的URI，使用的jsp中&lt;%@taglib uri=””  prefix=””%&gt;uri是为了能够快速找到tld文件，prefix的作用是为了避免当jsp中有多个来自不同设计者的EL自定义函数会出现名称冲突。</p>
+<h2 id="JSTL"><a href="#JSTL" class="headerlink" title="JSTL"></a>JSTL</h2><p>（JavaServer Pages Standard Tag Library）来替换JSP页面中用来实现页面逻辑的scriptlet。</p>
+<p>提供的标签库可以分为五类，核心标签库、格式标签库、SQL标签库、XML标签库、函数标签库。</p>
+<p>要使用JSTL标签库，必须在网页上使用taglib指示元素定义前置名称与uri引用，JSTL的jar包需要手动添加到项目的WEB-INF/lib文件夹中，惯例上使用JSTL核心标签库的时候，会使用c作为前置名称，URI引用则告知容器如何引用JSTL标签库实现。</p>
+<pre><code>&lt;%@taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt; 
+</code></pre><p>&lt;c:if&gt;就相当于java中一个单一的if语句</p>
+<p>&lt;c:choose&gt;、&lt;c:otherwise&gt;、&lt;c:when&gt;搭配使用就相当于java中ifelse语句以及该语句的嵌套</p>
+<p>&lt;c:foreach&gt;就是轮询某个集合或者数组，里面的var属性就是轮询变量，items就是数组或者Collection变量</p>
+<p>&lt;c:fortoken&gt;的主要作用就是为了将字符串按照指定的分隔符分为多个字符串，var属性表示轮询变量，delims表示分隔符，items仍然表示字符串。</p>
 
       
 
@@ -256,7 +241,7 @@ chain.doFilter(request,response);
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
         		</li>
       		
 		</ul>
@@ -275,18 +260,18 @@ chain.doFilter(request,response);
   
 <nav id="article-nav">
   
-    <a href="/2017/12/26/20171226/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/01/08/20180108-jsp/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          20171226
+          20180108
         
       </div>
     </a>
   
   
-    <a href="/2017/12/11/20171211/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">20171211</div>
+    <a href="/2017/12/26/20171226-jsp/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">20171226</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -313,7 +298,7 @@ chain.doFilter(request,response);
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HttpSession"><span class="toc-number">1.</span> <span class="toc-text">HttpSession</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#过滤器"><span class="toc-number">2.</span> <span class="toc-text">过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#响应封装器"><span class="toc-number">3.</span> <span class="toc-text">响应封装器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#监听器"><span class="toc-number">4.</span> <span class="toc-text">监听器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期监听器"><span class="toc-number">4.1.</span> <span class="toc-text">生命周期监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置"><span class="toc-number">4.2.</span> <span class="toc-text">设置</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JSP九大隐含对象"><span class="toc-number">1.</span> <span class="toc-text">JSP九大隐含对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#表达式语言（EL）"><span class="toc-number">2.</span> <span class="toc-text">表达式语言（EL）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#EL隐含对象"><span class="toc-number">2.1.</span> <span class="toc-text">EL隐含对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#EL运算符"><span class="toc-number">2.2.</span> <span class="toc-text">EL运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义EL函数"><span class="toc-number">2.3.</span> <span class="toc-text">自定义EL函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSTL"><span class="toc-number">2.4.</span> <span class="toc-text">JSTL</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -327,7 +312,7 @@ chain.doFilter(request,response);
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="20171219" data-title="20171219" data-url="http://yoursite.com/2017/12/15/20171219/"></div>
+	<div class="ds-thread" data-thread-key="20171227-jsp" data-title="20171227" data-url="http://yoursite.com/2017/12/27/20171227-jsp/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -350,8 +335,8 @@ chain.doFilter(request,response);
   <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 <script>
   var cloudTieConfig = {
-    url: "http://yoursite.com/2017/12/15/20171219/", 
-    sourceId: "20171219",
+    url: "http://yoursite.com/2017/12/27/20171227-jsp/", 
+    sourceId: "20171227-jsp",
     productKey: "true",
     target: "cloud-tie-wrapper"
   };

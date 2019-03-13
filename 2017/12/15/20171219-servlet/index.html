@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>20171226 | Sticda</title>
+  <title>20171219 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="JSPJSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误 不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候">
-<meta name="keywords" content="笔记,jsp">
+  <meta name="description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
+<meta name="keywords" content="笔记,servlet">
 <meta property="og:type" content="article">
-<meta property="og:title" content="20171226">
-<meta property="og:url" content="http://yoursite.com/2017/12/26/20171226/index.html">
+<meta property="og:title" content="20171219">
+<meta property="og:url" content="http://yoursite.com/2017/12/15/20171219-servlet/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="JSPJSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误 不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候">
-<meta property="og:updated_time" content="2018-06-07T07:19:05.512Z">
+<meta property="og:description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
+<meta property="og:updated_time" content="2019-03-12T14:36:00.223Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20171226">
-<meta name="twitter:description" content="JSPJSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误 不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候">
+<meta name="twitter:title" content="20171219">
+<meta name="twitter:description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -142,20 +142,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-20171226" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-20171219-servlet" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      20171226
+      20171219
     </h1>
   
 
         
-        <a href="/2017/12/26/20171226/" class="archive-article-date">
-  	<time datetime="2017-12-26T01:54:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
+        <a href="/2017/12/15/20171219-servlet/" class="archive-article-date">
+  	<time datetime="2017-12-15T06:54:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-15</time>
 </a>
         
       </header>
@@ -165,38 +165,69 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="JSP"><a href="#JSP" class="headerlink" title="JSP"></a>JSP</h1><p>JSP和Servlet是一体两面，jsp最后还是会被容器转译为Servlet，自动编译成.class文件，载入.class文件然后生成Servlet对象。JSP出错的时候可以查看Servlet代码发现错误</p>
-<p>不同的web容器对于JSP的转译方式是不同的，jsp转变成Servlet之后会调用_jspInit()，_jspdestroy()。一般情况下不会重写这些函数，如果想要在jsp初始化的时候做一些事情，可以选择重写JSPInit（）和jspDestroy（）。</p>
-<h2 id="指示元素"><a href="#指示元素" class="headerlink" title="指示元素"></a>指示元素</h2><p>&lt;%@ 指示类型  [属性=“值”] <em> %&gt;（[属性=“值”] </em>是正则表达式）</p>
-<p>常用的指示类型：page（告知容器如何转译目前的jsp网页）、include（将其他的jsp页面包括进来进行转译）、taglib（告知容器如何转译这个页面中的标签库）</p>
-<p>include将其他页面包含的时候是一种静态的包含方式，就是把包含的文件直接拼接在一起。</p>
-<h2 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h2><p>在&lt;%!与%&gt;之间声明的程序代码，都将转译为Servlet中的类成员或者方法。也就是说把<strong>所有的成员变量声明和方法声明的java代码</strong>都写在这个&lt;%!与%&gt;之间，容器会使用同一个Servlet来服务不同用户的请求，每个请求就是一个线程，声明 变量的时候必须小心数据共享与线程安全的问题，使用该方法声明的变量是类成员变量，JSPInit（）和JSPDestroy（）就需要使用这种方式重写。</p>
-<h2 id="Scriptlet元素"><a href="#Scriptlet元素" class="headerlink" title="Scriptlet元素"></a>Scriptlet元素</h2><p>&lt;%  java语句  %&gt;所有的内容将被转译到Servlet源代码中的_JSPService（），可以利用java语句的注释方式进行注释（//或者/<em>········</em>/)</p>
-<h2 id="表达式元素"><a href="#表达式元素" class="headerlink" title="表达式元素"></a>表达式元素</h2><p>&lt;%= java 表达式&gt;表达式元素不用加分号，表达式元素中的表达式会直接转译成out对象输出时的指定内容。</p>
-<p>因此在jsp中输出&lt;%或者%&gt;符号，要将角括号置换为替代字符，&lt;%可以换成&lt;%  ，%&gt; 可以换成%&gt;或者%>。</p>
-<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>JSP有自己专用的注释，即&lt;%–与–%&gt;，容器在转译JSP到Servlet的时候，会忽略两者之间包括的文字。</p>
+        <h1 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h1><p>HttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。</p>
+<p>如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可以通过使用HttpSession的setAttribute方法将相关信息设置为属性。</p>
+<p>HttpSession的invalidate()方法可以直接使目前的HttpSession失效，可以用来实现注销机制。</p>
+<p>浏览器默认将SessionID存放在本地的cookie中，Cookie会在浏览器请求应用程序的时候被发送到应用程序。Web容器存储SessionId 的Cookie被默认设置为关闭浏览器就会失效，所以重新打开浏览器请求应用程序的时候通过getSession获得是新的HttpSession对象，如果浏览器没有被关闭，那么每次请求来到应用程序的时候容器会根据SessionID取得相应的HttpSession。可以使用setMaxAge()来设置Cookie的有效期限。</p>
+<p>Session的另一种实现方式是URL重写，服务器向浏览器响应一段超链接，超链接URL后附加SessionID，当用户点击超链接时，则将SessionID以GET请求方式发送给Web应用程序。response.encodeURL协助产生所需的URL重写，如果禁用Cookie的话，encodeURL会自动产生带有SessionID的URL重写。</p>
+<p>HttpSession用于当次会话阶段的状态维持，如果有相关的信息希望在关闭浏览器后，下次打开浏览器请求web应用程序时，仍然可以发送给应用程序，则需要使用Cookie。</p>
+<p>执行HttpSession的setMaxInactiveInterval（）方法，设置的是HttpSession对象在浏览器多久没活动就失效的时间，而不是保存SessionID的cookie失效的时间。</p>
+<h1 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h1><p>Servlet的生命周期大概是init（）、service（）、destroy（）,service决定要调用什么函数响应浏览器的响应。1.加载和实例化;2.初始化;3.请求处理;4.服务终止</p>
+<p>Servlet容器负责加载和实例化Servlet。当Servlet容器启动时，在容器检测到需要这个Servlet来响应第一个请求时，创建Servlet实例。当Servlet容器启动后，它必须要知道所需的Servlet类在什么位置，Servlet容器可以从本地文件系统、远程文件系统或者其他的网络服务中通过类加载器加载Servlet类，成功加载后，容器创建Servlet的实例。因为<strong>容器是通过Java的反射API来创建Servlet实例</strong>，调用的是Servlet的默认构造方法（即不带参数的构造方法），所以我们在编写Servlet类的时候，不应该提供带参数的构造方法</p>
+<p>在Servlet实例化之后，容器将调用Servlet的init()方法初始化这个对象。初始化的目的是为了让Servlet对象在处理客户端请求前完成一些初始化的工作,可以自己重写这个init方法，通过servletconfig读取初始化参数。</p>
+<p>请求处理：Servlet容器调用Servlet的service()方法对请求进行处理。要注意的是，在service()方法调用之前，init()方法必须成功执行。在service()方法中，Servlet实例通过ServletRequest对象得到客户端的相关信息和请求信息，在对请求进行处理后，调用ServletResponse对象的方法设置响应信息。Servlet规范要求一个Servlet实例必须能够同时服务于多个客户端请求，即service()方法运行在多线程的环境下，Servlet开发者必须保证该方法的线程安全性</p>
+<p>当容器检测到一个Servlet实例应该从服务中被移除的时候，容器就会调用实例的destroy()方法，以便让该实例可以释放它所使用的资源，保存数据到持久存储设备中。当需要释放内存或者容器关闭时，容器就会调用Servlet实例的destroy()方法。在destroy()方法调用之后，容器会释放这个Servlet实例，该实例随后会被Java的垃圾收集器所回收。如果再次需要这个Servlet处理请求，Servlet容器会创建一个新的Servlet实例。</p>
+<p>Web服务器在与客户端交互时Servlet的工作过程是:1.   在客户端对web服务器发出请求;2.   web服务器接收到请求后将其发送给Servlet;3.  Servlet容器为此产生一个实例对象并调用ServletAPI中相应的方法来对客户端HTTP请求进行处理,然后将处理的响应结果返回给WEB服务器;4.   web服务器将从Servlet实例对象中收到的响应结构发送回客户端.</p>
+<p>过滤器（Filter）位于Servlet之前，可以拦截过滤浏览器对Servlet的请求 。</p>
+<p>实现Filter接口，Filter接口有三个要实现的方法init（）、dofilter（）、destroy()。</p>
+<p>web.xml中定义过滤器对象时设置了初始参数，可以通过FilterConfig的getInitParameter方法来获取初始参数，设置参数和Servlet很类似，都是在声明的时候利用init-param。</p>
+<p>当请求来到容器，容器发现了调用了servlet的service方法之前，可以应用某个过滤器，就会调用该过滤器的dofilter方法，然后决定是否调用FilterChain的doFilter方法。</p>
+<pre><code>//service()前置处理
+chain.doFilter(request,response);
+//service()后置处理
+</code></pre><p>FilterChain执行过后会以堆栈顺序返回<br>    <filter><br>              <filter-name>FilterDemo01</filter-name><br>              <filter-class>me.gacl.web.filter.FilterDemo01</filter-class><br>          </filter></p>
+<pre><code>&lt;filter-mapping&gt;
+&lt;filter-name&gt;PerformanceFilter&lt;/filter-name&gt;
+&lt;url-pattern&gt;/index&lt;/url-pattern&gt;哪些URL请求将应用此过滤器
+&lt;servlet-name&gt;SessionDemo&lt;/servlet-name&gt;或者是通过这个来指定Servlet名称，表示哪些Servlet将应用到此过滤器上
+&lt;/filter-mapping&gt;
+</code></pre><p>如果想要一次性符合所有Servlet名称，则可以使用 *号</p>
+<p>触发过滤器的时机，默认是浏览器直接发出请求，如果是通过RequestDispatcher的forward和include的请求，则可以在web.xml中设置dispatcher标签，指定那些请求转发类型可以触发过滤器。</p>
+<pre><code>&lt;dispatcher&gt;REQUEST&lt;/dispatcher&gt;
+&lt;dispatcher&gt;ERROR&lt;/dispatcher&gt;
+&lt;dispatcher&gt;INCLUDE&lt;/dispatcher&gt;
+&lt;dispatcher&gt;FORWARD&lt;/dispatcher&gt;
+</code></pre><p>过滤器可以进行一些前置和后置处理，在service方法执行前改变请求对象的信息，或者改变响应，就需要利用封装器Wrapper，HttpServletRequestWrapper中实现了HttpServletRequest的getParameter方法，可以把requestWrapper当作request使用。</p>
+<h1 id="响应封装器"><a href="#响应封装器" class="headerlink" title="响应封装器"></a><strong>响应封装器</strong></h1><p>对浏览器进行输出响应，必须通过getWriter获得PrintWriter或者getOutputStream获得ServletOutputStream两种方法，针对压缩输出的需求，主要是继承HttpServletResponseWrapper之后，重写这两个方法。</p>
 <hr>
-<p>Scriptlet中的一些类似于out和request的对象，转译成Servlet之后会对应到Servlet中的某个对象，request对应HttpServletRequest，像request和out的对象就被称为隐含对象。</p>
-<p>pageContext转译后对应PageContext对象，提供了jsp页面资源的封装，page对应this。</p>
-<p>out并不直接对应于有HttpServletResponse得到的PrintWriter对象，out对应JspWriter对象，该对象模拟了BufferedWriter与PrintWriter的功能。jspWriter具有缓冲区功能，这时候就决定于页面是否具有缓冲区的功能了，如果没有则会立即输出，有的话只有在清空缓冲区才会输出，page指示元素的buffer属性设置缓冲区的大小，满了之后的行为采用autoFlush属性决定。</p>
-<p>可以通过PageContext获得所有的隐含对象，除了封装所有的jsp页面信息之外 ，还可以使用pageContext来设置页面范围属性setAttribute、getAttribute、removeAttribute</p>
-<p>在jsp页面中设置属性的方式有两种，一种是通过pageContext获得HttpServletRequest、ServletContext、HttpSession，另一种是利用pageContext统一提供的接口。getAttribute（String name，int Scope），setAttribute（String name，Object value,int scope）,remove(String name, int scope)，Scope是标识不同的范围，pageContext提供了findAttribute（），从页面，请求，会话到应用程序范围以此寻找。</p>
-<h2 id="错误页面"><a href="#错误页面" class="headerlink" title="错误页面"></a>错误页面</h2><p>使用page指示元素，设置errorPage属性便可以指定错误处理的JSP页面。错误页面的page指示元素的isErrorPage属性设置为true。</p>
-<h2 id="标准标签"><a href="#标准标签" class="headerlink" title="标准标签"></a>标准标签</h2><p>主要作用是减少scriptlet的使用，include指示元素可以把另一个JSP页面包含进来转移成一个Servlet类，无法在运行时动态调整想要的页面。如果想要在运行时依条件动态调整想要包括的JSP页面，则可以使用<a href="jsp:include" target="_blank" rel="noopener">jsp:include</a>标签，可以动态包括要给该页面的请求参数。</p>
-<p>转发页面可以使用<a href="jsp:forward" target="_blank" rel="noopener">jsp:forward</a>，与前者的使用方法相同。</p>
-<pre><code>&lt;jsp:forward page=&apos;&quot;add.jsp&quot;&gt;
-    &lt;jsp:param name=&quot;a&quot; value=&quot;1&quot;&gt;
-    &lt;jsp:param name=&quot;a&quot; value=&quot;2&quot;&gt;
-&lt;/jsp:forward&gt;
-</code></pre><p><strong><a href="jsp:useBean" target="_blank" rel="noopener">jsp:useBean</a>、<a href="jsp:setProperty" target="_blank" rel="noopener">jsp:setProperty</a>、<a href="jsp:getProperty" target="_blank" rel="noopener">jsp:getProperty</a></strong></p>
-<p>JavaBean指的是满足以下条件的java对象，必须实现了Java.io.Serializable接口，没有公开的类变量，具有无参数的构造函数，具有公开的设值方法和取值方法，setter和getter，可以直接使用标签在页面中赋值。</p>
-<pre><code>&lt;jsp:useBean id=&quot;名称（类实例变量名称）&quot; class=&quot;包名.类名&quot; 
-scope=&quot;page、request、session、application&quot;
-type=&quot;想要指定的类型&quot;/&gt;
-&lt;jsp:setProperty name=&quot;类实例变量名&quot; property=&quot;属性值&quot;/&gt;
-</code></pre><p>setProperty标签的property为“*”时，表示将自动寻找符合JavaBean中设值方法名称的请求参数值，如果请求参数的名称为xxx，就将请求参数值使用setXxx（）方法设置给JavaBean实例。</p>
-<p>在jsp中就可以写直接 调用id.方法（），赋值可以直接写&lt;jsp:getProperty name=”变量名” property=”属性名”&gt;</p>
-<p>赋值的时候可以通过&lt;jsp:setProperty name=”user” property=”password” value=”123456”/&gt;</p>
+<h1 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h1><p>Servlet/JSP中的监听器可以分为三个类别</p>
+<h2 id="生命周期监听器"><a href="#生命周期监听器" class="headerlink" title="生命周期监听器"></a>生命周期监听器</h2><p>在某个对象生成到被容器销毁之前，监听对象生命周期的状态改变</p>
+<ol>
+<li>ServletContextListener： contextInitialized（）与contextDestroyed（），通过传入的ServletContextEvent取得ServletContext。</li>
+<li>ServletRequestListener： RequestInitialized（）与RequestDestroyed（），通过传入的ServletRequestEvent取得ServletRequest。</li>
+<li>HttpSessionListener： SessionInitialized（）与SessionDestroyed（），通过传入的HttpSessionEvent取得HttpSession。</li>
+</ol>
+<p>##属性操作监听器</p>
+<p>ServletContext、HttpSession、ServletRequest，对象的属性发生变化时进行一些动作，监听器的参数XxxxxxEvent代表事件，有getName和gatValue的方法</p>
+<p>ServletContextAttributeListener、HttpSessionAttributeListener、ServletRequestAttributeListener</p>
+<p>HttpSessionAttributeListener的事件名称是HttpSessionBindingEvent</p>
+<p>##会话属性类监听器（不需要在web.xml中声明）</p>
+<p>如果有个即将加入HttpSession的属性对象，希望在成为HttpSession或者被删除的时候得到通知，需要实现HttpSessionBindingListener，属性被加入到HttpSession或从中删除的时候，就会调用对应的valueBound与valueUnbound方法，并传入HttpSessionBindingEvent。和HttpSessionAttributeListener的区别在于，后者对于任何对象才会触发对应事件，但是前者只有实现了该接口的类才会触发事件。</p>
+<p>HttpSessionActivationListener的主要作用在于将HttpSession从一个JVM迁移到另外一个的时候需要序列化，如果一个对象实现了这个监听器，在序列化的时候就会调用sessionWillPassivate，反序列化的时候调用sessionDidActivate</p>
+<p>在web.xml中对于servlet进行设置的时候，可以添加标签load-on-startup，表示在应用程序启动的时候就将servlet进行实例化并做好初始化</p>
+<h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a><url-pattern>设置</url-pattern></h2><ol>
+<li>完全符合模式：以斜杠开头，从web应用程序环境的根目录开始，指定完整的URL模式</li>
+<li>目录符合模式：以目录开头，之后加星号，某个目录下的所有URL都交由某个Servlet处理。”/guest/*”</li>
+<li>扩展名符合模式：以某个扩展名为结尾的所有URL请求，都交由对应的Servlet处理，可以使用星号作为开头.“*.do”</li>
+</ol>
+<p>如果url请求在模式有重合的时候，按照从1到3的顺序</p>
+<p>welcome-file-list标签中使用<welcome-file>来设置默认欢迎界面，不能以斜杠开头，如果浏览器请求的/hhh/user不存在的时候，容器会按照welcome-file-list的顺序依次打开/hhh/user/（welcome-file中包含的文件），找不到的时候会到上一层/hhh去寻找/hhh/（welcome-file中包含的文件）。</welcome-file></p>
+<p>如果发生错误的时候又没有处理，容器会直接显示错误信息，可以通过在web.xml中设置error-page进行设置。error-page的标签里还可以使用exception-type和location的组合来决定不同的type去往不同的错误界面，如果想要把http的错误状态码发送到处理页面，还可以加入error-code标签。<br>        <error-page><br>        <error-code>404</error-code><br>        <location>/error.jsp</location><br>        </error-page></p>
+<pre><code>&lt;error-page&gt;
+&lt;exception-type&gt;java.lang.NullException&lt;/exception-type&gt;
+&lt;location&gt;/error.jsp&lt;/location&gt;
+&lt;/error-page&gt;
+</code></pre><p>为了让浏览器知道如何处理收到的串流数据，需要告知MIME类型，如果在web.xml中设置了mime-mapping，则可以通过ServletContext的getMimeType（）方法获取MIME类型，这个方法的参数是文件名称，自动匹配对应的扩展名。</p>
 
       
 
@@ -235,7 +266,7 @@ type=&quot;想要指定的类型&quot;/&gt;
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">jsp</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">servlet</a>
         		</li>
       		
 		</ul>
@@ -254,18 +285,18 @@ type=&quot;想要指定的类型&quot;/&gt;
   
 <nav id="article-nav">
   
-    <a href="/2017/12/27/20171227/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/12/26/20171226-jsp/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          20171227
+          20171226
         
       </div>
     </a>
   
   
-    <a href="/2017/12/15/20171219/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">20171219</div>
+    <a href="/2017/12/11/20171211-servlet/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">20171211</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -292,7 +323,7 @@ type=&quot;想要指定的类型&quot;/&gt;
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JSP"><span class="toc-number">1.</span> <span class="toc-text">JSP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#指示元素"><span class="toc-number">1.1.</span> <span class="toc-text">指示元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#声明"><span class="toc-number">1.2.</span> <span class="toc-text">声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Scriptlet元素"><span class="toc-number">1.3.</span> <span class="toc-text">Scriptlet元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#表达式元素"><span class="toc-number">1.4.</span> <span class="toc-text">表达式元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注释"><span class="toc-number">1.5.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#错误页面"><span class="toc-number">1.6.</span> <span class="toc-text">错误页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#标准标签"><span class="toc-number">1.7.</span> <span class="toc-text">标准标签</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HttpSession"><span class="toc-number">1.</span> <span class="toc-text">HttpSession</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#过滤器"><span class="toc-number">2.</span> <span class="toc-text">过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#响应封装器"><span class="toc-number">3.</span> <span class="toc-text">响应封装器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#监听器"><span class="toc-number">4.</span> <span class="toc-text">监听器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期监听器"><span class="toc-number">4.1.</span> <span class="toc-text">生命周期监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置"><span class="toc-number">4.2.</span> <span class="toc-text">设置</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -306,7 +337,7 @@ type=&quot;想要指定的类型&quot;/&gt;
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="20171226" data-title="20171226" data-url="http://yoursite.com/2017/12/26/20171226/"></div>
+	<div class="ds-thread" data-thread-key="20171219-servlet" data-title="20171219" data-url="http://yoursite.com/2017/12/15/20171219-servlet/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -329,8 +360,8 @@ type=&quot;想要指定的类型&quot;/&gt;
   <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 <script>
   var cloudTieConfig = {
-    url: "http://yoursite.com/2017/12/26/20171226/", 
-    sourceId: "20171226",
+    url: "http://yoursite.com/2017/12/15/20171219-servlet/", 
+    sourceId: "20171219-servlet",
     productKey: "true",
     target: "cloud-tie-wrapper"
   };

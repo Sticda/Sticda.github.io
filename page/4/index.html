@@ -139,19 +139,19 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-20180116" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20180116-python" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/11/20180116/">20180116</a>
+      <a class="article-title" href="/2018/01/11/20180116-python/">20180116</a>
     </h1>
   
 
         
-        <a href="/2018/01/11/20180116/" class="archive-article-date">
+        <a href="/2018/01/11/20180116-python/" class="archive-article-date">
   	<time datetime="2018-01-11T08:40:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-11</time>
 </a>
         
@@ -340,7 +340,7 @@ def __init__(self,name,score):
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/11/20180116/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/01/11/20180116-python/">展开全文 >></a>
         </p>
       
 
@@ -370,19 +370,19 @@ def __init__(self,name,score):
 
 
   
-    <article id="post-20180108" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20180108-jsp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/08/20180108/">20180108</a>
+      <a class="article-title" href="/2018/01/08/20180108-jsp/">20180108</a>
     </h1>
   
 
         
-        <a href="/2018/01/08/20180108/" class="archive-article-date">
+        <a href="/2018/01/08/20180108-jsp/" class="archive-article-date">
   	<time datetime="2018-01-08T00:55:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-08</time>
 </a>
         
@@ -480,7 +480,7 @@ def __init__(self,name,score):
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/01/08/20180108/">展开全文 >></a>
+          <a class="article-more-a" href="/2018/01/08/20180108-jsp/">展开全文 >></a>
         </p>
       
 
@@ -510,19 +510,19 @@ def __init__(self,name,score):
 
 
   
-    <article id="post-20171227" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20171227-jsp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/27/20171227/">20171227</a>
+      <a class="article-title" href="/2017/12/27/20171227-jsp/">20171227</a>
     </h1>
   
 
         
-        <a href="/2017/12/27/20171227/" class="archive-article-date">
+        <a href="/2017/12/27/20171227-jsp/" class="archive-article-date">
   	<time datetime="2017-12-27T01:06:34.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-27</time>
 </a>
         
@@ -533,8 +533,9 @@ def __init__(self,name,score):
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="表达式语言（EL）"><a href="#表达式语言（EL）" class="headerlink" title="表达式语言（EL）"></a>表达式语言（EL）</h1><p>替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断。</p>
-<p>EL是使用${与}来包括所要进行处理的表达式，EL会自行进行类型转换。</p>
+        <h1 id="JSP九大隐含对象"><a href="#JSP九大隐含对象" class="headerlink" title="JSP九大隐含对象"></a>JSP九大隐含对象</h1><p>request            HttpServletRequest类的实例<br>response        HttpServletResponse类的实例<br>out                PrintWriter类的实例，用于把结果输出至网页上<br>session            HttpSession类的实例<br>application        ServletContext类的实例，与应用上下文有关<br>config            ServletConfig类的实例<br>pageContext    PageContext类的实例，提供对JSP页面所有对象以及命名空间的访问<br>page            类似于Java类中的this关键字<br>Exception        Exception类的对象，代表发生错误的JSP页面中对应的异常对象</p>
+<h1 id="表达式语言（EL）"><a href="#表达式语言（EL）" class="headerlink" title="表达式语言（EL）"></a>表达式语言（EL）</h1><p>替换掉scriptlet编写的属性、请求参数、标头与cookie等信息的获取，或者是一些简单的运算和判断。</p>
+<p>EL是使用“${”与“}”来包括所要进行处理的表达式，EL会自行进行类型转换。</p>
 <p>可以在page指示元素的isELIgnored属性（默认为true），来设置jsp网页是否使用EL，原因是因为网页中已经使用了EL类似的语法功能，也可以在web.xml中设置<el-ignored>标签为true，不使用EL。两种方式以前者为主。</el-ignored></p>
 <p>EL的应用实例</p>
 <pre><code>&lt;h1&gt;${user.name}&lt;/h1&gt;&lt;%--按照page、request、session、application
@@ -554,7 +555,7 @@ ${login[&quot;pass.word&quot;]}
 </code></pre><h2 id="EL隐含对象"><a href="#EL隐含对象" class="headerlink" title="EL隐含对象"></a>EL隐含对象</h2><p>11个隐含对象，pageContext对应PageContext，其他的隐含对象都对应Map类型。</p>
 <ol>
 <li>pageContext：PageContext本身就是JavaBean</li>
-<li>与属性相关的隐含对象</li>
+<li>与属性相关的隐含对象   pageScope    page 作用域      requestScope    request 作用域            sessionScope    session 作用域        applicationScope    application 作用域</li>
 <li>与请求参数相关的隐含对象： param与paramValues，param可以取得某个参数的值，paramValues可以取得所有请求参数，返回值是数组</li>
 <li>与标头（header）相关的隐含对象：header或者headerValues</li>
 <li>cookie隐含对象：取得用户设置的cookie值</li>
@@ -597,7 +598,7 @@ ${login[&quot;pass.word&quot;]}
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/27/20171227/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/12/27/20171227-jsp/">展开全文 >></a>
         </p>
       
 
@@ -627,19 +628,19 @@ ${login[&quot;pass.word&quot;]}
 
 
   
-    <article id="post-20171226" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20171226-jsp" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/26/20171226/">20171226</a>
+      <a class="article-title" href="/2017/12/26/20171226-jsp/">20171226</a>
     </h1>
   
 
         
-        <a href="/2017/12/26/20171226/" class="archive-article-date">
+        <a href="/2017/12/26/20171226-jsp/" class="archive-article-date">
   	<time datetime="2017-12-26T01:54:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-26</time>
 </a>
         
@@ -709,7 +710,7 @@ type=&quot;想要指定的类型&quot;/&gt;
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/26/20171226/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/12/26/20171226-jsp/">展开全文 >></a>
         </p>
       
 
@@ -739,19 +740,19 @@ type=&quot;想要指定的类型&quot;/&gt;
 
 
   
-    <article id="post-20171219" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20171219-servlet" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/15/20171219/">20171219</a>
+      <a class="article-title" href="/2017/12/15/20171219-servlet/">20171219</a>
     </h1>
   
 
         
-        <a href="/2017/12/15/20171219/" class="archive-article-date">
+        <a href="/2017/12/15/20171219-servlet/" class="archive-article-date">
   	<time datetime="2017-12-15T06:54:44.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-15</time>
 </a>
         
@@ -765,18 +766,24 @@ type=&quot;想要指定的类型&quot;/&gt;
         <h1 id="HttpSession"><a href="#HttpSession" class="headerlink" title="HttpSession"></a>HttpSession</h1><p>HttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。</p>
 <p>如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可以通过使用HttpSession的setAttribute方法将相关信息设置为属性。</p>
 <p>HttpSession的invalidate()方法可以直接使目前的HttpSession失效，可以用来实现注销机制。</p>
-<p>浏览器默认将SessionID存放在本地的cookie中，Cookie会在浏览器请求应用程序的时候被发送到应用程序。Web容器存储SessionId 的Cookie被默认设置为关闭浏览器就会失效，所以重新打开浏览器请求应用程序的时候通过getSession获得是新的HttpSession对象，如果浏览器没有被关闭，那么每次请求来到应用程序的时候容器会根据SessionID取得相应的HttpSession。可以使用serMaxAge()来设置Cookie的有效期限。</p>
+<p>浏览器默认将SessionID存放在本地的cookie中，Cookie会在浏览器请求应用程序的时候被发送到应用程序。Web容器存储SessionId 的Cookie被默认设置为关闭浏览器就会失效，所以重新打开浏览器请求应用程序的时候通过getSession获得是新的HttpSession对象，如果浏览器没有被关闭，那么每次请求来到应用程序的时候容器会根据SessionID取得相应的HttpSession。可以使用setMaxAge()来设置Cookie的有效期限。</p>
 <p>Session的另一种实现方式是URL重写，服务器向浏览器响应一段超链接，超链接URL后附加SessionID，当用户点击超链接时，则将SessionID以GET请求方式发送给Web应用程序。response.encodeURL协助产生所需的URL重写，如果禁用Cookie的话，encodeURL会自动产生带有SessionID的URL重写。</p>
 <p>HttpSession用于当次会话阶段的状态维持，如果有相关的信息希望在关闭浏览器后，下次打开浏览器请求web应用程序时，仍然可以发送给应用程序，则需要使用Cookie。</p>
 <p>执行HttpSession的setMaxInactiveInterval（）方法，设置的是HttpSession对象在浏览器多久没活动就失效的时间，而不是保存SessionID的cookie失效的时间。</p>
-<h1 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h1><p>Servlet的生命周期大概是init（）、service（）、destroy（）,service决定要调用什么函数响应浏览器的响应。过滤器（Filter）位于Servlet之前，可以拦截过滤浏览器对Servlet的请求 。</p>
+<h1 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h1><p>Servlet的生命周期大概是init（）、service（）、destroy（）,service决定要调用什么函数响应浏览器的响应。1.加载和实例化;2.初始化;3.请求处理;4.服务终止</p>
+<p>Servlet容器负责加载和实例化Servlet。当Servlet容器启动时，在容器检测到需要这个Servlet来响应第一个请求时，创建Servlet实例。当Servlet容器启动后，它必须要知道所需的Servlet类在什么位置，Servlet容器可以从本地文件系统、远程文件系统或者其他的网络服务中通过类加载器加载Servlet类，成功加载后，容器创建Servlet的实例。因为<strong>容器是通过Java的反射API来创建Servlet实例</strong>，调用的是Servlet的默认构造方法（即不带参数的构造方法），所以我们在编写Servlet类的时候，不应该提供带参数的构造方法</p>
+<p>在Servlet实例化之后，容器将调用Servlet的init()方法初始化这个对象。初始化的目的是为了让Servlet对象在处理客户端请求前完成一些初始化的工作,可以自己重写这个init方法，通过servletconfig读取初始化参数。</p>
+<p>请求处理：Servlet容器调用Servlet的service()方法对请求进行处理。要注意的是，在service()方法调用之前，init()方法必须成功执行。在service()方法中，Servlet实例通过ServletRequest对象得到客户端的相关信息和请求信息，在对请求进行处理后，调用ServletResponse对象的方法设置响应信息。Servlet规范要求一个Servlet实例必须能够同时服务于多个客户端请求，即service()方法运行在多线程的环境下，Servlet开发者必须保证该方法的线程安全性</p>
+<p>当容器检测到一个Servlet实例应该从服务中被移除的时候，容器就会调用实例的destroy()方法，以便让该实例可以释放它所使用的资源，保存数据到持久存储设备中。当需要释放内存或者容器关闭时，容器就会调用Servlet实例的destroy()方法。在destroy()方法调用之后，容器会释放这个Servlet实例，该实例随后会被Java的垃圾收集器所回收。如果再次需要这个Servlet处理请求，Servlet容器会创建一个新的Servlet实例。</p>
+<p>Web服务器在与客户端交互时Servlet的工作过程是:1.   在客户端对web服务器发出请求;2.   web服务器接收到请求后将其发送给Servlet;3.  Servlet容器为此产生一个实例对象并调用ServletAPI中相应的方法来对客户端HTTP请求进行处理,然后将处理的响应结果返回给WEB服务器;4.   web服务器将从Servlet实例对象中收到的响应结构发送回客户端.</p>
+<p>过滤器（Filter）位于Servlet之前，可以拦截过滤浏览器对Servlet的请求 。</p>
 <p>实现Filter接口，Filter接口有三个要实现的方法init（）、dofilter（）、destroy()。</p>
-<p>web.xml中定义过滤器对象时设置了初始参数，可以通过FilterConfig的getInitParameter方法来获取初始参数，设置参数和Servlet很类似，都是在声明的时候在一个init-param。</p>
+<p>web.xml中定义过滤器对象时设置了初始参数，可以通过FilterConfig的getInitParameter方法来获取初始参数，设置参数和Servlet很类似，都是在声明的时候利用init-param。</p>
 <p>当请求来到容器，容器发现了调用了servlet的service方法之前，可以应用某个过滤器，就会调用该过滤器的dofilter方法，然后决定是否调用FilterChain的doFilter方法。</p>
 <pre><code>//service()前置处理
 chain.doFilter(request,response);
-//service（）后置处理
-</code></pre><p>FilterChain执行过后会以堆栈顺序返回</p>
+//service()后置处理
+</code></pre><p>FilterChain执行过后会以堆栈顺序返回<br>    <filter><br>              <filter-name>FilterDemo01</filter-name><br>              <filter-class>me.gacl.web.filter.FilterDemo01</filter-class><br>          </filter></p>
 <pre><code>&lt;filter-mapping&gt;
 &lt;filter-name&gt;PerformanceFilter&lt;/filter-name&gt;
 &lt;url-pattern&gt;/index&lt;/url-pattern&gt;哪些URL请求将应用此过滤器
@@ -803,8 +810,8 @@ chain.doFilter(request,response);
 <p>ServletContextAttributeListener、HttpSessionAttributeListener、ServletRequestAttributeListener</p>
 <p>HttpSessionAttributeListener的事件名称是HttpSessionBindingEvent</p>
 <p>##会话属性类监听器（不需要在web.xml中声明）</p>
-<p>如果有个即将加入HttpSession的属性对象，希望在成为HttpSession或者被删除的时候得到通知，需要实现HttpSessionBindingListener，属性被加入到HttpSession或从中删除的时候，就会调用对应的valueBound与valueUnbound方法，并传入HttpSessionBindingEvent</p>
-<p>HttpSessionActivationListener的主要作用在于将HttpSession从一个JVM迁移到另外一个的时候需要序列化，如果一个对象实现了这个监听器，在序列化的时候就会<br>调用sessionWillPassivate，反序列化的时候调用sessionDidActivate</p>
+<p>如果有个即将加入HttpSession的属性对象，希望在成为HttpSession或者被删除的时候得到通知，需要实现HttpSessionBindingListener，属性被加入到HttpSession或从中删除的时候，就会调用对应的valueBound与valueUnbound方法，并传入HttpSessionBindingEvent。和HttpSessionAttributeListener的区别在于，后者对于任何对象才会触发对应事件，但是前者只有实现了该接口的类才会触发事件。</p>
+<p>HttpSessionActivationListener的主要作用在于将HttpSession从一个JVM迁移到另外一个的时候需要序列化，如果一个对象实现了这个监听器，在序列化的时候就会调用sessionWillPassivate，反序列化的时候调用sessionDidActivate</p>
 <p>在web.xml中对于servlet进行设置的时候，可以添加标签load-on-startup，表示在应用程序启动的时候就将servlet进行实例化并做好初始化</p>
 <h2 id="设置"><a href="#设置" class="headerlink" title="设置"></a><url-pattern>设置</url-pattern></h2><ol>
 <li>完全符合模式：以斜杠开头，从web应用程序环境的根目录开始，指定完整的URL模式</li>
@@ -813,8 +820,12 @@ chain.doFilter(request,response);
 </ol>
 <p>如果url请求在模式有重合的时候，按照从1到3的顺序</p>
 <p>welcome-file-list标签中使用<welcome-file>来设置默认欢迎界面，不能以斜杠开头，如果浏览器请求的/hhh/user不存在的时候，容器会按照welcome-file-list的顺序依次打开/hhh/user/（welcome-file中包含的文件），找不到的时候会到上一层/hhh去寻找/hhh/（welcome-file中包含的文件）。</welcome-file></p>
-<p>如果发生错误的时候又没有处理，容器会直接显示错误信息，可以通过在web.xml中设置error-page进行设置。error-page的标签里还可以使用exception-type和location的组合来决定不同的type去往不同的错误界面，如果想要把http的错误状态码发送到处理页面，还可以加入error-code标签。</p>
-<p>为了让浏览器知道如何处理收到的串流数据，需要告知MIME类型，如果在web.xml中设置了mime-mapping，则可以通过ServletContext的getMimeType（）方法获取MIME类型，这个方法的参数是文件名称，自动匹配对应的扩展名。</p>
+<p>如果发生错误的时候又没有处理，容器会直接显示错误信息，可以通过在web.xml中设置error-page进行设置。error-page的标签里还可以使用exception-type和location的组合来决定不同的type去往不同的错误界面，如果想要把http的错误状态码发送到处理页面，还可以加入error-code标签。<br>        <error-page><br>        <error-code>404</error-code><br>        <location>/error.jsp</location><br>        </error-page></p>
+<pre><code>&lt;error-page&gt;
+&lt;exception-type&gt;java.lang.NullException&lt;/exception-type&gt;
+&lt;location&gt;/error.jsp&lt;/location&gt;
+&lt;/error-page&gt;
+</code></pre><p>为了让浏览器知道如何处理收到的串流数据，需要告知MIME类型，如果在web.xml中设置了mime-mapping，则可以通过ServletContext的getMimeType（）方法获取MIME类型，这个方法的参数是文件名称，自动匹配对应的扩展名。</p>
 
       
 
@@ -842,7 +853,7 @@ chain.doFilter(request,response);
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/15/20171219/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/12/15/20171219-servlet/">展开全文 >></a>
         </p>
       
 
@@ -872,19 +883,19 @@ chain.doFilter(request,response);
 
 
   
-    <article id="post-20171211" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20171211-servlet" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/11/20171211/">20171211</a>
+      <a class="article-title" href="/2017/12/11/20171211-servlet/">20171211</a>
     </h1>
   
 
         
-        <a href="/2017/12/11/20171211/" class="archive-article-date">
+        <a href="/2017/12/11/20171211-servlet/" class="archive-article-date">
   	<time datetime="2017-12-11T09:04:12.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-11</time>
 </a>
         
@@ -911,11 +922,9 @@ chain.doFilter(request,response);
 </ol>
 <p>以“/”开头：相对当前主机（端口号之后），即默认为<a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a></p>
 <p>不以“/”开头：相对当前Servlet路径</p>
-<p><strong>ServletConfig</strong>是容器根据web.xml的内容生成的Servlet的设置的实例对象，和每一个Servlet对应，在实例化Servlet的时候，容器还没有调用init（）方法传入ServletConfig，所以不会有servletConfig实例，也就是说ServletConfig必须在web容器将Servlet实例化以后，调用有参数的init（）方法再将之传入，所以在继承HttpServlet后通常会重写<strong>无参数的init（）方法【最适合读取初始参数的地方】</strong>来获取Servlet的初始参数。</p>
-<p>初始参数通常用作常数来设置，可以将一些Servlet程序中不想写死的信息放到初始参数中，一个<init-param>定义一组<param-name>和<param-value></param-value></param-name></init-param></p>
-<p><strong>ServletContext</strong>是<strong>整个web应用程序</strong>运行后的代表对象，通过ServletConfig的getServletContext（）方法来获得，之后就可以利用ServletContext来取得web应用程序的相关资源或信息。</p>
-<p>以“/”开头的路径称为环境相对路径，没有以“/”作为开头则称为请求相对路径。</p>
-<p>getResourceAsStream()的参数路径必须以“/”作为开头，表示相对应于应用程序环境根目录，运行结果会返回InputStream实例，如果在java EE中使用java.io下的File、FileReader等等与文件读取相关的类时，可以指定绝对路径和相对路径，绝对路径是文件在服务器上的真实路径，相对路径相对的是启动web容器时的命令执行目录，比如说Tomcat的根目录。</p>
+<p><strong>ServletConfig</strong>是容器根据web.xml的内容生成的Servlet的设置的实例对象，和每一个Servlet对应，初始参数通常用作常数来设置，可以将一些Servlet程序中不想写死的信息放到初始参数中，一个<init-param>定义一组<param-name>和<param-value></param-value></param-name></init-param></p>
+<p><strong>ServletContext</strong>是<strong>整个web应用程序</strong>运行后的代表对象，通过ServletConfig的getServletContext（）方法来获得，之后就可以利用ServletContext来取得web应用程序的相关资源或信息。使用<context-param>标签（与Servlet标签并列）为整个Web应用配置属性的话，那所有的Servlet就都能访问里面的参数了。</context-param></p>
+<p>getResourceAsStream()的参数路径必须以“/”作为开头，表示相对应于应用程序环境根目录，运行结果会返回InputStream实例，如果在java EE中使用java.io下的File、FileReader等等与文件读取相关的类时，可以指定绝对路径和相对路径，绝对路径是文件在服务器上的真实路径，相对路径相对的是启动web容器时的命令执行目录，比如说Tomcat的根目录。ServletContext提供了getRealPath方法,在这个方法中传入一个路径,这个方法的底层会在传入的路径的前面拼接当前web应用的硬盘路径，从而得到当前资源的硬盘路径,这种方式即使换了发布环境,方法的底层也能得到正确的web应用的路径从而永远都是正确的资源的路径。</p>
 <p><strong>ServletContextListener</strong>可以知道web应用程序何时初始化或者何时结束销毁，并在web.xml中设置告知web容器，在web应用程序初始化后或者即将结束销毁之前，调用ServletContextListener实现类的相对应的contextInitialized（）或contextDestroyed()。{在web.xml中配置某个Servlet的Listener，并且重写这个listener的contextInitialized（）}</p>
 <p>在整个web应用程序生命周期内，Servlet所需共享的数据可以设置为ServletContext属性。</p>
 <hr>
@@ -954,7 +963,7 @@ chain.doFilter(request,response);
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/11/20171211/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/12/11/20171211-servlet/">展开全文 >></a>
         </p>
       
 
@@ -984,19 +993,19 @@ chain.doFilter(request,response);
 
 
   
-    <article id="post-20171120" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20171120-servlet" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/20/20171120/">20171120</a>
+      <a class="article-title" href="/2017/11/20/20171120-servlet/">20171120</a>
     </h1>
   
 
         
-        <a href="/2017/11/20/20171120/" class="archive-article-date">
+        <a href="/2017/11/20/20171120-servlet/" class="archive-article-date">
   	<time datetime="2017-11-20T13:32:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-20</time>
 </a>
         
@@ -1015,7 +1024,7 @@ chain.doFilter(request,response);
 <h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p>MVC就是Model，View，Controller。</p>
 <p>Model负责控制逻辑部分，View负责与用户的页面交互，Controller负责收集用户请求，并转发给相对应的模型。</p>
 <p>MVC模型中，http服务器没办法在服务器状态更新的情况下要求浏览器主动查询更新页面（http是基于请求响应的通信协议）在Web应用程序中，将MVC模型经过更新形成Model 2架构。</p>
-<p>控制器收集请求相关信息，并不从事业务逻辑处理Servlet，控制器只顺序调用函数实现跳转。</p>
+<p>控制器收集请求相关信息，同时业务逻辑处理Servlet，控制器只顺序调用函数实现跳转。</p>
 <p>模型通常是一个纯粹的java对象  ，页面的逻辑都在java对象中实现<br>视图进行页面的组织，由JSP技术实现。</p>
 <p>html页面中\n不能正常显示，要换行必须要页面中用&lt;br>&lt;/br>包含。</p>
 <h1 id="Http请求、响应处理"><a href="#Http请求、响应处理" class="headerlink" title="Http请求、响应处理"></a>Http请求、响应处理</h1><p>http请求中的所有信息都封装在HttpServletRequest中，这个接口实现了ServletRequest接口</p>
@@ -1058,7 +1067,7 @@ chain.doFilter(request,response);
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/20/20171120/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/11/20/20171120-servlet/">展开全文 >></a>
         </p>
       
 
@@ -1088,19 +1097,19 @@ chain.doFilter(request,response);
 
 
   
-    <article id="post-20171114" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20171114-mysql" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/14/20171114/">20171114</a>
+      <a class="article-title" href="/2017/11/14/20171114-mysql/">20171114</a>
     </h1>
   
 
         
-        <a href="/2017/11/14/20171114/" class="archive-article-date">
+        <a href="/2017/11/14/20171114-mysql/" class="archive-article-date">
   	<time datetime="2017-11-14T01:21:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-14</time>
 </a>
         
@@ -1130,8 +1139,8 @@ view 视图名（属性清单）
 as select语句
 [with [CASCADED | LOCAL ] check option];
 </code></pre><p>or replace的意思是如果存在的话进行修改，如果不存在的话创建视图</p>
-<p>algorithm表示视图选择的算法</p>
-<p>with check option是可选参数，表示更新视图时要保证在该视图的权限范围内。<br>创建视图时指定了witch check option关键字，这也就是说，更新后的每一条数据仍然要满足创建视图时指定的where条件。通过视图进行的修改，必须也能通过该视图看到修改后的结果<br>如果有with check option的话，默认关键字是cascade</p>
+<p>algorithm表示视图选择的算法。ALGORITHM可取三个值：MERGE、TEMPTABLE或UNDEFINED。如果没有ALGORITHM子句，默认算法是UNDEFINED（未定义的）。算法会影响MySQL处理视图的方式。对于MERGE，会将引用视图的语句的文本与视图定义合并起来，使得视图定义的某一部分取代语句的对应部分。对于TEMPTABLE，视图的结果将被置于临时表中，然后使用它执行语句。对于UNDEFINED，MySQL自己选择所要使用的算法。如果可能，它倾向于MERGE而不是TEMPTABLE，这是因为MERGE通常更有效，而且如果使用了临时表，视图是不可更新的。</p>
+<p>with check option是可选参数，表示更新视图时要保证在该视图的权限范围内。<br>创建视图时指定了with check option关键字，这也就是说，更新后的每一条数据仍然要满足创建视图时指定的where条件。通过视图进行的修改，必须也能通过该视图看到修改后的结果<br>如果有with check option的话，默认关键字是cascade</p>
 <p>select语句中不能包含from子句中的子查询</p>
 <p>不能将触发程序和视图关联在一起。</p>
 <p>视图是建立在数据库上的</p>
@@ -1160,33 +1169,14 @@ as select语句
 <li>视图对应的表上存在没有默认值的非空列，并且这一列也不在视图中，所以插入失败。</li>
 </ol>
 <p>drop view if <strong>exists</strong> 视图名 [restrict | cascade ]</p>
-<h1 id="事务（transaction）"><a href="#事务（transaction）" class="headerlink" title="事务（transaction）"></a>事务（transaction）</h1><p>ACID：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）</p>
+<h1 id="事务（transaction）"><a href="#事务（transaction）" class="headerlink" title="事务（transaction）"></a>事务（transaction）</h1><p>ACID：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）<br>原子性（Atomicity）：一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部失败回滚。<br>一致性（consistency）：数据库总是从一个一致性的状态转换到另一个一致性的状态。（其实原子性和隔离性间接的保证了一致性）<br>隔离性（isolation）：通常来说，一个事务所做的修改在最终提交以前，对其他事务是不可见的。<br>持久性（durability）：一旦事务提交，则其所做的修改就会永久保存到数据库中。</p>
 <p>start transaction；后面紧跟由begin和end包含的一些sql语句<br>commit提交事务，rollback回滚事务。<br>事务不支持嵌套功能</p>
 <ol>
 <li>自动提交：autocommit，该变量为1时自动向数据库提交结果，用户在操作数据库的时候不需要start transaction等，如果设置为0，则需要用户输入commit才会将数据表中的资料提交到数据库中(set autocommit=0)；</li>
 <li>事务的孤立级：不同的用户通过不同的会话执行不同的事务，为了保证事务互不影响，保证数据库性能不受到影响，采用事务的孤立级是十分必要的。 </li>
 </ol>
-<p>MySQL提供4种孤立级：<br>serializable（序列化）以序列的形式对事务进行处理，只有当事务提交后用户才能从数据库中查看数据的变化<br>repeatable read（可重读 ）不会被看成序列，提交之后才能看到结果<br>read commited（提交后读）用户可以看到其他事务添加的新记录，在同一事务的不同时间内，应用查询语句可能会得到不同的结果<br>read uncommited（未提交读）容易产生虚幻读操作，其他用户可以在该孤立级上看到未提交的事务。</p>
+<p>MySQL提供4种孤立级：<br>READ UNCOMMITTED（读未提交）：在此级别里，事务的修改，即使没有提交，对其他事务也都是可见的。事务可以读取未提交的数据，也就是会产生脏读，在实际应用中一般很少使用。<br>READ COMMITTED（读已提交）：大多数数据库系统的默认隔离级别都是它，但是MySQL不是。它能够避免脏读问题，但是在一个事务里对同一条数据的多次查询可能会得到不同的结果，也就是会产生不可重复读问题。<br>REPEATABLE READ（可重复读）：该隔离级别是MySQL默认的隔离级别，看名字就知道它能够防止不可重复读问题，但是在一个事务里对一段数据的多次读取可能会导致不同的结果，也就是会有幻读的问题（注：这里说的无法解决是MySQL定义层面，对于InnoDB引擎则完美的解决了幻读的问题，如果你正在使用InnoDB引擎，可忽略）<br>SERIALIZABLE（可串行化）：该隔离级别是级别最高的，它通过锁来强制事务串行执行，避免了前面说的所有问题。在高并发下，可能导致大量的超时和锁争用问题。实际应用中也很少用到这个隔离级别，因为RR级别解决了所有问题<br>serializable（序列化）以序列的形式对事务进行处理，只有当事务提交后用户才能从数据库中查看数据的变化<br>repeatable read（可重读 ）不会被看成序列，提交之后才能看到结果<br>read commited（提交后读）用户可以看到其他事务添加的新记录，在同一事务的不同时间内，应用查询语句可能会得到不同的结果<br>read uncommited（读未提交）容易产生虚幻读操作，其他用户可以在该孤立级上看到未提交的事务。</p>
 <p>修改事务的孤立级：（set  事务名 transaction isolation level 孤立级；）<br>select @@tx_isolation；</p>
-<h2 id="MySQL伪事务"><a href="#MySQL伪事务" class="headerlink" title="MySQL伪事务"></a>MySQL伪事务</h2><p>MyISAM类型表不支持事务，所以采用表锁定替代事务</p>
-<pre><code>lock tables 表名 lock_type；
-unlock tables；
-</code></pre><p>lock_type包括只读和只写</p>
-<h1 id="其他相关知识"><a href="#其他相关知识" class="headerlink" title="其他相关知识"></a>其他相关知识</h1><h2 id="数据库备份"><a href="#数据库备份" class="headerlink" title="数据库备份"></a>数据库备份</h2><p>备份一个数据库中的若干表</p>
-<pre><code>mysqldump  -u username -p 数据库名 数据表名 (可以是多个表，没有该参数默认备份整个数据库) &gt;  备份文件名.sql
-</code></pre><p>备份多个数据库</p>
-<pre><code>mysqldump -u username -p --databases 数据库名1 数据库名2  &gt;备份文件名.sql
-</code></pre><p>备份所有数据库</p>
-<pre><code>mysqldump -u username -p --all -databases &gt; 备份文件名.sql
-</code></pre><p>数据库查询的时候利用索引会加快查询速度，可以用explain和describe来分析查询语句，之后可以看到查询所需要的查询行数</p>
-<p>插入记录时，索引和唯一性校验都会影响到插入记录的速度</p>
-<ol>
-<li>alter table 表名 disable keys；</li>
-<li>alter table 表名 enable keys；</li>
-</ol>
-<p>唯一性校验set unique_check=0/1;</p>
-<h2 id="分析、检查、优化表"><a href="#分析、检查、优化表" class="headerlink" title="分析、检查、优化表"></a>分析、检查、优化表</h2><pre><code>analyze/check/optimize table 表名
-</code></pre><p>如果一个表中使用了TEXT或者BLOB这样的数据类型，那么更新删除等操作就会造成磁盘空间的浪费，所以需要使用optimize进行优化</p>
 
       
 
@@ -1210,7 +1200,7 @@ unlock tables；
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/14/20171114/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/11/14/20171114-mysql/">展开全文 >></a>
         </p>
       
 
