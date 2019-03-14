@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>20180409 Hibernate | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeT">
+  <meta name="description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互 相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值，每个Hibern">
 <meta name="keywords" content="笔记,hibernate">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20180409 Hibernate">
 <meta property="og:url" content="http://yoursite.com/2018/04/09/20180409-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeT">
-<meta property="og:updated_time" content="2018-06-21T10:25:12.861Z">
+<meta property="og:description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互 相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值，每个Hibern">
+<meta property="og:updated_time" content="2019-03-14T02:07:03.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180409 Hibernate">
-<meta name="twitter:description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeT">
+<meta name="twitter:description" content="关联关系关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互 相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。 单向N-1关联对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值，每个Hibern">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -165,15 +165,15 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h2><p>关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。</p>
-<h3 id="单向N-1关联"><a href="#单向N-1关联" class="headerlink" title="单向N-1关联"></a>单向N-1关联</h3><p>对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeType.ALL（所有的持久化操作）、MERGE（指定Hibernate将merge操作级联到关联实体）、PERSIST、REFRESH、REMOVE，fetch属性包括FetchType.EAGER（立即抓取关联实体）\LAZY（延迟抓取关联实体），targetEntity属性指定关联实体的类名。</p>
+        <h2 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h2><p>关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互 相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。</p>
+<h3 id="单向N-1关联"><a href="#单向N-1关联" class="headerlink" title="单向N-1关联"></a>单向N-1关联</h3><p>对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值，每个Hibernate session的基本操作包括persist()、merge()、saveOrUpdate(）、delete()、lock()、refresh()、evict()、replicate()，这些操作都有对应的级联风格（cascade style）。这些级联风格（cascade style）风格分别命名为persist、merge、save-update、delete、lock、refresh、evict、replicate。包括CascadeType.ALL（所有的持久化操作）、MERGE（指定Hibernate将merge操作级联到关联实体）、PERSIST、REFRESH、REMOVE，fetch属性包括FetchType.EAGER（立即抓取关联实体）\LAZY（延迟抓取关联实体），targetEntity属性指定关联实体的类名。</p>
 <p>对于无连接表的N-1关联，<strong>程序只需要在N的一端增加外键，使用@joinColumn来修饰代表关联实体的属性。相当于也是1-1的外键，所以应该添加unique属性为true。这个外键列会映射到当前表中。</strong></p>
 <p><strong>ThreadLocal在每个线程中对该变量会创建一个副本，即每个线程内部都会有一个该变量，且在线程内部任何地方都可以使用，线程之间互不影响</strong></p>
 <p>A类里面有B类变量，当A类需要持久化的时候，B类变量还没有被保存，这时候有两种情况可能发生，抛出TransientObjectException异常，另一种是先插入主表记录，再插入从表记录。</p>
 <p>对于需要使用连接表映射的N-1关联，程序必须显式使用@JoinTable注解来映射连接表。属性有name，joinColumns（当前实体对应表的主键列）和inverseJoinColumns（当前实体的关联实体对应表的主键列）。后两个属性中都可以指定@JoinColumn，里面的referencedColumnName，指定的是该列参照的主键列的列名。</p>
 <h3 id="单向1-1关联"><a href="#单向1-1关联" class="headerlink" title="单向1-1关联"></a>单向1-1关联</h3><p>对于基于外键的1-1关联而言，要使用@OneToOne注解，再使用@JoinColumn映射外键列，由于是1-1关联，因此还应该在@JoinColumn中添加unique=true。这个注解中还有一个属性是orphanRemoval（是否删除“孤儿”实体，如果某个实体所关联的父实体不存在，该实体就是所谓的孤儿实体）如果是基于连接表映射同样应该是用@JoinTable注解。</p>
 <h3 id="单向1-N"><a href="#单向1-N" class="headerlink" title="单向1-N"></a>单向1-N</h3><p>在1的一端需要增加set类型的成员变量。@OneToMany注解属性有cascade、fetch、orphanRemoval，targetEntity</p>
-<p><strong>同样在1的一端添加@JoinColumn映射外键列，但此处的外键列会添加到关联实体对应的数据表中</strong>，少用单向1-N关联，性能不好。</p>
+<p><strong>同样在1的一端添加@JoinColumn映射外键列，但此处的外键列会添加到关联实体对应的数据表中</strong>，少用单向1-N关联，性能不好。N端不知道自己与1端的联系，因此hibernate就需要先插入一个外键列为null的N端的记录，然后通过update更新N端记录的外键列。</p>
 <p>有连接表的1-N和N-1中unique索引的添加方法，1-N和N-1两种关联关系中，1-N的意思是1个A对象可以关联N个B对象，所以这个unique索引应该在B对象的列声明中。</p>
 <p>单向的N-N关联和1-N关联比较类似，@ManyToMany注解，并且去掉了N端的unique属性即可完成使用连接表的N-N关联。</p>
 <h3 id="双向1-N关联"><a href="#双向1-N关联" class="headerlink" title="双向1-N关联"></a>双向1-N关联</h3><p><strong>Hibernate推荐使用N的一端控制关联关系</strong>，无连接表的双向1-N关联在N的一端使用@ManyToOne，在1的一端使用@OneToMany。</p>
@@ -181,7 +181,7 @@
 <h3 id="双向N-N关联"><a href="#双向N-N关联" class="headerlink" title="双向N-N关联"></a>双向N-N关联</h3><p>双向N-N关联只能使用有连接表的关联方式，在两边都使用@ManyToMany注解修饰Set集合属性，使用@JoinTable显式映射连接表，在两端映射连接表的时候，表名应该相同，两端使用@JoinTable指定的外键列的列名也应该是相互对应的。</p>
 <h3 id="双向1-1关联"><a href="#双向1-1关联" class="headerlink" title="双向1-1关联"></a>双向1-1关联</h3><p>双向1-1关联需要让两个持久化类都增加引用关联实体的属性，并为该属性提供setter和getter方法，本来双向1-1是平等的关联关系，当某一边使用了@OneToOne注解和@JoinColumn之后，这一端就变成了从表，因为这个表的外键列对应另一个表的主键列，为了保持两个持久化类的平等关系，需要在主表一端的@OneToOne注解中指定mappedBy属性，这样就表明该实体不管理关联关系。</p>
 <p>有连接表的1-1关联不建议使用，和之前是很类似的，使用@OneToOne注解和@JoinTable，@JoinTable里面指定JoinColumns和inverseJoinColumns属性，这两个属性都是用@JoinColumn定义的。<strong>在@JoinColumn的属性里面referencedColumnName的值就是对应的具体表里的列名，而name属性就只是在连接表里的列名</strong></p>
-<p><strong>单向1-N和N-1都是在前面的实体添加@JoinColumn，但是最后的外键列都会添加到后面的实体对应的表中。</strong></p>
+<p><strong>单向1-N和N-1都是在前面的实体添加@JoinColumn，但是最后的外键列都会添加到N对应的实体表中。</strong></p>
 <h3 id="组件属性包含的关联实体"><a href="#组件属性包含的关联实体" class="headerlink" title="组件属性包含的关联实体"></a>组件属性包含的关联实体</h3><p>组件属性类里面包括了一个组件属性，包含了一个set类型的组件属性，是关联实体，仍然和之前的关联是差不多的，如果是不带关联表，则使用@OneToMany和@JoinColumn，如果是带关联表，则使用@OneToMany和@JoinTable。</p>
 <h3 id="基于复合主键的关联关系"><a href="#基于复合主键的关联关系" class="headerlink" title="基于复合主键的关联关系"></a>基于复合主键的关联关系</h3><p>基于复合主键的关联关系是在对应的另一端使用@JoinColumns，在这个里面使用@JoinColumn分别映射复合主键</p>
 <p>Hibernate默认不使用实体到其他关联实体之间的级联操作。当程序希望某个操作能被级联传播到关联实体，则可以在配置@OneToMany、@OneToOne、@ManyToMany时通过cascade属性指定，还有一个特殊的级联策略，删除孤儿记录（@OneToMany、@OneToOne的orphanRemoval属性），只针对1的一端，如果程序切断了主表和从表的联系，那么从表就是孤儿记录了，会被删除掉。</p>

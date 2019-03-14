@@ -195,7 +195,7 @@
 <li>调用query的list或者uniqueResult方法返回查询的结果集。</li>
 </ol>
 <p>SQLQuery的addScalar方法是可以选出指定列的数据，如果是仅仅希望Hibernate选出某个字段的值，但又不想明确的指出该字段的值，可以使用addScalar（String 列别名），但是推荐还是使用addScalar（String 列别名，Type 列数据类型）</p>
-<p>如果某一次查询返回的是某个类的全部数据列，那么就可以选择绑定到某个具体的实体，addEntity（Class clazz），最后的结果就会是实体的list，因为SQL中存在多表查询，所以可以为不同的表指定不同的别名，addEntity（String alias，Class entityClass）。除此之外，Hibernate还支持将查询结果转化为非持久化实体（JavaBean对象），需要在select语句中的列指定JavaBean里的属性的别名，除此之外还需要为SQLQuery指定一个Transformer对象，setResultTransformer（）对象，Transformer提供了一个方法，aliasToBean，  然后就可以使用。</p>
+<p>如果某一次查询返回的是某个类的全部数据列，那么就可以选择绑定到某个具体的实体，addEntity（Class clazz），最后的结果就会是实体的list，因为SQL中存在多表查询，所以可以为不同的表指定不同的别名，addEntity（String alias，Class entityClass）。除此之外，Hibernate还支持将查询结果转化为非持久化实体（JavaBean对象），需要在select语句中的列指定JavaBean里的属性的别名，除此之外还需要为SQLQuery指定一个Transformer对象，setResultTransformer（）对象，Transformer提供了一个方法，aliasToBean（类名），  然后就可以使用。</p>
 <h3 id="处理关联和继承"><a href="#处理关联和继承" class="headerlink" title="处理关联和继承"></a>处理关联和继承</h3><p>Hibernate还提供把查询结果转化成关联实体，SQLQuery的addJoin(String alias，String path)，第一个参数是转化后的实体，第二个参数是持久化实体对于关联实体的引用方式。</p>
 <h3 id="命名SQL查询"><a href="#命名SQL查询" class="headerlink" title="命名SQL查询"></a>命名SQL查询</h3><p>使用@NamedNativeQuery来自定义命名SQL查询，如果有多个的话就是用@NamedNativeQueries注解，用于组合多个命名SQL查询，这里面的属性有name、query（SQL查询的字符串）、resultClass（查询的结果映射到实体类）、resultSetMapping（里面的值是@SQLResultSetMapping的name）</p>
 <p>@SqlResultSetMapping的作用就是将查询到的结果集转换为标量查询或者实体查询，属性有name（resultSetMapping里面需要使用的属性值）、columns的属性值是@ColumnResult注解数组，每一个都是标量查询addScalar()，entities的属性值是@EntityResult注解数组，每个都是实体查询addEntities()，还有一个classes属性，值是@ConstructorResult注解数组，每个都负责转化成非持久化类对象。相当于setResultTransformer（）。通过Session的getNamedQuery就可以直接获取到命名查询。实体这里有个需要注意的地方，如果持久化类的构造器只需要两个参数就可以，可以在@EntityResult中通过fields属性中@FieldResult指定name（实体属性）和column（查询中的列名）。</p>
@@ -206,8 +206,8 @@
 <p>@FilterDef中可以指定的属性有name、defaultCondition（默认的sql语句）、parameters（SQL表达式中支持的参数），这个的主要作用就是定义过滤器，也就是只需要指定name和parameters两个属性，具体的SQL语句可以在使用的时候指定。parameters的具体值也是@parameter，属性有name和type，都是字符串。使用过滤器的地方就是@Filter注解，属性有name（要和使用的过滤器的定义对应起来）、condition（这里需要具体指定使用的SQL语句），这里面的参数在session中调用他的地方利用filter的setParameter方法指定。</p>
 <h2 id="事务控制"><a href="#事务控制" class="headerlink" title="事务控制"></a>事务控制</h2><p>ACID（Atomicity、Consistency、Isolation、Durablity）</p>
 <p><strong>几乎在所有情况下，都不要使用每个应用对应一次Hibernate Session，也尽量不要使用每次HTTP Session对应一个Hibernate Session</strong></p>
-<p>Hibernate的事务就是一次Transaction，通过session的beginTransaction方法开始一次事务。底层上看Transaction是由TransactionFactory产生的。SessionFactory是线程安全的，一旦创建了该对象，只有在应用退出时才会关闭SessionFactory。Session对象是轻量级的，也是线程不安全的。Session一般情况下只会在需要使用数据库的时候才会打开JDBC连接，因此长Session对于性能的影响不大，只要不长时间打开数据连接。Hibernate建议采用每个请求对应一次Session。</p>
-<p>应用程序长事务（打开一个Session并且需要长时间保持，最后还需要持久化）有三种方法：自动版本化、脱管对象、长生命周期Session</p>
+<p>Hibernate的事务就是一次Transaction，通过session的beginTransaction方法开始一次事务。底层上看Transaction是由TransactionFactory产生的。SessionFactory是线程安全的，一旦创建了该对象，只有在应用退出时才会关闭SessionFactory。Session对象是轻量级的，也是线程不安全的。Session一般情况下只会在需要使用数据库的时候才会打开JDBC连接，因此长Session对于性能的影响不大，只要不长时间打开数据连接。Hibernate建议采用每个请求对应一次Session。因为一次请求通常表示需要执行一个完整的业务过程。</p>
+<p>应用程序长事务（打开一个Session并且需要长时间保持，最后还需要持久化）有三种方法：自动版本化（hibernate自动进行乐观并发控制，持久化实体发生变化hibernate能够检测到）、脱管对象（前面载入的实例在用户思考阶段处于脱管状态）、长生命周期Session（数据库事务提交之后断开和底层的JDBC连接，当请求到达时重新连接数据库）</p>
 <p>Session需要一直处于打开状态，直到装入所有需要的集合或者代理，两种方法：使用过滤器（在用户请求结束、页面生成结束时关闭Session，也就是在视图显示层一直打开Session）、让业务逻辑层负责准备数据（在业务逻辑层返回数据之前，业务逻辑层对每个所需集合调用Hibernate.initialize方法（该静态方法可以强制初始化某个集合或者代理）或者使用带fetch的子句或者FetchMode.JOIN的查询，事先获得所有的数据。）</p>
 <p>Hibernate引入了CurrentSessionContext接口，并通过hibernate.current_session_context_class参数来管理上下文相关的Session的底层实现。这个接口有三个实现类：org.hibernate.context.JTASessionContext、org…………ThreadLocalSessionContext、org…………ManagedSessionContext。</p>
 <p>如果使用ThreadLSessionContext策略，Hibernate的Session会随着getCurrentSession方法自动打开，在容器中使用hibernate使用第一种方式。</p>
@@ -220,7 +220,8 @@
 <h2 id="事件机制"><a href="#事件机制" class="headerlink" title="事件机制"></a>事件机制</h2><p>hibernate中的数据持久化操作对于用户是透明的，通过事件框架能够让应用程序响应特定的内部事件。事件框架由两个部分组成，拦截器机制（特定动作拦截回调）和事件系统（重写事件监听器）。</p>
 <p>通过继承EmptyInterceptor实现拦截器，通过SessionFactory的openSession（Interceptor in）打开一个带有局部拦截器的Session，通过Configuration的setInterceptor方法设置全局拦截器。</p>
 <p>Hibernate自己有自己默认的事件系统，Session接口的每个方法都有自己的时间，并且有对应的事件监听器，用户可以实现自己的监听器代替系统默认的事件监听器。</p>
-<p>自定义事件监听器的方法有三种：实现对应的监听器接口，继承事件适配器、继承事件监听器。前两种都需要程序员替代hibernate实现持久化的操作。一定要记得调用父类监听器的方法实现持久化操作。</p>
+<p>Session的每个方法都有对应的事件</p>
+<p>自定义事件监听器的方法有三种：实现对应的监听器接口，继承事件适配器、继承事件监听器（defaultXXXEventListener）。前两种都需要程序员替代hibernate实现持久化的操作。一定要记得调用父类监听器的方法实现持久化操作。</p>
 <p>定义完事件监听器，hibernate提供了一个EventListenerRegistry接口，三个方法注册事件监听器，appendListeners（追加在默认监听器后面）、prependListeners（追加在默认监听器前面）、setListeners（替代默认监听器）。</p>
 
       
@@ -302,15 +303,15 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h2><p>关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。</p>
-<h3 id="单向N-1关联"><a href="#单向N-1关联" class="headerlink" title="单向N-1关联"></a>单向N-1关联</h3><p>对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值包括CascadeType.ALL（所有的持久化操作）、MERGE（指定Hibernate将merge操作级联到关联实体）、PERSIST、REFRESH、REMOVE，fetch属性包括FetchType.EAGER（立即抓取关联实体）\LAZY（延迟抓取关联实体），targetEntity属性指定关联实体的类名。</p>
+        <h2 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h2><p>关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互 相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。</p>
+<h3 id="单向N-1关联"><a href="#单向N-1关联" class="headerlink" title="单向N-1关联"></a>单向N-1关联</h3><p>对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值，每个Hibernate session的基本操作包括persist()、merge()、saveOrUpdate(）、delete()、lock()、refresh()、evict()、replicate()，这些操作都有对应的级联风格（cascade style）。这些级联风格（cascade style）风格分别命名为persist、merge、save-update、delete、lock、refresh、evict、replicate。包括CascadeType.ALL（所有的持久化操作）、MERGE（指定Hibernate将merge操作级联到关联实体）、PERSIST、REFRESH、REMOVE，fetch属性包括FetchType.EAGER（立即抓取关联实体）\LAZY（延迟抓取关联实体），targetEntity属性指定关联实体的类名。</p>
 <p>对于无连接表的N-1关联，<strong>程序只需要在N的一端增加外键，使用@joinColumn来修饰代表关联实体的属性。相当于也是1-1的外键，所以应该添加unique属性为true。这个外键列会映射到当前表中。</strong></p>
 <p><strong>ThreadLocal在每个线程中对该变量会创建一个副本，即每个线程内部都会有一个该变量，且在线程内部任何地方都可以使用，线程之间互不影响</strong></p>
 <p>A类里面有B类变量，当A类需要持久化的时候，B类变量还没有被保存，这时候有两种情况可能发生，抛出TransientObjectException异常，另一种是先插入主表记录，再插入从表记录。</p>
 <p>对于需要使用连接表映射的N-1关联，程序必须显式使用@JoinTable注解来映射连接表。属性有name，joinColumns（当前实体对应表的主键列）和inverseJoinColumns（当前实体的关联实体对应表的主键列）。后两个属性中都可以指定@JoinColumn，里面的referencedColumnName，指定的是该列参照的主键列的列名。</p>
 <h3 id="单向1-1关联"><a href="#单向1-1关联" class="headerlink" title="单向1-1关联"></a>单向1-1关联</h3><p>对于基于外键的1-1关联而言，要使用@OneToOne注解，再使用@JoinColumn映射外键列，由于是1-1关联，因此还应该在@JoinColumn中添加unique=true。这个注解中还有一个属性是orphanRemoval（是否删除“孤儿”实体，如果某个实体所关联的父实体不存在，该实体就是所谓的孤儿实体）如果是基于连接表映射同样应该是用@JoinTable注解。</p>
 <h3 id="单向1-N"><a href="#单向1-N" class="headerlink" title="单向1-N"></a>单向1-N</h3><p>在1的一端需要增加set类型的成员变量。@OneToMany注解属性有cascade、fetch、orphanRemoval，targetEntity</p>
-<p><strong>同样在1的一端添加@JoinColumn映射外键列，但此处的外键列会添加到关联实体对应的数据表中</strong>，少用单向1-N关联，性能不好。</p>
+<p><strong>同样在1的一端添加@JoinColumn映射外键列，但此处的外键列会添加到关联实体对应的数据表中</strong>，少用单向1-N关联，性能不好。N端不知道自己与1端的联系，因此hibernate就需要先插入一个外键列为null的N端的记录，然后通过update更新N端记录的外键列。</p>
 <p>有连接表的1-N和N-1中unique索引的添加方法，1-N和N-1两种关联关系中，1-N的意思是1个A对象可以关联N个B对象，所以这个unique索引应该在B对象的列声明中。</p>
 <p>单向的N-N关联和1-N关联比较类似，@ManyToMany注解，并且去掉了N端的unique属性即可完成使用连接表的N-N关联。</p>
 <h3 id="双向1-N关联"><a href="#双向1-N关联" class="headerlink" title="双向1-N关联"></a>双向1-N关联</h3><p><strong>Hibernate推荐使用N的一端控制关联关系</strong>，无连接表的双向1-N关联在N的一端使用@ManyToOne，在1的一端使用@OneToMany。</p>
@@ -318,7 +319,7 @@
 <h3 id="双向N-N关联"><a href="#双向N-N关联" class="headerlink" title="双向N-N关联"></a>双向N-N关联</h3><p>双向N-N关联只能使用有连接表的关联方式，在两边都使用@ManyToMany注解修饰Set集合属性，使用@JoinTable显式映射连接表，在两端映射连接表的时候，表名应该相同，两端使用@JoinTable指定的外键列的列名也应该是相互对应的。</p>
 <h3 id="双向1-1关联"><a href="#双向1-1关联" class="headerlink" title="双向1-1关联"></a>双向1-1关联</h3><p>双向1-1关联需要让两个持久化类都增加引用关联实体的属性，并为该属性提供setter和getter方法，本来双向1-1是平等的关联关系，当某一边使用了@OneToOne注解和@JoinColumn之后，这一端就变成了从表，因为这个表的外键列对应另一个表的主键列，为了保持两个持久化类的平等关系，需要在主表一端的@OneToOne注解中指定mappedBy属性，这样就表明该实体不管理关联关系。</p>
 <p>有连接表的1-1关联不建议使用，和之前是很类似的，使用@OneToOne注解和@JoinTable，@JoinTable里面指定JoinColumns和inverseJoinColumns属性，这两个属性都是用@JoinColumn定义的。<strong>在@JoinColumn的属性里面referencedColumnName的值就是对应的具体表里的列名，而name属性就只是在连接表里的列名</strong></p>
-<p><strong>单向1-N和N-1都是在前面的实体添加@JoinColumn，但是最后的外键列都会添加到后面的实体对应的表中。</strong></p>
+<p><strong>单向1-N和N-1都是在前面的实体添加@JoinColumn，但是最后的外键列都会添加到N对应的实体表中。</strong></p>
 <h3 id="组件属性包含的关联实体"><a href="#组件属性包含的关联实体" class="headerlink" title="组件属性包含的关联实体"></a>组件属性包含的关联实体</h3><p>组件属性类里面包括了一个组件属性，包含了一个set类型的组件属性，是关联实体，仍然和之前的关联是差不多的，如果是不带关联表，则使用@OneToMany和@JoinColumn，如果是带关联表，则使用@OneToMany和@JoinTable。</p>
 <h3 id="基于复合主键的关联关系"><a href="#基于复合主键的关联关系" class="headerlink" title="基于复合主键的关联关系"></a>基于复合主键的关联关系</h3><p>基于复合主键的关联关系是在对应的另一端使用@JoinColumns，在这个里面使用@JoinColumn分别映射复合主键</p>
 <p>Hibernate默认不使用实体到其他关联实体之间的级联操作。当程序希望某个操作能被级联传播到关联实体，则可以在配置@OneToMany、@OneToOne、@ManyToMany时通过cascade属性指定，还有一个特殊的级联策略，删除孤儿记录（@OneToMany、@OneToOne的orphanRemoval属性），只针对1的一端，如果程序切断了主表和从表的联系，那么从表就是孤儿记录了，会被删除掉。</p>
@@ -508,16 +509,16 @@
 <p>数据库中经常需要存放比较大的数据，当持久化类的属性是byte[]、Byte[]和java.io.Serializable类型时，@Lob修饰的属性将映射为底层的Blob，当@Lob修饰的属性是char[]、Character[]和java.lang.String时，会被映射成Clob列。</p>
 <p><strong>对于超大类型的数据属性可能不需要每次都加载这个属性，所以存在延迟加载这个方式</strong>，使用@ Basic修饰该属性，@ BASIC有两个属性，fetch有两个值：FetchType.LAZY（延迟加载）、FetchType.EAGER（立即加载），另外一个属性是optional，指明该属性对应的数据列是否可以为空</p>
 <p>因为Java中日期类型比较少，而数据库中比较多，Java中的date类型翻译成什么类型的列，可以使用@Temporal，该注解的value属性可以支持TemporalType.DATE、TemporalType.TIME、TemporalType.TIMESTAMP三个值之一，用于指定将该属性映射到数据表的date、time和timestamp类型的数据列。</p>
-<p>hibernate推荐每条记录都有自己的逻辑主键，不要使用物理主键，使用@Id注解时无需指定任何属性，如果希望hibernate为逻辑主键自动生成主键值，还需要使用@GeneratedValue来修饰实体的标识属性，这个注解有两个属性分别是strategy和generator，strategy的可选值是GenerationType.AUTO（自动选择）、IDENTITY（自增策略）、SEQUENCE、TABLE（辅助表），后面两个需要搭配着另一个属性generator使用，@TableGenerator定义的主键生成器会在底层生成过一个辅助表。</p>
-<h4 id="映射集合属性"><a href="#映射集合属性" class="headerlink" title="映射集合属性"></a>映射集合属性</h4><p>Hibernate要求持久化集合值字段必须声明为接口，原因是当程序持久化某个实例时，hibernate会自动把程序中的集合实现更改为自己的的集合实现类，因此不要把hibernate集合属性强制类型转换为集合实现类（如HashSet、HashMap），但可以转换成Map和Set等集合，不管哪种类型的集合属性，都统一使用@ElementCollection注解进行映射，该注解的属性有fetch（抓取策略，FetchType.EAGER\LAZY）和targetClass（集合属性中集合元素的类型）。</p>
+<p>hibernate推荐每条记录都有自己的逻辑主键，不要使用物理主键，使用@Id注解时无需指定任何属性，如果希望hibernate为逻辑主键自动生成主键值，还需要使用@GeneratedValue来修饰实体的标识属性，这个注解有两个属性分别是strategy和generator，strategy的可选值是GenerationType.AUTO（自动选择）、IDENTITY（自增策略，oracle不支持）、SEQUENCE（mysql不支持）、TABLE（辅助表），后面两个需要搭配着另一个属性generator使用，@TableGenerator定义的主键生成器会在底层生成过一个辅助表。</p>
+<h4 id="映射集合属性"><a href="#映射集合属性" class="headerlink" title="映射集合属性"></a>映射集合属性</h4><p>Hibernate要求持久化集合值字段必须声明为接口，原因是当程序持久化某个实例时，hibernate会自动把程序中的集合实现更改为自己的集合实现类，因此不要把hibernate集合属性强制类型转换为集合实现类（如HashSet、HashMap），但可以转换成Map和Set等集合，不管哪种类型的集合属性，都统一使用@ElementCollection注解进行映射，该注解的属性有fetch（抓取策略，FetchType.EAGER\LAZY）和targetClass（集合属性中集合元素的类型）。</p>
 <p>由于集合属性总需要保存到另一个数据表中，所以保存集合属性的数据表必须包含一个外键列，用于参照到主键列，该外键列使用@JoinColumn进行映射 。</p>
-<p>Hibernate使用标准的@CollectionTable注解映射保存集合属性的表。@JoinColumn注解专门用于定义存放集合属性的数据表的外键列，属性中有name（外键列的列名）、table（指定该列所在数据表的表名）、referencedColumnName（指定该列所参照的主键列的列名）</p>
-<p>如果要映射带索引的集合，就需要为集合元素所在的数据表指定一个索引列。有两种，@OrderColumn（用于定义List集合、数组的索引列），@MapKeyColumn（映射Map的索引列），有的时候这个Map Key的类型也需要指定，使用@MapKeyClass注解，该注解只有一个value属性。@Column在存储集合元素的表中的定义存储集合内容的列。</p>
+<p>Hibernate使用标准的@CollectionTable注解映射保存集合属性的表，属性有name表名和JoinColumns外键列。@JoinColumn注解专门用于定义存放集合属性的数据表的外键列，属性中有name（外键列的列名）、table（指定该列所在数据表的表名）、referencedColumnName（指定该列所参照的主键列的列名）</p>
+<p>如果要映射带索引的集合，就需要为集合元素所在的数据表指定一个索引列。有两种，@OrderColumn（用于定义List集合、数组的索引列）name属性为索引列的名称，@MapKeyColumn（映射Map的索引列），有的时候这个Map Key的类型也需要指定，使用@MapKeyClass注解，该注解只有一个value属性。@Column在存储集合元素的表中的定义存储集合内容的列。</p>
 <p>Hibernate还支持使用SortedSet和SortedMap两个有序集合，使用@SortNatural或者@SortComparator注解，后者需要通过value属性指明自定义的comparator实现类。</p>
 <h4 id="映射自定义类属性"><a href="#映射自定义类属性" class="headerlink" title="映射自定义类属性"></a>映射自定义类属性</h4><p>对于自定义类用@Embeddable修饰，告诉hibernate这个类将作为持久化类的属性，hibernate会把自定义类的每个属性都当做是数据列的一列进行储存。可以通过@Column指定这些属性对应的数据列；还有一种策略是在持久化类中使用@Embedded注解修饰组件属性，如果需要为组件属性所包含的子属性指定列名，则可以使用@AttributedOverrides和@AttributedOverride注解，@AtrributedOverride注解有name和Column两个属性，name指定针对组件类的哪个属性。</p>
 <p>组件类中有集合的注解方法和映射集合属性一样，但是集合属性的元素中有自定义类就需要额外的处理，程序不再使用@Column映射保存集合元素的数据列，不能用单独的数据列保存集合元素，只能利用@Embeddable在自定义类中@Column注解将组件类的属性映射到底层数据表中。自定义类作为Map的key元素的时候需要重写自定义类的equals和hashcode两个方法。</p>
 <p>持久化类选择多列作为联合主键的条件是具有无参数的构造器，实现java.io.Serializable接口；重写equals和hashcode方法，指定多列作为联合主键的方法就是使用@Id注解。</p>
-<p>使用@ElementCollection修饰的集合属性都会新建表来存储这个集合，原表中将不会存储这个集合的值，这两个表相关联的部分只有外键列。当自定义类作为Map的key的时候，可以使用@Column修饰该集合属性，新表中就有了使用@Column设置的列、外键列以及自定义类的属性。</p>
+<p>使用@ElementCollection修饰的集合属性都会新建表来存储这个集合，如果集合的value是基本类型，可以通过@column指定存储的列，但是集合的value是自定义类的时候，原表中将不会存储这个集合的值，这两个表相关联的部分只有外键列。当自定义类作为Map的key的时候，可以使用@Column修饰该集合属性，并且自定义类只能用@Embeddable修饰，新表中就有了自定义类的每列。通过@Parent可以访问到拥有该对象的对象。</p>
 
       
 

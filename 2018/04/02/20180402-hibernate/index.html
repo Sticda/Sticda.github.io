@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/02/20180402-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="##hibernate Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计） ORM的全称是Object/Relation Mappi">
-<meta property="og:updated_time" content="2019-03-13T08:57:22.085Z">
+<meta property="og:updated_time" content="2019-03-13T11:39:02.863Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180402 Hibernate">
 <meta name="twitter:description" content="##hibernate Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计） ORM的全称是Object/Relation Mappi">
@@ -243,16 +243,16 @@
 <p>数据库中经常需要存放比较大的数据，当持久化类的属性是byte[]、Byte[]和java.io.Serializable类型时，@Lob修饰的属性将映射为底层的Blob，当@Lob修饰的属性是char[]、Character[]和java.lang.String时，会被映射成Clob列。</p>
 <p><strong>对于超大类型的数据属性可能不需要每次都加载这个属性，所以存在延迟加载这个方式</strong>，使用@ Basic修饰该属性，@ BASIC有两个属性，fetch有两个值：FetchType.LAZY（延迟加载）、FetchType.EAGER（立即加载），另外一个属性是optional，指明该属性对应的数据列是否可以为空</p>
 <p>因为Java中日期类型比较少，而数据库中比较多，Java中的date类型翻译成什么类型的列，可以使用@Temporal，该注解的value属性可以支持TemporalType.DATE、TemporalType.TIME、TemporalType.TIMESTAMP三个值之一，用于指定将该属性映射到数据表的date、time和timestamp类型的数据列。</p>
-<p>hibernate推荐每条记录都有自己的逻辑主键，不要使用物理主键，使用@Id注解时无需指定任何属性，如果希望hibernate为逻辑主键自动生成主键值，还需要使用@GeneratedValue来修饰实体的标识属性，这个注解有两个属性分别是strategy和generator，strategy的可选值是GenerationType.AUTO（自动选择）、IDENTITY（自增策略）、SEQUENCE、TABLE（辅助表），后面两个需要搭配着另一个属性generator使用，@TableGenerator定义的主键生成器会在底层生成过一个辅助表。</p>
-<h4 id="映射集合属性"><a href="#映射集合属性" class="headerlink" title="映射集合属性"></a>映射集合属性</h4><p>Hibernate要求持久化集合值字段必须声明为接口，原因是当程序持久化某个实例时，hibernate会自动把程序中的集合实现更改为自己的的集合实现类，因此不要把hibernate集合属性强制类型转换为集合实现类（如HashSet、HashMap），但可以转换成Map和Set等集合，不管哪种类型的集合属性，都统一使用@ElementCollection注解进行映射，该注解的属性有fetch（抓取策略，FetchType.EAGER\LAZY）和targetClass（集合属性中集合元素的类型）。</p>
+<p>hibernate推荐每条记录都有自己的逻辑主键，不要使用物理主键，使用@Id注解时无需指定任何属性，如果希望hibernate为逻辑主键自动生成主键值，还需要使用@GeneratedValue来修饰实体的标识属性，这个注解有两个属性分别是strategy和generator，strategy的可选值是GenerationType.AUTO（自动选择）、IDENTITY（自增策略，oracle不支持）、SEQUENCE（mysql不支持）、TABLE（辅助表），后面两个需要搭配着另一个属性generator使用，@TableGenerator定义的主键生成器会在底层生成过一个辅助表。</p>
+<h4 id="映射集合属性"><a href="#映射集合属性" class="headerlink" title="映射集合属性"></a>映射集合属性</h4><p>Hibernate要求持久化集合值字段必须声明为接口，原因是当程序持久化某个实例时，hibernate会自动把程序中的集合实现更改为自己的集合实现类，因此不要把hibernate集合属性强制类型转换为集合实现类（如HashSet、HashMap），但可以转换成Map和Set等集合，不管哪种类型的集合属性，都统一使用@ElementCollection注解进行映射，该注解的属性有fetch（抓取策略，FetchType.EAGER\LAZY）和targetClass（集合属性中集合元素的类型）。</p>
 <p>由于集合属性总需要保存到另一个数据表中，所以保存集合属性的数据表必须包含一个外键列，用于参照到主键列，该外键列使用@JoinColumn进行映射 。</p>
-<p>Hibernate使用标准的@CollectionTable注解映射保存集合属性的表。@JoinColumn注解专门用于定义存放集合属性的数据表的外键列，属性中有name（外键列的列名）、table（指定该列所在数据表的表名）、referencedColumnName（指定该列所参照的主键列的列名）</p>
-<p>如果要映射带索引的集合，就需要为集合元素所在的数据表指定一个索引列。有两种，@OrderColumn（用于定义List集合、数组的索引列），@MapKeyColumn（映射Map的索引列），有的时候这个Map Key的类型也需要指定，使用@MapKeyClass注解，该注解只有一个value属性。@Column在存储集合元素的表中的定义存储集合内容的列。</p>
+<p>Hibernate使用标准的@CollectionTable注解映射保存集合属性的表，属性有name表名和JoinColumns外键列。@JoinColumn注解专门用于定义存放集合属性的数据表的外键列，属性中有name（外键列的列名）、table（指定该列所在数据表的表名）、referencedColumnName（指定该列所参照的主键列的列名）</p>
+<p>如果要映射带索引的集合，就需要为集合元素所在的数据表指定一个索引列。有两种，@OrderColumn（用于定义List集合、数组的索引列）name属性为索引列的名称，@MapKeyColumn（映射Map的索引列），有的时候这个Map Key的类型也需要指定，使用@MapKeyClass注解，该注解只有一个value属性。@Column在存储集合元素的表中的定义存储集合内容的列。</p>
 <p>Hibernate还支持使用SortedSet和SortedMap两个有序集合，使用@SortNatural或者@SortComparator注解，后者需要通过value属性指明自定义的comparator实现类。</p>
 <h4 id="映射自定义类属性"><a href="#映射自定义类属性" class="headerlink" title="映射自定义类属性"></a>映射自定义类属性</h4><p>对于自定义类用@Embeddable修饰，告诉hibernate这个类将作为持久化类的属性，hibernate会把自定义类的每个属性都当做是数据列的一列进行储存。可以通过@Column指定这些属性对应的数据列；还有一种策略是在持久化类中使用@Embedded注解修饰组件属性，如果需要为组件属性所包含的子属性指定列名，则可以使用@AttributedOverrides和@AttributedOverride注解，@AtrributedOverride注解有name和Column两个属性，name指定针对组件类的哪个属性。</p>
 <p>组件类中有集合的注解方法和映射集合属性一样，但是集合属性的元素中有自定义类就需要额外的处理，程序不再使用@Column映射保存集合元素的数据列，不能用单独的数据列保存集合元素，只能利用@Embeddable在自定义类中@Column注解将组件类的属性映射到底层数据表中。自定义类作为Map的key元素的时候需要重写自定义类的equals和hashcode两个方法。</p>
 <p>持久化类选择多列作为联合主键的条件是具有无参数的构造器，实现java.io.Serializable接口；重写equals和hashcode方法，指定多列作为联合主键的方法就是使用@Id注解。</p>
-<p>使用@ElementCollection修饰的集合属性都会新建表来存储这个集合，原表中将不会存储这个集合的值，这两个表相关联的部分只有外键列。当自定义类作为Map的key的时候，可以使用@Column修饰该集合属性，新表中就有了使用@Column设置的列、外键列以及自定义类的属性。</p>
+<p>使用@ElementCollection修饰的集合属性都会新建表来存储这个集合，如果集合的value是基本类型，可以通过@column指定存储的列，但是集合的value是自定义类的时候，原表中将不会存储这个集合的值，这两个表相关联的部分只有外键列。当自定义类作为Map的key的时候，可以使用@Column修饰该集合属性，并且自定义类只能用@Embeddable修饰，新表中就有了自定义类的每列。通过@Parent可以访问到拥有该对象的对象。</p>
 
       
 

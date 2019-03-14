@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/16/20180416-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
-<meta property="og:updated_time" content="2018-06-21T10:43:36.100Z">
+<meta property="og:updated_time" content="2019-03-14T08:21:20.253Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180416 hibernate">
 <meta name="twitter:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
@@ -198,7 +198,7 @@
 <li>调用query的list或者uniqueResult方法返回查询的结果集。</li>
 </ol>
 <p>SQLQuery的addScalar方法是可以选出指定列的数据，如果是仅仅希望Hibernate选出某个字段的值，但又不想明确的指出该字段的值，可以使用addScalar（String 列别名），但是推荐还是使用addScalar（String 列别名，Type 列数据类型）</p>
-<p>如果某一次查询返回的是某个类的全部数据列，那么就可以选择绑定到某个具体的实体，addEntity（Class clazz），最后的结果就会是实体的list，因为SQL中存在多表查询，所以可以为不同的表指定不同的别名，addEntity（String alias，Class entityClass）。除此之外，Hibernate还支持将查询结果转化为非持久化实体（JavaBean对象），需要在select语句中的列指定JavaBean里的属性的别名，除此之外还需要为SQLQuery指定一个Transformer对象，setResultTransformer（）对象，Transformer提供了一个方法，aliasToBean，  然后就可以使用。</p>
+<p>如果某一次查询返回的是某个类的全部数据列，那么就可以选择绑定到某个具体的实体，addEntity（Class clazz），最后的结果就会是实体的list，因为SQL中存在多表查询，所以可以为不同的表指定不同的别名，addEntity（String alias，Class entityClass）。除此之外，Hibernate还支持将查询结果转化为非持久化实体（JavaBean对象），需要在select语句中的列指定JavaBean里的属性的别名，除此之外还需要为SQLQuery指定一个Transformer对象，setResultTransformer（）对象，Transformer提供了一个方法，aliasToBean（类名），  然后就可以使用。</p>
 <h3 id="处理关联和继承"><a href="#处理关联和继承" class="headerlink" title="处理关联和继承"></a>处理关联和继承</h3><p>Hibernate还提供把查询结果转化成关联实体，SQLQuery的addJoin(String alias，String path)，第一个参数是转化后的实体，第二个参数是持久化实体对于关联实体的引用方式。</p>
 <h3 id="命名SQL查询"><a href="#命名SQL查询" class="headerlink" title="命名SQL查询"></a>命名SQL查询</h3><p>使用@NamedNativeQuery来自定义命名SQL查询，如果有多个的话就是用@NamedNativeQueries注解，用于组合多个命名SQL查询，这里面的属性有name、query（SQL查询的字符串）、resultClass（查询的结果映射到实体类）、resultSetMapping（里面的值是@SQLResultSetMapping的name）</p>
 <p>@SqlResultSetMapping的作用就是将查询到的结果集转换为标量查询或者实体查询，属性有name（resultSetMapping里面需要使用的属性值）、columns的属性值是@ColumnResult注解数组，每一个都是标量查询addScalar()，entities的属性值是@EntityResult注解数组，每个都是实体查询addEntities()，还有一个classes属性，值是@ConstructorResult注解数组，每个都负责转化成非持久化类对象。相当于setResultTransformer（）。通过Session的getNamedQuery就可以直接获取到命名查询。实体这里有个需要注意的地方，如果持久化类的构造器只需要两个参数就可以，可以在@EntityResult中通过fields属性中@FieldResult指定name（实体属性）和column（查询中的列名）。</p>
@@ -209,8 +209,8 @@
 <p>@FilterDef中可以指定的属性有name、defaultCondition（默认的sql语句）、parameters（SQL表达式中支持的参数），这个的主要作用就是定义过滤器，也就是只需要指定name和parameters两个属性，具体的SQL语句可以在使用的时候指定。parameters的具体值也是@parameter，属性有name和type，都是字符串。使用过滤器的地方就是@Filter注解，属性有name（要和使用的过滤器的定义对应起来）、condition（这里需要具体指定使用的SQL语句），这里面的参数在session中调用他的地方利用filter的setParameter方法指定。</p>
 <h2 id="事务控制"><a href="#事务控制" class="headerlink" title="事务控制"></a>事务控制</h2><p>ACID（Atomicity、Consistency、Isolation、Durablity）</p>
 <p><strong>几乎在所有情况下，都不要使用每个应用对应一次Hibernate Session，也尽量不要使用每次HTTP Session对应一个Hibernate Session</strong></p>
-<p>Hibernate的事务就是一次Transaction，通过session的beginTransaction方法开始一次事务。底层上看Transaction是由TransactionFactory产生的。SessionFactory是线程安全的，一旦创建了该对象，只有在应用退出时才会关闭SessionFactory。Session对象是轻量级的，也是线程不安全的。Session一般情况下只会在需要使用数据库的时候才会打开JDBC连接，因此长Session对于性能的影响不大，只要不长时间打开数据连接。Hibernate建议采用每个请求对应一次Session。</p>
-<p>应用程序长事务（打开一个Session并且需要长时间保持，最后还需要持久化）有三种方法：自动版本化、脱管对象、长生命周期Session</p>
+<p>Hibernate的事务就是一次Transaction，通过session的beginTransaction方法开始一次事务。底层上看Transaction是由TransactionFactory产生的。SessionFactory是线程安全的，一旦创建了该对象，只有在应用退出时才会关闭SessionFactory。Session对象是轻量级的，也是线程不安全的。Session一般情况下只会在需要使用数据库的时候才会打开JDBC连接，因此长Session对于性能的影响不大，只要不长时间打开数据连接。Hibernate建议采用每个请求对应一次Session。因为一次请求通常表示需要执行一个完整的业务过程。</p>
+<p>应用程序长事务（打开一个Session并且需要长时间保持，最后还需要持久化）有三种方法：自动版本化（hibernate自动进行乐观并发控制，持久化实体发生变化hibernate能够检测到）、脱管对象（前面载入的实例在用户思考阶段处于脱管状态）、长生命周期Session（数据库事务提交之后断开和底层的JDBC连接，当请求到达时重新连接数据库）</p>
 <p>Session需要一直处于打开状态，直到装入所有需要的集合或者代理，两种方法：使用过滤器（在用户请求结束、页面生成结束时关闭Session，也就是在视图显示层一直打开Session）、让业务逻辑层负责准备数据（在业务逻辑层返回数据之前，业务逻辑层对每个所需集合调用Hibernate.initialize方法（该静态方法可以强制初始化某个集合或者代理）或者使用带fetch的子句或者FetchMode.JOIN的查询，事先获得所有的数据。）</p>
 <p>Hibernate引入了CurrentSessionContext接口，并通过hibernate.current_session_context_class参数来管理上下文相关的Session的底层实现。这个接口有三个实现类：org.hibernate.context.JTASessionContext、org…………ThreadLocalSessionContext、org…………ManagedSessionContext。</p>
 <p>如果使用ThreadLSessionContext策略，Hibernate的Session会随着getCurrentSession方法自动打开，在容器中使用hibernate使用第一种方式。</p>
@@ -223,7 +223,8 @@
 <h2 id="事件机制"><a href="#事件机制" class="headerlink" title="事件机制"></a>事件机制</h2><p>hibernate中的数据持久化操作对于用户是透明的，通过事件框架能够让应用程序响应特定的内部事件。事件框架由两个部分组成，拦截器机制（特定动作拦截回调）和事件系统（重写事件监听器）。</p>
 <p>通过继承EmptyInterceptor实现拦截器，通过SessionFactory的openSession（Interceptor in）打开一个带有局部拦截器的Session，通过Configuration的setInterceptor方法设置全局拦截器。</p>
 <p>Hibernate自己有自己默认的事件系统，Session接口的每个方法都有自己的时间，并且有对应的事件监听器，用户可以实现自己的监听器代替系统默认的事件监听器。</p>
-<p>自定义事件监听器的方法有三种：实现对应的监听器接口，继承事件适配器、继承事件监听器。前两种都需要程序员替代hibernate实现持久化的操作。一定要记得调用父类监听器的方法实现持久化操作。</p>
+<p>Session的每个方法都有对应的事件</p>
+<p>自定义事件监听器的方法有三种：实现对应的监听器接口，继承事件适配器、继承事件监听器（defaultXXXEventListener）。前两种都需要程序员替代hibernate实现持久化的操作。一定要记得调用父类监听器的方法实现持久化操作。</p>
 <p>定义完事件监听器，hibernate提供了一个EventListenerRegistry接口，三个方法注册事件监听器，appendListeners（追加在默认监听器后面）、prependListeners（追加在默认监听器前面）、setListeners（替代默认监听器）。</p>
 
       
