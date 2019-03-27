@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>20170926 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》， 虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。  程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。 虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI">
+  <meta name="description" content="额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》， 虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。  程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。字节码解释器通过改变程序计数器来依次读取指令，从而实现代码的流程控制，如：顺序执行、选择、循环、异常处理。在">
 <meta name="keywords" content="java,笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20170926">
 <meta property="og:url" content="http://yoursite.com/2017/09/23/20170926/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》， 虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。  程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。 虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI">
-<meta property="og:updated_time" content="2019-03-11T02:20:09.526Z">
+<meta property="og:description" content="额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》， 虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。  程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。字节码解释器通过改变程序计数器来依次读取指令，从而实现代码的流程控制，如：顺序执行、选择、循环、异常处理。在">
+<meta property="og:updated_time" content="2019-03-27T01:26:13.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20170926">
-<meta name="twitter:description" content="额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》， 虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。  程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。 虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI">
+<meta name="twitter:description" content="额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》， 虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。  程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。字节码解释器通过改变程序计数器来依次读取指令，从而实现代码的流程控制，如：顺序执行、选择、循环、异常处理。在">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -168,7 +168,7 @@
         <p>额，我又隔了一周，这个周周发博客的flag要倒塌了，这周主要在看的书仍然是《深入理解java虚拟机》，</p>
 <p>虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。</p>
 <ol>
-<li>程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。</li>
+<li>程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。字节码解释器通过改变程序计数器来依次读取指令，从而实现代码的流程控制，如：顺序执行、选择、循环、异常处理。在多线程的情况下，程序计数器用于记录当前线程执行的位置，从而当线程被切换回来的时候能够知道该线程上次运行到哪儿了。程序计数器是唯一一个不会出现 OutOfMemoryError 的内存区域</li>
 <li>虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI编写的方法，这里就要说到虚拟机栈和本地方法栈中的内容了，首先这两个栈肯定也是线程私有的，因为每一个线程都有自己调用的不同方法，虚拟机栈和本地方法栈中的最小单元是栈帧，栈帧也就是每一个方法产生的结构，每一个栈帧中都有局部变量表、操作数栈、动态连接和返回地址，局部变量表的最小单位是slot，一般情况下只有float和double需要两个slot存放，操作数栈也是，操作数栈和局部变量表的大小在java代码编译之后就已经写入class文件中了，动态连接的内容是运行时常量池这个方法的一个引用，因为在方法执行过程中可能需要动态连接，所以要在栈帧中保持这个信息，返回地址肯定是需要的，因为每一个栈帧代表一个方法，这个方法执行完成之后肯定需要回到原来的地方，所以就需要每个栈帧拥有自己的返回地址。</li>
 <li>方法区和堆是线程共享的，方法区里面包含类的信息，版本，以及经过的编译的代码，方法区内部有运行时常量池，运行时常量池中存放着class编译期生成的各种字面量和符号引用所转变出来的直接引用，堆的主要内容是新建的对象，线程需要使用的时候，从堆里把内容拿出来，然后对照着方法区里类的格式区分堆里对象每一个部分代表的意义。</li>
 </ol>
@@ -188,6 +188,7 @@
 <li>动态年龄判定：survivor空间内相同年龄所有对象大小超过了survivor空间的一半，大于等于该年龄的所有对象都可以直接进入老年代</li>
 <li>空间分配担保：在minor gc之前，虚拟机会先计算当前老年代可用空间是否大于survivor所有对象总空间，大于的话就说明Minor GC是安全的，如果不成立，检查虚拟机是否允许担保失败。如果允许的话计算历次进入老年代对象的平均大小，如果目前可用空间大于平均大小将进行一次有风险的Minor GC，如果小于或者不允许担保失败，那么将进行一次full GC</li>
 </ol>
+<p>GC Root<br>Class - 由系统类加载器(system class loader)加载的对象，这些类是不能够被回收的，他们可以以静态字段的方式保存持有其它对象。我们需要注意的一点就是，通过用户自定义的类加载器加载的类，除非相应的java.lang.Class实例以其它的某种（或多种）方式成为roots，否则它们并不是roots，.<br>Thread - 活着的线程<br>Stack Local - Java方法的local变量或参数<br>JNI Local - JNI方法的local变量或参数<br>JNI Global - 全局JNI引用<br>Monitor Used - 用于同步的监控对象<br>Held by JVM - 用于JVM特殊目的由GC保留的对象，但实际上这个与JVM的实现是有关的。可能已知的一些类型是：系统类加载器、一些JVM知道的重要的异常类、一些用于处理异常的预分配对象以及一些自定义的类加载器等</p>
 
       
 
@@ -452,23 +453,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -493,6 +486,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

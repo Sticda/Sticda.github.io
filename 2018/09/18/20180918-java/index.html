@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/09/18/20180918-java/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="写在前面这一个月专注于写论文，直到上周末才把中文版论文的初稿给老师，马上就要放中秋了，待到国庆再来。然后开始刷leetcode，加油了，年轻人。 #Java的语法糖  泛型和类型擦除：java中的泛型只存在于源代码中，编译之后的字节码就会类型擦除把泛型擦掉，然后在使用泛型的地方使用强制类型转换。 自动拆装箱：基本数据类型不是对象，通过自动拆装箱互相转换，内部还是通过函数调用实现 变长参数：变长参数">
-<meta property="og:updated_time" content="2018-09-18T11:34:49.639Z">
+<meta property="og:updated_time" content="2019-03-22T01:41:32.058Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180918">
 <meta name="twitter:description" content="写在前面这一个月专注于写论文，直到上周末才把中文版论文的初稿给老师，马上就要放中秋了，待到国庆再来。然后开始刷leetcode，加油了，年轻人。 #Java的语法糖  泛型和类型擦除：java中的泛型只存在于源代码中，编译之后的字节码就会类型擦除把泛型擦掉，然后在使用泛型的地方使用强制类型转换。 自动拆装箱：基本数据类型不是对象，通过自动拆装箱互相转换，内部还是通过函数调用实现 变长参数：变长参数">
@@ -196,7 +196,10 @@
 <li>类继承的初始化顺序：父类静态变量 &gt; 父类静态初始块 &gt; 子类静态变量 &gt; 子类静态初始块 &gt; 父类成员变量 &gt; 父类非静态初始块 &gt; 父类构造器 &gt; 子类成员变量 &gt; 子类非静态初始块 &gt; 子类构造器</li>
 <li>成员变量、初始块的初始化顺序：它们的在类中的顺序就决定了它们的初始化顺序，而不是变量一定会优先于初始块</li>
 <li>一个用final定义的变量，不管它是类型的变量，只要用final定义了并同时指定了初始值，并且这个初始值是在编译时就被确定下来的，那么这个final变量就是一个宏变量。编译器会把程序所有用到该变量的地方直接替换成该变量的值，也就是说编译器能对宏变量进行宏替换。</li>
-<li>hashCode方法可以被重写并返回重写后的值，identityHashCode会返回对象的hash值而不管对象是否重写了hashCode方法。</li>
+<li>hashCode方法可以被重写并返回重写后的值，identityHashCode会返回对象的hash值而不管对象是否重写了hashCode方法。】</li>
+<li>final方法表示不能被子类重写，但可以被继承，如果认为一个方法的功能足够完善，子类不需要改变的话，就声明为final</li>
+<li>final修饰类的时候不能被继承，比如包装类Integer等。</li>
+<li><h2 id="Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"><a href="#Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。" class="headerlink" title="Stream ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"></a><strong>Stream</strong> ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。</h2></li>
 </ol>
 
       
@@ -293,7 +296,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"><span class="toc-number">1.1.</span> <span class="toc-text">Stream ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -462,23 +465,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -503,6 +498,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

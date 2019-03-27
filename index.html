@@ -139,6 +139,115 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20190320-tcp-http" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/20/20190320-tcp-http/">20190320-tcp/http</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/20/20190320-tcp-http/" class="archive-article-date">
+  	<time datetime="2019-03-20T02:13:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-20</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><p>确认应答机制、超时重传机制</p>
+<p>源端口号、目的端口号<br>序号<br>确认序号<br>首部长度、保留6位、6个标识位、窗口大小<br>16位校验和、16位紧急指针<br>选项</p>
+<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><ol>
+<li>TCP客户端进程向服务器发出连接请求报文，此时报文首部中的同步标志位SYN=1, 同时选择一个初始序列号 seq = x, 此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定, SYN报文段（SYN=1的报文段）不能携带数据，但需要消耗掉一个序号。 </li>
+<li>TCP服务器收到请求报文后, 如果同意连接, 则发出确认报文。确认报文中的 ACK=1, SYN=1, 确认序号是 x+1, 同时也要为自己初始化一个序列号 seq = y, 此时, TCP服务器进程进入了SYN-RCVD（同步收到）状态。这个报文也不能携带数据, 但是同样要消耗一个序号。 </li>
+<li>TCP客户端进程收到确认后还, 要向服务器给出确认。确认报文的ACK=1，确认序号是 y+1，自己的序列号是 x+1. 此时，TCP连接建立</li>
+</ol>
+<p>为什么不用两次? 主要是为了防止已经失效的连接请求报文突然又传送到了服务器，从而产生错误。如果采用的是三次握手，就算是那一次失效的报文传送过来了，服务端接受到了那条失效报文并且回复了确认报文，但是客户端不会再次发出确认。由于服务器收不到确认，就知道客户端并没有请求连接</p>
+<h2 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h2><ol>
+<li>客户端进程发出连接释放报文，并且停止发送数据。 释放数据报文首部，FIN=1，其序列号为seq=u（等于前面已经传送过来的数据的最后一个字节的序号加1），此时客户端进入FIN-WAIT-1（终止等待1）状态。 TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。 </li>
+<li>服务器收到连接释放报文，发出确认报文，ACK=1，确认序号为 u+1，并且带上自己的序列号seq=v，此时服务端就进入了CLOSE-WAIT（关闭等待）状态。客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受</li>
+<li>服务器将最后的数据发送完毕后，就向客户端发送连接释放报文，FIN=1，确认序号为v+1，由于在半关闭状态，服务器很可能又发送了一些数据，假定此时的序列号为seq=w，此时，服务器就进入了LAST-ACK（最后确认）状态，等待客户端的确认</li>
+<li>客户端收到服务器的连接释放报文后，必须发出确认，ACK=1，确认序号为w+1，而自己的序列号是u+1，此时，客户端就进入了TIME-WAIT（时间等待）状态。注意此时TCP连接还没有释放，必须经过2∗MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。 </li>
+</ol>
+<h3 id="等待2MSL的原因（time-wait状态存在的原因）"><a href="#等待2MSL的原因（time-wait状态存在的原因）" class="headerlink" title="等待2MSL的原因（time_wait状态存在的原因）"></a>等待2MSL的原因（time_wait状态存在的原因）</h3><ol>
+<li>保证客户端发送的最后一个ACK报文能够到达服务器，因为这个ACK报文可能丢失，站在服务器的角度看来，我已经发送了FIN+ACK报文请求断开了，客户端还没有给我回应，应该是我发送的请求断开报文它没有收到，于是服务器又会重新发送一次，而客户端就能在这个2MSL时间段内收到这个重传的报文，接着给出回应报文，并且会重启2MSL计时器</li>
+<li>防止类似与“三次握手”中提到了的“已经失效的连接请求报文段”出现在本连接中。客户端发送完最后一个确认报文后，在这个2MSL时间中，就可以使本连接持续的时间内所产生的所有报文段都从网络中消失。这样新的连接中不会出现旧连接的请求报文。</li>
+</ol>
+<h3 id="为什么建立连接是三次握手，关闭连接确是四次挥手呢？"><a href="#为什么建立连接是三次握手，关闭连接确是四次挥手呢？" class="headerlink" title="为什么建立连接是三次握手，关闭连接确是四次挥手呢？"></a>为什么建立连接是三次握手，关闭连接确是四次挥手呢？</h3><p>建立连接的时候， 服务器在LISTEN状态下，收到建立连接请求的SYN报文后，把ACK和SYN放在一个报文里发送给客户端。<br>而关闭连接时，服务器收到对方的FIN报文时，仅仅表示对方不再发送数据了但是还能接收数据，而自己也未必全部数据都发送给对方了，所以己方可以立即关闭，也可以发送一些数据给对方后，再发送FIN报文给对方来表示同意现在关闭连接，因此，己方ACK和FIN一般都会分开发送，从而导致多了一次。</p>
+<h2 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h2><p>窗口大小指的是无需等待确认应答就可以继续发送数据的最大值. </p>
+<p>出现了丢包, 那么该如何进行重传：</p>
+<ol>
+<li>数据包已经收到, 但确认应答ACK丢了：这种情况下, 部分ACK丢失并无大碍, 因为还可以通过后续的ACK来确认对方已经收到了哪些数据包.</li>
+<li>数据包丢失：当某一段报文丢失之后, <strong>发送端会一直收到</strong> 1001 这样的ACK, 就像是在提醒发送端 “我想要的是 1001”， 如果<strong>发送端主机连续三次收到了同样一个</strong> “1001” 这样的应答, 就会将对应的数据 1001 - 2000 <strong>重新发送</strong> 这个时候接收端收到了 1001 之后, 再次返回的ACK就是7001了， 因为2001 - 7000接收端其实之前就已经收到了, 被放到了<strong>接收端操作系统内核的接收缓冲区</strong>中.</li>
+</ol>
+<h2 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h2><p>接收端处理数据的速度是有限的. 如果发送端发的太快, 导致接收端的缓冲区被填满, 这个时候如果发送端继续发送, 就会造成丢包, 进而引起丢包重传等一系列连锁反应. 因此TCP支持根据接收端的处理能力, 来决定发送端的发送速度. 这个机制就叫做 流量控制(Flow Control) 接收端将自己可以接收的缓冲区大小放入 TCP 首部中的 “窗口大小” 字段, 通过ACK通知发送端; 窗口大小越大, 说明网络的吞吐量越高; 接收端一旦发现自己的缓冲区快满了, 就会将窗口大小设置成一个更小的值通知给发送端; 发送端接受到这个窗口大小的通知之后, 就会减慢自己的发送速度; 如果接收端缓冲区满了, 就会将窗口置为0; 这时发送方不再发送数据, 但是需要定期发送一个窗口探测数据段, 让接收端把窗口大小再告诉发送端.</p>
+<h2 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h2><p>虽然TCP有了滑动窗口这个大杀器, 能够高效可靠地发送大量数据. 但是如果在刚开始就发送大量的数据, 仍然可能引发一些问题. 因为网络上有很多计算机, 可能当前的网络状态已经比较拥堵. 在不清楚当前网络状态的情况下, 贸然发送大量数据, 很有可能雪上加霜.因此, TCP引入 慢启动 机制, 先发少量的数据, 探探路, 摸清当前的网络拥堵状态以后, 再决定按照多大的速度传输数据.</p>
+<p>在此引入一个概念 拥塞窗口：发送开始的时候, 定义拥塞窗口大小为1;每次收到一个ACK应答, 拥塞窗口加1;每次发送数据包的时候, 将拥塞窗口和接收端主机反馈的窗口大小做比较, 取较小的值作为实际发送的窗口“慢启动” 只是指初使时慢, 但是增长速度非常快. 为了不增长得那么快, 此处引入一个名词叫做慢启动的阈值, 当拥塞窗口的大小超过这个阈值的时候, 不再按照指数方式增长, 而是按照线性方式增长.当TCP开始启动的时候, 慢启动阈值等于窗口最大值，在<strong>每次超时重发</strong>的时候, 慢启动阈值会变成原来的一半, 同时拥塞窗口置回1。</p>
+<h2 id="延迟应答"><a href="#延迟应答" class="headerlink" title="延迟应答"></a>延迟应答</h2><p>如果接收数据的主机立刻返回ACK应答, 这时候返回的窗口可能比较小. 窗口越大, 网络吞吐量就越大, 传输效率就越高.<br>TCP的目标是在保证网络不拥堵的情况下尽量提高传输效率;也不是所有的数据包都可以延迟应答，数量限制: 每隔N个包就应答一次，时间限制: 超过最大延迟时间就应答一次</p>
+<h2 id="粘包问题"><a href="#粘包问题" class="headerlink" title="粘包问题"></a>粘包问题</h2><p>应用程序只能看到一连串的字节数据，但是并不知道两个数据包的边界，对于定长的包 ： 保证每次都按固定大小读取即可 ；对于变长的包 ： 可以在数据包的头部, 约定一个数据包总长度的字段, 从而就知道了包的结束位置 ，还可以在包和包之间使用明确的分隔符来作为边界(应用层协议, 是程序员自己来定的, 只要保证分隔符不和正文冲突即可)</p>
+<p>保证可靠性的机制：校验和；序列号(按序到达)；确认应答；超时重传；连接管理；流量控制；拥塞控制</p>
+<p>提高性能的机制：滑动窗口；快速重传；延迟应答；捎带应答</p>
+<h1 id="http协议"><a href="#http协议" class="headerlink" title="http协议"></a>http协议</h1><p>请求方法 url 协议版本<br>头部参数名 值<br>……<br>请求数据</p>
+<p>http协议版本号 状态码 状态消息<br>头部参数名 值<br>……<br>响应数据</p>
+<p>HTTP之状态码<br>状态代码有三位数字组成，第一个数字定义了响应的类别，共分五种类别:</p>
+<p>1xx：指示信息–表示请求已接收，继续处理<br>2xx：成功–表示请求已被成功接收、理解、接受<br>3xx：重定向–要完成请求必须进行更进一步的操作<br>4xx：客户端错误–请求有语法错误或请求无法实现<br>5xx：服务器端错误–服务器未能实现合法的请求</p>
+<p>200 OK                        //客户端请求成功<br>400 Bad Request               //客户端请求有语法错误，不能被服务器所理解<br>401 Unauthorized              //请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用<br>403 Forbidden                 //服务器收到请求，但是拒绝提供服务<br>404 Not Found                 //请求资源不存在，eg：输入了错误的URL<br>500 Internal Server Error     //服务器发生不可预期的错误<br>503 Server Unavailable        //服务器当前不能处理客户端的请求，一段时间后可能恢复正常</p>
+<p>GET和POST的区别：</p>
+<ol>
+<li>GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之间以&amp;相连，如EditPosts.aspx?name=test1&amp;id=123456. POST方法是把提交的数据放在HTTP包的Body中.</li>
+<li>GET提交的数据大小有限制（因为浏览器对URL的长度有限制），而POST方法提交的数据没有限制.</li>
+<li>GET方式需要使用Request.QueryString来取得变量的值，而POST方式通过Request.Form来获取变量的值。</li>
+<li>GET方式提交数据，会带来安全问题，比如一个登录页面，通过GET方式提交数据时，用户名和密码将出现在URL上，如果页面可以被缓存或者其他人可以访问这台机器，就可以从历史记录获得该用户的账号和密</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/20/20190320-tcp-http/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20190226-算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -169,6 +278,7 @@
 <li>一些类似的操作可以抽象出函数处理。</li>
 <li>有的时候问题需要分解，使用多个函数解决，大多数题目都是数组等需要遍历的内容，可以使用全局变量。</li>
 <li>在数组中操作还想要保持原来的顺序，只能相邻的两个元素进行交换，类似于冒泡排序。</li>
+<li>从平均时间来看，快速排序是效率最高的，但快速排序在最坏情况下的时间性能不如堆排序和归并排序。而后者相比较的结果是，在n较大时归并排序使用时间较少，但使用辅助空间较多。上面说的简单排序包括除希尔排序之外的所有冒泡排序、插入排序、简单选择排序。其中直接插入排序最简单，但序列基本有序或者n较小时，直接插入排序是好的方法，因此常将它和其他的排序方法，如快速排序、归并排序等结合在一起使用。</li>
 <li>从尾到头的方法可以使用递归的思路，先递归到末尾，然后再对最后一个进行操作，完成每一个函数依次向上层函数执行。递归在本质上是一个栈结构。但是当数据量巨大的时候，递归可能导致函数调用栈溢出。</li>
 <li>在做数组相关的题目，用到递归的方法的时候，可以设置多个变量标记位置，不用减少变量的个数，同时数组的索引是非常重要的便捷条件。</li>
 <li>基于递归的实现方法代码会比较简洁，但是性能不如基于循环的实现方法。基于递归实现的代码比基于循环实现的代码要简洁，递归也可以通过栈的方式实现。</li>
@@ -184,6 +294,7 @@
 <li>用一个指针遍历链表不能解决问题的时候，可以尝试用两个指针，可以让一个指针走快一点或者先走几步。</li>
 <li>由于计算机中表示小数都有误差（包括float和double型小数），不能直接用等号（==）判断两个小数是否相等，如果两个小数的差的绝对值很小，就可以认为他们相等。</li>
 <li>二叉搜索树：左子节点总是小于等于根节点，右子节点总是大于等于根节点，红黑树是把树中的节点定义为红黑两种颜色，并通过规则确保从根节点到叶结点的最长路径的长度不超过最短路径的两倍。</li>
+<li>如果面试题是要求按照一定规则摆放若干个元素，可以先求出这些元素的全排列，然后一一判断这些排列是否符合题目的要求。</li>
 </ol>
 
       
@@ -275,7 +386,7 @@ f2.set(p2,&quot;Bob&quot;);
 <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>在整个全局中（无论是单线程还是多线程），该对象只存在一个实例，而且只应该存在一个实例，没有副本。</p>
 <p>序列化对单例有破坏<br>1、通过对某个对象的序列化与反序列化得到的对象是一个新的对象，这就破坏了单例模式的单例性。<br>2、我们知道readObject()的时候，底层运用了反射的技术，</p>
 <h2 id="为什么说序列化并不安全"><a href="#为什么说序列化并不安全" class="headerlink" title="为什么说序列化并不安全"></a>为什么说序列化并不安全</h2><p>因为序列化的对象数据转换为二进制，并且完全可逆。但是在RMI调用时所有private字段的数据都以明文二进制的形式出现在网络的套接字上，这显然是不安全的<br>解决方案<br>1、 序列化Hook化（移位和复位）<br>2、 序列数据加密和签名<br>3、 利用transient的特性解决<br>4、 打包和解包代理</p>
-<h1 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h1><p>@Deprecated 意思是“废弃的，过时的”，@Override 意思是“重写、覆盖”，@SuppressWarnings 意思是“压缩警告。</p>
+<h1 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h1><p>@Deprecated 意思是“废弃的，过时的”，@Override 意思是“重写、覆盖”，@SuppressWarnings 意思是抑制警告。</p>
 <h2 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h2><p>通过@interface自定义注解，@Retention（RetentionPolicy.Source（源文件）、CLASS（class文件）、RunTime（字节码）），@Target元注解决定了一个注解可以标识到哪些成分上，如标识在在类身上，或者属性身上，或者方法身上等成分，@Target默认值为任何元素(成分)；@Document：说明该注解将被包含在javadoc中；@Inherited：说明子类可以继承父类中的该注解</p>
 <p>注解也可以添加属性，和正常类不同的地方在属性名后面要加小括号，语法：类型 属性名（）default 默认值；通过反射可以获取类的Annotation，这个Annotation相当于就是一个类，通过强制类型转换可以转换为<br>自定义的注解，可以在使用注解的时候在括号里应用属性，</p>
 <h1 id="JMS"><a href="#JMS" class="headerlink" title="JMS"></a>JMS</h1><p>Java消息服务（Java Message Service）<strong>应用程序接口</strong>，是一个Java平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。Java消息服务是一个与具体平台无关的API</p>
@@ -289,7 +400,7 @@ f2.set(p2,&quot;Bob&quot;);
 <p>消息的产生是异步的，但是消息的消费可以是异步或者同步，通过receive方法阻塞直到接受到消息，异步的方式则通过消息监听者，类似于事件监听器。</p>
 <p>JMS编程模型</p>
 <p>(1) ConnectionFactory</p>
-<p>创建Connection对象的工厂，针对两种不同的jms消息模型，分别有QueueConnectionFactory和TopicConnectionFactory两种。可以通过JNDI来查找ConnectionFactory对象。</p>
+<p>创建Connection对象的工厂，客户端通过Connectionfactory连接到jms服务提供者，针对两种不同的jms消息模型，分别有QueueConnectionFactory和TopicConnectionFactory两种。可以通过JNDI来查找ConnectionFactory对象。</p>
 <p>(2) Destination</p>
 <p>Destination的意思是消息生产者的消息发送目标或者说消息消费者的消息来源。 </p>
 <p>所以，Destination实际上就是<strong>两种类型的对象</strong>：Queue、Topic可以通过JNDI来查找Destination。</p>
@@ -347,7 +458,7 @@ f2.set(p2,&quot;Bob&quot;);
 <ol>
 <li>泛型</li>
 </ol>
-<p>类型擦除的主要过程如下：将所有的泛型参数用其最左边界（最顶级的父类型）类型替换。移除所有的类型参数。</p>
+<p>泛型，即“参数化类型”。一提到参数，最熟悉的就是定义方法时有形参，然后调用此方法时传递实参。就是将类型由原来的具体的类型参数化，类似于方法中的变量参数，此时类型也定义成参数形式（可以称之为类型形参），然后在使用/调用时传入具体的类型（类型实参）类型擦除的主要过程如下：将所有的泛型参数用其最左边界（最顶级的父类型）类型替换。移除所有的类型参数。</p>
 <ol>
 <li>自动装箱与拆箱</li>
 </ol>
@@ -475,15 +586,15 @@ f2.set(p2,&quot;Bob&quot;);
 <li>同步或者异步是针对应用程序和内核而言的，阻塞和非阻塞是指进程在访问数据的时候根据IO的状态采取不同的操作。</li>
 <li>同步：用户进程触发IO操作之后需要等待或者轮询IO操作是否完成</li>
 <li>异步：用户进程触发IO操作之后就去完成其他的任务，等到IO操作完成的时候用户进程会收到通知。</li>
-<li>阻塞：对文件进行读取，没有东西可读或者不可写的时候程序进入等待状态</li>
-<li>非阻塞：对文件进行读取，没有东西可读或者不可写的时候读写函数马上返回</li>
-<li>一个IO操作被分为两步，发起IO请求和实际完成IO操作，同步和异步关注的是实际完成IO操作会不会被阻塞，也就是说同步需要一直关注IO操作是否完成，通过轮询或者等待的方式；阻塞和非阻塞关注的是第一步，发起IO请求会不会被阻塞。<h2 id="同步阻塞（Java-BIO）"><a href="#同步阻塞（Java-BIO）" class="headerlink" title="同步阻塞（Java BIO）"></a>同步阻塞（Java BIO）</h2>用户进程在发起一个IO操作之后，就会一直等到这个操作完成用户进程才继续运行，<strong>Java的传统IO，一个连接一个线程，客户端有连接请求的时候服务器端就新建线程处理，适用于连接数目比较小而且固定的架构<br>#异步非阻塞（Java AIO）<br>用户进程只需要发起一个IO操作，然后立即返回，等IO操作完成之后，应用程序会得到IO操作完成的通知。</strong>连接数目多且连接比较长（重操作）的架构，比如相册服务器**</li>
+<li>阻塞：对文件进行读写，没有东西可读或者不可写的时候程序进入等待状态</li>
+<li>非阻塞：对文件进行读写，没有东西可读或者不可写的时候读写函数马上返回</li>
+<li>一个IO操作被分为两步，查看数据是否就绪和实际完成IO操作，同步和异步关注的是实际完成IO操作会不会被阻塞，也就是说同步需要一直关注IO操作是否完成，通过轮询或者等待的方式；阻塞和非阻塞关注的是第一步，查看数据是否就绪的过程是一直等待还是返回一个标志信息。<h2 id="同步阻塞（Java-BIO）"><a href="#同步阻塞（Java-BIO）" class="headerlink" title="同步阻塞（Java BIO）"></a>同步阻塞（Java BIO）</h2>用户进程在发起一个IO操作之后，就会一直等到这个操作完成用户进程才继续运行，<strong>Java的传统IO，一个连接一个线程，客户端有连接请求的时候服务器端就新建线程处理，适用于连接数目比较小而且固定的架构<br>#异步非阻塞（Java AIO）<br>用户进程只需要发起一个IO操作，然后立即返回，等IO操作完成之后，应用程序会得到IO操作完成的通知。</strong>连接数目多且连接比较长（重操作）的架构，比如相册服务器**</li>
 </ol>
 <p>jdk7主要增加了三个新的异步通道:</p>
 <p>AsynchronousFileChannel: 用于文件异步读写；<br>AsynchronousSocketChannel: 客户端异步socket；<br>AsynchronousServerSocketChannel: 服务器异步socket。</p>
+<h1 id="Java-NIO（多路复用IO模型）"><a href="#Java-NIO（多路复用IO模型）" class="headerlink" title="Java NIO（多路复用IO模型）"></a>Java NIO（多路复用IO模型）</h1><p>同步非阻塞：用户进程在发起IO请求之后可以继续完成其他的操作，但用户进程需要经过一段时间间隔轮询IO操作是否完成。<br><strong>一个请求一个线程</strong>，客户端的所有请求都会注册到多路复用器上。<strong>连接数目多而且连接比较短（轻操作）的架构，聊天服务器</strong>，缓冲区（Buffers）、通道（Channels）和非阻塞I/O的核心类组成</p>
 <h2 id="Reactor模式"><a href="#Reactor模式" class="headerlink" title="Reactor模式"></a>Reactor模式</h2><p>应用于同步I/O的场景，注册读就绪事件和事件处理器，一旦读就绪，就利用事件处理器完成具体的读取操作，然后根据读取到的内容进行进一步处理。</p>
 <h2 id="Proactor模式"><a href="#Proactor模式" class="headerlink" title="Proactor模式"></a>Proactor模式</h2><p>应用程序初始化一个异步读取操作，然后注册相应的事件处理器，这个关注的是读完成事件，<strong>这是与Reactor模式不同的地方，</strong>事件处理器从缓冲区读取到数据完成后续操作。</p>
-<h1 id="Java-NIO"><a href="#Java-NIO" class="headerlink" title="Java NIO"></a>Java NIO</h1><p>同步非阻塞：用户进程在发起IO请求之后可以继续完成其他的操作，但用户进程需要经过一段时间间隔轮询IO操作是否完成。<br><strong>一个请求一个线程</strong>，客户端的所有请求都会注册到多路复用器上。<strong>连接数目多而且连接比较短（轻操作）的架构，聊天服务器</strong>，缓冲区（Buffers）、通道（Channels）和非阻塞I/O的核心类组成</p>
 <h2 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h2><p>•  既可以从通道中读取数据，又可以写数据到通道。但流的读写通常是单向的。<br>•  通道可以异步地读写。<br>•  通道中的数据总是要先读到一个Buffer，或者总是要从一个Buffer中写入<br>channel的实现<br>• FileChannel：从文件中读写数据。<br>• DatagramChannel：能通过UDP读写网络中的数据。<br>• SocketChannel：能通过TCP读写网络中的数据。<br>• ServerSocketChannel：可以监听新进来的TCP连接，像Web服务器那样。对每一个新进来的连接都会创建一个SocketChannel。</p>
 <h2 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h2><p>使用Buffer读写数据一般遵循以下四个步骤：<br>• 从channel写入数据到Buffer<br>• 调用flip()方法，从写模式到读模式<br>• 从Buffer中读取数据到进程处理<br>• 调用clear()方法或者compact()方法</p>
 <h3 id="capacity"><a href="#capacity" class="headerlink" title="capacity"></a>capacity</h3><p>作为一个内存块，Buffer有一个固定的大小值，也叫“capacity”.你只能往里写capacity个byte、long，char等类型。一旦Buffer满了，需要将其清空（通过读数据或者清除数据）才能继续写数据往里写数据。</p>
@@ -495,7 +606,7 @@ f2.set(p2,&quot;Bob&quot;);
 <h3 id="从Buffer中读取数据"><a href="#从Buffer中读取数据" class="headerlink" title="从Buffer中读取数据"></a>从Buffer中读取数据</h3><p>从Buffer中读取数据有两种方式：<br>• 从Buffer读取数据到Channel。 channel.write(buffer)<br>• 使用get()方法从Buffer中读取数据。</p>
 <h3 id="rewind-方法"><a href="#rewind-方法" class="headerlink" title="rewind()方法"></a>rewind()方法</h3><p>Buffer.rewind()将position设回0，所以你可以重读Buffer中的所有数据。limit保持不变，仍然表示能从Buffer中读取多少个元素（byte、char等）</p>
 <h2 id="选择器（Selector）"><a href="#选择器（Selector）" class="headerlink" title="选择器（Selector）"></a>选择器（Selector）</h2><p>Selector（选择器）是Java NIO中能够检测一到多个NIO通道，并能够知晓通道是否为诸如读写事件做好准备的组件。这样，一个单独的线程可以管理多个channel，从而管理多个网络连接</p>
-<p>为了将Channel和Selector配合使用，必须将channel注册到selector上。通过SelectableChannel.register()方法来实现，register()方法的第二个参数。这是一个“interest集合”，意思是在通过Selector监听Channel时对什么事件感兴趣。可以监听四种不同类型的事件： SelectionKey.OP_CONNECT 、 SelectionKey.OP_ACCEPT 、 SelectionKey.OP_READ、 SelectionKey.OP_WRITE 。某个channel成功连接到另一个服务器称为<strong>“连接就绪OP_CONNECT”</strong>。一个server socket channel准备好接收新进入的连接称为<strong>“接收就绪”OP_ACCEPT</strong>。一个有数据可读的通道可以说是“读就绪”。等待写数据的通道可以说是“写就绪”</p>
+<p>为了将Channel和Selector配合使用，必须将channel注册到selector上。通过channel.register()方法来实现，与Selector一起使用时，Channel必须处于非阻塞模式下。这意味着不能将FileChannel与Selector一起使用，因为FileChannel不能切换到非阻塞模式。而套接字通道都可以。register()方法的第二个参数。这是一个“interest集合”，意思是在通过Selector监听Channel时对什么事件感兴趣。可以监听四种不同类型的事件： SelectionKey.OP_CONNECT 、 SelectionKey.OP_ACCEPT 、 SelectionKey.OP_READ、 SelectionKey.OP_WRITE 。某个channel成功连接到另一个服务器称为<strong>“连接就绪OP_CONNECT”</strong>。一个server socket channel准备好接收新进入的连接称为<strong>“接收就绪”OP_ACCEPT</strong>。一个有数据可读的通道可以说是“读就绪”。等待写数据的通道可以说是“写就绪”</p>
 <p>register()方法会返回一个SelectionKey对象。</p>
 <p>一旦向Selector注册了一或多个通道，就可以调用几个重载的select()方法。这些方法返回你所感兴趣的事件（如连接、接受、读或写）已经准备就绪的那些通道</p>
 <h2 id="fileChannel"><a href="#fileChannel" class="headerlink" title="fileChannel"></a>fileChannel</h2><p>在使用FileChannel之前，必须先打开它。但是，我们无法直接打开一个FileChannel，需要通过使用一个InputStream、OutputStream或RandomAccessFile来获取一个FileChannel实例</p>
@@ -536,97 +647,6 @@ f2.set(p2,&quot;Bob&quot;);
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/01/02/20190102-java/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20181225-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/25/20181225-java/">20181225-java</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/25/20181225-java/" class="archive-article-date">
-  	<time datetime="2018-12-25T03:05:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-25</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>final方法表示不能被子类重写，但可以被继承，如果认为一个方法的功能足够完善，子类不需要改变的话，就声明为final</li>
-<li>final修饰类的时候不能被继承，比如包装类Integer等。</li>
-<li><h2 id="Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"><a href="#Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。" class="headerlink" title="Stream ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"></a><strong>Stream</strong> ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。</h2></li>
-<li>深拷贝</li>
-<li>HashMap长度为2的n次方的原因是为了存取高效，需要尽量减少碰撞，就是让链表长度均匀，算法就是取模，hash%length，但是计算机中求余效率比较低，当length为2的n次方的时候，求余和与运算结果一样，这样的话查找存取速度更快。</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Map</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/25/20181225-java/">展开全文 >></a>
         </p>
       
 
@@ -1094,7 +1114,10 @@ f2.set(p2,&quot;Bob&quot;);
 <li>类继承的初始化顺序：父类静态变量 &gt; 父类静态初始块 &gt; 子类静态变量 &gt; 子类静态初始块 &gt; 父类成员变量 &gt; 父类非静态初始块 &gt; 父类构造器 &gt; 子类成员变量 &gt; 子类非静态初始块 &gt; 子类构造器</li>
 <li>成员变量、初始块的初始化顺序：它们的在类中的顺序就决定了它们的初始化顺序，而不是变量一定会优先于初始块</li>
 <li>一个用final定义的变量，不管它是类型的变量，只要用final定义了并同时指定了初始值，并且这个初始值是在编译时就被确定下来的，那么这个final变量就是一个宏变量。编译器会把程序所有用到该变量的地方直接替换成该变量的值，也就是说编译器能对宏变量进行宏替换。</li>
-<li>hashCode方法可以被重写并返回重写后的值，identityHashCode会返回对象的hash值而不管对象是否重写了hashCode方法。</li>
+<li>hashCode方法可以被重写并返回重写后的值，identityHashCode会返回对象的hash值而不管对象是否重写了hashCode方法。】</li>
+<li>final方法表示不能被子类重写，但可以被继承，如果认为一个方法的功能足够完善，子类不需要改变的话，就声明为final</li>
+<li>final修饰类的时候不能被继承，比如包装类Integer等。</li>
+<li><h2 id="Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"><a href="#Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。" class="headerlink" title="Stream ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"></a><strong>Stream</strong> ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。</h2></li>
 </ol>
 
       
@@ -1179,7 +1202,7 @@ f2.set(p2,&quot;Bob&quot;);
         <ol>
 <li>System.out.println的具体执行方法里加了Synchronized同步块。</li>
 <li><strong>守护线程</strong>：守护用户线程，在用户线程结束后自动结束，thread的setDaemon（true）必须在start之前执行，不能将正在运行的用户线程设置为守护线程。在守护线程里产生的线程也是守护线程</li>
-<li><strong>ThreadLocal</strong>:线程本地变量，每个线程都会在本地存储一个副本，不会对其他线程的变量副本造成影响，<strong>ThreadLocal可以重写的方法</strong>包括initialValue、ge、set、remove，ThreadLocal底层是由ThreadLocalMap实现的，每个Thread都有自己的一个ThreadLocalMap，为了避免内存泄漏，key都是对ThreadLocal 的弱引用，value是变量的本地值，<strong>防止内存泄漏的方法</strong>：ThreadLocal已经被回收，但是ThreadLocalMap节点中的key对应的value仍然被强引用，会有内存泄漏。replaceStaleEntry会将所有key为null 的value设置为null，expungeStaleEntry方法将键值都为null的Entry设置为null。这样就可以在下一次gc的时候被回收<strong>ThreadLocal的使用场景</strong>是每个线程都有自己的变量副本，还有就是实例需要在多个方法之间共享，但却不想在多个线程之间共享。</li>
+<li><strong>ThreadLocal</strong>:线程本地变量，每个线程都会在本地存储一个副本，不会对其他线程的变量副本造成影响，<strong>ThreadLocal可以重写的方法</strong>包括initialValue、get、set、remove，ThreadLocal底层是由ThreadLocalMap实现的，每个Thread都有自己的一个ThreadLocalMap，为了避免内存泄漏，key都是对ThreadLocal 的弱引用，value是变量的本地值，<strong>防止内存泄漏的方法</strong>：ThreadLocal已经被回收，但是ThreadLocalMap节点中的key对应的value仍然被强引用，会有内存泄漏。replaceStaleEntry会将所有key为null 的value设置为null，expungeStaleEntry方法将键值都为null的Entry设置为null。这样就可以在下一次gc的时候被回收<strong>ThreadLocal的使用场景</strong>是每个线程都有自己的变量副本，还有就是实例需要在多个方法之间共享，但却不想在多个线程之间共享。</li>
 <li><strong>CountDownLatch倒计时</strong>器：CountDownLatch有四个方法，构造器CountDownLatch（int n）、await、await（time,unit），countdown，等待n个线程执行完毕之后，才会继续接下来的操作，每个线程执行完之后都要调用countdown函数使得倒计时器减1，在主线程中调用await方法，就会使得主线程阻塞直到倒计时器数为0，才会继续执行操作。</li>
 <li><strong>CycleBarrier循环栅栏</strong>：所有的线程需要等待到达一个状态之后才可以继续进行下面的操作，CycleBarrier有两个参数是n和Runnable barrierAction，n就是当CycleBarrier上等待的线程到达n时就会继续下面的操作，CycleBarrier也有一个await方法，使得当前线程暂停等待，在线程执行完之后，还可以调用Runnable的action继续后续的操作，也可以没有barrierAction这个参数。</li>
 <li><strong>Semaphore信号量</strong>：信号量可以控制访问变量的线程个数，通过acquire获取许可，release释放许可（acquire和release都是阻塞的）还可以释放或者获取多个许可，前面加try就是非阻塞的，构造器参数就是permits或者permits和fair（等待越久越先获得许可）。<br>7.<strong> 线程的终结</strong>：线程有一个stop方法，调用它可以直接终止线程，但是这个方法是Deprecated（过时的），因为直接stop线程会导致正在进行的线程发生数据不一致的问题，方法应该是在循环中检验一个变量的值，完成业务之后修改变量的值，导致循环退出，这样在循环的一个流程里面执行完业务，然后退出。</li>
@@ -1189,11 +1212,11 @@ f2.set(p2,&quot;Bob&quot;);
 <li><strong>内存泄漏</strong>：有一些对象已经不需要使用了，按理说这部分内存应该被垃圾收集器回收，但是这部分对象仍然在被引用，所以无法回收，程序也无法使用，导致内存泄漏。<strong>防止内存泄漏</strong>：注意集合类ArrayList、HashMap等，因为他们是内存泄漏常见的地方，注意事件监听器和回调，如果一个类自己管理自己的内存，那么指向其他对象的成员变量需要为null。</li>
 <li><strong>Java6中字符串的subString方法存在内存泄漏的问题</strong>：因为JDK6中的string底层是char数组和起始标识以及数组长度，substring只会修改新生成字符串的起始标识和数组长度，可能会导致原来存在的一个很长的字符串无法被回收，而在Java7中subString方法会直接新建字符串。</li>
 <li><strong>java运行时区域</strong>：线程不共享的区域：程序计数器（当前线程指令运行到的地址）、虚拟机栈（java方法的栈，每一次方法的调用都是一个栈帧的出栈和入栈，每一个栈帧包括了局部变量表、操作数栈、动态链接、方法出口）、本地方法栈（native方法的栈）；线程共享的区域：堆（JVM启动时创建的对象和数组，真实的数据内容）、方法区（存储了每一个类的结构信息，运行时常量池，字段和方法数据、构造函数等等，<strong>运行时常量池</strong>里面主要是编译器可知的数值字面量和在运行期才能解析获得的方法或字段的引用）</li>
-<li>JDK7之后，所有需要关闭的资源只要实现了java.lang.AutoCloseable接口，程序结束之后资源就会自动关闭，在<strong>try-with-resource</strong>语句中这样使用才会有效果，在try（）里定义多个资源，在结束之后是按照在try里的定义顺序自动关闭。</li>
+<li>JDK7之后，所有需要关闭的资源只要实现了java.lang.AutoCloseable接口，程序结束之后资源就会自动关闭，在<strong>try-with-resource</strong>语句中这样使用才会有效果，在try（）里定义多个资源，在结束之后是按照在try里的定义顺序自动关闭。try-with-resource语法涉及的另外一个知识点，叫做异常抑制。当对外部资源进行处理（例如读或写）时，如果遭遇了异常，且在随后的关闭外部资源过程中，又遭遇了异常，那么你catch到的将会是对外部资源进行处理时遭遇的异常，关闭资源时遭遇的异常将被“抑制”但不是丢弃，通过异常的getSuppressed方法，可以提取出被抑制的异常。</li>
 <li>JDK8里面通过lambda表达式以及函数式接口提供了很多排序手段，JDK8之前需要自己定义实现了Comparator接口的类，jdk8中可以利用list.sort函数添加，还可以利用Collections.sort函数（参数是list和Comparator提供的静态方法）</li>
 <li><strong>lambda表达式</strong>：（parameters）-&gt;{表达式}，lambda语句可以指定参数类型和return，也可以不指定，编译器会自动推断，后面的表达式如果只有一句就可以不用加大括号了。参数的括号不能省略。</li>
 <li>lambda表达式专门针对只有一个方法的接口（<strong>函数式接口</strong>），使用@FunctionalInterface可以构造自己的函数式接口。jdk提供了常用的函数式接口，Function：提供任意一种类型的参数，返回另外一个任意类型返回值。 R apply(T t); Consumer：提供任意一种类型的参数，返回空值。 void accept(T t); Supplier：参数为空，得到任意一种类型的返回值。T get(); Predicate：提供任意一种类型的参数，返回boolean返回值。boolean test(T t); BinaryOperator：提供两个参数，返回一个参数。当lambda表达式想要代替这些函数式接口的时候返回的类型和参数应该满足这些函数式接口的方法签名。<strong>函数式接口作为参数会在特定的类或者方法中被调用接口的方法，这时候可以直接使用lambda表达式替代传入的函数式接口。</strong>lambda表达式内部的this指的是包含lambda表达式的类，使用内部匿名类的方法this指的是匿名内部类本身。</li>
-<li><strong>方法引用</strong>：只要是方法的返回值类型和参数与函数式接口中抽象方法的参数和返回值类型保持一致就可以使用方法引用代替函数式方法，方法引用有三种方式：构造器方法引用(Class::new)、类普通方法引用(Class::method)、类静态方法引用(Class::static_method)、实例方法引用(instance::method)，System.out::println就是实例方法引用。</li>
+<li><strong>方法引用</strong>：只要是方法的返回值类型和参数与函数式接口中抽象方法的参数和返回值类型保持一致就可以使用方法引用代替函数式方法，方法引用有四种方式：构造器方法引用(Class::new)、类普通方法引用(Class::method)、类静态方法引用(Class::static_method)、实例方法引用(instance::method)，System.out::println就是实例方法引用。</li>
 <li>lambda表达式在编译阶段会被转换为匿名内部类，自由变量是在lambda表达式之外定义的变量，自由变量在lambda表达式内部不能被改变。</li>
 <li><strong> Stream</strong>：<strong>不存储数据、不改变原数据同时延迟执行</strong>，这里的stream和IO流不一样，这里的Stream是<strong>对数组和集合的操作流</strong>，对于stream的聚合、消费或收集操作只能进行一次，创建流的方式Arrays.stream、集合.stream、集合.parallelStream、Stream.empty、Stream.generate().limit()，map函数可以把一种类型的流转换为另一种类型。</li>
 <li><strong>Optional类型</strong>：Optional表示一个安全的指定结果类型，所谓的安全指的是避免直接调用返回类型的null值而造成空指针异常，调用optional.ifPresent()可以判断返回值是否为空，或者直接调用ifPresent(Consumer&lt;? super T&gt; consumer)在结果部位空时进行消费操作，Optional创建的静态方法of和ofNullable(可以接受空值)；</li>
@@ -1210,12 +1233,22 @@ f2.set(p2,&quot;Bob&quot;);
 <li><strong>同步代码块</strong>是使用monitorenter和monitorexit指令实现的，<strong>同步方法</strong>在Class文件的方法表中将该方法的access_flags字段中的synchronized标志位置1，表示该方法是同步方法并使用调用该方法的对象或该方法所属的Class在JVM的内部对象表示Klass做为锁对象。</li>
 <li><strong>Monitor</strong>：Monitor Record是线程私有的数据结构，每一个线程都有一个<strong>可用monitor record列表</strong>，同时还有一个全局的可用列表。每一个被锁住的对象都会和一个monitor Record关联（<strong>对象头的MarkWord中的LockWord指向monitor record的起始地址</strong>），同时monitor Record中有一个Owner字段存放拥有该锁的线程的唯一标识，表示该锁被这个线程占用。</li>
 <li><strong>as-if-serial语义</strong>：不管怎么重排序（编译器和处理器为了提高并行度），单线程程序的执行结果不能被改变。编译器，runtime 和处理器都必须遵守as-if-serial语义。</li>
-<li><strong>synchronized和lock的区别</strong>：lock可以不让等待的线程一直无期限地等待下去（比如只等待一定的时间或者能够响应中断），Synchronized不能实现读写锁，也不能知道线程有没有成功获取到锁。但是他可以自动释放锁。Lock需要主动释放。</li>
-<li>守护线程：在程序运行的时候在后台提供一种通用服务的线程，比如垃圾回收线程，并不属于程序中不可或缺的部分</li>
-<li>当所有的非守护线程结束时，程序也就终止了，同时会杀死进程中的所有守护线程。反过来说，只要任何非守护线程还在运行，程序就不会终止。</li>
-<li>thread.setDaemon(true)必须在thread.start()之前设置，否则会跑出一个IllegalThreadStateException异常。不能把正在运行的常规线程设置为守护线程。</li>
-<li>守护线程产生的子线程也是守护线程。守护线程应该永远不去访问固有资源，如文件、数据库，因为它会在任何时候甚至在一个操作的中间发生中断</li>
+<li><strong>synchronized和lock的区别</strong>：synchronized无法判断是否获取锁的状态，Lock可以判断是否获取到锁；ynchronized会自动释放锁(a 线程执行完同步代码会释放锁 ；b 线程执行过程中发生异常会释放锁)，Lock需在finally中手工释放锁（unlock()方法释放锁），否则容易造成线程死锁，lock可以不让等待的线程一直无期限地等待下去（比如只等待一定的时间或者能够响应中断），synchronized的锁可重入、不可中断、非公平，而Lock锁可重入、可判断、可公平（两者皆可）Synchronized不能实现读写锁，也不能知道线程有没有成功获取到锁。但是他可以自动释放锁。Lock需要主动释放。</li>
+<li><strong>synchronized可重入锁的实现</strong>：在一个线程使用synchronized方法时调用该对象另一个synchronized方法，即一个线程得到一个对象锁后再次请求该对象锁，是永远可以拿到锁的。每个锁关联一个线程持有者和一个计数器。当计数器为0时表示该锁没有被任何线程持有，那么任何线程都都可能获得该锁而调用相应方法。当一个线程请求成功后，JVM会记下持有锁的线程，并将计数器计为1。此时其他线程请求该锁，则必须等待。而该持有锁的线程如果再次请求这个锁，就可以再次拿到这个锁，同时计数器会递增。当线程退出一个synchronized方法/块时，计数器会递减，如果计数器为0则释放该锁。</li>
+<li><strong>AQS（AbstractQueuedSynchronizer）</strong>队列同步器是用来构建锁、同步组件的基础框架。AQS内部通过一个volatile int类型的成员变量state控制同步状态【0代表锁未被占用，1表示已占用】，通过内部类Node构成FIFO的同步队列实现等待获取锁的线程排队工作，通过内部类ConditionObject构建条件等待队列，来完成等待条件线程的排队工作。当线程调用Condition对象的wait方法后会被加入等待队列中，当有线程调用Condition的signal方法后，线程将从等待队列移动到同步队列进行锁竞争。AQS内部会有一个同步队列和可能多个等待队列，前者存放等待获取锁的线程，后者分别存放等待不同条件的线程</li>
 </ol>
+<h2 id="slf4j入门"><a href="#slf4j入门" class="headerlink" title="slf4j入门"></a>slf4j入门</h2><p><strong>slf4j的日志级别</strong>：每个Logger都被了一个日志级别（log level），用来控制日志信息的输出。日志级别从高到低分为：<br>A：off         最高等级，用于关闭所有日志记录。<br>B：fatal       指出每个严重的错误事件将会导致应用程序的退出。<br>C：error      指出虽然发生错误事件，但仍然不影响系统的继续运行。<br>D：warm    表明会出现潜在的错误情形。<br>E：info         一般和在粗粒度级别上，强调应用程序的运行全程。<br>F：debug     一般用于细粒度级别上，对调试应用程序非常有帮助。<br>G：all           最低等级，用于打开所有日志记录。</p>
+<p><strong>Appender</strong>用来指定日志信息输出到哪个地方，可以同时指定多个输出目的地。Log4j允许将信息输出到许多不同的输出设备中，一个log信息输出目的地就叫做一个Appender。<br>a：org.apache.log4j.ConsoleAppender：将日志信息输出到控制台。<br>b：org.apache.log4j.FileAppender：将日志信息输出到一个文件。<br>c：org.apache.log4j.DailyRollingFileAppender：将日志信息输出到一个日志文件，并且每天输出到一个新的日志文件。<br>d：org.apache.log4j.RollingFileAppender：将日志信息输出到一个日志文件，并且指定文件的尺寸，当文件大小达到指定尺寸时，会自动把文件改名，同时产生一个新的文件。<br>e：org.apache.log4j.WriteAppender：将日志信息以流格式发送到任意指定地方。<br>f:：org.apache.log4j.jdbc.JDBCAppender：通过JDBC把日志信息输出到数据库中</p>
+<p><strong>日志格式化器Layout</strong></p>
+<p>HTMLLayout：格式化日志输出为HTML表格形式：<br>SimpleLayout：以一种非常简单的方式格式化日志输出，它打印三项内容：级别-信息 例：INFO - info<br>PatternLayout:：根据指定的转换模式格式化日志输出，或者如果没有指定任何转换模式，就使用默认的转化模式格式</p>
+<p>把某些级别以上的日志单独输出到某个文件，需要使用threshold，Threshold还可以指定输出的日志级别:  rootLogger里配置的level必须小于Threshold等级，否则无效 还是按照总的rootLogger里的level来输出</p>
+<p>log4j也可以对不同的包进行不同的配置，也就是针对不同的包采用不同的日志级别与日志控制器</p>
+<p>log4j.logger.包名.子包</p>
+<p>对父包设置日志级别，如果子包没有设置默认采用父包的设置，如果子包设置了会采用单独的设置</p>
+<p>对包的具体设置日志级别虽然不受总的log4j.rootLogger的日志级别的限制，但是却受特殊的日志的Threshold属性的限制,也就是对具体包的设置必须高于其记录器的Threshold属性，否则以其记录器的Threshold属性为准</p>
+<p>1、slf4j是java的一个日志门面，实现了日志框架一些通用的api，log4j和logback是具体的日志框架。</p>
+<p>2、他们可以单独的使用，也可以绑定slf4j一起使用。</p>
+<p>单独使用，分别调用框架自己的方法来输出日志信息。绑定slf4j一起使用。调用slf4j的api来输入日志信息，具体使用与底层日志框架无关（需要底层框架的配置文件）。显然不推荐单独使用日志框架。假设项目中已经使用了log4j，而我们此时加载了一个类库，而这个类库依赖另一个日志框架。这个时候我们就需要维护两个日志框架，这是一个非常麻烦的事情。而使用了slf4j就不同了，由于应用调用的抽象层的api，与底层日志框架是无关的，因此可以任意更换日志框架。</p>
 
       
 
@@ -1238,6 +1271,10 @@ f2.set(p2,&quot;Bob&quot;);
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">线程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">slf4j</a>
         		</li>
       		
 		</ul>
@@ -1402,23 +1439,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1443,6 +1472,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

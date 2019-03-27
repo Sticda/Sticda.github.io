@@ -14,7 +14,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/02/26/20190226-算法/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="在合并两个数组（包括字符串）的时候，如果从前往后复制的话，则需要移动每个元素很多次，考虑从后往前复制，就可以减少移动的次数，降低时间复杂度。 在某一种情况下，跳转的结果可能有好几种，这个时候递归的方式可能很容易解决问题。 如果需要统计字符串中多个数字出现的次数，可以考虑使用字符的ASCII码作为数组索引，创建一个简单的hash表，当然java中也可以直接使用hash一类的集合。 一些类似的操作可">
-<meta property="og:updated_time" content="2019-03-10T08:32:10.416Z">
+<meta property="og:updated_time" content="2019-03-17T02:55:35.140Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20190226-算法">
 <meta name="twitter:description" content="在合并两个数组（包括字符串）的时候，如果从前往后复制的话，则需要移动每个元素很多次，考虑从后往前复制，就可以减少移动的次数，降低时间复杂度。 在某一种情况下，跳转的结果可能有好几种，这个时候递归的方式可能很容易解决问题。 如果需要统计字符串中多个数字出现的次数，可以考虑使用字符的ASCII码作为数组索引，创建一个简单的hash表，当然java中也可以直接使用hash一类的集合。 一些类似的操作可">
@@ -171,6 +171,7 @@
 <li>一些类似的操作可以抽象出函数处理。</li>
 <li>有的时候问题需要分解，使用多个函数解决，大多数题目都是数组等需要遍历的内容，可以使用全局变量。</li>
 <li>在数组中操作还想要保持原来的顺序，只能相邻的两个元素进行交换，类似于冒泡排序。</li>
+<li>从平均时间来看，快速排序是效率最高的，但快速排序在最坏情况下的时间性能不如堆排序和归并排序。而后者相比较的结果是，在n较大时归并排序使用时间较少，但使用辅助空间较多。上面说的简单排序包括除希尔排序之外的所有冒泡排序、插入排序、简单选择排序。其中直接插入排序最简单，但序列基本有序或者n较小时，直接插入排序是好的方法，因此常将它和其他的排序方法，如快速排序、归并排序等结合在一起使用。</li>
 <li>从尾到头的方法可以使用递归的思路，先递归到末尾，然后再对最后一个进行操作，完成每一个函数依次向上层函数执行。递归在本质上是一个栈结构。但是当数据量巨大的时候，递归可能导致函数调用栈溢出。</li>
 <li>在做数组相关的题目，用到递归的方法的时候，可以设置多个变量标记位置，不用减少变量的个数，同时数组的索引是非常重要的便捷条件。</li>
 <li>基于递归的实现方法代码会比较简洁，但是性能不如基于循环的实现方法。基于递归实现的代码比基于循环实现的代码要简洁，递归也可以通过栈的方式实现。</li>
@@ -186,6 +187,7 @@
 <li>用一个指针遍历链表不能解决问题的时候，可以尝试用两个指针，可以让一个指针走快一点或者先走几步。</li>
 <li>由于计算机中表示小数都有误差（包括float和double型小数），不能直接用等号（==）判断两个小数是否相等，如果两个小数的差的绝对值很小，就可以认为他们相等。</li>
 <li>二叉搜索树：左子节点总是小于等于根节点，右子节点总是大于等于根节点，红黑树是把树中的节点定义为红黑两种颜色，并通过规则确保从根节点到叶结点的最长路径的长度不超过最短路径的两倍。</li>
+<li>如果面试题是要求按照一定规则摆放若干个元素，可以先求出这些元素的全排列，然后一一判断这些排列是否符合题目的要求。</li>
 </ol>
 
       
@@ -228,6 +230,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/03/20/20190320-tcp-http/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          20190320-tcp/http
+        
+      </div>
+    </a>
   
   
     <a href="/2019/01/08/20190108-java/" id="article-nav-older" class="article-nav-link-wrap">
@@ -427,23 +438,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -468,6 +471,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

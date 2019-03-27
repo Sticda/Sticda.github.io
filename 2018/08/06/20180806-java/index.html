@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>20180806 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。 hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而==在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值 java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、">
+  <meta name="description" content="字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。 hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而“==”在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值。equal()相等的两个对象他们的hashCode()肯定相等，也就是用equal()对比是绝对可靠的。hashCode()相等的两个对象他们的equ">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20180806">
 <meta property="og:url" content="http://yoursite.com/2018/08/06/20180806-java/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。 hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而==在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值 java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、">
-<meta property="og:updated_time" content="2018-08-14T00:43:32.882Z">
+<meta property="og:description" content="字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。 hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而“==”在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值。equal()相等的两个对象他们的hashCode()肯定相等，也就是用equal()对比是绝对可靠的。hashCode()相等的两个对象他们的equ">
+<meta property="og:updated_time" content="2019-03-27T03:16:31.827Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180806">
-<meta name="twitter:description" content="字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。 hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而==在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值 java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、">
+<meta name="twitter:description" content="字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。 hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而“==”在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值。equal()相等的两个对象他们的hashCode()肯定相等，也就是用equal()对比是绝对可靠的。hashCode()相等的两个对象他们的equ">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -167,10 +167,10 @@
       
         <ol>
 <li>字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。</li>
-<li>hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而==在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值</li>
+<li><strong>hashcode</strong>得到的是内存里的物理地址，而<strong>equals</strong>方法比较的是两个对象的值，而<strong>“==”</strong>在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值。equal()相等的两个对象他们的hashCode()肯定相等，也就是用equal()对比是绝对可靠的。hashCode()相等的两个对象他们的equal()不一定相等，也就是hashCode()不是绝对可靠的。所有对于需要大量并且快速的对比的话如果都用equal()去做显然效率太低，所以解决方式是，每当需要对比的时候，首先用hashCode()去对比，如果hashCode()不一样，则表示这两个对象肯定不相等（也就是不必再用equal()去再对比了）,如果hashCode()相同，此时再对比他们的equal()，如果equal()也相同，则表示这两个对象是真的相同了，这样既能大大提高了效率也保证了对比的绝对正确性！</li>
 <li>java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、RuntimeException（唯一的运行时异常），前三种异常必须在编译之前就捕捉或者抛出。</li>
 <li>+连接字符串可以连接null或者其他类型，但是concat不行，建议使用Stringbuilder</li>
-<li>try和finally里都有return，会直接返回finally里的return，finally一定会执行，在try中return，finally会把结果保存，基本类型一切以try中保存的值为准，但是引用类型就会与finally修改以后的为准</li>
+<li><strong>try和finally里都有return</strong>，两者都有finally的时候，会直接返回finally里的return值。try里有return，finally没有return，那么返回值就是try中的return，finally会把结果保存，返回值以try中保存的值为准，但是如果return的数据是引用数据类型，而在finally中对该引用数据类型的属性值的改变起作用，try中的return语句返回的就是在finally中改变后的该属性的值。</li>
 <li>序列化之后属性有变化会导致值的丢失；父类没有序列化，但是子类序列化了，子类的属性可以序列化，但是父类的属性会丢失；不想序列化的字段加上transient即可。</li>
 <li>正整数的<strong>原码补码反码</strong>都是一样的，负整数的<strong>原码</strong>首位为1，<strong>反码</strong>是符号位不变，其余相反，<strong>补码</strong>是符号位不变，反码加1</li>
 <li>Set中的元素是无序且不重复的，这句话中的Set指的是HashSet，LinkedHashSet是按照添加的顺序排列，而TreeSet是按照自然顺序a~z</li>
@@ -180,7 +180,7 @@
 <li><strong>装箱过程</strong>是通过调用包装器的valueOf方法实现的，而<strong>拆箱过程</strong>是通过调用包装器的 xxxValue方法实现的。（xxx代表对应的基本数据类型）</li>
 <li><strong>“==”运算符</strong>既可以用来比较基本类型变量和引用类型变量。当两个操作数都是包装器类型的变量时，判定标准为他们是否指向同一个对象；而如果其中有一个操作数是表达式（即包含算术运算）则会先进行自动拆箱，再进行对应基本类型变量比较。</li>
 <li><strong>静态变量</strong>被所有的对象所共享，在内存中只有一个副本，它当且仅当在类初次加载时会被初始化。而非静态变量是对象所拥有的，在创建对象的时候被初始化，存在多个副本，各个对象拥有的副本互不影响。</li>
-<li>先加载父类，然后再加载子类，先调用父类的构造器，在调用自身的构造器。</li>
+<li>在初始化子类的时候，首先加载父类的静态变量和静态语句块（按照代码上下顺序执行），然后加载子类的静态变量和静态语句块（按照代码上下顺序执行），然后加载父类的非静态变量和非静态语句块（按照代码上下顺序执行），再加载父类的构造函数。然后加载子类的非静态变量和非静态语句块（按照代码上下顺序执行），最后加载子类的构造函数。</li>
 <li><strong>static关键字</strong>有一个比较关键的作用就是 用来形成静态代码块以优化程序性能。static块可以置于类中的任何地方，类中可以有多个static块。在类初次被加载的时候，会按照static块的顺序来执行每个static块，并且只会执行一次。</li>
 <li><strong>ArrayList</strong>底层是数组，<strong>LinkedList</strong>底层是链表，<strong>Vector</strong>底层也是数组，Vector支持线程同步，前两个不支持，链表的查找速度较慢，因为需要移动指针，数组的查找速度较快（索引），数组的增删速度比较慢，因为需要移动后面的内容，这时候链表就比较快。<strong>stack</strong>是Vector的子类，主要实现了后进先出的栈的功能。当需要扩展数组长度的时候，Vector会扩展为原来的一倍，ArrayList会扩展50%，</li>
 <li><strong>SynchronizedList和Vector的区别：</strong>SynchronizedList是由Collections静态工具类提供的一个可以实现线程同步的list，和Vector的区别在于以下几点：Vector和SynchronizedList在长度扩展上的区别；Vector是通过同步方法实现同步，而SynchronizedList是通过同步代码块的方式实现（同步代码块内部还是list的方法），SynchronizedList可以通过传入的参数指定锁定的对象，Vector只能锁定this；使用SynchronizedList的时候，进行遍历需要手动同步处理；SynchronizedList可以将list的所有子类转换为线程安全的类</li>
@@ -188,12 +188,34 @@
 <li>Java7提供了一种并行任务框架，<strong>Fork/Join框架</strong> ，ForkJoinPool是框架的任务调度器，提供了三个调度子任务的方法：execute（没有返回结果），invoke、invokeAll（有返回结果），submit（返回future对象），具体的任务执行类需要实现RecursiveAction（无结果返回）和RecursiveTask（有结果返回），任务执行类里面有一个compute函数，类似于递归的思想，这个compute判断是否可以计算，如果可以计算就直接计算，不能计算就进行拆分，fork就是执行execute，join函数就是得到返回值。</li>
 <li><strong>并发</strong>就是在一段时间内多个任务在执行，交替或者串行或者其他，但是<strong>并行</strong>就是指并行执行，多个任务在同时执行，</li>
 <li><strong>java实现多线程的三种方式：</strong>继承Thread类；实现Runnable接口，重写run方法（一个子类只能继承一个父类），将Runnable实例传给Thread对象；实现Callable接口，重写call方法，将Callable实例传给FutureTask对象，再传给Thread对象</li>
-<li><strong> Futuretask</strong>是实现了RunnableFuture接口的类，RunnableFuture接口继承了Runnable接口和Future接口，所以FutureTask的使用方法有两种：FutureTask+ExecuteService和FutureTask+Thread，第一种方法就是把实现了Callable接口的类传递给FutureTask，第二种方法就是把FutureTask传给Thread，并利用FutureTask获得结果。</li>
+<li><strong> Futuretask</strong>是实现了RunnableFuture接口的类，RunnableFuture接口继承了Runnable接口和Future接口，所以FutureTask的使用方法有两种：FutureTask+ExecuteService和FutureTask+Thread，第一种方法就是把实现了Callable接口的类传递给FutureTask，第二种方法就是把FutureTask传给Thread，并利用FutureTask获得结果。ExecuteService可以用Executor的静态方法创建以下四种状态，newCachedThreadPool 创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。 newScheduledThreadPool 创建一个定长线程池，支持定时及周期性任务执行。newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。 execute(Runnable)submit(Runnable) submit(Callable)</li>
 <li><strong>Join方法</strong>的主要作用是挂起当前线程，等到调用了Join方法的线程结束之后，当前线程才会继续运行。</li>
 <li><strong>线程的状态</strong>一共有6个，NEW是刚创建的线程，还没有启动；RUNNABLE是正在运行的线程；TIME_WAITING是有时限的等待线程；而WAITING是无限的等待，等待一个特殊事件的唤醒；BLOCKED表明这个线程当前处于等待锁的阻塞状态，一旦获得锁将进入RUNNABLE状态；TERMINATED是指线程运行结束，进入终止状态。</li>
 <li><strong>死锁</strong>：多个线程拿了对方需要的锁，同时又在等待对方释放自己需要的锁；<strong>活锁</strong>就是多线程相互谦让，导致没有线程正常执行；<strong>饥饿</strong>就是说低优先级一直抢不过高优先级的线程，导致低优先级的线程得不到执行；<strong>无锁</strong>就是对资源不锁定，一堆线程抢着修改共享资源。</li>
 <li><strong>避免死锁</strong>的方法：按顺序加锁（这样能保证只能有一个线程获得锁）；获取锁时限（一定时间之后放弃自己已经拥有的锁）；检测死锁（出现死锁就采取策略）</li>
 <li><strong>线程池核心类：ThreadPoolExecutor类的主要参数</strong>是corePoolSize（核心线程池的大小。线程池的最小线程数量）、maximumPoolSize（线程池的最大线程数量），KeepAliveTime（超过corePoolSize的线程空闲超过KeepAliveTime就会被销毁），unit（KeepAliveTime这个时间的单位），WorkQueue(存储等待执行的工作队列)，ThreadFactory（创建线程的工厂），handler（拒绝策略，默认抛出异常）；<strong>线程池的工作流程</strong>：如果线程池中的线程数量小于corePoolSize的话，就会直接创建新线程执行任务，如果已经超过corePoolSize的话就会存到workQueue，workQueue存满之后，当线程数小于maximumPoolSize的时候就会新建线程执行任务，当线程数超过maximumPoolSize就会利用handler执行拒绝策略。<strong>核心类ThreadPoolExecutor有四个在Executor下的静态实现类</strong>：newFixThreadPool（固定大小的线程池，核心和最大线程数相等），newCacheThreadPool（带缓冲的线程池，核心线程池大小为0，有新任务就会执行），newSingleThreadPool（单线程线程池，核心和最大线程数为1，每次保证有1个线程在执行）、newSchedulerThreadPool（调度线程池，按照一定的周期执行任务），<strong>拒绝策略</strong>：AbortPolicy（直接抛出拒绝异常）、CallerRunsPolicy（让调用者线程执行新任务）、DiscardPolicy（直接丢弃）、DiscardOldestPolicy（从队列中丢弃掉最老的任务），提交线程使用execute和submit，不同点在于submit会返回一个future对象，关闭线程池使用shutdown（执行完所有任务再关闭）和shutdownNow。</li>
+<li><strong>Object 的 hashcode 方法</strong>是本地方法，也就是用 c 语言或 c++ 实现的，该方法直接返回对象的 内存地址。</li>
+<li><strong>值传递</strong>：方法调用时，实际参数把它的值传递给对应的形式参数，方法执行中形式参数值的改变不影响实际参数的值。<strong>引用传递</strong>：也称为传地址。方法调用时，实际参数的引用(地址，而不是参数的值)被传递给方法中相对应的形式参数，在方法执行中，对形式参数的操作实际上就是对实际参数的操作，方法执行中形式参数值的改变将会影响实际参数的值。而在JAVA中只有值传递，基本类型传递的是值的副本。</li>
+<li>修饰变量，被<strong>final</strong>修饰的变量必须要初始化，赋初值后不能再重新赋值。注意：局部变量不在我们讨论的范畴，因为局部变量本身就有作用范围，不使用private、public等词修饰。修饰方法，被final修饰的方法代表不能重写。修饰类，被final修饰的类，不能够被继承。注意：final修饰的类，类中的所有成员方法都被隐式地指定为final方法。</li>
+<li><strong>跳出多层循环的方法</strong>：要想跳出多重循环，可以在外面的循环语句前定义一个标号，然后在里层循环体的代码中使用带有标号的break 语句，即可跳出外层循环，还可以在外部循环上增加条件，在内层循环中更改条件。</li>
+<li><strong>多态</strong>指向子类的父类引用由于向上转型了，它只能访问父类中拥有的方法和属性，而对于子类中存在而父类中不存在的方法，该引用是不能使用的，尽管是重载该方法。若子类重写了父类中的某些方法，在调用该些方法的时候，必定是使用子类中定义的这些方法（动态连接、动态调用）</li>
+<li><strong>“static”关键字</strong>表明一个成员变量或者是成员方法可以在没有所属的类的实例变量的情况下被访问。Java中static方法不能被覆盖，因为方法覆盖是基于运行时动态绑定的，而static方法是编译时静态绑定的。static方法跟类的任何实例都不相关，所以概念上不适用。  java中也不可以覆盖private的方法，因为private修饰的变量和方法只能在当前类中使用，如果是其他的类继承当前类是不能访问到private变量或方法的，当然也不能覆盖。</li>
+<li><strong>通过反射创建对象的两种方法</strong>：直接通过class.forName获得class对象，然后使用该对象的newinstance方法，或者是通过class 的getConstructor方法获得constructor对象，然后使用newInstance方法获取对象。</li>
+<li><strong>抽象类和接口</strong>：抽象类不能被实例化，其他和正常类是一样的，abstract方法不能添加方法体，接口是抽象方法的集合，如果一个类实现了某个接口，则必须实现这个接口的所有方法。接口中成员变量默认被修饰为public static final常量。如果你拥有一些方法并且想让它们中的一些有默认实现，那么使用抽象类吧。如果你想实现多重继承，那么你必须使用接口。由于Java不支持多继承，子类不能够继承多个类，但可以实现多个接口。因此你就可以使用接口来解决它。如果基本功能在不断改变，那么就需要使用抽象类。如果不断改变基本功能并且使用接口，那么就需要改变所有实现了该接口的类。</li>
+<li><strong>Comparable和comparator的区别</strong>：某个类实现了Comparable接口就可以实现比较，Comparator接口也是实现了比较的接口，两个的区别在于Comparable是内比较接口，比较方法在类里，然而Comparator接口是外比较器，不需要修改某个比较类的源代码。而且Comparator只能比较两个相同的对象，Comparable可以比较任意两个对象。</li>
+<li><strong>静态内部类和其他内部类的区别：</strong>在静态嵌套类内部, 不能直接访问外部类的非静态成员, 只能通过外部类的实例访问。静态内部类可以直接访问外部类的静态成员。同一个类下定义的非静态内部类是可知的，<strong>方法内的内部类</strong>只能访问本方法的final变量，定义在方法内部的内部类的可见性更小, 它只在方法内部可见, 在外部类(及外部类的其它方法中)中都不可见.同时, 它有一个特点, 就是方法内的内部类连本方法的成员变量都不可访问, 它只能访问本方法的final型成员.同时另一个需引起注意的是方法内部定义成员变量, 只允许final修饰或不加修饰符, 其它像static等均不可用。<strong>非静态内部类</strong>可以直接访问外部类中的成员变量。非静态内部类不能定义静态成员，当内部类中如果有静态成员的时候，该内部类也必须是静态的。内部类的变量成员只在内部类内部可见</li>
+<li>如果抛出的是Exception的类型，则必须进行try ..catch进行处理。如果抛出的是RuntimeException的类型，则可以不使用try。。catch处理，一旦发生异常之后，将由JVM处理。<strong>throws</strong>在方法声明处使用，表明该方法不处理异常，由方法调用者处理异常，<strong>throw</strong>抛出异常。</li>
+<li><strong>浅复制和深复制</strong>：实现了Cloneable接口，重写clone方法只能实现浅复制，也就是说类的基本类型都可以实现复制，但是对于引用类型不能实现复制，浅复制之后的引用类型还是指向同一个副本，因此使用复制构造函数，在构造函数内部，新建引用类型，并实现深复制，这样就可以实现深复制。</li>
+<li><strong>ConcurrentHashMap和HashMap（1.8）</strong>：存入的时候如果数组为空，先进行初始化，求hash，利用hash和长度（n-1）取模获取节点在数组中的具体位置，如果这个地方为空，则把节点插在这个位置，如果不为空的话判断这个位置的key跟我们的key是不是相同，相同的时候把这个节点取出来，不相同的时候判断这个节点是不是红黑树的节点，是的话就利用红黑树的插入办法插入，如果不是的话说明这个地方是一个链表，从前往后找到最后一个节点（取出一个空节点），<strong>插入到链表末尾</strong>，检查这个时候有没有链表长度过长，看是不是需要转化成红黑树，最后判断这个取出来的节点是不是空，非空的话进行值覆盖，最后size如果超出了预支，就需要扩容，阈值就是定义的大小再乘以负载因子。ConcurrentHashMap是线程同步的容器，所以使用了CAS和监视器锁Synchronized实现，put的时候，如果底层数组为空，会先数组初始化。如果没有如果hash值对应的位置为空，则会使用CAS操作对该位置进行赋值，hash值为过等于moved的话，说明ConcurrentHashMap在进行数据迁移，最后的话就说明找到这个位置的头结点了，name就需要获得这个头节点的监视器锁，如果是链表的话就判断是不是相等，相等的话覆盖，不相等的话插到链表的末尾，如果是红黑树的话就使用红黑树的插入。插入之后判断这个节点所在的链表的大小是不是大于临界值，是不是需要转换成红黑树，这个转换成红黑树的函数还负责数组扩容，如果数组长度小于64的时候会选择扩容，而不是转换成红黑树，扩容的时候需要通过CAS获取锁，这个大小是所有人共享的部分，获取到锁之后可以进行初始化，如果没有获取到锁就判断当前数据是否正在数据迁移，帮助数据迁移。</li>
+<li><strong>ConcurrentHashMap和HashMap（1.7）</strong>：存入的时候如果数组为空，先进行初始化，求hash，求hash，利用hash和长度（n-1）取模获取节点在数组中的具体位置，如果这个地方为空，则把节点插在这个位置，如果不为空的话判断这个位置的key跟我们的key是不是相同，在这个链表上从前往后找，如果有相同的话就直接覆盖，<strong>不相同的话就插入到链表表头</strong>，不相同的时候还需要检查是否需要扩容，扩容之后插入到扩容后的表头，扩容之后还需要进行数据迁移。ConcurrentHashMap 由一个个 Segment 组成，Segment 代表”部分“或”一段“的意思，所以很多地方都会将其描述为分段锁。ConcurrentHashMap初始化的时候需要初始化segment数组，并且创建segment[0]，hash值右移n位，留下segment数组的长度对应的二进制位数，hash右移的结果跟segment的长度求与，得到segment的位置，初始化segment[j],这个地方需要使用CAS进行控制，因为可能有多个线程同时初始化，获取到独占锁之后把节点放在链表表头，如果超过了segment的长度并且超过了map 的阈值，进行segment内部的扩容</li>
+<li><strong>HashMap长度为2的n次方</strong>的原因是为了存取高效，需要尽量减少碰撞，就是让链表长度均匀，算法就是取模，hash%length，但是计算机中求余效率比较低，当length为2的n次方的时候，求余和与运算结果一样，这样的话查找存取速度更快。</li>
+<li><strong>集合类没有实现cloneable和serializable接口的原因</strong>是克隆和序列化都是要针对具体的实体类而言的，要克隆什么，怎么克隆，实例化什么，怎么实例化，如果所有的集合类都实现了这两个接口，那么实现类不需要克隆和序列化的时候就需要额外操作。</li>
+<li><strong>Iterator和ListIterator主要区别</strong>在以下方面：iterator()方法在set和list接口中都有定义，但是ListIterator（）仅存在于list接口中（或实现类中）； ListIterator有add()方法，可以向List中添加对象，而Iterator不能；ListIterator和Iterator都有hasNext()和next()方法，可以实现顺序向后遍历，但是ListIterator有hasPrevious()和previous()方法，可以实现逆向（顺序向前）遍历。Iterator就不可以。 ListIterator可以定位当前的索引位置，nextIndex()和previousIndex()可以实现。Iterator没有此功能。 都可实现删除对象，但是ListIterator可以实现对象的修改，set()方法可以实现。Iierator仅能遍历，不能修改。</li>
+<li><strong>fail-fast和fail-safe比较</strong>：Iterator的安全失败是基于对底层集合做拷贝，因此，它不受源集合上修改的影响。java.util包下面的所有的集合类都是快速失败的，而java.util.concurrent包下面的所有的类都是安全失败的。快速失败的迭代器会抛出ConcurrentModificationException异常，而安全失败的迭代器永远不会抛出这样的异常。<strong>CopyOnWrite</strong>容器即写时复制的容器。通俗的理解是当我们往一个容器添加元素的时候，不直接往当前容器添加，而是先将当前容器进行Copy，复制出一个新的容器，然后新的容器里添加元素，添加完元素之后，再将原容器的引用指向新的容器。这样做的好处是我们可以对CopyOnWrite容器进行并发的读，而不需要加锁，因为当前容器不会添加任何元素。所以CopyOnWrite容器也是一种读写分离的思想，读和写不同的容器。但是因为多线程读取的时候仍然读取的是旧容器的值。</li>
+<li><strong>ArrayList、Vector、LinkedList的存储性能和特性</strong>：ArrayList 和Vector他们底层的实现都是一样的，都是使用数组方式存储数据，此数组元素数大于实际存储的数据以便增加和插入元素，它们都允许直接按序号索引元素，但是插入元素要涉及数组元素移动等内存操作，所以索引数据快而插入数据慢。Vector中的方法由于添加了synchronized修饰，因此Vector是线程安全的容器，但性能上较ArrayList差，因此已经是Java中的遗留容器。<strong>LinkedList使用双向链表实现存储</strong>（将内存中零散的内存单元通过附加的引用关联起来，形成一个可以按序号索引的线性结构，这种链式存储方式与数组的连续存储方式相比，内存的利用率更高），按序号索引数据需要进行前向或后向遍历，但是插入数据时只需要记录本项的前后项即可，所以插入速度较快。 Vector属于遗留容器（Java早期的版本中提供的容器，除此之外，Hashtable、Dictionary、BitSet、Stack、Properties都是遗留容器），已经不推荐使用，但是由于ArrayList和LinkedListed都是非线程安全的，如果遇到多个线程操作同一个容器的场景，则可以通过工具类Collections中的synchronizedList方法将其转换成线程安全的容器后再使用（这是对装潢模式的应用，将已有对象传入另一个类的构造器中创建新的对象来增强实现）。</li>
+<li><strong>线程同步（多个线程操作一个资源的情况下，导致资源数据前后不一致。这样就需要协调线程的调度，即线程同步）的方法</strong>：1.同步方法（每个对象都有一个对应的内置锁，当所有的线程共享这个对象的时候，在调用同步的方法时候就必须获得内置锁）2. 同步代码块（跟同步方法获取的是同一个锁）3.volatile实现简单的线程同步（对变量的写操作不依赖于当前值。该变量没有包含在具有其他变量的不变式中。后面这条是意思就是这个变量没有一个要被包含的不变量）4.使用重入锁实现同步（重入锁的功能和synchronized其实是一致的，只是Reentranlock提供了很多高级功能）5.使用局部变量实现线程同步 （ 如果使用ThreadLocal管理变量，则每一个使用该变量的线程都获得该变量的副本，     副本之间相互独立，这样每一个线程都可以随意修改自己的变量副本，而不会对其他线程产生影响。）</li>
+<li>如果数据将在线程间共享。例如正在写的数据以后可能被另一个线程读到，或者正在读的数据可能已经被另一个线程写过了，那么这些数据就是共享数据，必须进行<strong>同步</strong>存取。当应用程序在对象上调用了一个需要花费很长时间来执行的方法，并且不希望让程序等待方法的返回时，就应该使用异步编程，在很多情况下采用<strong>异步</strong>途径往往更有效率。</li>
+<li><strong>异常</strong>表示程序运行过程中可能出现的非正常状态，<strong>运行时异常（非受检异常、runtime exception）</strong>表示虚拟机的通常操作中可能遇到的异常，是一种常见运行错误。一旦出现了错误操作，建议终止程序，因此Java编译器不检查这种异常。java编译器要求方法必须声明抛出可能发生的<strong>非运行时异常（checked exception）</strong>，编译器强制要求进行catch或者throws。 </li>
 </ol>
 
       
@@ -455,23 +477,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -496,6 +510,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

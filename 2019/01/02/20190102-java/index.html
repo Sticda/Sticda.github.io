@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/01/02/20190102-java/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="把 enum 看成是一个普通的 class，它们都可以定义一些属性和方法，不同之处是：enum 不能使用 extends 关键字继承其他类，因为 enum 已经继承了 java.lang.Enum（java是单一继承）  Java IO 同步或者异步是针对应用程序和内核而言的，阻塞和非阻塞是指进程在访问数据的时候根据IO的状态采取不同的操作。 同步：用户进程触发IO操作之后需要等待或者轮询IO操">
-<meta property="og:updated_time" content="2019-01-14T06:25:42.601Z">
+<meta property="og:updated_time" content="2019-03-27T08:52:59.060Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20190102-java">
 <meta name="twitter:description" content="把 enum 看成是一个普通的 class，它们都可以定义一些属性和方法，不同之处是：enum 不能使用 extends 关键字继承其他类，因为 enum 已经继承了 java.lang.Enum（java是单一继承）  Java IO 同步或者异步是针对应用程序和内核而言的，阻塞和非阻塞是指进程在访问数据的时候根据IO的状态采取不同的操作。 同步：用户进程触发IO操作之后需要等待或者轮询IO操">
@@ -172,15 +172,15 @@
 <li>同步或者异步是针对应用程序和内核而言的，阻塞和非阻塞是指进程在访问数据的时候根据IO的状态采取不同的操作。</li>
 <li>同步：用户进程触发IO操作之后需要等待或者轮询IO操作是否完成</li>
 <li>异步：用户进程触发IO操作之后就去完成其他的任务，等到IO操作完成的时候用户进程会收到通知。</li>
-<li>阻塞：对文件进行读取，没有东西可读或者不可写的时候程序进入等待状态</li>
-<li>非阻塞：对文件进行读取，没有东西可读或者不可写的时候读写函数马上返回</li>
-<li>一个IO操作被分为两步，发起IO请求和实际完成IO操作，同步和异步关注的是实际完成IO操作会不会被阻塞，也就是说同步需要一直关注IO操作是否完成，通过轮询或者等待的方式；阻塞和非阻塞关注的是第一步，发起IO请求会不会被阻塞。<h2 id="同步阻塞（Java-BIO）"><a href="#同步阻塞（Java-BIO）" class="headerlink" title="同步阻塞（Java BIO）"></a>同步阻塞（Java BIO）</h2>用户进程在发起一个IO操作之后，就会一直等到这个操作完成用户进程才继续运行，<strong>Java的传统IO，一个连接一个线程，客户端有连接请求的时候服务器端就新建线程处理，适用于连接数目比较小而且固定的架构<br>#异步非阻塞（Java AIO）<br>用户进程只需要发起一个IO操作，然后立即返回，等IO操作完成之后，应用程序会得到IO操作完成的通知。</strong>连接数目多且连接比较长（重操作）的架构，比如相册服务器**</li>
+<li>阻塞：对文件进行读写，没有东西可读或者不可写的时候程序进入等待状态</li>
+<li>非阻塞：对文件进行读写，没有东西可读或者不可写的时候读写函数马上返回</li>
+<li>一个IO操作被分为两步，查看数据是否就绪和实际完成IO操作，同步和异步关注的是实际完成IO操作会不会被阻塞，也就是说同步需要一直关注IO操作是否完成，通过轮询或者等待的方式；阻塞和非阻塞关注的是第一步，查看数据是否就绪的过程是一直等待还是返回一个标志信息。<h2 id="同步阻塞（Java-BIO）"><a href="#同步阻塞（Java-BIO）" class="headerlink" title="同步阻塞（Java BIO）"></a>同步阻塞（Java BIO）</h2>用户进程在发起一个IO操作之后，就会一直等到这个操作完成用户进程才继续运行，<strong>Java的传统IO，一个连接一个线程，客户端有连接请求的时候服务器端就新建线程处理，适用于连接数目比较小而且固定的架构<br>#异步非阻塞（Java AIO）<br>用户进程只需要发起一个IO操作，然后立即返回，等IO操作完成之后，应用程序会得到IO操作完成的通知。</strong>连接数目多且连接比较长（重操作）的架构，比如相册服务器**</li>
 </ol>
 <p>jdk7主要增加了三个新的异步通道:</p>
 <p>AsynchronousFileChannel: 用于文件异步读写；<br>AsynchronousSocketChannel: 客户端异步socket；<br>AsynchronousServerSocketChannel: 服务器异步socket。</p>
+<h1 id="Java-NIO（多路复用IO模型）"><a href="#Java-NIO（多路复用IO模型）" class="headerlink" title="Java NIO（多路复用IO模型）"></a>Java NIO（多路复用IO模型）</h1><p>同步非阻塞：用户进程在发起IO请求之后可以继续完成其他的操作，但用户进程需要经过一段时间间隔轮询IO操作是否完成。<br><strong>一个请求一个线程</strong>，客户端的所有请求都会注册到多路复用器上。<strong>连接数目多而且连接比较短（轻操作）的架构，聊天服务器</strong>，缓冲区（Buffers）、通道（Channels）和非阻塞I/O的核心类组成</p>
 <h2 id="Reactor模式"><a href="#Reactor模式" class="headerlink" title="Reactor模式"></a>Reactor模式</h2><p>应用于同步I/O的场景，注册读就绪事件和事件处理器，一旦读就绪，就利用事件处理器完成具体的读取操作，然后根据读取到的内容进行进一步处理。</p>
 <h2 id="Proactor模式"><a href="#Proactor模式" class="headerlink" title="Proactor模式"></a>Proactor模式</h2><p>应用程序初始化一个异步读取操作，然后注册相应的事件处理器，这个关注的是读完成事件，<strong>这是与Reactor模式不同的地方，</strong>事件处理器从缓冲区读取到数据完成后续操作。</p>
-<h1 id="Java-NIO"><a href="#Java-NIO" class="headerlink" title="Java NIO"></a>Java NIO</h1><p>同步非阻塞：用户进程在发起IO请求之后可以继续完成其他的操作，但用户进程需要经过一段时间间隔轮询IO操作是否完成。<br><strong>一个请求一个线程</strong>，客户端的所有请求都会注册到多路复用器上。<strong>连接数目多而且连接比较短（轻操作）的架构，聊天服务器</strong>，缓冲区（Buffers）、通道（Channels）和非阻塞I/O的核心类组成</p>
 <h2 id="Channel"><a href="#Channel" class="headerlink" title="Channel"></a>Channel</h2><p>•  既可以从通道中读取数据，又可以写数据到通道。但流的读写通常是单向的。<br>•  通道可以异步地读写。<br>•  通道中的数据总是要先读到一个Buffer，或者总是要从一个Buffer中写入<br>channel的实现<br>• FileChannel：从文件中读写数据。<br>• DatagramChannel：能通过UDP读写网络中的数据。<br>• SocketChannel：能通过TCP读写网络中的数据。<br>• ServerSocketChannel：可以监听新进来的TCP连接，像Web服务器那样。对每一个新进来的连接都会创建一个SocketChannel。</p>
 <h2 id="Buffer"><a href="#Buffer" class="headerlink" title="Buffer"></a>Buffer</h2><p>使用Buffer读写数据一般遵循以下四个步骤：<br>• 从channel写入数据到Buffer<br>• 调用flip()方法，从写模式到读模式<br>• 从Buffer中读取数据到进程处理<br>• 调用clear()方法或者compact()方法</p>
 <h3 id="capacity"><a href="#capacity" class="headerlink" title="capacity"></a>capacity</h3><p>作为一个内存块，Buffer有一个固定的大小值，也叫“capacity”.你只能往里写capacity个byte、long，char等类型。一旦Buffer满了，需要将其清空（通过读数据或者清除数据）才能继续写数据往里写数据。</p>
@@ -192,7 +192,7 @@
 <h3 id="从Buffer中读取数据"><a href="#从Buffer中读取数据" class="headerlink" title="从Buffer中读取数据"></a>从Buffer中读取数据</h3><p>从Buffer中读取数据有两种方式：<br>• 从Buffer读取数据到Channel。 channel.write(buffer)<br>• 使用get()方法从Buffer中读取数据。</p>
 <h3 id="rewind-方法"><a href="#rewind-方法" class="headerlink" title="rewind()方法"></a>rewind()方法</h3><p>Buffer.rewind()将position设回0，所以你可以重读Buffer中的所有数据。limit保持不变，仍然表示能从Buffer中读取多少个元素（byte、char等）</p>
 <h2 id="选择器（Selector）"><a href="#选择器（Selector）" class="headerlink" title="选择器（Selector）"></a>选择器（Selector）</h2><p>Selector（选择器）是Java NIO中能够检测一到多个NIO通道，并能够知晓通道是否为诸如读写事件做好准备的组件。这样，一个单独的线程可以管理多个channel，从而管理多个网络连接</p>
-<p>为了将Channel和Selector配合使用，必须将channel注册到selector上。通过SelectableChannel.register()方法来实现，register()方法的第二个参数。这是一个“interest集合”，意思是在通过Selector监听Channel时对什么事件感兴趣。可以监听四种不同类型的事件： SelectionKey.OP_CONNECT 、 SelectionKey.OP_ACCEPT 、 SelectionKey.OP_READ、 SelectionKey.OP_WRITE 。某个channel成功连接到另一个服务器称为<strong>“连接就绪OP_CONNECT”</strong>。一个server socket channel准备好接收新进入的连接称为<strong>“接收就绪”OP_ACCEPT</strong>。一个有数据可读的通道可以说是“读就绪”。等待写数据的通道可以说是“写就绪”</p>
+<p>为了将Channel和Selector配合使用，必须将channel注册到selector上。通过channel.register()方法来实现，与Selector一起使用时，Channel必须处于非阻塞模式下。这意味着不能将FileChannel与Selector一起使用，因为FileChannel不能切换到非阻塞模式。而套接字通道都可以。register()方法的第二个参数。这是一个“interest集合”，意思是在通过Selector监听Channel时对什么事件感兴趣。可以监听四种不同类型的事件： SelectionKey.OP_CONNECT 、 SelectionKey.OP_ACCEPT 、 SelectionKey.OP_READ、 SelectionKey.OP_WRITE 。某个channel成功连接到另一个服务器称为<strong>“连接就绪OP_CONNECT”</strong>。一个server socket channel准备好接收新进入的连接称为<strong>“接收就绪”OP_ACCEPT</strong>。一个有数据可读的通道可以说是“读就绪”。等待写数据的通道可以说是“写就绪”</p>
 <p>register()方法会返回一个SelectionKey对象。</p>
 <p>一旦向Selector注册了一或多个通道，就可以调用几个重载的select()方法。这些方法返回你所感兴趣的事件（如连接、接受、读或写）已经准备就绪的那些通道</p>
 <h2 id="fileChannel"><a href="#fileChannel" class="headerlink" title="fileChannel"></a>fileChannel</h2><p>在使用FileChannel之前，必须先打开它。但是，我们无法直接打开一个FileChannel，需要通过使用一个InputStream、OutputStream或RandomAccessFile来获取一个FileChannel实例</p>
@@ -272,8 +272,8 @@
     </a>
   
   
-    <a href="/2018/12/25/20181225-java/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">20181225-java</div>
+    <a href="/2018/12/24/20181224/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">20181224</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -300,7 +300,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-IO"><span class="toc-number">1.</span> <span class="toc-text">Java IO</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#同步阻塞（Java-BIO）"><span class="toc-number">1.1.</span> <span class="toc-text">同步阻塞（Java BIO）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reactor模式"><span class="toc-number">1.2.</span> <span class="toc-text">Reactor模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Proactor模式"><span class="toc-number">1.3.</span> <span class="toc-text">Proactor模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-NIO"><span class="toc-number">2.</span> <span class="toc-text">Java NIO</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Channel"><span class="toc-number">2.1.</span> <span class="toc-text">Channel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer"><span class="toc-number">2.2.</span> <span class="toc-text">Buffer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#capacity"><span class="toc-number">2.2.1.</span> <span class="toc-text">capacity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#position"><span class="toc-number">2.2.2.</span> <span class="toc-text">position</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#limit"><span class="toc-number">2.2.3.</span> <span class="toc-text">limit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#向Buffer中写数据"><span class="toc-number">2.2.4.</span> <span class="toc-text">向Buffer中写数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从Buffer中读取数据"><span class="toc-number">2.2.5.</span> <span class="toc-text">从Buffer中读取数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rewind-方法"><span class="toc-number">2.2.6.</span> <span class="toc-text">rewind()方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择器（Selector）"><span class="toc-number">2.3.</span> <span class="toc-text">选择器（Selector）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fileChannel"><span class="toc-number">2.4.</span> <span class="toc-text">fileChannel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Socket-通道"><span class="toc-number">2.5.</span> <span class="toc-text">Socket 通道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ServerSocket-通道"><span class="toc-number">2.6.</span> <span class="toc-text">ServerSocket 通道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管道（Pipe）"><span class="toc-number">2.7.</span> <span class="toc-text">管道（Pipe）</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-IO"><span class="toc-number">1.</span> <span class="toc-text">Java IO</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#同步阻塞（Java-BIO）"><span class="toc-number">1.1.</span> <span class="toc-text">同步阻塞（Java BIO）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java-NIO（多路复用IO模型）"><span class="toc-number">2.</span> <span class="toc-text">Java NIO（多路复用IO模型）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reactor模式"><span class="toc-number">2.1.</span> <span class="toc-text">Reactor模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Proactor模式"><span class="toc-number">2.2.</span> <span class="toc-text">Proactor模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Channel"><span class="toc-number">2.3.</span> <span class="toc-text">Channel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Buffer"><span class="toc-number">2.4.</span> <span class="toc-text">Buffer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#capacity"><span class="toc-number">2.4.1.</span> <span class="toc-text">capacity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#position"><span class="toc-number">2.4.2.</span> <span class="toc-text">position</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#limit"><span class="toc-number">2.4.3.</span> <span class="toc-text">limit</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#向Buffer中写数据"><span class="toc-number">2.4.4.</span> <span class="toc-text">向Buffer中写数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#从Buffer中读取数据"><span class="toc-number">2.4.5.</span> <span class="toc-text">从Buffer中读取数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rewind-方法"><span class="toc-number">2.4.6.</span> <span class="toc-text">rewind()方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择器（Selector）"><span class="toc-number">2.5.</span> <span class="toc-text">选择器（Selector）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fileChannel"><span class="toc-number">2.6.</span> <span class="toc-text">fileChannel</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Socket-通道"><span class="toc-number">2.7.</span> <span class="toc-text">Socket 通道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ServerSocket-通道"><span class="toc-number">2.8.</span> <span class="toc-text">ServerSocket 通道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#管道（Pipe）"><span class="toc-number">2.9.</span> <span class="toc-text">管道（Pipe）</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -469,23 +469,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -510,6 +502,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

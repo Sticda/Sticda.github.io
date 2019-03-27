@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>20180402 Hibernate | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##hibernate Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计） ORM的全称是Object/Relation Mappi">
+  <meta name="description" content="##hibernate 持久层设计的目标包括：数据存储逻辑的分离，提供抽象化的数据访问接口。数据访问底层实现的分离，可以在不修改代码的情况下切换底层实现。资源管理和调度的分离，在数据访问层实现统一的资源调度（如缓存机制）。数据抽象，提供更面向对象的数据操作。 Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programmin">
 <meta name="keywords" content="笔记,hibernate">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20180402 Hibernate">
 <meta property="og:url" content="http://yoursite.com/2018/04/02/20180402-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="##hibernate Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计） ORM的全称是Object/Relation Mappi">
-<meta property="og:updated_time" content="2019-03-13T11:39:02.863Z">
+<meta property="og:description" content="##hibernate 持久层设计的目标包括：数据存储逻辑的分离，提供抽象化的数据访问接口。数据访问底层实现的分离，可以在不修改代码的情况下切换底层实现。资源管理和调度的分离，在数据访问层实现统一的资源调度（如缓存机制）。数据抽象，提供更面向对象的数据操作。 Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programmin">
+<meta property="og:updated_time" content="2019-03-27T08:28:11.607Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180402 Hibernate">
-<meta name="twitter:description" content="##hibernate Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计） ORM的全称是Object/Relation Mappi">
+<meta name="twitter:description" content="##hibernate 持久层设计的目标包括：数据存储逻辑的分离，提供抽象化的数据访问接口。数据访问底层实现的分离，可以在不修改代码的情况下切换底层实现。资源管理和调度的分离，在数据访问层实现统一的资源调度（如缓存机制）。数据抽象，提供更面向对象的数据操作。 Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。 Object Oriented Programmin">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -166,6 +166,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>##hibernate</p>
+<p>持久层设计的目标包括：<br>数据存储逻辑的分离，提供抽象化的数据访问接口。<br>数据访问底层实现的分离，可以在不修改代码的情况下切换底层实现。<br>资源管理和调度的分离，在数据访问层实现统一的资源调度（如缓存机制）。<br>数据抽象，提供更面向对象的数据操作。</p>
 <p>Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。</p>
 <p>Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计）</p>
 <p>ORM的全称是Object/Relation Mapping（对象/关系数据库映射），ORM的唯一作用就是：把对持久化对象的保存、删除、修改等操作转换成对数据库的操作，数据库表中每一行是一个实例，某一行的列是这个实例的属性。</p>
@@ -219,7 +220,7 @@
 <p> 持久化对象总是与Session和事务(Transaction)关联在一起，在一个session中，对持久化对象的操作不会立即写到数据库，只有当Transaction（事务）结束时也就是提交事务执行commit方法的时候，才真正的对数据库更新，从而完成持久化对象和数据库的同步。在同步之前的持久化对象成为脏对象。</p>
 <p>Hibernate Session提供了save和persist方法，可以在该方法的参数中指明主键。如果持久化类的标识属性是generated类型，那么hibernate会在save的时候就给这个持久化类的实例分配标识属性值，如果标识属性是assigned类型或者是复合主键，那么这个标识属性值应该在调用save之前被手动给定。</p>
 <p>save和persist 的方法区别在于save方法 返回插入的实例的标识属性值，而且save会立刻生成insert语句将该实例插入数据库中。这种方法是瞬态对象转变为持久化状态。</p>
-<p>程序可以使用load方法加载一个持久化实例，load方法的参数是类以及主键键值，如果不存在这个实例可能会返回一个异常，如果在持久化注解中指定了延迟加载，那么会返回一个未初始化的代理对象，这个对象只有在调用实例的方法的时候才会去数据库加载这个实例；与此相同的还有get方法，get方法会立即到数据库查找，如果不存在的话会返回null。load和get方法可以指定一个锁模式参数，LockOptions对象代表锁模式，提供了READ和UPGRADE两个静态属性代表共享、修改锁，除此之外Session.LockRequest的lock（）方法也可以将某个脱管对象重新持久化，但是这个脱管对象必须是没有经过修改的。</p>
+<p>程序可以使用load方法加载一个持久化实例，load方法的参数是类以及主键键值，如果不存在这个实例可能会返回一个异常，如果在持久化注解中指定了延迟加载，那么不管该实例存在与否都会返回一个未初始化的代理对象，这个对象只有在调用实例的方法的时候才会去数据库加载这个实例；与此相同的还有get方法，get方法会立即到数据库查找，如果不存在的话会返回null。load和get方法可以指定一个锁模式参数，LockOptions对象代表锁模式，提供了READ和UPGRADE两个静态属性代表共享、修改锁，除此之外Session.LockRequest的lock（）方法也可以将某个脱管对象重新持久化，但是这个脱管对象必须是没有经过修改的。</p>
 <p>程序对于持久化实例所做的更改会在Session flush之前被自动保存到数据库。</p>
 <p>对于一个脱管对象，可以使用session的update（）方法，update方法会将脱管对象更新到数据库，如果不记得之前是否持久化过，可以使用updateOrSave方法，如果没有该实例则save，还有一个方法是merge，这个方法执行并不会持久化自己的参数里的对象，会将该对象的副本返回，这个副本处于持久化状态。 </p>
 <p>session的delete方法可以删除持久化实例，但是都必须先加载，然后再删除。</p>
@@ -517,23 +518,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -558,6 +551,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/19/20180319-struts/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="一个表单里包含多个提交按钮，分别提交给不同的控制逻辑，和上周方法不同的方法是，将一个Action处理类定义成多个逻辑Action，在struts.xml中配置action的时候可以指定method属性来让action调用特定的方法处理，而不是默认使用execute方法，这些方法必须具有相似的方法签名，形参列表为空，方法返回值为String。 在struts.xml中配置action允许在指定nam">
-<meta property="og:updated_time" content="2018-06-12T09:17:39.176Z">
+<meta property="og:updated_time" content="2019-03-15T03:25:20.410Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180319">
 <meta name="twitter:description" content="一个表单里包含多个提交按钮，分别提交给不同的控制逻辑，和上周方法不同的方法是，将一个Action处理类定义成多个逻辑Action，在struts.xml中配置action的时候可以指定method属性来让action调用特定的方法处理，而不是默认使用execute方法，这些方法必须具有相似的方法签名，形参列表为空，方法返回值为String。 在struts.xml中配置action允许在指定nam">
@@ -169,7 +169,7 @@
 <p>在struts.xml中配置action允许在<strong>指定name属性</strong>时使用模式字符串（用*代表一个或者多个任意字符），接下来就可以在class、method和result元素中使用{N}的形式代表前面第N个星号（*）所匹配的子串</p>
 <pre><code>&lt;action name=&quot;*Action&quot; class=&quot;cc.LoginRegistAction&quot; method=&quot;{1}&quot;
 </code></pre><p>上面的这段代码其实就是根据传入的action名称选择method，也可以在类名里面使用{N}，没有为Action指定class属性，该action使用ActionSupport作为处理类，而且因为该ActionSupport类的execute方法默认返回success字符串.</p>
-<p>如果有URL为abcAction.action的请求，如果struts.xml文件中有名为abcAction的action，则一定由该action处理用户请求，如果struts.xml文件中没有名为abcAction的action，则搜寻第一个能够匹配abcAction的Action，例如*Action和*，*Action并不会比*匹配的优先级高，先找到那个Action就由哪个Action处理请求。所以说name=“*”的Action一般配置在最后。</p>
+<p>如果有URL为abcAction.action的请求，如果struts.xml文件中有名为abcAction的action，则一定由该action处理用户请求，如果struts.xml文件中没有名为abcAction的action，则搜寻第一个能够匹配abcAction的Action，例如<em>Action和</em>，<em>Action并不会比</em>匹配的优先级高，先找到那个Action就由哪个Action处理请求。所以说name=“*”的Action一般配置在最后。</p>
 <p>配置默认Action通过&lt;default-action-ref…../&gt; ，struts.xml文件中使用&lt;result…./&gt;元素配置结果，根据&lt;result…/&gt;元素所在位置的不同，struts2提供了两种结果，局部结果（result作为action的子元素）和全局结果（result作为global-results的子元素），配置result元素的时候通常要指定两个属性name和type，Struts2默认的结果类型就是dispatcher，所以在配置result的时候可以省略type元素，默认name是success，没有指定location参数，会把&lt;result….&gt;………\&lt;\/result>中间的字符串当成实际视图资源。</p>
 <p>如果result的type是plainText的话将会返回网页源代码，指定location和charSet（处理字符集）；result的结果如果是redirect类型，将产生新的请求，所有的请求参数、请求属性、Action实例和Action中封装的属性全部丢失。使用redirect类型的结果时，不能重定向到/WEB-INF/路径下任何资源，因为<strong>web应用的/WEB-INF/路径下的所有资源是受保护对象</strong>；redirectAction结果类型和redirect都是重新生成全新的请求，配置redirectAction的时候需要指定两个参数actionName和namespace。</p>
 <p>配置result元素的时候，不仅可以使用${0}表达式形式来指定视图资源，还可以使用${属性名}的方法指定，属性名就是对应的Action实例里的属性，<strong>OGNL表达式就是${属性名.属性名.属性名…….}</strong>，如果result放在global-results元素中配置的话，该result元素就是全局结果，对所有的Action都有效，但是<strong>局部结果会覆盖全局结果</strong>。</p>
@@ -465,23 +465,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -506,6 +498,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

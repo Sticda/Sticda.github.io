@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/12/15/20171219-servlet/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
-<meta property="og:updated_time" content="2019-03-12T14:36:00.223Z">
+<meta property="og:updated_time" content="2019-03-27T13:18:00.181Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20171219">
 <meta name="twitter:description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
@@ -228,6 +228,19 @@ chain.doFilter(request,response);
 &lt;location&gt;/error.jsp&lt;/location&gt;
 &lt;/error-page&gt;
 </code></pre><p>为了让浏览器知道如何处理收到的串流数据，需要告知MIME类型，如果在web.xml中设置了mime-mapping，则可以通过ServletContext的getMimeType（）方法获取MIME类型，这个方法的参数是文件名称，自动匹配对应的扩展名。</p>
+<h1 id="Servlet的生命周期"><a href="#Servlet的生命周期" class="headerlink" title="Servlet的生命周期"></a>Servlet的生命周期</h1><p>Servlet运行在Servlet容器中，其生命周期由容器来管理。Servlet的生命周期通过javax.servlet.Servlet接口中的init()、service()和destroy()方法来表示，Servlet的生命周期包含了下面4个阶段：1.加载和实例化2.初始化3.请求处理4.服务终止</p>
+<p><strong>Servlet 3.0的异步处理</strong><br>通过AsyncContext类来处理的，Servlet可通过ServletRequest的如下两个方法开启异步调用、创建AsyncContext对象： </p>
+<p>AsyncContext startAsync()<br>AsyncContext startAsync(ServletRequest, ServletResponse) </p>
+<p>重复调用上面的方法将得到同一个AsyncContext对象。AsyncContext对象代表异步处理的上下文，它提供了一些工具方法，可完成设置异步调用的超时时长，dispatch用于请求、启动后台线程、获取request、response对象等功能。</p>
+<p>除此之外，Servlet 3.0 还为异步处理提供了一个监听器，使用 AsyncListener 接口表示。它可以监控如下四种事件：</p>
+<p>异步线程开始时，调用 AsyncListener 的 onStartAsync(AsyncEvent event) 方法；<br>异步线程出错时，调用 AsyncListener 的 onError(AsyncEvent event) 方法；<br>异步线程执行超时，调用 AsyncListener 的 onTimeout(AsyncEvent event) 方法；<br>异步执行完毕时，调用 AsyncListener 的 onComplete(AsyncEvent event) 方法；</p>
+<h2 id="JSP页面的静态包含和动态包含"><a href="#JSP页面的静态包含和动态包含" class="headerlink" title="JSP页面的静态包含和动态包含"></a><strong>JSP页面的静态包含和动态包含</strong></h2><p>JSP中有两种包含：静态包含：&lt;%@include file=”被包含页面”%&gt;和动态包含：&lt;jsp:include page=”被包含页面”flush=”true”&gt;。</p>
+<ol>
+<li>静态包含在转换成为java文件的时候将包含文件的内容“复制”到主体文件，然后作为一个整体编译。最终编译为一个java文件。动态包含是各个jsp文件分别转换，分别编译。最终编程成多个java文件。执行时间不同</li>
+<li>静态包含发生在：JSP—-&gt;java文件阶段。动态包含发生在：执行class文件阶段。动态加入。</li>
+<li>静态包含在两个文件中不能有相同的变量，动态包含允许。由于静态包含相当于将包含文件内容直接复制到主体文件中，如果出现相同的变量，就会出现覆盖等问题，导致文件出错。而动态包含相当于调用不同的jsp，变量所在的空间不同，自然不会出现覆盖等现象。</li>
+<li>无论是动态包含还是静态包含，其request对象都是相同的。也就是同一个request对象</li>
+</ol>
 
       
 
@@ -323,7 +336,7 @@ chain.doFilter(request,response);
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HttpSession"><span class="toc-number">1.</span> <span class="toc-text">HttpSession</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#过滤器"><span class="toc-number">2.</span> <span class="toc-text">过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#响应封装器"><span class="toc-number">3.</span> <span class="toc-text">响应封装器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#监听器"><span class="toc-number">4.</span> <span class="toc-text">监听器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期监听器"><span class="toc-number">4.1.</span> <span class="toc-text">生命周期监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置"><span class="toc-number">4.2.</span> <span class="toc-text">设置</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HttpSession"><span class="toc-number">1.</span> <span class="toc-text">HttpSession</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#过滤器"><span class="toc-number">2.</span> <span class="toc-text">过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#响应封装器"><span class="toc-number">3.</span> <span class="toc-text">响应封装器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#监听器"><span class="toc-number">4.</span> <span class="toc-text">监听器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期监听器"><span class="toc-number">4.1.</span> <span class="toc-text">生命周期监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置"><span class="toc-number">4.2.</span> <span class="toc-text">设置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet的生命周期"><span class="toc-number">5.</span> <span class="toc-text">Servlet的生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JSP页面的静态包含和动态包含"><span class="toc-number">5.1.</span> <span class="toc-text">JSP页面的静态包含和动态包含</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -492,23 +505,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -533,6 +538,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

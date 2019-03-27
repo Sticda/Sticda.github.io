@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/03/26/20180326-struts/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="数据标签Action标签里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。 bean标签的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置Jav">
-<meta property="og:updated_time" content="2018-06-13T07:33:52.509Z">
+<meta property="og:updated_time" content="2019-03-15T04:07:49.182Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180326 struts">
 <meta name="twitter:description" content="数据标签Action标签里executeResult属性指定是否要把Action的处理结果包含到本界面。ignoreContextParams属性指定是否要把本页面的请求参数传入Action，默认是false（传入），指定了var属性就可以放入Stack Context中。 bean标签的var属性会将JavaBean放入Stack Context中，并且放入requestScope中，设置Jav">
@@ -222,7 +222,7 @@
 </code></pre><h4 id="短路校验器"><a href="#短路校验器" class="headerlink" title="短路校验器"></a>短路校验器</h4><p>在指明过滤器类型的同时，还可以设置short-circuit属性（validator元素和field-validator元素），这个属性的默认值是false，设置为true之后的效果就是如果同一个字段排在前面的校验器校验失败，那么校验就会直接结束，返回失败信息。</p>
 <p>之前我们提到过每一个action都有自己的校验文件，但是某个action里面可能会通过method配置若干逻辑Action，这时候的校验文件名ActionName-ActionAliasName-validation.xml，这里的ActionAliasName就是在配置Action的时候指明的name属性。</p>
 <p>校验文件的查找规则是从上到下，先查找父类以及父类的别名检验文件，然后再查找本身以及本身别名的校验文件。如果出现冲突，后面的校验文件配置覆盖前面的。所有非字段校验器会优先于字段校验器执行；非字段校验器校验失败，所有的字段校验器将不会被执行；前面的某个非字段校验器校验失败，并不会影响其他的非字段校验器；如果某个字段校验器校验失败，那么之后的字段校验器也不会被执行。</p>
-<h3 id="struts2提供的校验器"><a href="#struts2提供的校验器" class="headerlink" title="struts2提供的校验器"></a>struts2提供的校验器</h3><p>如果开发者开发了一个自己的校验器，则可以通过添加一个validators.xml文件，放在classes目录下，validator元素里的name是校验器类型，class指定的是校验器的实现类（全限定名）,就可以注册自己的校验器了，而且存在的一个问题就是吐过struts2发现在WEB-INF/classes目录下有一个validators.xml的话就不会再去加载系统默认的default.xml文件了，所以需要把default.xml中的内容全部复制到自定义的validators.xml中。下面的校验器都可以直接添加message属性表示校验失败之后的输出信息。</p>
+<h3 id="struts2提供的校验器"><a href="#struts2提供的校验器" class="headerlink" title="struts2提供的校验器"></a>struts2提供的校验器</h3><p>如果开发者开发了一个自己的校验器，则可以通过添加一个validators.xml文件，放在classes目录下，validator元素里的name是校验器类型，class指定的是校验器的实现类（全限定名）,就可以注册自己的校验器了，而且存在的一个问题就是如果struts2发现在WEB-INF/classes目录下有一个validators.xml的话就不会再去加载系统默认的default.xml文件了，所以需要把default.xml中的内容全部复制到自定义的validators.xml中。下面的校验器都可以直接添加message属性表示校验失败之后的输出信息。</p>
 <ol>
 <li>必填检验器：校验器名为required，要求指定字段必须有值</li>
 <li>必填字符串校验器：名称为requiredstring，trim参数默认为true（截断字符串前后的空白）</li>
@@ -511,23 +511,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -552,6 +544,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

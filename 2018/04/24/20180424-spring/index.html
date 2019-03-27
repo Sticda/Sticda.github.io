@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/24/20180424-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。这个类提">
-<meta property="og:updated_time" content="2018-07-01T04:54:05.496Z">
+<meta property="og:updated_time" content="2019-03-27T06:51:58.265Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180424 spring">
 <meta name="twitter:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。这个类提">
@@ -189,16 +189,21 @@
 <h3 id="管理Bean的生命周期"><a href="#管理Bean的生命周期" class="headerlink" title="管理Bean的生命周期"></a>管理Bean的生命周期</h3><p>spring管理生命周期行为的时机主要有两个： 一个是依赖注入之后，一个是即将销毁Bean之前。</p>
 <h3 id="依赖关系注入之后"><a href="#依赖关系注入之后" class="headerlink" title="依赖关系注入之后"></a>依赖关系注入之后</h3><p>有两种方式：一种是使用init-method属性，一种是实现initializingBean接口（侵入式设计，不推荐），这个接口提供了afterPropertiesSet方法，这个方法里指定我们要实现的部分。<strong>两个同时存在的时候先执行afterPropertiesSet，再执行init-method指定的方法。</strong></p>
 <p>init-method的值是这个Bean的某个方法名，指定这个方法在属性设置完成之后执行，BeanNameAware和ApplicationContextAware的执行顺序是先setBeanNameAware，然后setApplicationContext</p>
-<h3 id="Bean销毁之前"><a href="#Bean销毁之前" class="headerlink" title="Bean销毁之前"></a>Bean销毁之前</h3><p>有两种方式：一种是destroy-method属性，一种是实现DisposableBean接口，这个接口有一个destroy方法。在销毁之前执行destroy方法。<strong>两个同时存在的时候先执行destroy-method指定的方法，再执行destroy方法。</strong></p>
+<h3 id="Bean销毁之前"><a href="#Bean销毁之前" class="headerlink" title="Bean销毁之前"></a>Bean销毁之前</h3><p>有两种方式：一种是destroy-method属性，一种是实现DisposableBean接口，这个接口有一个destroy方法。在销毁之前执行destroy方法。<strong>两个同时存在的时候先执行destroy方法，再执行destroy-method指定的方法。</strong></p>
 <p>singleton作用域的Bean通常会随着容器关闭而销毁。在web应用环境下ApplicationContext的关闭不需要考虑，在一个非web应用环境下，需要在JVM里面注册一个关闭钩子，就是调用AbstractApplicationContext中提供的registerShutdownHook（）方法。</p>
 <p>如果说很多bean都需要设置init-method和destroy-method，那么就可以利用default-init-method和default-destroy-method，这两个属性将对beans下面的所有bean生效。</p>
-<h3 id="协调作用域不同步的Bean"><a href="#协调作用域不同步的Bean" class="headerlink" title="协调作用域不同步的Bean"></a>协调作用域不同步的Bean</h3><p>如果一个singleton作用域的Bean A依赖于一个Prototype作用域的Bean B，当spring初始化A的时候，会先初始化B，然后把B注入到A中，形成一个singleton作用域的Bean，每一次通过singleton Bean访问prototype Bean的时候，得到的永远是最初的那个prototype Bean，为了解决这个问题，可以使用方法注入，方法注入通常使用lookup方法注入，有两步：第一步是将调用者Bean的实现类定义为抽象类，并定义一个抽象方法来返回被依赖的Bean。在bean元素中添加lookup-method子元素，这个子元素有两个属性，一个是name（方法名），一个是bean（被依赖的prototype的bean的id）</p>
+<h3 id="协调作用域不同步的Bean"><a href="#协调作用域不同步的Bean" class="headerlink" title="协调作用域不同步的Bean"></a>协调作用域不同步的Bean</h3><p>如果一个singleton作用域的Bean A依赖于一个Prototype作用域的Bean B，当spring初始化A的时候，会先初始化B，然后把B注入到A中，形成一个singleton作用域的Bean，每一次通过singleton Bean访问prototype Bean的时候，得到的永远是最初的那个prototype Bean，为了解决这个问题，可以使用方法注入，方法注入通常使用lookup方法注入，有两步：第一步是将调用者Bean的实现类定义为抽象类，并定义一个抽象方法来返回被依赖的Bean。在bean元素中添加lookup-method子元素，这个子元素有两个属性，一个是name（方法名），一个是bean（被依赖的prototype的bean的id），相当于指定了这个方法的返回值是去寻找某个id的bean</p>
 <h2 id="高级依赖关系配置"><a href="#高级依赖关系配置" class="headerlink" title="高级依赖关系配置"></a>高级依赖关系配置</h2><p>Spring框架的本质是开发者在spring配置文件中使用xml元素进行配置，实际驱动spring执行相应的代码。</p>
 <h3 id="获取其他Bean的属性值"><a href="#获取其他Bean的属性值" class="headerlink" title="获取其他Bean的属性值"></a>获取其他Bean的属性值</h3><p>PropertyPathFactoryBean用来获取目标Bean的属性值，实际上就是利用了getter方法。</p>
 <p>使用PropertyPathFactoryBean来调用其他Bean的getter方法需要指定如下信息：调用哪个对象和调用哪个getter方法。</p>
 <p>在xml配置文件中需要指明的是targetBeanName和propertyPath的值，通过property的name和value指明，class一定要写明是PropertyPathFactoryBean。value支持复合属性，就是某某类的某某类的某某属性值。如果目标Bean是Bean实例的话，则需要将targetBeanName改成targetObject</p>
-<p>简化配置的方法是使用<a href="util:property-path..../" target="_blank" rel="noopener">util:property-path..../</a>元素，首先要导入util：命名空间。这个元素有两个属性，一个是id（想要将得到的返回值封装成什么名字的Bean实例），一个是path，如果是基本属性值就不需要指定id。</p>
-<h3 id="获取Field值"><a href="#获取Field值" class="headerlink" title="获取Field值"></a>获取Field值</h3><p>通过FieldRetrievingFactoryBean类，可以访问类的静态Field或者对象的实例Field值（要求实例field用public修饰，这个没什么用）。得到值之后可以注入其他Bean，也可以直接定义成新的Bean。</p>
+<pre><code>&lt;property name=&quot;son&quot;&gt;
+    &lt;bean class=&quot;org.springframework.beans.factory.config.PropertyPathFactoryBean&quot;&gt;
+        &lt;!-- 确定目标Bean，指定son Bean来自哪个Bean的getter方法 --&gt;
+        &lt;property name=&quot;targetBeanName&quot; value=&quot;father&quot;/&gt;
+        &lt;!-- 指定son Bean来自目标Bean的哪个getter方法，age代表getAge() --&gt;
+        &lt;property name=&quot;propertyPath&quot; value=&quot;son&quot;/&gt;
+</code></pre><h3 id="获取Field值"><a href="#获取Field值" class="headerlink" title="获取Field值"></a>获取Field值</h3><p>通过FieldRetrievingFactoryBean类，可以访问类的静态Field或者对象的实例Field值（要求实例field用public修饰，这个没什么用）。得到值之后可以注入其他Bean，也可以直接定义成新的Bean。</p>
 <p>使用FieldRetrievingFactoryBean访问field分为两种情况，setTargetClass和setTargetField或者setTargetObject和setTargetField。</p>
 <p>在XML文件中就是利用property的name和value属性指定值，name是targetClass和targetField，name还可以是staticField，通过这种方式访问静态field，util：constant元素可以简化配置，id（bean实例的name）和static-field</p>
 <h3 id="获取方法返回值"><a href="#获取方法返回值" class="headerlink" title="获取方法返回值"></a>获取方法返回值</h3><p>MethodInvokingFactoryBean工厂Bean，如果调用的方法是静态方法，则需要指定，setTartgetClass，setTargetMethod，setArguments，如果是实例方法，第一个是setTargetObject，其他的不变。arguments中的参数如果超过一个则需要使用list。</p>
@@ -476,23 +481,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -517,6 +514,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

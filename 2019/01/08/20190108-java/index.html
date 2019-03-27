@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/01/08/20190108-java/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="反射反射机制允许程序在运行时取得任何一个已知名称的class的内部信息，包括包括其modifiers(修饰符)，fields(属性)，methods(方法)等，并可于运行时改变fields内容或调用methods 反射使用不当会造成很高的资源消耗 一个类在JVM中只会有一个 Class 实例 class.setAccessible(true)启用和禁用访问安全检查的开关，值为 true，则表示反射">
-<meta property="og:updated_time" content="2019-01-14T08:16:47.168Z">
+<meta property="og:updated_time" content="2019-03-19T12:30:15.407Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20190108-java">
 <meta name="twitter:description" content="反射反射机制允许程序在运行时取得任何一个已知名称的class的内部信息，包括包括其modifiers(修饰符)，fields(属性)，methods(方法)等，并可于运行时改变fields内容或调用methods 反射使用不当会造成很高的资源消耗 一个类在JVM中只会有一个 Class 实例 class.setAccessible(true)启用和禁用访问安全检查的开关，值为 true，则表示反射">
@@ -190,7 +190,7 @@ f2.set(p2,&quot;Bob&quot;);
 <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>在整个全局中（无论是单线程还是多线程），该对象只存在一个实例，而且只应该存在一个实例，没有副本。</p>
 <p>序列化对单例有破坏<br>1、通过对某个对象的序列化与反序列化得到的对象是一个新的对象，这就破坏了单例模式的单例性。<br>2、我们知道readObject()的时候，底层运用了反射的技术，</p>
 <h2 id="为什么说序列化并不安全"><a href="#为什么说序列化并不安全" class="headerlink" title="为什么说序列化并不安全"></a>为什么说序列化并不安全</h2><p>因为序列化的对象数据转换为二进制，并且完全可逆。但是在RMI调用时所有private字段的数据都以明文二进制的形式出现在网络的套接字上，这显然是不安全的<br>解决方案<br>1、 序列化Hook化（移位和复位）<br>2、 序列数据加密和签名<br>3、 利用transient的特性解决<br>4、 打包和解包代理</p>
-<h1 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h1><p>@Deprecated 意思是“废弃的，过时的”，@Override 意思是“重写、覆盖”，@SuppressWarnings 意思是“压缩警告。</p>
+<h1 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h1><p>@Deprecated 意思是“废弃的，过时的”，@Override 意思是“重写、覆盖”，@SuppressWarnings 意思是抑制警告。</p>
 <h2 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h2><p>通过@interface自定义注解，@Retention（RetentionPolicy.Source（源文件）、CLASS（class文件）、RunTime（字节码）），@Target元注解决定了一个注解可以标识到哪些成分上，如标识在在类身上，或者属性身上，或者方法身上等成分，@Target默认值为任何元素(成分)；@Document：说明该注解将被包含在javadoc中；@Inherited：说明子类可以继承父类中的该注解</p>
 <p>注解也可以添加属性，和正常类不同的地方在属性名后面要加小括号，语法：类型 属性名（）default 默认值；通过反射可以获取类的Annotation，这个Annotation相当于就是一个类，通过强制类型转换可以转换为<br>自定义的注解，可以在使用注解的时候在括号里应用属性，</p>
 <h1 id="JMS"><a href="#JMS" class="headerlink" title="JMS"></a>JMS</h1><p>Java消息服务（Java Message Service）<strong>应用程序接口</strong>，是一个Java平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。Java消息服务是一个与具体平台无关的API</p>
@@ -204,7 +204,7 @@ f2.set(p2,&quot;Bob&quot;);
 <p>消息的产生是异步的，但是消息的消费可以是异步或者同步，通过receive方法阻塞直到接受到消息，异步的方式则通过消息监听者，类似于事件监听器。</p>
 <p>JMS编程模型</p>
 <p>(1) ConnectionFactory</p>
-<p>创建Connection对象的工厂，针对两种不同的jms消息模型，分别有QueueConnectionFactory和TopicConnectionFactory两种。可以通过JNDI来查找ConnectionFactory对象。</p>
+<p>创建Connection对象的工厂，客户端通过Connectionfactory连接到jms服务提供者，针对两种不同的jms消息模型，分别有QueueConnectionFactory和TopicConnectionFactory两种。可以通过JNDI来查找ConnectionFactory对象。</p>
 <p>(2) Destination</p>
 <p>Destination的意思是消息生产者的消息发送目标或者说消息消费者的消息来源。 </p>
 <p>所以，Destination实际上就是<strong>两种类型的对象</strong>：Queue、Topic可以通过JNDI来查找Destination。</p>
@@ -262,7 +262,7 @@ f2.set(p2,&quot;Bob&quot;);
 <ol>
 <li>泛型</li>
 </ol>
-<p>类型擦除的主要过程如下：将所有的泛型参数用其最左边界（最顶级的父类型）类型替换。移除所有的类型参数。</p>
+<p>泛型，即“参数化类型”。一提到参数，最熟悉的就是定义方法时有形参，然后调用此方法时传递实参。就是将类型由原来的具体的类型参数化，类似于方法中的变量参数，此时类型也定义成参数形式（可以称之为类型形参），然后在使用/调用时传入具体的类型（类型实参）类型擦除的主要过程如下：将所有的泛型参数用其最左边界（最顶级的父类型）类型替换。移除所有的类型参数。</p>
 <ol>
 <li>自动装箱与拆箱</li>
 </ol>
@@ -567,23 +567,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -608,6 +600,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

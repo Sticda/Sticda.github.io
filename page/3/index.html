@@ -212,17 +212,26 @@
 <p>Hibernate引入了CurrentSessionContext接口，并通过hibernate.current_session_context_class参数来管理上下文相关的Session的底层实现。这个接口有三个实现类：org.hibernate.context.JTASessionContext、org…………ThreadLocalSessionContext、org…………ManagedSessionContext。</p>
 <p>如果使用ThreadLSessionContext策略，Hibernate的Session会随着getCurrentSession方法自动打开，在容器中使用hibernate使用第一种方式。</p>
 <h2 id="二级缓存和查询缓存"><a href="#二级缓存和查询缓存" class="headerlink" title="二级缓存和查询缓存"></a>二级缓存和查询缓存</h2><p><strong>Hibernate默认启用一级缓存，可选的二级缓存。</strong></p>
+<p>当应用程序保存持久化实体、修改持久化实体时，Session并不会立即把这种改变提交到数据库，而是缓存在当前的Session中，除非显示调用了Session的flush()方法或通过close()方法关闭Session。通过一级缓存，可以减少程序与数据库的交互，从而提高数据库访问性能。一级缓存的生命周期和session的生命周期一致，当前session一旦关闭，一级缓存就消失了，因此一级缓存也叫session级的缓存或事务级缓存，一级缓存只存实体对象，它不会缓存一般的对象属性（查询缓存可以），即当获得对象后，就将该对象缓存起来，如果在同一session中再去获取这个对象时，它会先判断在缓存中有没有该对象的id，如果有则直接从缓存中获取此对象，反之才去数据库中取，取的同时再将此对象作为一级缓存处理。get 和load方法支持一级缓存，query的list方法只会缓存，不会使用缓存。</p>
 <p>SessionFactory的二级缓存是全局性的，应用的所有Session都共享这个二级缓存，开启二级缓存需要在hibernate.cfg.xml中指定hibernate.cache.use_second_level_cache参数的值为true。指定了开启二级缓存之外，还需要指定二级缓存的实现类hibernate.cache.region.factory_class。常用的实现类有EhCache和Infinispan，指定实现类的时候要求的是全限定名。对于EhCache需要一个ehcache.xml配置文件。设置对哪些类和类的集合属性启用二级缓存，有两种方法，第一种就是使用@Cache，第二种就是使用&lt;class-cache…./&gt;或者&lt;collection-cache…../&gt;，使用注解的方法比较多，但是在@Cache的时候需要指定usage属性，这个属性指的是缓存的策略。</p>
 <p>CacheConcurrencyStrategy.READ_ONLY\READ_WRITE：如果要在JTA环境中使用该缓存策略，必须指定hibernate.transaction.manager_lookup_class属性的值。如果要在集群环境中使用，必须保证底层的缓存实现支持锁定。NONSTRICT_READ_WRITE（非严格读写）\TRANSACTION（全事务的缓存支持，只能在JTA环境中）</p>
 <p>Session的evict(Object object)方法，可以将括号里的对象或集合从一级缓存中剔除。查询某个对象是否在一级缓存中使用contains方法，清除一级缓存里的所有对象使用clear。</p>
 <p>SessionFactory提供了一个getCache的方法，返回一个Cache对象，通过这个对象可以操作二级缓存。</p>
-<p>一级缓存和二级缓存都是对整个实体进行缓存的，不会缓存普通属性，如果想对普通属性进行缓存，则可以考虑使用查询缓存。</p>
+<p>一旦开启了二级缓存并设置了需要使用二级缓存的实体类，SessionFactory就会缓存访问过的该实体类的每个对象，除非缓存的数据超出了指定的缓存空间。 一级缓存和二级缓存都是对整个实体进行缓存的，不会缓存普通属性，如果想对普通属性进行缓存，则可以考虑使用查询缓存。查询缓存是将HQL或SQL语句以及它们的查询结果作为键值对进行缓存，对于同样的查询可以直接从缓存中获取数据。查询缓存默认也是关闭的，需要显示开启</p>
 <h2 id="事件机制"><a href="#事件机制" class="headerlink" title="事件机制"></a>事件机制</h2><p>hibernate中的数据持久化操作对于用户是透明的，通过事件框架能够让应用程序响应特定的内部事件。事件框架由两个部分组成，拦截器机制（特定动作拦截回调）和事件系统（重写事件监听器）。</p>
 <p>通过继承EmptyInterceptor实现拦截器，通过SessionFactory的openSession（Interceptor in）打开一个带有局部拦截器的Session，通过Configuration的setInterceptor方法设置全局拦截器。</p>
 <p>Hibernate自己有自己默认的事件系统，Session接口的每个方法都有自己的时间，并且有对应的事件监听器，用户可以实现自己的监听器代替系统默认的事件监听器。</p>
 <p>Session的每个方法都有对应的事件</p>
 <p>自定义事件监听器的方法有三种：实现对应的监听器接口，继承事件适配器、继承事件监听器（defaultXXXEventListener）。前两种都需要程序员替代hibernate实现持久化的操作。一定要记得调用父类监听器的方法实现持久化操作。</p>
 <p>定义完事件监听器，hibernate提供了一个EventListenerRegistry接口，三个方法注册事件监听器，appendListeners（追加在默认监听器后面）、prependListeners（追加在默认监听器前面）、setListeners（替代默认监听器）。</p>
+<h2 id="延迟加载和session关闭之间的矛盾"><a href="#延迟加载和session关闭之间的矛盾" class="headerlink" title="延迟加载和session关闭之间的矛盾"></a>延迟加载和session关闭之间的矛盾</h2><p>延迟加载使用了代理机制。返回给用户的并不是实体本身，而是实体对象的代理。代理对象在用户调用getter方法时就会去数据库加载数据。但加载数据就需要数据库连接。而当我们把会话关闭时，数据库连接就同时关闭了。这种情况就叫做未初始化的关系。</p>
+<ol>
+<li>使用迫切加载：FetchType.EAGER：加载一个实体时，定义急加载的属性会立即从数据库中加载。</li>
+<li>在session关闭之前先获取需要查询的数据，可以使用工具方法Hibernate.isInitialized()判断对象是否被加载，如果没有被加载则可以使用Hibernate.initialize()方法加载对象。</li>
+<li>使用拦截器(Interceptor)或过滤器(Filter)控制session，OpenSessionInViewFilter和OpenSessionInViewInterceptor，而不是之前在事务结束后关闭session的办法</li>
+</ol>
+<h2 id="Hibernate的优化方法"><a href="#Hibernate的优化方法" class="headerlink" title="Hibernate的优化方法"></a>Hibernate的优化方法</h2><p>① 制定合理的缓存策略（二级缓存、查询缓存）。<br>② 采用合理的Session管理机制。<br>③ 尽量使用延迟加载特性。<br>④ 设定合理的批处理参数。<br>⑤ 如果可以，选用UUID作为主键生成器。<br>⑥ 如果可以，选用基于版本号的乐观锁替代悲观锁。<br>⑦ 在开发过程中, 开启hibernate.show_sql选项查看生成的SQL，从而了解底层的状况；开发完成后关闭此选项。<br>⑧ 考虑数据库本身的优化，合理的索引、恰当的数据分区策略等都会对持久层的性能带来可观的提升，但这些需要专业的DBA（数据库管理员）提供支持。</p>
+<h2 id="hibernate的锁机制以及悲观锁和乐观锁"><a href="#hibernate的锁机制以及悲观锁和乐观锁" class="headerlink" title="hibernate的锁机制以及悲观锁和乐观锁"></a>hibernate的锁机制以及悲观锁和乐观锁</h2><p>有些业务逻辑在执行过程中要求对数据进行排他性的访问，于是需要通过一些机制保证在此过程中数据被锁住不会被外界修改，这就是所谓的锁机制。<br>Hibernate支持悲观锁和乐观锁两种锁机制。悲观锁，顾名思义悲观的认为在数据处理过程中极有可能存在修改数据的并发事务（包括本系统的其他事务或来自外部系统的事务），于是将处理的数据设置为锁定状态。悲观锁必须依赖数据库本身的锁机制才能真正保证数据访问的排他性。乐观锁，顾名思义，对并发事务持乐观态度（认为对数据的并发操作不会经常性的发生），通过更加宽松的锁机制来解决由于悲观锁排他性的数据访问对系统性能造成的严重影响。最常见的乐观锁是<strong>通过数据版本标识来实现的</strong>，读取数据时获得数据的版本号，更新数据时将此版本号加1，然后和数据库表对应记录的当前版本号进行比较，如果提交的数据版本号大于数据库中此记录的当前版本号则更新数据，否则认为是过期数据无法更新。Hibernate中通过Session的get()和load()方法从数据库中加载对象时可以通过参数指定使用悲观锁；而乐观锁可以通过给实体类加整型的版本字段再通过XML或@Version注解进行配置。</p>
 
       
 
@@ -432,6 +441,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>##hibernate</p>
+<p>持久层设计的目标包括：<br>数据存储逻辑的分离，提供抽象化的数据访问接口。<br>数据访问底层实现的分离，可以在不修改代码的情况下切换底层实现。<br>资源管理和调度的分离，在数据访问层实现统一的资源调度（如缓存机制）。<br>数据抽象，提供更面向对象的数据操作。</p>
 <p>Hibernate不仅管理Java类到数据库表的映射，还提供数据查询和获取数据的方法。</p>
 <p>Object Oriented Programming（OOP，面向对象程序设计）、Object-Oriented Analysis（OOA，面向对象分析方法）、Object-Oriented Design（OOD，面向对象设计）</p>
 <p>ORM的全称是Object/Relation Mapping（对象/关系数据库映射），ORM的唯一作用就是：把对持久化对象的保存、删除、修改等操作转换成对数据库的操作，数据库表中每一行是一个实例，某一行的列是这个实例的属性。</p>
@@ -485,7 +495,7 @@
 <p> 持久化对象总是与Session和事务(Transaction)关联在一起，在一个session中，对持久化对象的操作不会立即写到数据库，只有当Transaction（事务）结束时也就是提交事务执行commit方法的时候，才真正的对数据库更新，从而完成持久化对象和数据库的同步。在同步之前的持久化对象成为脏对象。</p>
 <p>Hibernate Session提供了save和persist方法，可以在该方法的参数中指明主键。如果持久化类的标识属性是generated类型，那么hibernate会在save的时候就给这个持久化类的实例分配标识属性值，如果标识属性是assigned类型或者是复合主键，那么这个标识属性值应该在调用save之前被手动给定。</p>
 <p>save和persist 的方法区别在于save方法 返回插入的实例的标识属性值，而且save会立刻生成insert语句将该实例插入数据库中。这种方法是瞬态对象转变为持久化状态。</p>
-<p>程序可以使用load方法加载一个持久化实例，load方法的参数是类以及主键键值，如果不存在这个实例可能会返回一个异常，如果在持久化注解中指定了延迟加载，那么会返回一个未初始化的代理对象，这个对象只有在调用实例的方法的时候才会去数据库加载这个实例；与此相同的还有get方法，get方法会立即到数据库查找，如果不存在的话会返回null。load和get方法可以指定一个锁模式参数，LockOptions对象代表锁模式，提供了READ和UPGRADE两个静态属性代表共享、修改锁，除此之外Session.LockRequest的lock（）方法也可以将某个脱管对象重新持久化，但是这个脱管对象必须是没有经过修改的。</p>
+<p>程序可以使用load方法加载一个持久化实例，load方法的参数是类以及主键键值，如果不存在这个实例可能会返回一个异常，如果在持久化注解中指定了延迟加载，那么不管该实例存在与否都会返回一个未初始化的代理对象，这个对象只有在调用实例的方法的时候才会去数据库加载这个实例；与此相同的还有get方法，get方法会立即到数据库查找，如果不存在的话会返回null。load和get方法可以指定一个锁模式参数，LockOptions对象代表锁模式，提供了READ和UPGRADE两个静态属性代表共享、修改锁，除此之外Session.LockRequest的lock（）方法也可以将某个脱管对象重新持久化，但是这个脱管对象必须是没有经过修改的。</p>
 <p>程序对于持久化实例所做的更改会在Session flush之前被自动保存到数据库。</p>
 <p>对于一个脱管对象，可以使用session的update（）方法，update方法会将脱管对象更新到数据库，如果不记得之前是否持久化过，可以使用updateOrSave方法，如果没有该实例则save，还有一个方法是merge，这个方法执行并不会持久化自己的参数里的对象，会将该对象的副本返回，这个副本处于持久化状态。 </p>
 <p>session的delete方法可以删除持久化实例，但是都必须先加载，然后再删除。</p>
@@ -751,7 +761,7 @@
 </code></pre><h4 id="短路校验器"><a href="#短路校验器" class="headerlink" title="短路校验器"></a>短路校验器</h4><p>在指明过滤器类型的同时，还可以设置short-circuit属性（validator元素和field-validator元素），这个属性的默认值是false，设置为true之后的效果就是如果同一个字段排在前面的校验器校验失败，那么校验就会直接结束，返回失败信息。</p>
 <p>之前我们提到过每一个action都有自己的校验文件，但是某个action里面可能会通过method配置若干逻辑Action，这时候的校验文件名ActionName-ActionAliasName-validation.xml，这里的ActionAliasName就是在配置Action的时候指明的name属性。</p>
 <p>校验文件的查找规则是从上到下，先查找父类以及父类的别名检验文件，然后再查找本身以及本身别名的校验文件。如果出现冲突，后面的校验文件配置覆盖前面的。所有非字段校验器会优先于字段校验器执行；非字段校验器校验失败，所有的字段校验器将不会被执行；前面的某个非字段校验器校验失败，并不会影响其他的非字段校验器；如果某个字段校验器校验失败，那么之后的字段校验器也不会被执行。</p>
-<h3 id="struts2提供的校验器"><a href="#struts2提供的校验器" class="headerlink" title="struts2提供的校验器"></a>struts2提供的校验器</h3><p>如果开发者开发了一个自己的校验器，则可以通过添加一个validators.xml文件，放在classes目录下，validator元素里的name是校验器类型，class指定的是校验器的实现类（全限定名）,就可以注册自己的校验器了，而且存在的一个问题就是吐过struts2发现在WEB-INF/classes目录下有一个validators.xml的话就不会再去加载系统默认的default.xml文件了，所以需要把default.xml中的内容全部复制到自定义的validators.xml中。下面的校验器都可以直接添加message属性表示校验失败之后的输出信息。</p>
+<h3 id="struts2提供的校验器"><a href="#struts2提供的校验器" class="headerlink" title="struts2提供的校验器"></a>struts2提供的校验器</h3><p>如果开发者开发了一个自己的校验器，则可以通过添加一个validators.xml文件，放在classes目录下，validator元素里的name是校验器类型，class指定的是校验器的实现类（全限定名）,就可以注册自己的校验器了，而且存在的一个问题就是如果struts2发现在WEB-INF/classes目录下有一个validators.xml的话就不会再去加载系统默认的default.xml文件了，所以需要把default.xml中的内容全部复制到自定义的validators.xml中。下面的校验器都可以直接添加message属性表示校验失败之后的输出信息。</p>
 <ol>
 <li>必填检验器：校验器名为required，要求指定字段必须有值</li>
 <li>必填字符串校验器：名称为requiredstring，trim参数默认为true（截断字符串前后的空白）</li>
@@ -1129,7 +1139,7 @@ show create{ procedure | function } 存储过程和函数的名字
 <p>在struts.xml中配置action允许在<strong>指定name属性</strong>时使用模式字符串（用*代表一个或者多个任意字符），接下来就可以在class、method和result元素中使用{N}的形式代表前面第N个星号（*）所匹配的子串</p>
 <pre><code>&lt;action name=&quot;*Action&quot; class=&quot;cc.LoginRegistAction&quot; method=&quot;{1}&quot;
 </code></pre><p>上面的这段代码其实就是根据传入的action名称选择method，也可以在类名里面使用{N}，没有为Action指定class属性，该action使用ActionSupport作为处理类，而且因为该ActionSupport类的execute方法默认返回success字符串.</p>
-<p>如果有URL为abcAction.action的请求，如果struts.xml文件中有名为abcAction的action，则一定由该action处理用户请求，如果struts.xml文件中没有名为abcAction的action，则搜寻第一个能够匹配abcAction的Action，例如*Action和*，*Action并不会比*匹配的优先级高，先找到那个Action就由哪个Action处理请求。所以说name=“*”的Action一般配置在最后。</p>
+<p>如果有URL为abcAction.action的请求，如果struts.xml文件中有名为abcAction的action，则一定由该action处理用户请求，如果struts.xml文件中没有名为abcAction的action，则搜寻第一个能够匹配abcAction的Action，例如<em>Action和</em>，<em>Action并不会比</em>匹配的优先级高，先找到那个Action就由哪个Action处理请求。所以说name=“*”的Action一般配置在最后。</p>
 <p>配置默认Action通过&lt;default-action-ref…../&gt; ，struts.xml文件中使用&lt;result…./&gt;元素配置结果，根据&lt;result…/&gt;元素所在位置的不同，struts2提供了两种结果，局部结果（result作为action的子元素）和全局结果（result作为global-results的子元素），配置result元素的时候通常要指定两个属性name和type，Struts2默认的结果类型就是dispatcher，所以在配置result的时候可以省略type元素，默认name是success，没有指定location参数，会把&lt;result….&gt;………\&lt;\/result>中间的字符串当成实际视图资源。</p>
 <p>如果result的type是plainText的话将会返回网页源代码，指定location和charSet（处理字符集）；result的结果如果是redirect类型，将产生新的请求，所有的请求参数、请求属性、Action实例和Action中封装的属性全部丢失。使用redirect类型的结果时，不能重定向到/WEB-INF/路径下任何资源，因为<strong>web应用的/WEB-INF/路径下的所有资源是受保护对象</strong>；redirectAction结果类型和redirect都是重新生成全新的请求，配置redirectAction的时候需要指定两个参数actionName和namespace。</p>
 <p>配置result元素的时候，不仅可以使用${0}表达式形式来指定视图资源，还可以使用${属性名}的方法指定，属性名就是对应的Action实例里的属性，<strong>OGNL表达式就是${属性名.属性名.属性名…….}</strong>，如果result放在global-results元素中配置的话，该result元素就是全局结果，对所有的Action都有效，但是<strong>局部结果会覆盖全局结果</strong>。</p>
@@ -1263,7 +1273,6 @@ name是action定义类中的常量名称，key是显示在页面上的文字
 <p>Action接口规范中统一定义了5个字符串常量：ERROR、NONE、INPUT、LOGIN、SUCCESS，实现类ActionSupport。</p>
 <p>Web应用中经常要用到HttpServletRequest、HttpSession、ServletContext，这三个分别是jsp内置对象中的request、session和application，Struts2提供了ActionContext。</p>
 <p>Action直接访问Servlet API，实现三个接口就可以实现，ServletContextAware、ServletRequestAware、ServletResponseAware。</p>
-<p>ServletContext是在服务器上共享的一片区域，而session则是每一个用户自有的一块区域。</p>
 <p>Struts2中的Action在一个包中，包用package配置，每个包里面有很多个Action和拦截器，package的name属性是引用该包的唯一标识。extend属性可以用来继承另一个包，还有抽象包的概念，抽象包不能有Action的定义。</p>
 <p>interceptors是拦截器，下面的这段代码的action的name是*，代表请求的网页是和action同名的jsp</p>
 <pre><code>&lt;action name=&quot;*&quot;&gt;
@@ -1621,23 +1630,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1662,6 +1663,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

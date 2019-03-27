@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/19/20180419-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="SpringSpring把容器中的一切对象都称为Bean，但是这个Bean和JavaBean不一样，就只是一个Java类，也不需要满足某些规范。 A对象调用B对象的方法被称为依赖。Spring的容器会负责管理所有的对象，Spring使用xml配置文件管理被指定的Bean，一般，在xml配置文件中都会指明语义约束文件，这个东西的作用我猜测就是语义约束文件里面的内容代表什么以及规范的写法。spring">
-<meta property="og:updated_time" content="2018-06-27T09:05:24.808Z">
+<meta property="og:updated_time" content="2019-03-15T01:18:53.876Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180419 spring">
 <meta name="twitter:description" content="SpringSpring把容器中的一切对象都称为Bean，但是这个Bean和JavaBean不一样，就只是一个Java类，也不需要满足某些规范。 A对象调用B对象的方法被称为依赖。Spring的容器会负责管理所有的对象，Spring使用xml配置文件管理被指定的Bean，一般，在xml配置文件中都会指明语义约束文件，这个东西的作用我猜测就是语义约束文件里面的内容代表什么以及规范的写法。spring">
@@ -186,7 +186,7 @@
 <p>spring容器不仅可以创建Bean实例，还可以指定特定的作用域，singleton（只生成一个，默认使用）、prototype（每次getBean都是新的Bean）、request（每次http请求）、session、global session，后面三个只会在web应用有效，通过bean元素的scope属性指定作用域。</p>
 <p>request和session作用域只在web应用中有效，并且必须在web应用中增加额外配置才会生效，也就是在web.xml中增加listener，RequestContextListener</p>
 <p>不建议使用配置文件管理Bean的基本类型的属性值，通常只使用配置文件管理容器中Bean与Bean的依赖关系，在配置bean的时候ref的值是另外一个bean，value是基本类型及其包装类型。</p>
-<p>Spring可以自动装配Bean与Bean之前的依赖关系，通过beans和bean元素的autowire属性指定，这个属性有5个值：no、byName（根据setter方法名自动匹配）、byType（根据setter方法的参数自动匹配）、constructor（根据构造器的参数自动匹配）、autodetect（spring自主选择bytype或者constructor）</p>
+<p>Spring可以自动装配Bean与Bean之间的依赖关系，通过beans和bean元素的autowire属性指定，这个属性有5个值：no、byName（根据setter方法名自动匹配）、byType（根据setter方法的参数自动匹配）、constructor（根据构造器的参数自动匹配）、autodetect（spring自主选择bytype或者constructor）</p>
 <p>byName如果找不到名称的bean的话就不会依赖注入，byType如果没有类型相同的实例就不会调用setter方法，如果有多个类型相同的实例就会抛出异常。</p>
 <p>有的时候，程序希望将某些Bean排除在自动装配之外，只需要在bean元素配置的时候设置autowire-candidate=‘false’，在beans元素下面的default-autowire-candidates属性允许使用多个模式字符串的组合。</p>
 <p>如果某个Bean所依赖的Bean不想被spring容器访问，那么就可以使用嵌套Bean，可以把bean元素配置成property或者constructor-args的子元素</p>
@@ -460,23 +460,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -501,6 +493,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

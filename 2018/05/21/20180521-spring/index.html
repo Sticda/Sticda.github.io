@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/05/21/20180521-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="Spring整合Hibernate使用spring容器管理SessionFactory，spring就可以将SessionFactory注入应用的DAO组件中，对于spring和hibernate的整合，spring推荐调用SessionFactory的getCurrentSession方法获取hibernate session，剩下的持久化操作和直接使用hibernate持久化操作的代码基本相同">
-<meta property="og:updated_time" content="2018-07-01T06:30:57.932Z">
+<meta property="og:updated_time" content="2019-03-27T12:37:21.800Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180521 spring">
 <meta name="twitter:description" content="Spring整合Hibernate使用spring容器管理SessionFactory，spring就可以将SessionFactory注入应用的DAO组件中，对于spring和hibernate的整合，spring推荐调用SessionFactory的getCurrentSession方法获取hibernate session，剩下的持久化操作和直接使用hibernate持久化操作的代码基本相同">
@@ -169,7 +169,7 @@
 	<div id="toc-article" class="toc-article">
 	    <span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
 		<strong class="toc-title">文章目录</strong>
-           <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring整合Hibernate"><span class="toc-number">1.</span> <span class="toc-text">Spring整合Hibernate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见设计模式"><span class="toc-number">2.</span> <span class="toc-text">常见设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的架构设计策略"><span class="toc-number">3.</span> <span class="toc-text">常见的架构设计策略</span></a></li></ol>
+           <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring整合Hibernate"><span class="toc-number">1.</span> <span class="toc-text">Spring整合Hibernate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见设计模式"><span class="toc-number">2.</span> <span class="toc-text">常见设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的架构设计策略"><span class="toc-number">3.</span> <span class="toc-text">常见的架构设计策略</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-MVC运行机制、工作原理"><span class="toc-number"></span> <span class="toc-text">spring MVC运行机制、工作原理</span></a>
          </div>
    <script type="text/javascript">
 	function showToc(){
@@ -234,6 +234,13 @@
 <li>DO彻底取代业务逻辑对象</li>
 <li>控制器完成业务逻辑</li>
 </ol>
+<ol>
+<li><strong>@Controller和@RestController的区别</strong>：@Controller类中的方法可以直接通过返回String跳转到jsp、ftl、html等模版页面。在方法上加@ResponseBody注解，也可以返回实体对象。@RestController类中的所有方法只能返回String、Object、Json等实体对象，不能跳转到模版页面。@RestController相当于@ResponseBody + @Controller。@RestController中的方法如果想跳转页面，则用ModelAndView进行封装</li>
+</ol>
+<h1 id="spring-MVC运行机制、工作原理"><a href="#spring-MVC运行机制、工作原理" class="headerlink" title="spring MVC运行机制、工作原理"></a>spring MVC运行机制、工作原理</h1><p>核心架构的具体流程步骤如下：<br>1、首先用户发送请求——&gt;DispatcherServlet，前端控制器收到请求后自己不进行处理，而是委托给其他的解析器进行处理，作为统一访问点，进行全局的流程控制；<br>2、DispatcherServlet——&gt;HandlerMapping， HandlerMapping 将会把请求映射为HandlerExecutionChain 对象（包含一个Handler 处理器（页面控制器）对象、多个HandlerInterceptor 拦截器）对象，通过这种策略模式，很容易添加新的映射策略；<br>3、DispatcherServlet——&gt;HandlerAdapter，HandlerAdapter 将会把处理器包装为适配器，从而支持多种类型的处理器，即适配器设计模式的应用，从而很容易支持很多类型的处理器；<br>4、HandlerAdapter——&gt;处理器功能处理方法的调用，HandlerAdapter 将会根据适配的结果调用真正的处理器的功能处理方法，完成功能处理；并返回一个ModelAndView 对象（包含模型数据、逻辑视图名）；<br>5、ModelAndView的逻辑视图名——&gt; ViewResolver， ViewResolver 将把逻辑视图名解析为具体的View，通过这种策略模式，很容易更换其他视图技术；<br>6、View——&gt;渲染，View会根据传进来的Model模型数据进行渲染，此处的Model实际是一个Map数据结构，因此很容易支持其他视图技术；<br>7、返回控制权给DispatcherServlet，由DispatcherServlet返回响应给用户，到此一个流程结束。</p>
+<p>下边两个组件通常情况下需要开发：</p>
+<p>Handler：处理器，即后端控制器用controller表示。</p>
+<p>View：视图，即展示给用户的界面，视图中通常需要标签语言展示模型数据。</p>
 
       
 
@@ -329,7 +336,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring整合Hibernate"><span class="toc-number">1.</span> <span class="toc-text">Spring整合Hibernate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见设计模式"><span class="toc-number">2.</span> <span class="toc-text">常见设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的架构设计策略"><span class="toc-number">3.</span> <span class="toc-text">常见的架构设计策略</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring整合Hibernate"><span class="toc-number">1.</span> <span class="toc-text">Spring整合Hibernate</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见设计模式"><span class="toc-number">2.</span> <span class="toc-text">常见设计模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的架构设计策略"><span class="toc-number">3.</span> <span class="toc-text">常见的架构设计策略</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-MVC运行机制、工作原理"><span class="toc-number"></span> <span class="toc-text">spring MVC运行机制、工作原理</span></a>
                     </div>
                 </span>
             </div>
@@ -498,23 +505,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -539,6 +538,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

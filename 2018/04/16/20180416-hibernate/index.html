@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/16/20180416-hibernate/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
-<meta property="og:updated_time" content="2019-03-14T08:21:20.253Z">
+<meta property="og:updated_time" content="2019-03-27T10:30:14.505Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180416 hibernate">
 <meta name="twitter:description" content="HQLwhere子句可以缩小选择的范围，如果没有为持久化实例指定别名，则可以直接使用属性名引用属性。 当属性引用的是普通的组件属性或者单独的关联实体的时候，才可以使用英文点号的引用方式，如果是集合属性，则必须采用xxx join的方式。 因为持久化实例在定义的过程中都定义过标识属性，可以直接利用“实例名称.id”调用该标识属性。除此之外，class关键字还可以用来存取一个实例的辨别值（Discri">
@@ -215,17 +215,26 @@
 <p>Hibernate引入了CurrentSessionContext接口，并通过hibernate.current_session_context_class参数来管理上下文相关的Session的底层实现。这个接口有三个实现类：org.hibernate.context.JTASessionContext、org…………ThreadLocalSessionContext、org…………ManagedSessionContext。</p>
 <p>如果使用ThreadLSessionContext策略，Hibernate的Session会随着getCurrentSession方法自动打开，在容器中使用hibernate使用第一种方式。</p>
 <h2 id="二级缓存和查询缓存"><a href="#二级缓存和查询缓存" class="headerlink" title="二级缓存和查询缓存"></a>二级缓存和查询缓存</h2><p><strong>Hibernate默认启用一级缓存，可选的二级缓存。</strong></p>
+<p>当应用程序保存持久化实体、修改持久化实体时，Session并不会立即把这种改变提交到数据库，而是缓存在当前的Session中，除非显示调用了Session的flush()方法或通过close()方法关闭Session。通过一级缓存，可以减少程序与数据库的交互，从而提高数据库访问性能。一级缓存的生命周期和session的生命周期一致，当前session一旦关闭，一级缓存就消失了，因此一级缓存也叫session级的缓存或事务级缓存，一级缓存只存实体对象，它不会缓存一般的对象属性（查询缓存可以），即当获得对象后，就将该对象缓存起来，如果在同一session中再去获取这个对象时，它会先判断在缓存中有没有该对象的id，如果有则直接从缓存中获取此对象，反之才去数据库中取，取的同时再将此对象作为一级缓存处理。get 和load方法支持一级缓存，query的list方法只会缓存，不会使用缓存。</p>
 <p>SessionFactory的二级缓存是全局性的，应用的所有Session都共享这个二级缓存，开启二级缓存需要在hibernate.cfg.xml中指定hibernate.cache.use_second_level_cache参数的值为true。指定了开启二级缓存之外，还需要指定二级缓存的实现类hibernate.cache.region.factory_class。常用的实现类有EhCache和Infinispan，指定实现类的时候要求的是全限定名。对于EhCache需要一个ehcache.xml配置文件。设置对哪些类和类的集合属性启用二级缓存，有两种方法，第一种就是使用@Cache，第二种就是使用&lt;class-cache…./&gt;或者&lt;collection-cache…../&gt;，使用注解的方法比较多，但是在@Cache的时候需要指定usage属性，这个属性指的是缓存的策略。</p>
 <p>CacheConcurrencyStrategy.READ_ONLY\READ_WRITE：如果要在JTA环境中使用该缓存策略，必须指定hibernate.transaction.manager_lookup_class属性的值。如果要在集群环境中使用，必须保证底层的缓存实现支持锁定。NONSTRICT_READ_WRITE（非严格读写）\TRANSACTION（全事务的缓存支持，只能在JTA环境中）</p>
 <p>Session的evict(Object object)方法，可以将括号里的对象或集合从一级缓存中剔除。查询某个对象是否在一级缓存中使用contains方法，清除一级缓存里的所有对象使用clear。</p>
 <p>SessionFactory提供了一个getCache的方法，返回一个Cache对象，通过这个对象可以操作二级缓存。</p>
-<p>一级缓存和二级缓存都是对整个实体进行缓存的，不会缓存普通属性，如果想对普通属性进行缓存，则可以考虑使用查询缓存。</p>
+<p>一旦开启了二级缓存并设置了需要使用二级缓存的实体类，SessionFactory就会缓存访问过的该实体类的每个对象，除非缓存的数据超出了指定的缓存空间。 一级缓存和二级缓存都是对整个实体进行缓存的，不会缓存普通属性，如果想对普通属性进行缓存，则可以考虑使用查询缓存。查询缓存是将HQL或SQL语句以及它们的查询结果作为键值对进行缓存，对于同样的查询可以直接从缓存中获取数据。查询缓存默认也是关闭的，需要显示开启</p>
 <h2 id="事件机制"><a href="#事件机制" class="headerlink" title="事件机制"></a>事件机制</h2><p>hibernate中的数据持久化操作对于用户是透明的，通过事件框架能够让应用程序响应特定的内部事件。事件框架由两个部分组成，拦截器机制（特定动作拦截回调）和事件系统（重写事件监听器）。</p>
 <p>通过继承EmptyInterceptor实现拦截器，通过SessionFactory的openSession（Interceptor in）打开一个带有局部拦截器的Session，通过Configuration的setInterceptor方法设置全局拦截器。</p>
 <p>Hibernate自己有自己默认的事件系统，Session接口的每个方法都有自己的时间，并且有对应的事件监听器，用户可以实现自己的监听器代替系统默认的事件监听器。</p>
 <p>Session的每个方法都有对应的事件</p>
 <p>自定义事件监听器的方法有三种：实现对应的监听器接口，继承事件适配器、继承事件监听器（defaultXXXEventListener）。前两种都需要程序员替代hibernate实现持久化的操作。一定要记得调用父类监听器的方法实现持久化操作。</p>
 <p>定义完事件监听器，hibernate提供了一个EventListenerRegistry接口，三个方法注册事件监听器，appendListeners（追加在默认监听器后面）、prependListeners（追加在默认监听器前面）、setListeners（替代默认监听器）。</p>
+<h2 id="延迟加载和session关闭之间的矛盾"><a href="#延迟加载和session关闭之间的矛盾" class="headerlink" title="延迟加载和session关闭之间的矛盾"></a>延迟加载和session关闭之间的矛盾</h2><p>延迟加载使用了代理机制。返回给用户的并不是实体本身，而是实体对象的代理。代理对象在用户调用getter方法时就会去数据库加载数据。但加载数据就需要数据库连接。而当我们把会话关闭时，数据库连接就同时关闭了。这种情况就叫做未初始化的关系。</p>
+<ol>
+<li>使用迫切加载：FetchType.EAGER：加载一个实体时，定义急加载的属性会立即从数据库中加载。</li>
+<li>在session关闭之前先获取需要查询的数据，可以使用工具方法Hibernate.isInitialized()判断对象是否被加载，如果没有被加载则可以使用Hibernate.initialize()方法加载对象。</li>
+<li>使用拦截器(Interceptor)或过滤器(Filter)控制session，OpenSessionInViewFilter和OpenSessionInViewInterceptor，而不是之前在事务结束后关闭session的办法</li>
+</ol>
+<h2 id="Hibernate的优化方法"><a href="#Hibernate的优化方法" class="headerlink" title="Hibernate的优化方法"></a>Hibernate的优化方法</h2><p>① 制定合理的缓存策略（二级缓存、查询缓存）。<br>② 采用合理的Session管理机制。<br>③ 尽量使用延迟加载特性。<br>④ 设定合理的批处理参数。<br>⑤ 如果可以，选用UUID作为主键生成器。<br>⑥ 如果可以，选用基于版本号的乐观锁替代悲观锁。<br>⑦ 在开发过程中, 开启hibernate.show_sql选项查看生成的SQL，从而了解底层的状况；开发完成后关闭此选项。<br>⑧ 考虑数据库本身的优化，合理的索引、恰当的数据分区策略等都会对持久层的性能带来可观的提升，但这些需要专业的DBA（数据库管理员）提供支持。</p>
+<h2 id="hibernate的锁机制以及悲观锁和乐观锁"><a href="#hibernate的锁机制以及悲观锁和乐观锁" class="headerlink" title="hibernate的锁机制以及悲观锁和乐观锁"></a>hibernate的锁机制以及悲观锁和乐观锁</h2><p>有些业务逻辑在执行过程中要求对数据进行排他性的访问，于是需要通过一些机制保证在此过程中数据被锁住不会被外界修改，这就是所谓的锁机制。<br>Hibernate支持悲观锁和乐观锁两种锁机制。悲观锁，顾名思义悲观的认为在数据处理过程中极有可能存在修改数据的并发事务（包括本系统的其他事务或来自外部系统的事务），于是将处理的数据设置为锁定状态。悲观锁必须依赖数据库本身的锁机制才能真正保证数据访问的排他性。乐观锁，顾名思义，对并发事务持乐观态度（认为对数据的并发操作不会经常性的发生），通过更加宽松的锁机制来解决由于悲观锁排他性的数据访问对系统性能造成的严重影响。最常见的乐观锁是<strong>通过数据版本标识来实现的</strong>，读取数据时获得数据的版本号，更新数据时将此版本号加1，然后和数据库表对应记录的当前版本号进行比较，如果提交的数据版本号大于数据库中此记录的当前版本号则更新数据，否则认为是过期数据无法更新。Hibernate中通过Session的get()和load()方法从数据库中加载对象时可以通过参数指定使用悲观锁；而乐观锁可以通过给实体类加整型的版本字段再通过XML或@Version注解进行配置。</p>
 
       
 
@@ -321,7 +330,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HQL"><span class="toc-number">1.</span> <span class="toc-text">HQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名查询"><span class="toc-number">1.1.</span> <span class="toc-text">命名查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件查询"><span class="toc-number">1.2.</span> <span class="toc-text">条件查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL查询"><span class="toc-number">2.</span> <span class="toc-text">SQL查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#处理关联和继承"><span class="toc-number">2.1.</span> <span class="toc-text">处理关联和继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命名SQL查询"><span class="toc-number">2.2.</span> <span class="toc-text">命名SQL查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调用存储过程"><span class="toc-number">2.3.</span> <span class="toc-text">调用存储过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据过滤"><span class="toc-number">3.</span> <span class="toc-text">数据过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务控制"><span class="toc-number">4.</span> <span class="toc-text">事务控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二级缓存和查询缓存"><span class="toc-number">5.</span> <span class="toc-text">二级缓存和查询缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件机制"><span class="toc-number">6.</span> <span class="toc-text">事件机制</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HQL"><span class="toc-number">1.</span> <span class="toc-text">HQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#命名查询"><span class="toc-number">1.1.</span> <span class="toc-text">命名查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件查询"><span class="toc-number">1.2.</span> <span class="toc-text">条件查询</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL查询"><span class="toc-number">2.</span> <span class="toc-text">SQL查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#处理关联和继承"><span class="toc-number">2.1.</span> <span class="toc-text">处理关联和继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命名SQL查询"><span class="toc-number">2.2.</span> <span class="toc-text">命名SQL查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调用存储过程"><span class="toc-number">2.3.</span> <span class="toc-text">调用存储过程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据过滤"><span class="toc-number">3.</span> <span class="toc-text">数据过滤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务控制"><span class="toc-number">4.</span> <span class="toc-text">事务控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二级缓存和查询缓存"><span class="toc-number">5.</span> <span class="toc-text">二级缓存和查询缓存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件机制"><span class="toc-number">6.</span> <span class="toc-text">事件机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#延迟加载和session关闭之间的矛盾"><span class="toc-number">7.</span> <span class="toc-text">延迟加载和session关闭之间的矛盾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hibernate的优化方法"><span class="toc-number">8.</span> <span class="toc-text">Hibernate的优化方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hibernate的锁机制以及悲观锁和乐观锁"><span class="toc-number">9.</span> <span class="toc-text">hibernate的锁机制以及悲观锁和乐观锁</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -490,23 +499,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -531,6 +532,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

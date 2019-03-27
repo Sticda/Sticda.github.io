@@ -164,10 +164,10 @@
       
         <ol>
 <li>字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。</li>
-<li>hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而==在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值</li>
+<li><strong>hashcode</strong>得到的是内存里的物理地址，而<strong>equals</strong>方法比较的是两个对象的值，而<strong>“==”</strong>在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值。equal()相等的两个对象他们的hashCode()肯定相等，也就是用equal()对比是绝对可靠的。hashCode()相等的两个对象他们的equal()不一定相等，也就是hashCode()不是绝对可靠的。所有对于需要大量并且快速的对比的话如果都用equal()去做显然效率太低，所以解决方式是，每当需要对比的时候，首先用hashCode()去对比，如果hashCode()不一样，则表示这两个对象肯定不相等（也就是不必再用equal()去再对比了）,如果hashCode()相同，此时再对比他们的equal()，如果equal()也相同，则表示这两个对象是真的相同了，这样既能大大提高了效率也保证了对比的绝对正确性！</li>
 <li>java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、RuntimeException（唯一的运行时异常），前三种异常必须在编译之前就捕捉或者抛出。</li>
 <li>+连接字符串可以连接null或者其他类型，但是concat不行，建议使用Stringbuilder</li>
-<li>try和finally里都有return，会直接返回finally里的return，finally一定会执行，在try中return，finally会把结果保存，基本类型一切以try中保存的值为准，但是引用类型就会与finally修改以后的为准</li>
+<li><strong>try和finally里都有return</strong>，两者都有finally的时候，会直接返回finally里的return值。try里有return，finally没有return，那么返回值就是try中的return，finally会把结果保存，返回值以try中保存的值为准，但是如果return的数据是引用数据类型，而在finally中对该引用数据类型的属性值的改变起作用，try中的return语句返回的就是在finally中改变后的该属性的值。</li>
 <li>序列化之后属性有变化会导致值的丢失；父类没有序列化，但是子类序列化了，子类的属性可以序列化，但是父类的属性会丢失；不想序列化的字段加上transient即可。</li>
 <li>正整数的<strong>原码补码反码</strong>都是一样的，负整数的<strong>原码</strong>首位为1，<strong>反码</strong>是符号位不变，其余相反，<strong>补码</strong>是符号位不变，反码加1</li>
 <li>Set中的元素是无序且不重复的，这句话中的Set指的是HashSet，LinkedHashSet是按照添加的顺序排列，而TreeSet是按照自然顺序a~z</li>
@@ -177,7 +177,7 @@
 <li><strong>装箱过程</strong>是通过调用包装器的valueOf方法实现的，而<strong>拆箱过程</strong>是通过调用包装器的 xxxValue方法实现的。（xxx代表对应的基本数据类型）</li>
 <li><strong>“==”运算符</strong>既可以用来比较基本类型变量和引用类型变量。当两个操作数都是包装器类型的变量时，判定标准为他们是否指向同一个对象；而如果其中有一个操作数是表达式（即包含算术运算）则会先进行自动拆箱，再进行对应基本类型变量比较。</li>
 <li><strong>静态变量</strong>被所有的对象所共享，在内存中只有一个副本，它当且仅当在类初次加载时会被初始化。而非静态变量是对象所拥有的，在创建对象的时候被初始化，存在多个副本，各个对象拥有的副本互不影响。</li>
-<li>先加载父类，然后再加载子类，先调用父类的构造器，在调用自身的构造器。</li>
+<li>在初始化子类的时候，首先加载父类的静态变量和静态语句块（按照代码上下顺序执行），然后加载子类的静态变量和静态语句块（按照代码上下顺序执行），然后加载父类的非静态变量和非静态语句块（按照代码上下顺序执行），再加载父类的构造函数。然后加载子类的非静态变量和非静态语句块（按照代码上下顺序执行），最后加载子类的构造函数。</li>
 <li><strong>static关键字</strong>有一个比较关键的作用就是 用来形成静态代码块以优化程序性能。static块可以置于类中的任何地方，类中可以有多个static块。在类初次被加载的时候，会按照static块的顺序来执行每个static块，并且只会执行一次。</li>
 <li><strong>ArrayList</strong>底层是数组，<strong>LinkedList</strong>底层是链表，<strong>Vector</strong>底层也是数组，Vector支持线程同步，前两个不支持，链表的查找速度较慢，因为需要移动指针，数组的查找速度较快（索引），数组的增删速度比较慢，因为需要移动后面的内容，这时候链表就比较快。<strong>stack</strong>是Vector的子类，主要实现了后进先出的栈的功能。当需要扩展数组长度的时候，Vector会扩展为原来的一倍，ArrayList会扩展50%，</li>
 <li><strong>SynchronizedList和Vector的区别：</strong>SynchronizedList是由Collections静态工具类提供的一个可以实现线程同步的list，和Vector的区别在于以下几点：Vector和SynchronizedList在长度扩展上的区别；Vector是通过同步方法实现同步，而SynchronizedList是通过同步代码块的方式实现（同步代码块内部还是list的方法），SynchronizedList可以通过传入的参数指定锁定的对象，Vector只能锁定this；使用SynchronizedList的时候，进行遍历需要手动同步处理；SynchronizedList可以将list的所有子类转换为线程安全的类</li>
@@ -185,12 +185,34 @@
 <li>Java7提供了一种并行任务框架，<strong>Fork/Join框架</strong> ，ForkJoinPool是框架的任务调度器，提供了三个调度子任务的方法：execute（没有返回结果），invoke、invokeAll（有返回结果），submit（返回future对象），具体的任务执行类需要实现RecursiveAction（无结果返回）和RecursiveTask（有结果返回），任务执行类里面有一个compute函数，类似于递归的思想，这个compute判断是否可以计算，如果可以计算就直接计算，不能计算就进行拆分，fork就是执行execute，join函数就是得到返回值。</li>
 <li><strong>并发</strong>就是在一段时间内多个任务在执行，交替或者串行或者其他，但是<strong>并行</strong>就是指并行执行，多个任务在同时执行，</li>
 <li><strong>java实现多线程的三种方式：</strong>继承Thread类；实现Runnable接口，重写run方法（一个子类只能继承一个父类），将Runnable实例传给Thread对象；实现Callable接口，重写call方法，将Callable实例传给FutureTask对象，再传给Thread对象</li>
-<li><strong> Futuretask</strong>是实现了RunnableFuture接口的类，RunnableFuture接口继承了Runnable接口和Future接口，所以FutureTask的使用方法有两种：FutureTask+ExecuteService和FutureTask+Thread，第一种方法就是把实现了Callable接口的类传递给FutureTask，第二种方法就是把FutureTask传给Thread，并利用FutureTask获得结果。</li>
+<li><strong> Futuretask</strong>是实现了RunnableFuture接口的类，RunnableFuture接口继承了Runnable接口和Future接口，所以FutureTask的使用方法有两种：FutureTask+ExecuteService和FutureTask+Thread，第一种方法就是把实现了Callable接口的类传递给FutureTask，第二种方法就是把FutureTask传给Thread，并利用FutureTask获得结果。ExecuteService可以用Executor的静态方法创建以下四种状态，newCachedThreadPool 创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。 newScheduledThreadPool 创建一个定长线程池，支持定时及周期性任务执行。newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。 execute(Runnable)submit(Runnable) submit(Callable)</li>
 <li><strong>Join方法</strong>的主要作用是挂起当前线程，等到调用了Join方法的线程结束之后，当前线程才会继续运行。</li>
 <li><strong>线程的状态</strong>一共有6个，NEW是刚创建的线程，还没有启动；RUNNABLE是正在运行的线程；TIME_WAITING是有时限的等待线程；而WAITING是无限的等待，等待一个特殊事件的唤醒；BLOCKED表明这个线程当前处于等待锁的阻塞状态，一旦获得锁将进入RUNNABLE状态；TERMINATED是指线程运行结束，进入终止状态。</li>
 <li><strong>死锁</strong>：多个线程拿了对方需要的锁，同时又在等待对方释放自己需要的锁；<strong>活锁</strong>就是多线程相互谦让，导致没有线程正常执行；<strong>饥饿</strong>就是说低优先级一直抢不过高优先级的线程，导致低优先级的线程得不到执行；<strong>无锁</strong>就是对资源不锁定，一堆线程抢着修改共享资源。</li>
 <li><strong>避免死锁</strong>的方法：按顺序加锁（这样能保证只能有一个线程获得锁）；获取锁时限（一定时间之后放弃自己已经拥有的锁）；检测死锁（出现死锁就采取策略）</li>
 <li><strong>线程池核心类：ThreadPoolExecutor类的主要参数</strong>是corePoolSize（核心线程池的大小。线程池的最小线程数量）、maximumPoolSize（线程池的最大线程数量），KeepAliveTime（超过corePoolSize的线程空闲超过KeepAliveTime就会被销毁），unit（KeepAliveTime这个时间的单位），WorkQueue(存储等待执行的工作队列)，ThreadFactory（创建线程的工厂），handler（拒绝策略，默认抛出异常）；<strong>线程池的工作流程</strong>：如果线程池中的线程数量小于corePoolSize的话，就会直接创建新线程执行任务，如果已经超过corePoolSize的话就会存到workQueue，workQueue存满之后，当线程数小于maximumPoolSize的时候就会新建线程执行任务，当线程数超过maximumPoolSize就会利用handler执行拒绝策略。<strong>核心类ThreadPoolExecutor有四个在Executor下的静态实现类</strong>：newFixThreadPool（固定大小的线程池，核心和最大线程数相等），newCacheThreadPool（带缓冲的线程池，核心线程池大小为0，有新任务就会执行），newSingleThreadPool（单线程线程池，核心和最大线程数为1，每次保证有1个线程在执行）、newSchedulerThreadPool（调度线程池，按照一定的周期执行任务），<strong>拒绝策略</strong>：AbortPolicy（直接抛出拒绝异常）、CallerRunsPolicy（让调用者线程执行新任务）、DiscardPolicy（直接丢弃）、DiscardOldestPolicy（从队列中丢弃掉最老的任务），提交线程使用execute和submit，不同点在于submit会返回一个future对象，关闭线程池使用shutdown（执行完所有任务再关闭）和shutdownNow。</li>
+<li><strong>Object 的 hashcode 方法</strong>是本地方法，也就是用 c 语言或 c++ 实现的，该方法直接返回对象的 内存地址。</li>
+<li><strong>值传递</strong>：方法调用时，实际参数把它的值传递给对应的形式参数，方法执行中形式参数值的改变不影响实际参数的值。<strong>引用传递</strong>：也称为传地址。方法调用时，实际参数的引用(地址，而不是参数的值)被传递给方法中相对应的形式参数，在方法执行中，对形式参数的操作实际上就是对实际参数的操作，方法执行中形式参数值的改变将会影响实际参数的值。而在JAVA中只有值传递，基本类型传递的是值的副本。</li>
+<li>修饰变量，被<strong>final</strong>修饰的变量必须要初始化，赋初值后不能再重新赋值。注意：局部变量不在我们讨论的范畴，因为局部变量本身就有作用范围，不使用private、public等词修饰。修饰方法，被final修饰的方法代表不能重写。修饰类，被final修饰的类，不能够被继承。注意：final修饰的类，类中的所有成员方法都被隐式地指定为final方法。</li>
+<li><strong>跳出多层循环的方法</strong>：要想跳出多重循环，可以在外面的循环语句前定义一个标号，然后在里层循环体的代码中使用带有标号的break 语句，即可跳出外层循环，还可以在外部循环上增加条件，在内层循环中更改条件。</li>
+<li><strong>多态</strong>指向子类的父类引用由于向上转型了，它只能访问父类中拥有的方法和属性，而对于子类中存在而父类中不存在的方法，该引用是不能使用的，尽管是重载该方法。若子类重写了父类中的某些方法，在调用该些方法的时候，必定是使用子类中定义的这些方法（动态连接、动态调用）</li>
+<li><strong>“static”关键字</strong>表明一个成员变量或者是成员方法可以在没有所属的类的实例变量的情况下被访问。Java中static方法不能被覆盖，因为方法覆盖是基于运行时动态绑定的，而static方法是编译时静态绑定的。static方法跟类的任何实例都不相关，所以概念上不适用。  java中也不可以覆盖private的方法，因为private修饰的变量和方法只能在当前类中使用，如果是其他的类继承当前类是不能访问到private变量或方法的，当然也不能覆盖。</li>
+<li><strong>通过反射创建对象的两种方法</strong>：直接通过class.forName获得class对象，然后使用该对象的newinstance方法，或者是通过class 的getConstructor方法获得constructor对象，然后使用newInstance方法获取对象。</li>
+<li><strong>抽象类和接口</strong>：抽象类不能被实例化，其他和正常类是一样的，abstract方法不能添加方法体，接口是抽象方法的集合，如果一个类实现了某个接口，则必须实现这个接口的所有方法。接口中成员变量默认被修饰为public static final常量。如果你拥有一些方法并且想让它们中的一些有默认实现，那么使用抽象类吧。如果你想实现多重继承，那么你必须使用接口。由于Java不支持多继承，子类不能够继承多个类，但可以实现多个接口。因此你就可以使用接口来解决它。如果基本功能在不断改变，那么就需要使用抽象类。如果不断改变基本功能并且使用接口，那么就需要改变所有实现了该接口的类。</li>
+<li><strong>Comparable和comparator的区别</strong>：某个类实现了Comparable接口就可以实现比较，Comparator接口也是实现了比较的接口，两个的区别在于Comparable是内比较接口，比较方法在类里，然而Comparator接口是外比较器，不需要修改某个比较类的源代码。而且Comparator只能比较两个相同的对象，Comparable可以比较任意两个对象。</li>
+<li><strong>静态内部类和其他内部类的区别：</strong>在静态嵌套类内部, 不能直接访问外部类的非静态成员, 只能通过外部类的实例访问。静态内部类可以直接访问外部类的静态成员。同一个类下定义的非静态内部类是可知的，<strong>方法内的内部类</strong>只能访问本方法的final变量，定义在方法内部的内部类的可见性更小, 它只在方法内部可见, 在外部类(及外部类的其它方法中)中都不可见.同时, 它有一个特点, 就是方法内的内部类连本方法的成员变量都不可访问, 它只能访问本方法的final型成员.同时另一个需引起注意的是方法内部定义成员变量, 只允许final修饰或不加修饰符, 其它像static等均不可用。<strong>非静态内部类</strong>可以直接访问外部类中的成员变量。非静态内部类不能定义静态成员，当内部类中如果有静态成员的时候，该内部类也必须是静态的。内部类的变量成员只在内部类内部可见</li>
+<li>如果抛出的是Exception的类型，则必须进行try ..catch进行处理。如果抛出的是RuntimeException的类型，则可以不使用try。。catch处理，一旦发生异常之后，将由JVM处理。<strong>throws</strong>在方法声明处使用，表明该方法不处理异常，由方法调用者处理异常，<strong>throw</strong>抛出异常。</li>
+<li><strong>浅复制和深复制</strong>：实现了Cloneable接口，重写clone方法只能实现浅复制，也就是说类的基本类型都可以实现复制，但是对于引用类型不能实现复制，浅复制之后的引用类型还是指向同一个副本，因此使用复制构造函数，在构造函数内部，新建引用类型，并实现深复制，这样就可以实现深复制。</li>
+<li><strong>ConcurrentHashMap和HashMap（1.8）</strong>：存入的时候如果数组为空，先进行初始化，求hash，利用hash和长度（n-1）取模获取节点在数组中的具体位置，如果这个地方为空，则把节点插在这个位置，如果不为空的话判断这个位置的key跟我们的key是不是相同，相同的时候把这个节点取出来，不相同的时候判断这个节点是不是红黑树的节点，是的话就利用红黑树的插入办法插入，如果不是的话说明这个地方是一个链表，从前往后找到最后一个节点（取出一个空节点），<strong>插入到链表末尾</strong>，检查这个时候有没有链表长度过长，看是不是需要转化成红黑树，最后判断这个取出来的节点是不是空，非空的话进行值覆盖，最后size如果超出了预支，就需要扩容，阈值就是定义的大小再乘以负载因子。ConcurrentHashMap是线程同步的容器，所以使用了CAS和监视器锁Synchronized实现，put的时候，如果底层数组为空，会先数组初始化。如果没有如果hash值对应的位置为空，则会使用CAS操作对该位置进行赋值，hash值为过等于moved的话，说明ConcurrentHashMap在进行数据迁移，最后的话就说明找到这个位置的头结点了，name就需要获得这个头节点的监视器锁，如果是链表的话就判断是不是相等，相等的话覆盖，不相等的话插到链表的末尾，如果是红黑树的话就使用红黑树的插入。插入之后判断这个节点所在的链表的大小是不是大于临界值，是不是需要转换成红黑树，这个转换成红黑树的函数还负责数组扩容，如果数组长度小于64的时候会选择扩容，而不是转换成红黑树，扩容的时候需要通过CAS获取锁，这个大小是所有人共享的部分，获取到锁之后可以进行初始化，如果没有获取到锁就判断当前数据是否正在数据迁移，帮助数据迁移。</li>
+<li><strong>ConcurrentHashMap和HashMap（1.7）</strong>：存入的时候如果数组为空，先进行初始化，求hash，求hash，利用hash和长度（n-1）取模获取节点在数组中的具体位置，如果这个地方为空，则把节点插在这个位置，如果不为空的话判断这个位置的key跟我们的key是不是相同，在这个链表上从前往后找，如果有相同的话就直接覆盖，<strong>不相同的话就插入到链表表头</strong>，不相同的时候还需要检查是否需要扩容，扩容之后插入到扩容后的表头，扩容之后还需要进行数据迁移。ConcurrentHashMap 由一个个 Segment 组成，Segment 代表”部分“或”一段“的意思，所以很多地方都会将其描述为分段锁。ConcurrentHashMap初始化的时候需要初始化segment数组，并且创建segment[0]，hash值右移n位，留下segment数组的长度对应的二进制位数，hash右移的结果跟segment的长度求与，得到segment的位置，初始化segment[j],这个地方需要使用CAS进行控制，因为可能有多个线程同时初始化，获取到独占锁之后把节点放在链表表头，如果超过了segment的长度并且超过了map 的阈值，进行segment内部的扩容</li>
+<li><strong>HashMap长度为2的n次方</strong>的原因是为了存取高效，需要尽量减少碰撞，就是让链表长度均匀，算法就是取模，hash%length，但是计算机中求余效率比较低，当length为2的n次方的时候，求余和与运算结果一样，这样的话查找存取速度更快。</li>
+<li><strong>集合类没有实现cloneable和serializable接口的原因</strong>是克隆和序列化都是要针对具体的实体类而言的，要克隆什么，怎么克隆，实例化什么，怎么实例化，如果所有的集合类都实现了这两个接口，那么实现类不需要克隆和序列化的时候就需要额外操作。</li>
+<li><strong>Iterator和ListIterator主要区别</strong>在以下方面：iterator()方法在set和list接口中都有定义，但是ListIterator（）仅存在于list接口中（或实现类中）； ListIterator有add()方法，可以向List中添加对象，而Iterator不能；ListIterator和Iterator都有hasNext()和next()方法，可以实现顺序向后遍历，但是ListIterator有hasPrevious()和previous()方法，可以实现逆向（顺序向前）遍历。Iterator就不可以。 ListIterator可以定位当前的索引位置，nextIndex()和previousIndex()可以实现。Iterator没有此功能。 都可实现删除对象，但是ListIterator可以实现对象的修改，set()方法可以实现。Iierator仅能遍历，不能修改。</li>
+<li><strong>fail-fast和fail-safe比较</strong>：Iterator的安全失败是基于对底层集合做拷贝，因此，它不受源集合上修改的影响。java.util包下面的所有的集合类都是快速失败的，而java.util.concurrent包下面的所有的类都是安全失败的。快速失败的迭代器会抛出ConcurrentModificationException异常，而安全失败的迭代器永远不会抛出这样的异常。<strong>CopyOnWrite</strong>容器即写时复制的容器。通俗的理解是当我们往一个容器添加元素的时候，不直接往当前容器添加，而是先将当前容器进行Copy，复制出一个新的容器，然后新的容器里添加元素，添加完元素之后，再将原容器的引用指向新的容器。这样做的好处是我们可以对CopyOnWrite容器进行并发的读，而不需要加锁，因为当前容器不会添加任何元素。所以CopyOnWrite容器也是一种读写分离的思想，读和写不同的容器。但是因为多线程读取的时候仍然读取的是旧容器的值。</li>
+<li><strong>ArrayList、Vector、LinkedList的存储性能和特性</strong>：ArrayList 和Vector他们底层的实现都是一样的，都是使用数组方式存储数据，此数组元素数大于实际存储的数据以便增加和插入元素，它们都允许直接按序号索引元素，但是插入元素要涉及数组元素移动等内存操作，所以索引数据快而插入数据慢。Vector中的方法由于添加了synchronized修饰，因此Vector是线程安全的容器，但性能上较ArrayList差，因此已经是Java中的遗留容器。<strong>LinkedList使用双向链表实现存储</strong>（将内存中零散的内存单元通过附加的引用关联起来，形成一个可以按序号索引的线性结构，这种链式存储方式与数组的连续存储方式相比，内存的利用率更高），按序号索引数据需要进行前向或后向遍历，但是插入数据时只需要记录本项的前后项即可，所以插入速度较快。 Vector属于遗留容器（Java早期的版本中提供的容器，除此之外，Hashtable、Dictionary、BitSet、Stack、Properties都是遗留容器），已经不推荐使用，但是由于ArrayList和LinkedListed都是非线程安全的，如果遇到多个线程操作同一个容器的场景，则可以通过工具类Collections中的synchronizedList方法将其转换成线程安全的容器后再使用（这是对装潢模式的应用，将已有对象传入另一个类的构造器中创建新的对象来增强实现）。</li>
+<li><strong>线程同步（多个线程操作一个资源的情况下，导致资源数据前后不一致。这样就需要协调线程的调度，即线程同步）的方法</strong>：1.同步方法（每个对象都有一个对应的内置锁，当所有的线程共享这个对象的时候，在调用同步的方法时候就必须获得内置锁）2. 同步代码块（跟同步方法获取的是同一个锁）3.volatile实现简单的线程同步（对变量的写操作不依赖于当前值。该变量没有包含在具有其他变量的不变式中。后面这条是意思就是这个变量没有一个要被包含的不变量）4.使用重入锁实现同步（重入锁的功能和synchronized其实是一致的，只是Reentranlock提供了很多高级功能）5.使用局部变量实现线程同步 （ 如果使用ThreadLocal管理变量，则每一个使用该变量的线程都获得该变量的副本，     副本之间相互独立，这样每一个线程都可以随意修改自己的变量副本，而不会对其他线程产生影响。）</li>
+<li>如果数据将在线程间共享。例如正在写的数据以后可能被另一个线程读到，或者正在读的数据可能已经被另一个线程写过了，那么这些数据就是共享数据，必须进行<strong>同步</strong>存取。当应用程序在对象上调用了一个需要花费很长时间来执行的方法，并且不希望让程序等待方法的返回时，就应该使用异步编程，在很多情况下采用<strong>异步</strong>途径往往更有效率。</li>
+<li><strong>异常</strong>表示程序运行过程中可能出现的非正常状态，<strong>运行时异常（非受检异常、runtime exception）</strong>表示虚拟机的通常操作中可能遇到的异常，是一种常见运行错误。一旦出现了错误操作，建议终止程序，因此Java编译器不检查这种异常。java编译器要求方法必须声明抛出可能发生的<strong>非运行时异常（checked exception）</strong>，编译器强制要求进行catch或者throws。 </li>
 </ol>
 
       
@@ -558,6 +580,13 @@
 <li>DO彻底取代业务逻辑对象</li>
 <li>控制器完成业务逻辑</li>
 </ol>
+<ol>
+<li><strong>@Controller和@RestController的区别</strong>：@Controller类中的方法可以直接通过返回String跳转到jsp、ftl、html等模版页面。在方法上加@ResponseBody注解，也可以返回实体对象。@RestController类中的所有方法只能返回String、Object、Json等实体对象，不能跳转到模版页面。@RestController相当于@ResponseBody + @Controller。@RestController中的方法如果想跳转页面，则用ModelAndView进行封装</li>
+</ol>
+<h1 id="spring-MVC运行机制、工作原理"><a href="#spring-MVC运行机制、工作原理" class="headerlink" title="spring MVC运行机制、工作原理"></a>spring MVC运行机制、工作原理</h1><p>核心架构的具体流程步骤如下：<br>1、首先用户发送请求——&gt;DispatcherServlet，前端控制器收到请求后自己不进行处理，而是委托给其他的解析器进行处理，作为统一访问点，进行全局的流程控制；<br>2、DispatcherServlet——&gt;HandlerMapping， HandlerMapping 将会把请求映射为HandlerExecutionChain 对象（包含一个Handler 处理器（页面控制器）对象、多个HandlerInterceptor 拦截器）对象，通过这种策略模式，很容易添加新的映射策略；<br>3、DispatcherServlet——&gt;HandlerAdapter，HandlerAdapter 将会把处理器包装为适配器，从而支持多种类型的处理器，即适配器设计模式的应用，从而很容易支持很多类型的处理器；<br>4、HandlerAdapter——&gt;处理器功能处理方法的调用，HandlerAdapter 将会根据适配的结果调用真正的处理器的功能处理方法，完成功能处理；并返回一个ModelAndView 对象（包含模型数据、逻辑视图名）；<br>5、ModelAndView的逻辑视图名——&gt; ViewResolver， ViewResolver 将把逻辑视图名解析为具体的View，通过这种策略模式，很容易更换其他视图技术；<br>6、View——&gt;渲染，View会根据传进来的Model模型数据进行渲染，此处的Model实际是一个Map数据结构，因此很容易支持其他视图技术；<br>7、返回控制权给DispatcherServlet，由DispatcherServlet返回响应给用户，到此一个流程结束。</p>
+<p>下边两个组件通常情况下需要开发：</p>
+<p>Handler：处理器，即后端控制器用controller表示。</p>
+<p>View：视图，即展示给用户的界面，视图中通常需要标签语言展示模型数据。</p>
 
       
 
@@ -643,7 +672,11 @@
 <p>在ApplicationContext中确定资源访问策略通常有两种方法，一种是使用ApplicationContext实现类（类似ClassPathXMLApplicationContext一类的。）指定访问策略，另一种是使用前缀指定访问策略。通过前缀指定资源访问策略的方式仅仅对当次访问有效，程序后面进行资源访问的时候，仍然会根据ApplicationContext的实现类来选择对应的资源访问策略。</p>
 <p>classpath*：前缀指定xml配置文件时，系统将搜索类加载路径，找出所有与文件名匹配的文件，然后依次加载文件中的配置定义。classpath就只会加载第一个文件名匹配的文件。一次性加载多个配置文件的方法还有在指定文件的时候使用通配符，A*.xml会加载所有以A开头的xml文件。</p>
 <p>file：前缀可以指定绝对路径和相对路径，但是在FileSystemXMLApplicationContext就会把所有的绝对路径当做相对路径处理。绝对路径以文件系统根路径为路径起点，相对路径以当前工作路径为路径起点。</p>
-<h2 id="Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><a href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）" class="headerlink" title="Spring的AOP（面向切面编程，Aspect Orient Programming）"></a>Spring的AOP（面向切面编程，Aspect Orient Programming）</h2><p>AspectJ是java语言的一个AOP实现，一个部分定义了如何表达、定义AOP编程中的语法规范，另一个部分是工具部分，包括编译器、调试工具等。</p>
+<h2 id="Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><a href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）" class="headerlink" title="Spring的AOP（面向切面编程，Aspect Orient Programming）"></a>Spring的AOP（面向切面编程，Aspect Orient Programming）</h2><p>AOP（Aspect Oriented Programming），即面向切面编程，可以说是OOP（Object Oriented Programming，面向对象编程）的补充和完善。OOP引入封装、继承、多态等概念来建立一种对象层次结构，用于模拟公共行为的一个集合。不过<strong>OOP允许开发者定义纵向的关系，但并不适合定义横向的关系</strong>，例如日志功能。日志代码往往横向地散布在所有对象层次中，而与它对应的对象的核心功能毫无关系对于其他类型的代码，如安全性、异常处理和透明的持续性也都是如此，这种散布在各处的无关的代码被称为横切（cross cutting），在<strong>OOP设计中，它导致了大量代码的重复，而不利于各个模块的重用。</strong></p>
+<p>AOP技术恰恰相反，它利用一种称为”横切”的技术，剖解开封装的对象内部，并将那些影响了多个类的公共行为封装到一个可重用模块，并将其命名为”Aspect”，即切面。所谓”切面”，简单说就是那些与业务无关，却为业务模块所共同调用的逻辑或责任封装起来，便于减少系统的重复代码，降低模块之间的耦合度，并有利于未来的可操作性和可维护性。</p>
+<p>Authentication 权限Caching 缓存Context passing 内容传递Error handling 错误处理Lazy loading　懒加载Debugging　　调试logging, tracing, profiling and monitoring　记录跟踪　优化　校准Performance optimization　性能优化Persistence　　持久化Resource pooling　资源池Synchronization　同步Transactions 事务</p>
+<p>AspectJ是java语言的一个AOP实现，一个部分定义了如何表达、定义AOP编程中的语法规范，另一个部分是工具部分，包括编译器、调试工具等。</p>
+<p>剖解开封装的对象内部，并将那些影响了多个类的公共行为封装到一个可重用模块，</p>
 <p>可以添加特殊的java类，就是定义类的时候把class关键字换成aspect（只有aspectj才能识别的关键字），并且在类的定义内容中设置什么时候执行一些具体的内容。“ajc -d . *.java”可以使用ajc.bat编译java程序。</p>
 <p>定义切入点表达式Pointcut（），切入点表达式就是定义可能触发操作的特殊场合。proceed方法代表回调指定的目标方法，就是可以在目标方法前后添加业务代码。</p>
 <p>AOP的本质是依然去修改多个业务代码的源代码，只是这个修改由AOP框架完成。AOP实现可以分为两类（区分的标准是AOP框架修改源代码的时机），一种是静态AOP（在编译阶段生成目标类的代理类）Aspectj，一种是动态AOP（在运行阶段生成AOP代理类）Spring AOP。</p>
@@ -655,9 +688,10 @@
 <li>切入点（Pointcut）：可以插入增强处理的连接点。</li>
 <li>引入：将方法或者字段添加到被处理的类中。</li>
 <li>目标对象：被AOP框架进行增强处理的对象</li>
-<li>AOP代理：AOP框架创建的对象，代理就是对目标对象的增强。</li>
+<li>AOP代理：AOP框架创建的对象，代理就是对目标对象的增强。默认使用JDK动态代理来创建AOP代理，这样就可以为任何接口实例创建代理了；当需要代理的类不是代理接口的时候，Spring会切换为使用CGLIB代理，也可强制使用CGLIB</li>
 <li>织入（Weaving）：将增强处理添加到目标对象中，并创建一个被增强的对象（AOP代理）。</li>
 </ol>
+<p>连接点是说在程序中有很多明确的点，比如说方法调用，异常抛出，切入点就是特殊的连接点，是我们想要的连接点，是在这个地方想要进行一些处理，利用pointcut在这里定义，比如说执行某个方法，在切入点上想要进行处理就是advice（增强处理），这些处理实际上就是一个一个的方法，这些方法需要定义在一个类里，这个类就是切面，</p>
 <p>spring中的AOP代理由spring的IOC容器负责生成、管理，依赖关系也由IOC容器负责。</p>
 <p>spring目前只支持将方法调用作为连接点，如果需要把对成员变量的访问和更新也作为增强处理的连接点，则考虑使用aspectj。</p>
 <p>spring提供了两种定义切入点和增强处理的方式：</p>
@@ -712,10 +746,34 @@
 <li>编程式事务管理：程序直接获取容器的TransactionManager Bean，该Bean总是PlatformTransactionManager的实现类，可以利用这个bean的方法处理事务。</li>
 <li>声明式事务管理：通过在XML文件中为业务组件配置事务代理（AOP代理的一种）。</li>
 </ol>
-<p>spring提供了tx：命名空间配置事务管理，tx：advice配置事务增强处理，<a href="tx:advice.../" target="_blank" rel="noopener">tx:advice.../</a>元素除了需要transaction-manager属性指定事务管理器之外，还需要配置attributes子元素，这个子元素包含了多个method子元素，method的属性有name、propagation、isolation、timeout、read-only、rollback-for、no-rollback-for。</p>
-<p>业务Bean里面包含了很多数据库的操作方法，在tx：advice里面可以通过method元素来设置这些方法的事务的规则，通过aop：config元素配置一个切入点（这个切入点需要匹配到这个业务Bean），并且利用aop:advisor元素指定在某个切入点处执行事务增强处理（实际上是利用Bean后处理器完成的）。</p>
+<h3 id="注解式事务"><a href="#注解式事务" class="headerlink" title="注解式事务"></a>注解式事务</h3><p>使用@Transactional注解可以在java类重定义，他的属性有isolation(隔离级别)、noRollbackFor（默认遇到运行期例外(throw new RuntimeException(“注释”);)会回滚，用这个参数表示不回滚）、noRollbackForClassName、propagation（传播性）、readOnly（事务的只读性，true表示只读，false表示读写，默认false）、rollbackFor（当该方法抛出指定异常时回滚）、rollbackForClassName、timeout（超时性），光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
+<pre><code>&lt;!-- 事务管理器配置,单数据源事务 --&gt;
+&lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.orm.hibernate3.HibernateTransactionManager&quot;&gt;
+    &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot; /&gt;
+&lt;/bean&gt;
+
+&lt;!-- 使用annotation定义事务 --&gt;
+&lt;tx:annotation-driven  transaction-manager=&quot;transactionManager&quot;   proxy-target-class=&quot;true&quot; /&gt;
+</code></pre><h3 id="aop方式实现事务配置"><a href="#aop方式实现事务配置" class="headerlink" title="aop方式实现事务配置"></a>aop方式实现事务配置</h3><p>同样需要配置transactionManager</p>
+<p>spring提供了tx：命名空间配置事务管理，tx：advice配置事务增强处理，<a href="tx:advice.../" target="_blank" rel="noopener">tx:advice.../</a>元素除了需要transaction-manager属性指定事务管理器之外，还需要配置attributes子元素，这个子元素包含了多个method子元素，method的属性有name、propagation、isolation（隔离级别）、timeout、read-only、rollback-for、no-rollback-for。</p>
+<p>业务Bean里面包含了很多数据库的操作方法，在tx：advice里面可以通过method元素来设置这些方法的事务的规则，通过aop：config元素配置一个切入点（这个切入点需要定义我们关心的是哪个类的哪个方法执行），并且利用aop:advisor元素指定在某个切入点处执行事务增强处理（实际上是利用Bean后处理器完成的，pointcut-ref和advice-ref将这两者组合在一起）。</p>
 <p>默认情况下，只有方法引发运行时异常和unchecked异常，spring就会回滚事务，如果事务方法抛出checked异常，则事务不会回滚，这个时候就要利用method的rollback-for属性和no-rollback-for属性</p>
-<p>使用@Transactional注解可以在java类重定义，他的属性有isolation、noRollbackFor、noRollbackForClassName、propagation、readOnly、rollbackFor、rollbackForClassName、timeout，光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
+<h3 id="spring事务的几种传播特性："><a href="#spring事务的几种传播特性：" class="headerlink" title="spring事务的几种传播特性："></a>spring事务的几种传播特性：</h3><ol>
+<li>PROPAGATION_REQUIRED: 如果存在一个事务，则支持当前事务。如果没有事务则开启</li>
+<li>PROPAGATION_SUPPORTS: 如果存在一个事务，支持当前事务。如果没有事务，则非事务的执行</li>
+<li>PROPAGATION_MANDATORY: 如果已经存在一个事务，支持当前事务。如果没有一个活动的事务，则抛出异常。</li>
+<li>PROPAGATION_REQUIRES_NEW: 总是开启一个新的事务。如果一个事务已经存在，则将这个存在的事务挂起。</li>
+<li>PROPAGATION_NOT_SUPPORTED: 总是非事务地执行，并挂起任何存在的事务。</li>
+<li>PROPAGATION_NEVER: 总是非事务地执行，如果存在一个活动事务，则抛出异常</li>
+<li>PROPAGATION_NESTED：如果一个活动的事务存在，则运行在一个嵌套的事务中. 如果没有活动事务,  则按TransactionDefinition.PROPAGATION_REQUIRED 属性执行</li>
+</ol>
+<h3 id="Spring事务的隔离级别"><a href="#Spring事务的隔离级别" class="headerlink" title="Spring事务的隔离级别"></a>Spring事务的隔离级别</h3><ol>
+<li>ISOLATION_DEFAULT： 这是一个PlatfromTransactionManager默认的隔离级别，使用数据库默认的事务隔离级别,另外四个与JDBC的隔离级别相对应</li>
+<li>ISOLATION_READ_UNCOMMITTED： 这是事务最低的隔离级别，它充许令外一个事务可以看到这个事务未提交的数据,这种隔离级别会产生脏读，不可重复读和幻像读。</li>
+<li>ISOLATION_READ_COMMITTED： 保证一个事务修改的数据提交后才能被另外一个事务读取。另外一个事务不能读取该事务未提交的数据</li>
+<li>ISOLATION_REPEATABLE_READ： 这种事务隔离级别可以防止脏读，不可重复读。但是可能出现幻像读,它除了保证一个事务不能读取另一个事务未提交的数据外，还保证了避免下面的情况产生(不可重复读)。</li>
+<li>ISOLATION_SERIALIZABLE 这是花费最高代价但是最可靠的事务隔离级别。事务被处理为顺序执行,除了防止脏读，不可重复读外，还避免了幻像读。 </li>
+</ol>
 <h2 id="spring整合Struts2"><a href="#spring整合Struts2" class="headerlink" title="spring整合Struts2"></a>spring整合Struts2</h2><p>对于使用spring的web应用，创建spring容器的方法有两种：直接在web.xml文件中配置创建和第三方MVC框架的扩展点，创建spring容器。</p>
 <p>为了让spring容器随Web应用启动而自动启动，借助于ServletContextListener监听器即可完成，这个监听器的作用就是在web应用启动的时候回调自定义方法，可以在这个自定义方法中启动spring容器。</p>
 <p>Spring提供了一个ContextLoaderListener监听器类，实现了ServletContextListener接口，创建时会自动查找WEB-INF下的ApplicationContext.xml文件，如果多个配置文件的话需要使用&lt;context-param…/&gt;元素,利用参数名为contextConfigLocation的值来包含所有的配置文件。spring根据指定的配置文件创建WebApplicationContext对象，如果要在应用中获取ApplicationContext实例则可以通过 WebApplicationContextUtils. </p>
@@ -947,16 +1005,21 @@
 <h3 id="管理Bean的生命周期"><a href="#管理Bean的生命周期" class="headerlink" title="管理Bean的生命周期"></a>管理Bean的生命周期</h3><p>spring管理生命周期行为的时机主要有两个： 一个是依赖注入之后，一个是即将销毁Bean之前。</p>
 <h3 id="依赖关系注入之后"><a href="#依赖关系注入之后" class="headerlink" title="依赖关系注入之后"></a>依赖关系注入之后</h3><p>有两种方式：一种是使用init-method属性，一种是实现initializingBean接口（侵入式设计，不推荐），这个接口提供了afterPropertiesSet方法，这个方法里指定我们要实现的部分。<strong>两个同时存在的时候先执行afterPropertiesSet，再执行init-method指定的方法。</strong></p>
 <p>init-method的值是这个Bean的某个方法名，指定这个方法在属性设置完成之后执行，BeanNameAware和ApplicationContextAware的执行顺序是先setBeanNameAware，然后setApplicationContext</p>
-<h3 id="Bean销毁之前"><a href="#Bean销毁之前" class="headerlink" title="Bean销毁之前"></a>Bean销毁之前</h3><p>有两种方式：一种是destroy-method属性，一种是实现DisposableBean接口，这个接口有一个destroy方法。在销毁之前执行destroy方法。<strong>两个同时存在的时候先执行destroy-method指定的方法，再执行destroy方法。</strong></p>
+<h3 id="Bean销毁之前"><a href="#Bean销毁之前" class="headerlink" title="Bean销毁之前"></a>Bean销毁之前</h3><p>有两种方式：一种是destroy-method属性，一种是实现DisposableBean接口，这个接口有一个destroy方法。在销毁之前执行destroy方法。<strong>两个同时存在的时候先执行destroy方法，再执行destroy-method指定的方法。</strong></p>
 <p>singleton作用域的Bean通常会随着容器关闭而销毁。在web应用环境下ApplicationContext的关闭不需要考虑，在一个非web应用环境下，需要在JVM里面注册一个关闭钩子，就是调用AbstractApplicationContext中提供的registerShutdownHook（）方法。</p>
 <p>如果说很多bean都需要设置init-method和destroy-method，那么就可以利用default-init-method和default-destroy-method，这两个属性将对beans下面的所有bean生效。</p>
-<h3 id="协调作用域不同步的Bean"><a href="#协调作用域不同步的Bean" class="headerlink" title="协调作用域不同步的Bean"></a>协调作用域不同步的Bean</h3><p>如果一个singleton作用域的Bean A依赖于一个Prototype作用域的Bean B，当spring初始化A的时候，会先初始化B，然后把B注入到A中，形成一个singleton作用域的Bean，每一次通过singleton Bean访问prototype Bean的时候，得到的永远是最初的那个prototype Bean，为了解决这个问题，可以使用方法注入，方法注入通常使用lookup方法注入，有两步：第一步是将调用者Bean的实现类定义为抽象类，并定义一个抽象方法来返回被依赖的Bean。在bean元素中添加lookup-method子元素，这个子元素有两个属性，一个是name（方法名），一个是bean（被依赖的prototype的bean的id）</p>
+<h3 id="协调作用域不同步的Bean"><a href="#协调作用域不同步的Bean" class="headerlink" title="协调作用域不同步的Bean"></a>协调作用域不同步的Bean</h3><p>如果一个singleton作用域的Bean A依赖于一个Prototype作用域的Bean B，当spring初始化A的时候，会先初始化B，然后把B注入到A中，形成一个singleton作用域的Bean，每一次通过singleton Bean访问prototype Bean的时候，得到的永远是最初的那个prototype Bean，为了解决这个问题，可以使用方法注入，方法注入通常使用lookup方法注入，有两步：第一步是将调用者Bean的实现类定义为抽象类，并定义一个抽象方法来返回被依赖的Bean。在bean元素中添加lookup-method子元素，这个子元素有两个属性，一个是name（方法名），一个是bean（被依赖的prototype的bean的id），相当于指定了这个方法的返回值是去寻找某个id的bean</p>
 <h2 id="高级依赖关系配置"><a href="#高级依赖关系配置" class="headerlink" title="高级依赖关系配置"></a>高级依赖关系配置</h2><p>Spring框架的本质是开发者在spring配置文件中使用xml元素进行配置，实际驱动spring执行相应的代码。</p>
 <h3 id="获取其他Bean的属性值"><a href="#获取其他Bean的属性值" class="headerlink" title="获取其他Bean的属性值"></a>获取其他Bean的属性值</h3><p>PropertyPathFactoryBean用来获取目标Bean的属性值，实际上就是利用了getter方法。</p>
 <p>使用PropertyPathFactoryBean来调用其他Bean的getter方法需要指定如下信息：调用哪个对象和调用哪个getter方法。</p>
 <p>在xml配置文件中需要指明的是targetBeanName和propertyPath的值，通过property的name和value指明，class一定要写明是PropertyPathFactoryBean。value支持复合属性，就是某某类的某某类的某某属性值。如果目标Bean是Bean实例的话，则需要将targetBeanName改成targetObject</p>
-<p>简化配置的方法是使用<a href="util:property-path..../" target="_blank" rel="noopener">util:property-path..../</a>元素，首先要导入util：命名空间。这个元素有两个属性，一个是id（想要将得到的返回值封装成什么名字的Bean实例），一个是path，如果是基本属性值就不需要指定id。</p>
-<h3 id="获取Field值"><a href="#获取Field值" class="headerlink" title="获取Field值"></a>获取Field值</h3><p>通过FieldRetrievingFactoryBean类，可以访问类的静态Field或者对象的实例Field值（要求实例field用public修饰，这个没什么用）。得到值之后可以注入其他Bean，也可以直接定义成新的Bean。</p>
+<pre><code>&lt;property name=&quot;son&quot;&gt;
+    &lt;bean class=&quot;org.springframework.beans.factory.config.PropertyPathFactoryBean&quot;&gt;
+        &lt;!-- 确定目标Bean，指定son Bean来自哪个Bean的getter方法 --&gt;
+        &lt;property name=&quot;targetBeanName&quot; value=&quot;father&quot;/&gt;
+        &lt;!-- 指定son Bean来自目标Bean的哪个getter方法，age代表getAge() --&gt;
+        &lt;property name=&quot;propertyPath&quot; value=&quot;son&quot;/&gt;
+</code></pre><h3 id="获取Field值"><a href="#获取Field值" class="headerlink" title="获取Field值"></a>获取Field值</h3><p>通过FieldRetrievingFactoryBean类，可以访问类的静态Field或者对象的实例Field值（要求实例field用public修饰，这个没什么用）。得到值之后可以注入其他Bean，也可以直接定义成新的Bean。</p>
 <p>使用FieldRetrievingFactoryBean访问field分为两种情况，setTargetClass和setTargetField或者setTargetObject和setTargetField。</p>
 <p>在XML文件中就是利用property的name和value属性指定值，name是targetClass和targetField，name还可以是staticField，通过这种方式访问静态field，util：constant元素可以简化配置，id（bean实例的name）和static-field</p>
 <h3 id="获取方法返回值"><a href="#获取方法返回值" class="headerlink" title="获取方法返回值"></a>获取方法返回值</h3><p>MethodInvokingFactoryBean工厂Bean，如果调用的方法是静态方法，则需要指定，setTartgetClass，setTargetMethod，setArguments，如果是实例方法，第一个是setTargetObject，其他的不变。arguments中的参数如果超过一个则需要使用list。</p>
@@ -1071,7 +1134,7 @@
 <p>spring容器不仅可以创建Bean实例，还可以指定特定的作用域，singleton（只生成一个，默认使用）、prototype（每次getBean都是新的Bean）、request（每次http请求）、session、global session，后面三个只会在web应用有效，通过bean元素的scope属性指定作用域。</p>
 <p>request和session作用域只在web应用中有效，并且必须在web应用中增加额外配置才会生效，也就是在web.xml中增加listener，RequestContextListener</p>
 <p>不建议使用配置文件管理Bean的基本类型的属性值，通常只使用配置文件管理容器中Bean与Bean的依赖关系，在配置bean的时候ref的值是另外一个bean，value是基本类型及其包装类型。</p>
-<p>Spring可以自动装配Bean与Bean之前的依赖关系，通过beans和bean元素的autowire属性指定，这个属性有5个值：no、byName（根据setter方法名自动匹配）、byType（根据setter方法的参数自动匹配）、constructor（根据构造器的参数自动匹配）、autodetect（spring自主选择bytype或者constructor）</p>
+<p>Spring可以自动装配Bean与Bean之间的依赖关系，通过beans和bean元素的autowire属性指定，这个属性有5个值：no、byName（根据setter方法名自动匹配）、byType（根据setter方法的参数自动匹配）、constructor（根据构造器的参数自动匹配）、autodetect（spring自主选择bytype或者constructor）</p>
 <p>byName如果找不到名称的bean的话就不会依赖注入，byType如果没有类型相同的实例就不会调用setter方法，如果有多个类型相同的实例就会抛出异常。</p>
 <p>有的时候，程序希望将某些Bean排除在自动装配之外，只需要在bean元素配置的时候设置autowire-candidate=‘false’，在beans元素下面的default-autowire-candidates属性允许使用多个模式字符串的组合。</p>
 <p>如果某个Bean所依赖的Bean不想被spring容器访问，那么就可以使用嵌套Bean，可以把bean元素配置成property或者constructor-args的子元素</p>
@@ -1345,23 +1408,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Map</a>
+                <a href="javascript:void(0)" class="js-tag color1">slf4j</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">多线程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1386,6 +1441,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>
