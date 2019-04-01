@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/01/02/20190102-java/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="把 enum 看成是一个普通的 class，它们都可以定义一些属性和方法，不同之处是：enum 不能使用 extends 关键字继承其他类，因为 enum 已经继承了 java.lang.Enum（java是单一继承）  Java IO 同步或者异步是针对应用程序和内核而言的，阻塞和非阻塞是指进程在访问数据的时候根据IO的状态采取不同的操作。 同步：用户进程触发IO操作之后需要等待或者轮询IO操">
-<meta property="og:updated_time" content="2019-03-27T08:52:59.060Z">
+<meta property="og:updated_time" content="2019-04-01T12:17:28.426Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20190102-java">
 <meta name="twitter:description" content="把 enum 看成是一个普通的 class，它们都可以定义一些属性和方法，不同之处是：enum 不能使用 extends 关键字继承其他类，因为 enum 已经继承了 java.lang.Enum（java是单一继承）  Java IO 同步或者异步是针对应用程序和内核而言的，阻塞和非阻塞是指进程在访问数据的时候根据IO的状态采取不同的操作。 同步：用户进程触发IO操作之后需要等待或者轮询IO操">
@@ -195,6 +195,10 @@
 <p>为了将Channel和Selector配合使用，必须将channel注册到selector上。通过channel.register()方法来实现，与Selector一起使用时，Channel必须处于非阻塞模式下。这意味着不能将FileChannel与Selector一起使用，因为FileChannel不能切换到非阻塞模式。而套接字通道都可以。register()方法的第二个参数。这是一个“interest集合”，意思是在通过Selector监听Channel时对什么事件感兴趣。可以监听四种不同类型的事件： SelectionKey.OP_CONNECT 、 SelectionKey.OP_ACCEPT 、 SelectionKey.OP_READ、 SelectionKey.OP_WRITE 。某个channel成功连接到另一个服务器称为<strong>“连接就绪OP_CONNECT”</strong>。一个server socket channel准备好接收新进入的连接称为<strong>“接收就绪”OP_ACCEPT</strong>。一个有数据可读的通道可以说是“读就绪”。等待写数据的通道可以说是“写就绪”</p>
 <p>register()方法会返回一个SelectionKey对象。</p>
 <p>一旦向Selector注册了一或多个通道，就可以调用几个重载的select()方法。这些方法返回你所感兴趣的事件（如连接、接受、读或写）已经准备就绪的那些通道</p>
+<ol>
+<li>Selector的创建Selector selector = Selector.open();</li>
+<li>注册Channel到Selectorchannel.configureBlocking(false);SelectionKey key = channel.register(selector, Selectionkey.OP_READ);</li>
+</ol>
 <h2 id="fileChannel"><a href="#fileChannel" class="headerlink" title="fileChannel"></a>fileChannel</h2><p>在使用FileChannel之前，必须先打开它。但是，我们无法直接打开一个FileChannel，需要通过使用一个InputStream、OutputStream或RandomAccessFile来获取一个FileChannel实例</p>
 <h2 id="Socket-通道"><a href="#Socket-通道" class="headerlink" title="Socket 通道"></a>Socket 通道</h2><p>Java NIO中的SocketChannel是一个连接到TCP网络套接字的通道。可以通过以下2种方式创建SocketChannel：<br>• 打开一个SocketChannel并连接到互联网上的某台服务器。<br>• 一个新连接到达ServerSocketChannel时，会创建一个SocketChannel。</p>
 <p>有非阻塞模式，可以在异步模式下调用connect(), read() 和write()</p>
@@ -425,15 +429,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -481,6 +485,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Reflect</a>
               </li>
              
@@ -502,10 +510,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

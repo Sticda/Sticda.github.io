@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/12/15/20171219-servlet/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
-<meta property="og:updated_time" content="2019-03-27T13:18:00.181Z">
+<meta property="og:updated_time" content="2019-03-28T02:33:31.358Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20171219">
 <meta name="twitter:description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
@@ -241,6 +241,20 @@ chain.doFilter(request,response);
 <li>静态包含在两个文件中不能有相同的变量，动态包含允许。由于静态包含相当于将包含文件内容直接复制到主体文件中，如果出现相同的变量，就会出现覆盖等问题，导致文件出错。而动态包含相当于调用不同的jsp，变量所在的空间不同，自然不会出现覆盖等现象。</li>
 <li>无论是动态包含还是静态包含，其request对象都是相同的。也就是同一个request对象</li>
 </ol>
+<h2 id="1分钟之内只能处理1000个请求，怎么实现"><a href="#1分钟之内只能处理1000个请求，怎么实现" class="headerlink" title="1分钟之内只能处理1000个请求，怎么实现"></a>1分钟之内只能处理1000个请求，怎么实现</h2><ol>
+<li>ApplicationContext 对所有用户访问的次数计数。同时定义一个计时器，单位为一分钟。如果ApplicationContext 中的用户在单位时间内超出请求次数，就拒绝处理该请求。一分钟再刷新application的值为0.</li>
+<li>使用 aop 实现请求的限制，在需要限制的请求方法上加上 aop 逻辑</li>
+</ol>
+<h2 id="四种会话跟踪技术"><a href="#四种会话跟踪技术" class="headerlink" title="四种会话跟踪技术"></a>四种会话跟踪技术</h2><ol>
+<li>表单隐藏域 <input type="hidden" id="xxx" value="xxx"> 在表单的提交中，加入这样一段数据提交的隐藏域，用户在输入时是看不到的，但是可以通过查看网页源代码来看到，在服务端只能通过post的方式获取参数。这种方式在禁用Cookie的情况下也能工作，但是关闭浏览器后就会失效。</li>
+<li>URL重写：在提交请求的URL后面加上请求需要的参数，常见的GET的请求。安全性能不高，参数可以在地址栏中看到，而且对于参数的长度有限制(1024字节),禁用Cookie的情况下也能使用，但是关闭浏览器后就会失效</li>
+<li>Cookie：Cookie实际上是一小段的文本信息。客户端请求服务器，如果服务器需要记录该用户状态，就使用response向客户端浏览器颁发一个Cookie。 客户端浏览器会把Cookie保存起来，并由浏览器通过域名管理不同网站的Cookie。</li>
+<li>Session：因为http是无状态的连接，Session也不能根据连接来识别是否是同一次会话，因此客户端第一次请求JSP/Servlet之后，服务端会自动生成一个名叫JSESSIONID的Cookie，该Cookie的值就是sessionID，发送到客户端，客户端再次连接的时候，会自动带上这个JSESSIONID，找到相应的session。如果客户端端禁用了Cookie，那么这个JSESSIONID会通过URL重写发送到服务端。</li>
+</ol>
+<h2 id="web-xml可以配置的内容"><a href="#web-xml可以配置的内容" class="headerlink" title="web.xml可以配置的内容"></a>web.xml可以配置的内容</h2><p>配置Spring上下文加载监听器，加载Spring配置文件并创建IoC容器；配置Spring的OpenSessionInView过滤器来解决延迟加载和Hibernate会话关闭的矛盾；配置404和Exception的错误页面；配置安全认证方式；监听器（listener）；过滤器（filter）；Servlet</p>
+<h2 id="ServletContext和ApplicationContext"><a href="#ServletContext和ApplicationContext" class="headerlink" title="ServletContext和ApplicationContext"></a>ServletContext和ApplicationContext</h2><p>ServletContext与Spring容器（ApplicationContext）的关系</p>
+<p>1、ServletContext创建之后，然后读取<context-param></context-param>节点内容；2、触发ServletContextEvent事件，ServletContextListener监听这个事件，ServletContextListener有两个抽象方法，分别是ServletContext初始化时调用方法和ServletContext销毁时调用的方法。3、ContextLoaderListener实继承ContextLoader并实现ServletContextListener，所以也监听ServletContextEvent事件，事件触发后ContextLoaderListener会执行初始化方法。<br>1、ContextLoaderListener监听ServletContextEvent事件，执行初始化contextInitialized(ServletContextEvent event)方法；2、先判断是否已经创建过ApplicationContext；3、创建WebApplicationContext对象（Spring容器）；4、转换成ConfigurableWebApplicationContext 对象；5、执行configureAndRefreshWebApplicationContext方法，封装ApplicationContext上下文数据，其中会从ServletContext中读取applicationContext.xml配置，调用refresh方法完成所有bean的解析初始化创建。6、ConfigurableWebApplicationContext 创建之后放到ServletContext中；</p>
+<h2 id="DAO模式"><a href="#DAO模式" class="headerlink" title="DAO模式"></a>DAO模式</h2><p>DAO（Data Access Object）顾名思义是一个为数据库或其他持久化机制提供了抽象接口的对象，在不暴露底层持久化方案实现细节的前提下提供了各种数据访问操作。在实际的开发中，应该将所有对数据源的访问操作进行抽象化后封装在一个公共API中。用程序设计语言来说，就是建立一个接口，接口中定义了此应用程序中将会用到的所有事务方法。在这个应用程序中，当需要和数据源进行交互的时候则使用这个接口，并且编写一个单独的类来实现这个接口，在逻辑上该类对应一个特定的数据存储。DAO模式实际上包含了两个模式，一是Data Accessor（数据访问器），二是Data Object（数据对象），前者要解决如何访问数据的问题，而后者要解决的是如何用对象封装数据。</p>
 
       
 
@@ -336,7 +350,7 @@ chain.doFilter(request,response);
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HttpSession"><span class="toc-number">1.</span> <span class="toc-text">HttpSession</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#过滤器"><span class="toc-number">2.</span> <span class="toc-text">过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#响应封装器"><span class="toc-number">3.</span> <span class="toc-text">响应封装器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#监听器"><span class="toc-number">4.</span> <span class="toc-text">监听器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期监听器"><span class="toc-number">4.1.</span> <span class="toc-text">生命周期监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置"><span class="toc-number">4.2.</span> <span class="toc-text">设置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet的生命周期"><span class="toc-number">5.</span> <span class="toc-text">Servlet的生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JSP页面的静态包含和动态包含"><span class="toc-number">5.1.</span> <span class="toc-text">JSP页面的静态包含和动态包含</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HttpSession"><span class="toc-number">1.</span> <span class="toc-text">HttpSession</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#过滤器"><span class="toc-number">2.</span> <span class="toc-text">过滤器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#响应封装器"><span class="toc-number">3.</span> <span class="toc-text">响应封装器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#监听器"><span class="toc-number">4.</span> <span class="toc-text">监听器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#生命周期监听器"><span class="toc-number">4.1.</span> <span class="toc-text">生命周期监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置"><span class="toc-number">4.2.</span> <span class="toc-text">设置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet的生命周期"><span class="toc-number">5.</span> <span class="toc-text">Servlet的生命周期</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JSP页面的静态包含和动态包含"><span class="toc-number">5.1.</span> <span class="toc-text">JSP页面的静态包含和动态包含</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1分钟之内只能处理1000个请求，怎么实现"><span class="toc-number">5.2.</span> <span class="toc-text">1分钟之内只能处理1000个请求，怎么实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四种会话跟踪技术"><span class="toc-number">5.3.</span> <span class="toc-text">四种会话跟踪技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web-xml可以配置的内容"><span class="toc-number">5.4.</span> <span class="toc-text">web.xml可以配置的内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ServletContext和ApplicationContext"><span class="toc-number">5.5.</span> <span class="toc-text">ServletContext和ApplicationContext</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DAO模式"><span class="toc-number">5.6.</span> <span class="toc-text">DAO模式</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -461,15 +475,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -517,6 +531,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Reflect</a>
               </li>
              
@@ -538,10 +556,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

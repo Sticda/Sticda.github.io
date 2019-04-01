@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>20180514 spring | Sticda</title>
+  <title>20171019 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
-<meta name="keywords" content="笔记,spring">
+  <meta name="description" content="volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。 java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器">
+<meta name="keywords" content="java,笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="20180514 spring">
-<meta property="og:url" content="http://yoursite.com/2018/05/14/20180514-spring/index.html">
+<meta property="og:title" content="20171019">
+<meta property="og:url" content="http://yoursite.com/2017/10/16/20171019-java/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
-<meta property="og:updated_time" content="2019-03-27T07:58:49.535Z">
+<meta property="og:description" content="volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。 java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器">
+<meta property="og:updated_time" content="2019-04-01T12:19:53.913Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20180514 spring">
-<meta name="twitter:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容">
+<meta name="twitter:title" content="20171019">
+<meta name="twitter:description" content="volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。 java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -142,20 +142,20 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-20180514-spring" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-20171019-java" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      20180514 spring
+      20171019
     </h1>
   
 
         
-        <a href="/2018/05/14/20180514-spring/" class="archive-article-date">
-  	<time datetime="2018-05-14T03:08:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-14</time>
+        <a href="/2017/10/16/20171019-java/" class="archive-article-date">
+  	<time datetime="2017-10-16T02:12:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
 </a>
         
       </header>
@@ -165,135 +165,34 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容实现依赖注入，利用标签库p的res属性配置资源位置，可以通过前缀指明spring采取的资源访问策略，如果不采用前缀，则spring将采用与ApplicationContext相同的资源访问策略。采取依赖注入的方法就允许动态配置资源文件的位置，无须将资源文件位置写在代码中，当资源文件位置发生变化时，直接修改配置文件。</p>
-<p>在ApplicationContext中确定资源访问策略通常有两种方法，一种是使用ApplicationContext实现类（类似ClassPathXMLApplicationContext一类的。）指定访问策略，另一种是使用前缀指定访问策略。通过前缀指定资源访问策略的方式仅仅对当次访问有效，程序后面进行资源访问的时候，仍然会根据ApplicationContext的实现类来选择对应的资源访问策略。</p>
-<p>classpath*：前缀指定xml配置文件时，系统将搜索类加载路径，找出所有与文件名匹配的文件，然后依次加载文件中的配置定义。classpath就只会加载第一个文件名匹配的文件。一次性加载多个配置文件的方法还有在指定文件的时候使用通配符，A*.xml会加载所有以A开头的xml文件。</p>
-<p>file：前缀可以指定绝对路径和相对路径，但是在FileSystemXMLApplicationContext就会把所有的绝对路径当做相对路径处理。绝对路径以文件系统根路径为路径起点，相对路径以当前工作路径为路径起点。</p>
-<h2 id="Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><a href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）" class="headerlink" title="Spring的AOP（面向切面编程，Aspect Orient Programming）"></a>Spring的AOP（面向切面编程，Aspect Orient Programming）</h2><p>AOP（Aspect Oriented Programming），即面向切面编程，可以说是OOP（Object Oriented Programming，面向对象编程）的补充和完善。OOP引入封装、继承、多态等概念来建立一种对象层次结构，用于模拟公共行为的一个集合。不过<strong>OOP允许开发者定义纵向的关系，但并不适合定义横向的关系</strong>，例如日志功能。日志代码往往横向地散布在所有对象层次中，而与它对应的对象的核心功能毫无关系对于其他类型的代码，如安全性、异常处理和透明的持续性也都是如此，这种散布在各处的无关的代码被称为横切（cross cutting），在<strong>OOP设计中，它导致了大量代码的重复，而不利于各个模块的重用。</strong></p>
-<p>AOP技术恰恰相反，它利用一种称为”横切”的技术，剖解开封装的对象内部，并将那些影响了多个类的公共行为封装到一个可重用模块，并将其命名为”Aspect”，即切面。所谓”切面”，简单说就是那些与业务无关，却为业务模块所共同调用的逻辑或责任封装起来，便于减少系统的重复代码，降低模块之间的耦合度，并有利于未来的可操作性和可维护性。</p>
-<p>Authentication 权限Caching 缓存Context passing 内容传递Error handling 错误处理Lazy loading　懒加载Debugging　　调试logging, tracing, profiling and monitoring　记录跟踪　优化　校准Performance optimization　性能优化Persistence　　持久化Resource pooling　资源池Synchronization　同步Transactions 事务</p>
-<p>AspectJ是java语言的一个AOP实现，一个部分定义了如何表达、定义AOP编程中的语法规范，另一个部分是工具部分，包括编译器、调试工具等。</p>
-<p>剖解开封装的对象内部，并将那些影响了多个类的公共行为封装到一个可重用模块，</p>
-<p>可以添加特殊的java类，就是定义类的时候把class关键字换成aspect（只有aspectj才能识别的关键字），并且在类的定义内容中设置什么时候执行一些具体的内容。“ajc -d . *.java”可以使用ajc.bat编译java程序。</p>
-<p>定义切入点表达式Pointcut（），切入点表达式就是定义可能触发操作的特殊场合。proceed方法代表回调指定的目标方法，就是可以在目标方法前后添加业务代码。</p>
-<p>AOP的本质是依然去修改多个业务代码的源代码，只是这个修改由AOP框架完成。AOP实现可以分为两类（区分的标准是AOP框架修改源代码的时机），一种是静态AOP（在编译阶段生成目标类的代理类）Aspectj，一种是动态AOP（在运行阶段生成AOP代理类）Spring AOP。</p>
-<p>面向切面编程的一些术语：</p>
+        <ol>
+<li>volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。</li>
+<li>java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器（Application ClassLoader），自定义类加载器（User ClassLoader），前者是后者的父加载器，应用程序类加载器负责加载用户类路径（Classpath）上所指定的类库。</li>
+<li>CAS操作是指当且仅当内存位置V符合旧的预期值A时，处理器才会用新值B更新V 的值，否则他就不执行更新，但是无论是否更新了V 的值，都会返回V的旧值。</li>
+</ol>
+<p>17号早上《深入理解java虚拟机》这本书基本上看完了，第四部分没看，第四部分是程序编译与代码优化，具体内容是早期编译期优化和晚期运行期优化，最终也就是第四章，第五章，第九章没有看。看完之后可能还是有点懵逼，有一些部分还不是很清楚，但总算是了解了一些，今天刚好有点时间，总结一下这本书里大概学到的知识点。</p>
 <ol>
-<li>切面（aspect）：切面用于组织多个advice，Advice在切面中定义。</li>
-<li>连接点（JointPoint）：程序执行过程中明确的点</li>
-<li>增强处理（Advice）：AOP框架在特定的切入点执行增加处理，处理类型有around、before、after。</li>
-<li>切入点（Pointcut）：可以插入增强处理的连接点。</li>
-<li>引入：将方法或者字段添加到被处理的类中。</li>
-<li>目标对象：被AOP框架进行增强处理的对象</li>
-<li>AOP代理：AOP框架创建的对象，代理就是对目标对象的增强。默认使用JDK动态代理来创建AOP代理，这样就可以为任何接口实例创建代理了；当需要代理的类不是代理接口的时候，Spring会切换为使用CGLIB代理，也可强制使用CGLIB</li>
-<li>织入（Weaving）：将增强处理添加到目标对象中，并创建一个被增强的对象（AOP代理）。</li>
+<li>java内存区域和内存溢出异常：每次打开一个java程序就会打开一个java虚拟机实例，也就是每一个运行main函数就会生成一个java虚拟机的实例，这每一个java虚拟机上运行的每一个线程都有自己的程序计数器，虚拟机栈和本地方法栈。程序计数器是当前程序运行的字节码的行号指示器，虚拟机栈和本地方法栈简单来说一个运行的是java方法，一个是本地的方法，也就是JNI方法，java的每一个方法都是以栈帧的方法执行的（栈帧的内容就是局部变量表、操作数栈、动态链接、方法返回地址）。堆和方法区是共享部分，java堆中都是新建的对象实例，但是只有存储的数据，对于里面数据的解读则要到方法区中查询。方法区中存储的是被虚拟机加载的类信息，常量和静态常量、即时编译器编译后的代码等数据，方法区中有运行时常量池，用于存放编译器生成的各种字面量和符号引用</li>
+<li>类的整个生命周期：加载、验证、准备、（解析）、初始化、（使用）、卸载，加括号的两个顺序不固定。验证、准备、解析又被称为连接。</li>
+<li>执行初始化的五种情况：遇到new、getstatic、putstatic、invokestaitc指令的时候类还没初始化；使用reflect包进行反射调用的时候、初始化一个类的时候父类还没进行初始化的时候，先初始化父类；虚拟机启动的时候需要指定一个执行的主类，先初始化这个主类；invoke.methodHandler最后的解析结果对应的类没有初始化</li>
+<li>在类的加载阶段，虚拟机完成的三件事情：通过类的全限定名获取二进制字节流；将这个字节流所代表的静态数据结构转化为方法区的运行时数据结构；在内存中生成代表这个类的java.lang.Class对象。</li>
+<li>验证阶段的四个阶段：文件格式验证、元数据验证、字节码验证、符号引用验证。文件格式验证就是验证字节流是否符合class文件格式规范，并且能被当前版本处理，元数据验证就是语义分析，是否符合java语言规范。字节码验证就是数据流和控制流分析，确保程序语义合法、符合逻辑。符号引用验证就是对类自身以外的信息进行匹配性校验，确保解析动作能正常执行。</li>
+<li>准备阶段就是正式为类变量分配内存并设置类变量初值的阶段。进行内存分配的仅仅是类变量，类变量初值指的是数据类型的零值。</li>
+<li>解析阶段就是虚拟机将常量池内的符号引用替换为直接引用的过程。</li>
+<li>初始化阶段是类加载的最后一步，初始化阶段就是执行类构造器<clinit>()方法的过程，这个方法是编译器自动收集类变量的赋值和静态语句块中的语句合并而成的。</clinit></li>
+<li>首先加载父类的静态变量和静态语句块（按照代码上下顺序执行），然后加载子类的静态变量和静态语句块（按照代码上下顺序执行），然后加载父类的非静态变量和非静态语句块（按照代码上下顺序执行），再加载父类的构造函数。然后加载子类的非静态变量和非静态语句块（按照代码上下顺序执行），最后加载子类的构造函数。</li>
+<li>启动类加载器Bootstrap ClassLoader（lib目录）、扩展类加载器（Extension ClassLoader）lib/ext目录、应用程序类加载器（Application ClassLoader）加载用户类路径（classpath）上指定的类库，ClassLoader的getSystemClassLoader方法返回的是应用程序类加载器。前者是后者的父类。</li>
+<li>双亲委派模型要求除了顶层的启动类加载器之外，剩下所有的加载器都要有自己的父类加载器。双亲委派模型的工作机制是如果一个类加载器收到了类加载的请求，他不去自己先去加载这个类，而是把这个请求委派给自己的父类加载器完成，每一层的类加载器都是这样，因为一个类加载请求应该最终都被传送到启动类加载器，只有当父类加载器反馈自己无法完成这个加载请求的时候，加载器才会选择自己加载</li>
+<li>破坏双亲委派模型的三种情况：双亲委派模型出现之前（解决办法是把自己的类加载逻辑写在findclass方法中，loadclass方法中父类加载失败则调用自己的findclass）；模型固有缺陷，基础类想要调用回用户代码的情况无法实现，例如JNDI服务Java 提供了很多服务提供者接口（Service Provider Interface，SPI），允许第三方为这些接口提供实现。常见的 SPI 有 JDBC、JCE、JNDI、JAXP 和 JBI 等。这些 SPI 的接口由 Java 核心库来提供，而这些 SPI 的实现代码则是作为 Java 应用所依赖的 jar 包被包含进类路径（CLASSPATH）里。SPI接口中的代码经常需要加载具体的实现类。那么问题来了，SPI的接口是Java核心库的一部分，是由<strong>启动类加载器(Bootstrap Classloader)来加载的；SPI的实现类是由系统类加载器(System ClassLoader)</strong>来加载的。引导类加载器是无法找到 SPI 的实现类的，因为依照双亲委派模型，BootstrapClassloader无法委派AppClassLoader来加载类。（解决方法是线程上下文类加载器，setContextClassLoader方法进行设置，如果创建线程时未设置从父线程继承，一直没有设置过的话，默认是应用程序类加载器）；追求程序动态性导致的破坏，在OSGI中类加载器转化为网状结构。</li>
+<li>java内存模型（JMM）所有的变量都必须存储在主内存中，这些变量包括实例字段、静态变量、构成数组对象的元素，不包括线程私有的局部变量和方法参数，每一个线程的工作内存中都留存了自己能够用到的主内存副本拷贝，线程对变量的操作都在工作内存中，与其他线程数据交换也必须通过主内存。</li>
+<li>java内存定义了8种操作实现主内存和工作内存之间的交互：lock（主内存变量的锁定）、unlock（主内存变量的解锁）、read（把主内存的变量传送到工作内存）、load（把主内存的变量值放入工作内存的变量副本）、use（工作内存传递给执行引擎）、assign（执行引擎到工作内存）、store（工作内存传送到主内存）、write（工作内存写入主内存）</li>
+<li>Java内存模型执行8种操作的规则：1.不允许read和load、store和write单独出现（不允许出现read之后工作内存拒收或者store之后被主内存拒收的情况）2.不允许一个线程丢弃他最近的assign（变量在工作内存中改变了之后必须同步回主内存）。3.不允许一个线程无原因地把数据从线程的工作内存同步回主内存中。（没有更新过数据就不用写回到主内存）4.一个新的变量只能在主内存中诞生，不允许在工作内存中直接使用一个未被初始化（load和assign）的变量。5.一个变量在同一时刻只允许一条线程对其进行lock操作，但lock可以被一条线程执行多次。6.对一个变量执行lock操作，将清空工作内存中此变量的值7.没有lock，就不能unlock。8. unlock之前，该变量需要同步回主内存。</li>
+<li>什么时候volatile可以替代加锁：运算结果不依赖变量的当前值，或者只有单一线程修改变量值，变量不需要与其他的状态变量共同参与不变约束（单变量控制）</li>
+<li>JMM对于volatile变量的三个规则：1.load和use相连；2.assign和store相连。3. load和assign早的变量，read和write就要早</li>
+<li>8条happens-before原则：1.程序次序规则（写在前面的操作先行于书写在后面的操作）2.管程锁定规则：一个unlock操作先行发生于后面对同一个锁的lock操作3.volatile变量规则：对一个volatile变量的写操作先行发生于对该变量的读取。4.线程启动规则：thread对象的start方法先行发生于此线程的每一个动作。5. 线程终止规则：线程中所有操作都先行发生于对此线程的终止检测。6. 线程中断规则：对线程interrupt方法的调用先行发生于被中断线程的代码检测到中断事件的发生。7. 对象终结规则：一个对象的初始化完成先行于他的finalize方法开始。8.传递性：A操作先行发生于B操作，B操作先行发生于C操作，那么A操作先行发生于C操作。</li>
+<li>轻量级锁的加锁与解锁：如果同步对象没有被锁定，锁标志位为01，虚拟机首先将在当前线程的栈帧中新建一个lock record，用于存储同步对象的Mark Word，然后使用CAS操作将对象的Mark Word更改为指向lock record的指针，如果更新成功了，该线程就拥有了该对象的锁，并且对象的Mark Word的锁标志位转为00，如果这个更新操作失败了，虚拟机会检查对象的Mark Word是否已经指向当前线程的栈帧，如果是就说明当前线程已经拥有了这个对象的锁，如果不是的话说明锁对象被其他线程抢占了，如果有两条以上的线程争用同一个锁，那轻量级锁就要膨胀成重量级锁，锁标志的状态转变为10,Mark Word中存储指向重量级锁的指针。。。解锁过程也是使用CAS操作实现的，如果所对象的Mark Word仍然指向线程的lock record，就用CAS操作将对象的Mark Word和lock record替换回来，如果替换成功，同步结束，替换不成功说明有其他线程尝试获取过该锁，在释放锁的时候就要唤醒被挂起的线程。</li>
+<li>偏向锁：虚拟机启动了偏向锁才会有这一步，当锁对象第一次被线程获取的时候，虚拟机将会把对象头的标志位设为01，表示偏向模式，然后利用CAS操作将线程Id写入Mark word中，如果CAS操作成功的话，持有偏向锁的对象在之后再使用这个锁的时候就不需要进行任何同步操作了，当有另外一个线程尝试获取这个锁的时候，偏向模式就结束了，根据锁的状态恢复到未锁定或者轻量级锁。</li>
 </ol>
-<p>连接点是说在程序中有很多明确的点，比如说方法调用，异常抛出，切入点就是特殊的连接点，是我们想要的连接点，是在这个地方想要进行一些处理，利用pointcut在这里定义，比如说执行某个方法，在切入点上想要进行处理就是advice（增强处理），这些处理实际上就是一个一个的方法，这些方法需要定义在一个类里，这个类就是切面，</p>
-<p>spring中的AOP代理由spring的IOC容器负责生成、管理，依赖关系也由IOC容器负责。</p>
-<p>spring目前只支持将方法调用作为连接点，如果需要把对成员变量的访问和更新也作为增强处理的连接点，则考虑使用aspectj。</p>
-<p>spring提供了两种定义切入点和增强处理的方式：</p>
-<ol>
-<li>基于注解的“零配置”方式</li>
-<li>基于XML配置文件的管理方式</li>
-</ol>
-<h3 id="基于注解的“零配置”方式"><a href="#基于注解的“零配置”方式" class="headerlink" title="基于注解的“零配置”方式"></a>基于注解的“零配置”方式</h3><p>为了启用spring对@AspectJ<strong>切面配置</strong>的支持，需要在spring的配置文件中增加aop：aspectj-autoproxy，除此之外还需要添加一个bean ，class是AnnotationAwareAspectJAutoProxyCreator，这个类是一个Bean后处理器，该Bean后处理器会为容器中的所有Bean生成AOP处理。使用aspectj需要添加特定的jar包</p>
-<ol>
-<li>定义切面Bean：@Aspect，使用该注解修饰一个Java类，spring就不会把该Bean当作组件Bean处理，负责自动增强处理的后处理Bean将会略过该Bean，不会对该Bean进行增强处理。</li>
-<li>定义Before增强处理，@Before，这个注解的value值就是切入点，可以是已有的切入点，也可以直接定义。</li>
-<li>定义AfterReturning，@AfterReturning有两个属性，一个是Pointcut/value，就是用来指定切入点的，另一个属性是returning，该属性值指定一个形参名，用于访问目标方法的返回值，只能访问，不能修改。就是该注解修饰的方法的一个参数，当触发切入点定义的条件时，就会执行注解修饰的方法，这个形参的类型能够在一定程度上过滤方法，<strong>不仅仅是符合切入点定义的方法，而且还要这个方法的返回值是形参的类型或者没有返回值，这样的方法才会被自动增强处理</strong>。</li>
-<li>定义AfterThrowing，AfterThrowing增强处理主要用于处理程序中未处理的异常。pointcut/value和throwing，throwing也是一个 形参，在Advice方法中定义该形参的时候指定类型，会限制目标方法必须抛出指定类型的异常才会被处理，而且异常仍然会继续传播。</li>
-<li>@After，无论如何该注解指明的增强处理都会被织入，类似finally块。</li>
-<li>@Around增强处理，类似于before和AfterReturning的总和，定义一个Around增强处理方法的时候，第一个形参必须是ProceedingJoinPoint类型，也就是说这个方法至少包含一个形参，在增强处理方法体内，调用ProceedingJoinPoint参数的proceed方法才会执行目标方法，这个方法可以添加一个object[]数组做参数。但是这个数组的长度跟目标方法的参数类型或者个数不匹配的时候程序就会出现异常。</li>
-<li>访问目标方法的参数就是通过JointPoint类型，ProceedingJoinPoint是JointPoint的子类。</li>
-</ol>
-<p>织入的时候，在进入连接点的时候，优先级高的增强处理会被优先织入（优先级高的先执行），离开连接点的时候，优先级高的增强处理会最后被织入（优先级高的最后执行）</p>
-<p>当不同切面的增强处理需要在同一个连接点被织入的时候，spring AOP将会以随机的顺序插入，要有先后的顺序可以通过@Order注解指定一个int型的value，这个值越小优先级越高，也可以实现一个springframwork的Ordered接口，同样返回值越小优先级越高。</p>
-<p>spring还提供了一种在切入点定义的时候利用args表达式绑定目标方法的参数，@AfterReturning（returning=“rvt”，pointcut=“execution（<em> 全限定包名.</em>..*”(..)) &amp;&amp; args(arg0,arg1)”)，通过在pointcut中增加args（arg0，arg1）会限制目标方法必须有两个形参，在注解修饰的方法中指定了这两个参数的类型之后，这个增强处理就只会匹配指定类型和形参数目的目标方法。args（hhh，..）表示可以匹配多个参数。</p>
-<p>Spring AOP只支持将Spring Bean的方法执行作为连接点，所以可以把切入点看成所有能和切入点表达式匹配的Bean方法。</p>
-<p>切入点定义包含两个部分，一个切入点表达式和一个包含名字和任意参数的方法签名。简单来说就是这个方法签名就是这个切入点的名字，而@Pointcut就是表明这是一个切入点定义，该注解的值就是注入点表达式，切入点签名用一个方法体为空，返回值为void的方法定义提供。这个方法签名中的权限修饰符（private、public等）决定了其他切面类和其他包里的切面类是否可以使用这个切入点。pointcut=“切入点名称（）”，如果是调用其他切面类的切入点必须加上类名前缀。  </p>
-<p>Spring AOP有以下几个比较常用的切入点指示符</p>
-<ol>
-<li>execution：用于匹配执行方法的连接点</li>
-</ol>
-<p>execution（方法修饰符？返回值类型 方法所属的类？ 指定匹配的方法名（指定方法声明中的形参列表）指定方法声明抛出的异常？）</p>
-<p>带问号的部分可以被省略。</p>
-<ol>
-<li>within：用于限定匹配特定类型的连接点</li>
-<li>this:用于限定AOP代理必须是指定类型的实例,匹配该对象的所有连接点.</li>
-<li>target:用于限定目标对象必须是指定类型的实例,匹配该对象的所有连接点.</li>
-<li>args:用于对连接点的参数类型进行限制.</li>
-<li>bean:用于限制只匹配指定Bean实例内的连接点。</li>
-</ol>
-<p>除了基于注解，还可以基于XML配置文件。spring提供了一个新的aop:命名空间来定义切面、切入点和增强处理。</p>
-<p>在spring配置文件中，所有的切面、切入点和增强处理都必须定义在<a href="aop:config../" target="_blank" rel="noopener">aop:config../</a>元素内部，beans元素下面可以包含多个aop：config元素，一个<a href="aop:config" target="_blank" rel="noopener">aop:config</a>可以包含pointcut、advisor和aspect元素。元素定义必须按照这个顺序。</p>
-<p>配置aop：aspect元素的时候有三个属性，id ，ref和order，id就是切面的名称，order就是切面Bean的优先级，切面Bean在配置之前就是一个普通的Bean，在这个bean里面定义了很多增强处理的方法，这个普通bean也需要在spring的配置文件中声明，然后利用ref指明这个bean id就是切面bean。</p>
-<p>配置增强处理就是依赖于aop:before\aop:after\aop:after-returning\aop:after-throwing\aop:around，这元素的属性就是pointcut、pointcut-ref（和pointcut二选一，这个ref就是说明这个切入点在之前定义过了）、method（切面bean里定义的增强处理方法）、throwing（指定一个形参名，是异常）、returning（用于指定形参名表明返回值）</p>
-<p>aop：pointcut可以用来定义切入点，如果pointcut定义在config下面就可以被多个切面共享，如果只是在aspect下定义，说明这个切入点只能在切面中有效。两个属性，一个是id，一个是expression。</p>
-<h2 id="spring3新增的缓存机制"><a href="#spring3新增的缓存机制" class="headerlink" title="spring3新增的缓存机制"></a>spring3新增的缓存机制</h2><p>在导入cache：命名空间之后还需要两步才能启动spring缓存，在spring配置文件中添加cache：annotation-driven cache-manager=“缓存管理器ID”，其次针对不同的缓存实现配置对应的缓存管理器。</p>
-<p>EhCache缓存实现的配置除了添加必需的jar包之外，还需要在应用的类加载路径下添加一个ehcache.xml文件，在其中可以利用cache元素配置多个有名字的缓存区。spring使用EhCacheManager作为Ehcache缓存实现的缓存管理器，spring提供了EhCacheManagerFactoryBean工厂Bean，这个工厂Bean实现了FactoryBean<cachemanager>接口，当程序把这个工厂Bean部署在容器中，请求工厂Bean返回的是他的产品CacheManager。</cachemanager></p>
-<p>@Cacheable可以修饰类或者方法，共享一个缓存区，当修饰类的时候会在类级别进行缓存，类级别的缓存是只要是参数相同，就调用之前缓存过的结果。就算方法名不同也不会调用新方法。这个注解有四个属性，value的值是缓存区的名字，key通过SpEL表达式显示指定缓存的key，比如说这个表达式可以指明缓存的条件，condition和unless的值都是SpEL表达式。</p>
-<p>@Cacheable修饰方法的时候可以控制spring在方法级别进行缓存，只要调用这个方法的时候参数一致，就会使用缓存。</p>
-<p>使用@CacheEvict注解可以清除缓存，这个注解是修饰方法的，属性有value（指定该方法清除哪个缓存区的数据），allEntries（是否清除整个缓存区），beforeInvocation（是否在执行方法之前清除缓存，默认是方法成功执行之后），condition（SpEL表达式为true才清除缓存），这个清除缓存的方法可以根据缓存里的数据进行个性化定制，可以清除特定的数据。</p>
-<h2 id="spring事务"><a href="#spring事务" class="headerlink" title="spring事务"></a>spring事务</h2><p>传统的Java EE事务分为全局事务和局部事务，全局事务由应用服务器管理，需要底层服务器的JTA支持，局部事务和底层采用的持久化技术有关，如果是JDBC，那么就用Connection，如果是Hibernate，就用session。</p>
-<p>spring的事务是通过PlatformTransactionManager接口实现的，这个接口提供了几个和平台无关的获取事务信息的方法，spring具体的实现过程中需要利用这个接口的实现类完成，这个接口里包含了一个GetTransaction（TransactionDefinition definition）方法，返回值是TransactionStatus，表示一个事务，关联在当前线程上，TransactionDefinition类型的参数表示一个事务规则，就是对这个事务返回值的一些限制。</p>
-<p>配置JDBC 的局部事务管理器的时候，选用的PlatformTransactionManager接口实现类是DataSourceTransactionManager，还需要依赖注入DataSource的引用，也就是数据源Bean。</p>
-<p>容器管理的JTA全局事务管理器选用的PlatformTransactionManager接口实现类是jtaTransactionManager，这个Bean不需要依赖注入，原因是全局事务的JTA资源由Java EE服务器提供，而Spring容器能自行从java ee服务器中获得。</p>
-<p>Hibernate局部事务策略的不同点在于依赖注入的不是数据源，而是SessionFactory。spring提供两种事务管理方式。</p>
-<ol>
-<li>编程式事务管理：程序直接获取容器的TransactionManager Bean，该Bean总是PlatformTransactionManager的实现类，可以利用这个bean的方法处理事务。</li>
-<li>声明式事务管理：通过在XML文件中为业务组件配置事务代理（AOP代理的一种）。</li>
-</ol>
-<h3 id="注解式事务"><a href="#注解式事务" class="headerlink" title="注解式事务"></a>注解式事务</h3><p>使用@Transactional注解可以在java类重定义，他的属性有isolation(隔离级别)、noRollbackFor（默认遇到运行期例外(throw new RuntimeException(“注释”);)会回滚，用这个参数表示不回滚）、noRollbackForClassName、propagation（传播性）、readOnly（事务的只读性，true表示只读，false表示读写，默认false）、rollbackFor（当该方法抛出指定异常时回滚）、rollbackForClassName、timeout（超时性），光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
-<pre><code>&lt;!-- 事务管理器配置,单数据源事务 --&gt;
-&lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.orm.hibernate3.HibernateTransactionManager&quot;&gt;
-    &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot; /&gt;
-&lt;/bean&gt;
-
-&lt;!-- 使用annotation定义事务 --&gt;
-&lt;tx:annotation-driven  transaction-manager=&quot;transactionManager&quot;   proxy-target-class=&quot;true&quot; /&gt;
-</code></pre><h3 id="aop方式实现事务配置"><a href="#aop方式实现事务配置" class="headerlink" title="aop方式实现事务配置"></a>aop方式实现事务配置</h3><p>同样需要配置transactionManager</p>
-<p>spring提供了tx：命名空间配置事务管理，tx：advice配置事务增强处理，<a href="tx:advice.../" target="_blank" rel="noopener">tx:advice.../</a>元素除了需要transaction-manager属性指定事务管理器之外，还需要配置attributes子元素，这个子元素包含了多个method子元素，method的属性有name、propagation、isolation（隔离级别）、timeout、read-only、rollback-for、no-rollback-for。</p>
-<p>业务Bean里面包含了很多数据库的操作方法，在tx：advice里面可以通过method元素来设置这些方法的事务的规则，通过aop：config元素配置一个切入点（这个切入点需要定义我们关心的是哪个类的哪个方法执行），并且利用aop:advisor元素指定在某个切入点处执行事务增强处理（实际上是利用Bean后处理器完成的，pointcut-ref和advice-ref将这两者组合在一起）。</p>
-<p>默认情况下，只有方法引发运行时异常和unchecked异常，spring就会回滚事务，如果事务方法抛出checked异常，则事务不会回滚，这个时候就要利用method的rollback-for属性和no-rollback-for属性</p>
-<h3 id="spring事务的几种传播特性："><a href="#spring事务的几种传播特性：" class="headerlink" title="spring事务的几种传播特性："></a>spring事务的几种传播特性：</h3><ol>
-<li>PROPAGATION_REQUIRED: 如果存在一个事务，则支持当前事务。如果没有事务则开启</li>
-<li>PROPAGATION_SUPPORTS: 如果存在一个事务，支持当前事务。如果没有事务，则非事务的执行</li>
-<li>PROPAGATION_MANDATORY: 如果已经存在一个事务，支持当前事务。如果没有一个活动的事务，则抛出异常。</li>
-<li>PROPAGATION_REQUIRES_NEW: 总是开启一个新的事务。如果一个事务已经存在，则将这个存在的事务挂起。</li>
-<li>PROPAGATION_NOT_SUPPORTED: 总是非事务地执行，并挂起任何存在的事务。</li>
-<li>PROPAGATION_NEVER: 总是非事务地执行，如果存在一个活动事务，则抛出异常</li>
-<li>PROPAGATION_NESTED：如果一个活动的事务存在，则运行在一个嵌套的事务中. 如果没有活动事务,  则按TransactionDefinition.PROPAGATION_REQUIRED 属性执行</li>
-</ol>
-<h3 id="Spring事务的隔离级别"><a href="#Spring事务的隔离级别" class="headerlink" title="Spring事务的隔离级别"></a>Spring事务的隔离级别</h3><ol>
-<li>ISOLATION_DEFAULT： 这是一个PlatfromTransactionManager默认的隔离级别，使用数据库默认的事务隔离级别,另外四个与JDBC的隔离级别相对应</li>
-<li>ISOLATION_READ_UNCOMMITTED： 这是事务最低的隔离级别，它充许令外一个事务可以看到这个事务未提交的数据,这种隔离级别会产生脏读，不可重复读和幻像读。</li>
-<li>ISOLATION_READ_COMMITTED： 保证一个事务修改的数据提交后才能被另外一个事务读取。另外一个事务不能读取该事务未提交的数据</li>
-<li>ISOLATION_REPEATABLE_READ： 这种事务隔离级别可以防止脏读，不可重复读。但是可能出现幻像读,它除了保证一个事务不能读取另一个事务未提交的数据外，还保证了避免下面的情况产生(不可重复读)。</li>
-<li>ISOLATION_SERIALIZABLE 这是花费最高代价但是最可靠的事务隔离级别。事务被处理为顺序执行,除了防止脏读，不可重复读外，还避免了幻像读。 </li>
-</ol>
-<h2 id="spring整合Struts2"><a href="#spring整合Struts2" class="headerlink" title="spring整合Struts2"></a>spring整合Struts2</h2><p>对于使用spring的web应用，创建spring容器的方法有两种：直接在web.xml文件中配置创建和第三方MVC框架的扩展点，创建spring容器。</p>
-<p>为了让spring容器随Web应用启动而自动启动，借助于ServletContextListener监听器即可完成，这个监听器的作用就是在web应用启动的时候回调自定义方法，可以在这个自定义方法中启动spring容器。</p>
-<p>Spring提供了一个ContextLoaderListener监听器类，实现了ServletContextListener接口，创建时会自动查找WEB-INF下的ApplicationContext.xml文件，如果多个配置文件的话需要使用&lt;context-param…/&gt;元素,利用参数名为contextConfigLocation的值来包含所有的配置文件。spring根据指定的配置文件创建WebApplicationContext对象，如果要在应用中获取ApplicationContext实例则可以通过 WebApplicationContextUtils. </p>
-<p>控制器获取业务逻辑组件的方式不是通过new关键字新建组件，而是采用<strong>工厂模式和服务定位器模式</strong>，服务定位器模式是业务逻辑组件已经在运行，控制器直接调用就可以。工厂模式是更适合轻量级Java EE应用的模式。</p>
-<p>为了让Action访问到Spring的业务逻辑组件，有两种策略：</p>
-<ol>
-<li>spring容器负责管理控制器Action，并利用依赖注入为控制器注入业务逻辑组件。</li>
-<li>利用Spring的自动装配，Action将会自动从Spring容器中获取所需的业务逻辑组件。</li>
-</ol>
-<h3 id="Spring管理控制器"><a href="#Spring管理控制器" class="headerlink" title="Spring管理控制器"></a>Spring管理控制器</h3><p>Spring的插件Struts2-spring-plugin.jar提供了一种伪Action，在struts.xml文件中配置action的时候都要利用class属性指定实现类，这个插件可以将class属性指定为Spring容器中的Bean ID，通过这种方式利用spring容器获取action对象。</p>
-<p>在spring的配置文件中配置业务逻辑组件以及action，并且利用依赖注入将业务逻辑组件注入到action实例中。在spring控制action的过程中就涉及到action的生命周期，每一次action对应一次用户的请求，因此不能将action配置成单例模式，因此必须将scope属性指定为prototype或者request。</p>
-<p>这种方式有两种不足，Spring管理Action，需要在Spring容器中配置action，又需要在struts中配置action，其次action的业务逻辑组件需要使用依赖注入，降低了代码可读性。</p>
-<h3 id="使用自动装配"><a href="#使用自动装配" class="headerlink" title="使用自动装配"></a>使用自动装配</h3><p> Action还是由spring插件创建，只不过不需要显式依赖注入，而是采用了自动装配，通过struts.objectFactory.spring.autoWire常量改变spring插件的自动装配策略。默认是byName，在这种整合策略下，配置action的class属性仍然是实现类的全限定名。</p>
-<p> 缺点有两个：</p>
-<ol>
-<li>Action跟业务逻辑组件的耦合降低到代码层次，必须在配置文件中配置与action所需控制器同名的业务逻辑组件。</li>
-<li>action接受spring的自动装配，可读性较差。</li>
-</ol>
-<h2 id="spring整合hibernate"><a href="#spring整合hibernate" class="headerlink" title="spring整合hibernate"></a>spring整合hibernate</h2><p>DAO模式的核心思想是所有的数据库访问都通过DAO组件完成，该组件封装了数据库的增、删、改等原子操作。业务逻辑组件依赖DAO组件提供的操作完成系统逻辑实现、 </p>
-<p>Java EE应用大概都可以分为表现层、业务逻辑层、数据持久层。轻量级Java EE架构以Spring IoC容器为核心，向上管理来自表现层的action，向下管理业务逻辑层组件，同时负责管理业务逻辑层所需的DAO对象</p>
-<p>spring提供了一致的异常抽象，将原有的checked异常转换包装成Runtime异常。</p>
-<p>通过hibernate进行持久层访问的时候，需要SessionFactory，一般情况下，一个JavaEE应用对应一个数据库，也就是一个SessionFactory。在spring的配置文件中配置Hibernate SessionFactory，指明实现类、数据源的bean id，以及annotatedClasses属性下列出所有的持久化类。</p>
 
       
 
@@ -328,11 +227,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		
 		</ul>
@@ -351,18 +250,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2018/05/21/20180521-spring/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/11/01/20171105/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          20180521 spring
+          20171105
         
       </div>
     </a>
   
   
-    <a href="/2018/04/26/20180426-spring/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">20180426 spring</div>
+    <a href="/2017/10/09/20171009/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">20171009</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -389,7 +288,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正文"><span class="toc-number">2.</span> <span class="toc-text">正文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring的AOP（面向切面编程，Aspect-Orient-Programming）"><span class="toc-number">2.1.</span> <span class="toc-text">Spring的AOP（面向切面编程，Aspect Orient Programming）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于注解的“零配置”方式"><span class="toc-number">2.1.1.</span> <span class="toc-text">基于注解的“零配置”方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring3新增的缓存机制"><span class="toc-number">2.2.</span> <span class="toc-text">spring3新增的缓存机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring事务"><span class="toc-number">2.3.</span> <span class="toc-text">spring事务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注解式事务"><span class="toc-number">2.3.1.</span> <span class="toc-text">注解式事务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#aop方式实现事务配置"><span class="toc-number">2.3.2.</span> <span class="toc-text">aop方式实现事务配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spring事务的几种传播特性："><span class="toc-number">2.3.3.</span> <span class="toc-text">spring事务的几种传播特性：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring事务的隔离级别"><span class="toc-number">2.3.4.</span> <span class="toc-text">Spring事务的隔离级别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring整合Struts2"><span class="toc-number">2.4.</span> <span class="toc-text">spring整合Struts2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring管理控制器"><span class="toc-number">2.4.1.</span> <span class="toc-text">Spring管理控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用自动装配"><span class="toc-number">2.4.2.</span> <span class="toc-text">使用自动装配</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring整合hibernate"><span class="toc-number">2.5.</span> <span class="toc-text">spring整合hibernate</span></a></li></ol></li></ol>
+                    目录，不存在的…
                     </div>
                 </span>
             </div>
@@ -403,7 +302,7 @@
   
   <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="20180514-spring" data-title="20180514 spring" data-url="http://yoursite.com/2018/05/14/20180514-spring/"></div>
+	<div class="ds-thread" data-thread-key="20171019-java" data-title="20171019" data-url="http://yoursite.com/2017/10/16/20171019-java/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -426,8 +325,8 @@
   <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
 <script>
   var cloudTieConfig = {
-    url: "http://yoursite.com/2018/05/14/20180514-spring/", 
-    sourceId: "20180514-spring",
+    url: "http://yoursite.com/2017/10/16/20171019-java/", 
+    sourceId: "20171019-java",
     productKey: "true",
     target: "cloud-tie-wrapper"
   };

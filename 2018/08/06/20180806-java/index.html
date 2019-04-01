@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/08/06/20180806-java/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。 hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而“==”在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值。equal()相等的两个对象他们的hashCode()肯定相等，也就是用equal()对比是绝对可靠的。hashCode()相等的两个对象他们的equ">
-<meta property="og:updated_time" content="2019-03-27T03:16:31.827Z">
+<meta property="og:updated_time" content="2019-04-01T07:31:05.936Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180806">
 <meta name="twitter:description" content="字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。 hashcode得到的是内存里的物理地址，而equals方法比较的是两个对象的值，而“==”在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值。equal()相等的两个对象他们的hashCode()肯定相等，也就是用equal()对比是绝对可靠的。hashCode()相等的两个对象他们的equ">
@@ -167,7 +167,7 @@
       
         <ol>
 <li>字符串的不可变性：之前的字符串对象不会销毁，而是会在堆中重新新建字符串对象并指向。</li>
-<li><strong>hashcode</strong>得到的是内存里的物理地址，而<strong>equals</strong>方法比较的是两个对象的值，而<strong>“==”</strong>在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值。equal()相等的两个对象他们的hashCode()肯定相等，也就是用equal()对比是绝对可靠的。hashCode()相等的两个对象他们的equal()不一定相等，也就是hashCode()不是绝对可靠的。所有对于需要大量并且快速的对比的话如果都用equal()去做显然效率太低，所以解决方式是，每当需要对比的时候，首先用hashCode()去对比，如果hashCode()不一样，则表示这两个对象肯定不相等（也就是不必再用equal()去再对比了）,如果hashCode()相同，此时再对比他们的equal()，如果equal()也相同，则表示这两个对象是真的相同了，这样既能大大提高了效率也保证了对比的绝对正确性！</li>
+<li><strong>hashcode</strong>得到的是内存里的物理地址，而<strong>equals</strong>方法比较的是两个对象的值，而<strong>“==”</strong>在比较基本数据类型的时候比较的是值，比较对象的时候比较的是对象的地址值。equal()相等的两个对象他们的hashCode()肯定相等，也就是用equal()对比是绝对可靠的。hashCode()相等的两个对象他们的equal()不一定相等，也就是hashCode()不是绝对可靠的。所有对于需要大量并且快速的对比的话如果都用equal()去做显然效率太低，所以解决方式是，每当需要对比的时候，首先用hashCode()去对比，如果hashCode()不一样，则表示这两个对象肯定不相等（也就是不必再用equal()去再对比了）,如果hashCode()相同，此时再对比他们的equals()，如果equals()也相同，则表示这两个对象是真的相同了，这样既能大大提高了效率也保证了对比的绝对正确性！</li>
 <li>java中的异常主要分为四类：IOException、ClassNotFoundException、CloneNotSupportedException、RuntimeException（唯一的运行时异常），前三种异常必须在编译之前就捕捉或者抛出。</li>
 <li>+连接字符串可以连接null或者其他类型，但是concat不行，建议使用Stringbuilder</li>
 <li><strong>try和finally里都有return</strong>，两者都有finally的时候，会直接返回finally里的return值。try里有return，finally没有return，那么返回值就是try中的return，finally会把结果保存，返回值以try中保存的值为准，但是如果return的数据是引用数据类型，而在finally中对该引用数据类型的属性值的改变起作用，try中的return语句返回的就是在finally中改变后的该属性的值。</li>
@@ -189,7 +189,7 @@
 <li><strong>并发</strong>就是在一段时间内多个任务在执行，交替或者串行或者其他，但是<strong>并行</strong>就是指并行执行，多个任务在同时执行，</li>
 <li><strong>java实现多线程的三种方式：</strong>继承Thread类；实现Runnable接口，重写run方法（一个子类只能继承一个父类），将Runnable实例传给Thread对象；实现Callable接口，重写call方法，将Callable实例传给FutureTask对象，再传给Thread对象</li>
 <li><strong> Futuretask</strong>是实现了RunnableFuture接口的类，RunnableFuture接口继承了Runnable接口和Future接口，所以FutureTask的使用方法有两种：FutureTask+ExecuteService和FutureTask+Thread，第一种方法就是把实现了Callable接口的类传递给FutureTask，第二种方法就是把FutureTask传给Thread，并利用FutureTask获得结果。ExecuteService可以用Executor的静态方法创建以下四种状态，newCachedThreadPool 创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。newFixedThreadPool 创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。 newScheduledThreadPool 创建一个定长线程池，支持定时及周期性任务执行。newSingleThreadExecutor 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。 execute(Runnable)submit(Runnable) submit(Callable)</li>
-<li><strong>Join方法</strong>的主要作用是挂起当前线程，等到调用了Join方法的线程结束之后，当前线程才会继续运行。</li>
+<li><strong>A.Join()方法</strong>的主要作用是挂起当前线程，等到A线程结束之后，当前线程才会继续运行。<strong>A.yield()方法</strong>的主要作用是A线程让出CPU时间，让别的具有相同级别的线程优先执行。</li>
 <li><strong>线程的状态</strong>一共有6个，NEW是刚创建的线程，还没有启动；RUNNABLE是正在运行的线程；TIME_WAITING是有时限的等待线程；而WAITING是无限的等待，等待一个特殊事件的唤醒；BLOCKED表明这个线程当前处于等待锁的阻塞状态，一旦获得锁将进入RUNNABLE状态；TERMINATED是指线程运行结束，进入终止状态。</li>
 <li><strong>死锁</strong>：多个线程拿了对方需要的锁，同时又在等待对方释放自己需要的锁；<strong>活锁</strong>就是多线程相互谦让，导致没有线程正常执行；<strong>饥饿</strong>就是说低优先级一直抢不过高优先级的线程，导致低优先级的线程得不到执行；<strong>无锁</strong>就是对资源不锁定，一堆线程抢着修改共享资源。</li>
 <li><strong>避免死锁</strong>的方法：按顺序加锁（这样能保证只能有一个线程获得锁）；获取锁时限（一定时间之后放弃自己已经拥有的锁）；检测死锁（出现死锁就采取策略）</li>
@@ -216,6 +216,8 @@
 <li><strong>线程同步（多个线程操作一个资源的情况下，导致资源数据前后不一致。这样就需要协调线程的调度，即线程同步）的方法</strong>：1.同步方法（每个对象都有一个对应的内置锁，当所有的线程共享这个对象的时候，在调用同步的方法时候就必须获得内置锁）2. 同步代码块（跟同步方法获取的是同一个锁）3.volatile实现简单的线程同步（对变量的写操作不依赖于当前值。该变量没有包含在具有其他变量的不变式中。后面这条是意思就是这个变量没有一个要被包含的不变量）4.使用重入锁实现同步（重入锁的功能和synchronized其实是一致的，只是Reentranlock提供了很多高级功能）5.使用局部变量实现线程同步 （ 如果使用ThreadLocal管理变量，则每一个使用该变量的线程都获得该变量的副本，     副本之间相互独立，这样每一个线程都可以随意修改自己的变量副本，而不会对其他线程产生影响。）</li>
 <li>如果数据将在线程间共享。例如正在写的数据以后可能被另一个线程读到，或者正在读的数据可能已经被另一个线程写过了，那么这些数据就是共享数据，必须进行<strong>同步</strong>存取。当应用程序在对象上调用了一个需要花费很长时间来执行的方法，并且不希望让程序等待方法的返回时，就应该使用异步编程，在很多情况下采用<strong>异步</strong>途径往往更有效率。</li>
 <li><strong>异常</strong>表示程序运行过程中可能出现的非正常状态，<strong>运行时异常（非受检异常、runtime exception）</strong>表示虚拟机的通常操作中可能遇到的异常，是一种常见运行错误。一旦出现了错误操作，建议终止程序，因此Java编译器不检查这种异常。java编译器要求方法必须声明抛出可能发生的<strong>非运行时异常（checked exception）</strong>，编译器强制要求进行catch或者throws。 </li>
+<li>Java 使用<strong>有向图</strong>的方式进行垃圾回收管理，可以消除引用循环的问题，例如有两个对象，相互引用，只要它们和根进程不可达的，那么GC也是可以回收它们的。</li>
+<li><strong>java的内存泄漏</strong>：长生命周期的对象持有短生命周期对象的引用就很可能发生内存泄露，尽管短生命周期对象已经不再需要，但是因为长生命周期对象持有它的引用而导致不能被回收；如果一个外部类的实例对象的方法返回了一个内部类的实例对象，这个内部类对象被长期引用了，即使那个外部类实例对象不再被使用，但由于内部类持久外部类的实例对象，这个外部类对象将不会被垃圾回收，这也会造成内存泄露；当一个对象被存储进HashSet集合中以后，就不能修改这个对象中的那些参与计算哈希值的字段了，否则，对象修改后的哈希值与最初存储进HashSet集合中时的哈希值就不同了，在这种情况下，即使在contains方法使用该对象的当前引用作为的参数去HashSet集合中检索对象，也将返回找不到对象的结果，这也会导致无法从HashSet集合中单独删除当前对象，造成内存泄露<br>51.</li>
 </ol>
 
       
@@ -433,15 +435,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -489,6 +491,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Reflect</a>
               </li>
              
@@ -510,10 +516,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

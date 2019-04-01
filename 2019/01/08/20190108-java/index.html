@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/01/08/20190108-java/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="反射反射机制允许程序在运行时取得任何一个已知名称的class的内部信息，包括包括其modifiers(修饰符)，fields(属性)，methods(方法)等，并可于运行时改变fields内容或调用methods 反射使用不当会造成很高的资源消耗 一个类在JVM中只会有一个 Class 实例 class.setAccessible(true)启用和禁用访问安全检查的开关，值为 true，则表示反射">
-<meta property="og:updated_time" content="2019-03-19T12:30:15.407Z">
+<meta property="og:updated_time" content="2019-04-01T11:56:20.075Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20190108-java">
 <meta name="twitter:description" content="反射反射机制允许程序在运行时取得任何一个已知名称的class的内部信息，包括包括其modifiers(修饰符)，fields(属性)，methods(方法)等，并可于运行时改变fields内容或调用methods 反射使用不当会造成很高的资源消耗 一个类在JVM中只会有一个 Class 实例 class.setAccessible(true)启用和禁用访问安全检查的开关，值为 true，则表示反射">
@@ -198,7 +198,7 @@ f2.set(p2,&quot;Bob&quot;);
 <p>　　　　　　1、Point-to-Point Messaging Domain （点对点）</p>
 <p>　　　　　　2、Publish/Subscribe Messaging Domain （发布/订阅模式）</p>
 <h2 id="点对点通信模型"><a href="#点对点通信模型" class="headerlink" title="点对点通信模型"></a>点对点通信模型</h2><p>在点对点通信模式中，应用程序由消息队列，发送方，接收方组成。每个消息都被发送到一个特定的队列，接收者从队列中获取消息。队列保留着消息，直到他们被消费或超时</p>
-<p>每个消息只要一个消费者<br>发送者和接收者在时间上是没有时间的约束，也就是说发送者在发送完消息之后，不管接收者有没有接受消息，都不会影响发送方发送消息到消息队列中。<br>发送方不管是否在发送消息，接收方都可以从消息队列中去到消息（The receiver can fetch message whether it is running or not when the sender sends the message）<br>接收方在接收完消息之后，需要向消息队列应答成功</p>
+<p>每个消息只要一个消费者<br>发送者和接收者在时间上是没有时间的约束，也就是说发送者在发送完消息之后，不管接收者有没有接受消息，都不会影响发送方发送消息到消息队列中。<br>发送方不管是否在发送消息，接收方都可以从消息队列中去到消息<br>接收方在接收完消息之后，需要向消息队列应答成功</p>
 <h2 id="发布-订阅通信模型"><a href="#发布-订阅通信模型" class="headerlink" title="发布/订阅通信模型"></a>发布/订阅通信模型</h2><p>在发布/订阅消息模型中，发布者发布一个消息，该消息通过topic传递给所有的客户端。该模式下，发布者与订阅者都是匿名的，即发布者与订阅者都不知道对方是谁。并且可以动态的发布与订阅Topic。Topic主要用于保存和传递消息，且会一直保存消息直到消息被传递给客户端。</p>
 <p>一个消息可以传递个多个订阅者（即：一个消息可以有多个接受方）<br>发布者与订阅者具有时间约束，针对某个主题（Topic）的订阅者，它必须创建一个订阅者之后，才能消费发布者的消息，而且为了消费消息，订阅者必须保持运行的状态。<br>为了缓和这样严格的时间相关性，JMS允许订阅者创建一个可持久化的订阅。这样，即使订阅者没有被激活（运行），它也能接收到发布者的消息。</p>
 <p>消息的产生是异步的，但是消息的消费可以是异步或者同步，通过receive方法阻塞直到接受到消息，异步的方式则通过消息监听者，类似于事件监听器。</p>
@@ -257,7 +257,7 @@ f2.set(p2,&quot;Bob&quot;);
 <ol>
 <li>switch 支持 String 与枚举</li>
 </ol>
-<p>Java 中的swith自身原本就支持基本类型。比如int、char等。对于int类型，直接进行数值的比较。对于char类型则是比较其 ascii 码。所以，对于编译器来说，switch中其实只能使用整型，任何类型的比较都要转换成整型。比如byte、short、char（ackii 码是整型）以及int。</p>
+<p>Java 中的swith自身原本就支持基本类型。比如int、char等。对于int类型，直接进行数值的比较。对于char类型则是比较其 ascii 码。所以，对于编译器来说，switch中其实只能使用整型，任何类型的比较都要转换成整型。比如byte、short、char（ackii 码是整型）。</p>
 <p>字符串的 switch 是通过equals()和hashCode()方法来实现的吗，进行switch的实际是哈希值，然后通过使用equals方法比较进行安全检查，这个检查是必要的，因为哈希可能会发生碰撞</p>
 <ol>
 <li>泛型</li>
@@ -523,15 +523,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -579,6 +579,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Reflect</a>
               </li>
              
@@ -600,10 +604,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

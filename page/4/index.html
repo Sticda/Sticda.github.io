@@ -139,6 +139,175 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-JavaEE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/18/JavaEE/">JavaEE</a>
+    </h1>
+  
+
+        
+        <a href="/2018/01/18/JavaEE/" class="archive-article-date">
+  	<time datetime="2018-01-18T08:10:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-18</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java EE应用的分层模型大致有如下几层：</p>
+<ol>
+<li>Domain Object(领域对象层)：一些简单的java类，类内部包含了业务的实现逻辑。</li>
+<li>DAO（Data Access Object）：对数据库的操作。</li>
+<li>业务逻辑层：这些业务逻辑方法可能仅仅用于暴露Domain Object对象所实现的业务逻辑方法或者DAO组件的业务逻辑方法。</li>
+<li>控制器层：拦截用户请求，调用业务逻辑组件的方法。</li>
+<li>表现层：一系列页面组成，负责收集请求，并显示处理结果。最常见的技术是JSP（Velocity、FreeMarker和Tapestry）</li>
+</ol>
+<p><strong>保证业务逻辑方法的实现，与具体的持久层访问技术分离</strong>，持久层我的理解就是数据和物理设备之间的操作。</p>
+<p>JSP不能直接访问应用的底层状态，Java EE会使用选择JavaBean来传输数据。</p>
+<p>Struts是MVC框架，同时替代技术有Spring MVC和JSF。</p>
+<p>JavaEE应用需要一种能够让Java以面对对象的方式操作关系数据库的技术，ORM（Object Relation Mapping），Hibernate框架是一种开源的、轻量级的ORM框架，他允许将普通的、传统的Java对象（POJO）映射成持久化类，允许应用程序以面向对象的方式才操作POJO，而Hibernate框架负责将这种操作转换成底层的SQL操作。Mybatis允许将SQL语句查询结果映射成对象，是Hibernate的替代技术。</p>
+<p>Spring框架里包含各种设计模式的应用，中间层容器，向上与MVC框架无缝融合，向下可以与各种持久层框架无缝整合。没有替代技术。</p>
+<p>在Tomcat中部署Web应用的方式有四种：</p>
+<ol>
+<li>利用Tomcat的自动部署。</li>
+<li>利用控制台</li>
+<li>增加自定义的web部署文件</li>
+<li>修改server.xml文件部署web应用</li>
+</ol>
+<p>Ant是java世界的Make，利用build.xml完成整个项目的编译，Ant工具会根据build文件中的配置进行整个项目的编译，project文件夹下包含了src（源文件、各种配置文件）、classes（编译后的class文件）、lib（第三方jar）、dist（项目打包和项目发布文件的文件夹）、build.xml（Ant生成文件）</p>
+<p>build文件中的根元素是project，每个项目下可以定义多个生成目标，每个生成目标用target标签来定义，target的属性有name（运行target的时候就是根据name属性确定目标）、depends（运行该target之前必须运行depends指定的target）、if（if属性指定一个属性，只有这个属性被设置了才会执行target）、unless（这个属性没被设置才会执行这个target）、description</p>
+<p>build文件中的property元素用来定义一个或者多个元素，该元素有name和value属性，而且该属性值不可改变，需要获取属性值，${property的name属性}，属性值的来源可以是属性文件的文件名、属性文件的资源名称、属性文件的url地址、系统环境变量、或者是属性文件的classpath。</p>
+<h1 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h1><p>maven常用的命令就是mvn。mvn的主要格式是mvn <plugin-prefix>:<goal> -D &lt;属性名&gt;=&lt;属性值&gt; ········<br>plugin-prefix是插件前缀，goal就是指定目标，-D就是用来指定属性名和属性值</goal></plugin-prefix></p>
+<p>使用<a href="http://maven.apache.org/plugins/index.html" target="_blank" rel="noopener">Maven</a> 可以查看Maven插件的功能和用法，创建项目使用Maven的archetype插件</p>
+<p>用maven生成的项目中包含一个pom（project object model ）文件。该文件仅仅包含了一些项目的版本、groupID、artifactid等坐标信息。</p>
+<pre><code>mvn archetype:generate -DinteractiveMode=false -DgroupId=org.fkjava -DartifactId=mavenQs -Dpackage=org.fkjava.mavenqs
+
+mvn compile
+
+mvn exec:java -Dexec.mainClass=&quot;org.fkjava.mavenqs.App&quot;
+</code></pre><p>即便该项目的POM文件中没有说明maven编译项目的具体过程，是因为当前项目的pom文件会被合并到上级pom文件中，上级的pom文件中定义了项目的大量默认设置。</p>
+<p>Maven的插件可以指定多个可执行的目标，对于软件构建过程，默认的生命周期是compile、test、package、install、deploy。POM为项目提供一个唯一标识符，这个就是Maven坐标，由groupID（该项目开发者的域名）、artifactid（项目名）、packaging（打包类型）、version（项目版本），Maven坐标可以精确定位一个项目。</p>
+<h1 id="Servlet-jsp回顾"><a href="#Servlet-jsp回顾" class="headerlink" title="Servlet/jsp回顾"></a>Servlet/jsp回顾</h1><p>web目录中的classes和lib文件夹都是用来保存web应用所需要的Java类文件，classes保存单个的class文件，而lib保存打包以后的jar文件。</p>
+<ol>
+<li>java脚本 &lt;%  %&gt;</li>
+<li>jsp注释 &lt;%–    –%&gt;</li>
+<li>jsp声明 &lt;%!   %&gt;</li>
+<li>输出jsp表达式 &lt;%=表达式 %&gt;输出表达式语法后不能有分号</li>
+</ol>
+<p>JSP的3个编译指令&lt;% 编译指令名 属性名=“属性值”  %&gt; page\include\taglib 。</p>
+<p>jsp动作指令主要有如下7个：</p>
+<ol>
+<li>jsp:forward:页面转向</li>
+<li>jsp:param：传递参数（forward和include需要使用该指令）</li>
+<li>jsp:plugin：下载JavaBean或者applet到客户端执行</li>
+<li>jsp:useBean：创建javaBean</li>
+<li>jsp:setProperty：设置JavaBean的属性值</li>
+<li>jsp:getProperty：输出JavaBean的属性值</li>
+<li>jsp:include: 动态引入jsp页面（被导入页面的body内容插入本页面）</li>
+</ol>
+<p>通常不使用response直接响应，都是使用out对象，response常用于重定向，以及输出非字符对象。</p>
+<p>jsp和servlet之间的数据交换是通过四个map结构，application、session（会话）、request（请求）、page。请求就是一次点击，会话就是浏览器的一个标签页，application就是整个服务器上所有的jsp和servlet都可以交换信息。</p>
+<p>如果希望jsp页面可以获取web.xml配置文件中的配置信息，则必须通过为该jsp配置的路径访问该页面。</p>
+<p>jsp中的9个内置对象：</p>
+<ol>
+<li>application</li>
+<li>config</li>
+<li>exception：只有在errorpage中才可以用</li>
+<li>out</li>
+<li>pageContext：可以访问page、request、session、application范围的变量，pageContext还可以用来获取其他内置对象。</li>
+<li>request</li>
+<li>response</li>
+<li>session</li>
+</ol>
+<p>GET方式发送的请求参数被附加到地址栏的URL之后，url?param1=value1&amp;param2=value2&amp;········paramN=valueN。</p>
+<p>post请求中的非西欧字符可以通过设置request的编码字符集，但是get请求中的非西欧字符（包括中文字符）只能通过java.net.URLDecoder类。</p>
+<p>使用request的getRequestDispatcher（String path）方法的时候，该path字符串必须以斜线开头。</p>
+<p>response的重定向会丢失所有的请求参数和request范围的属性，而forward将会保留所有的请求参数。</p>
+<p><strong>一次用户会话的含义是：客户端浏览器链接服务器开始，到客户端浏览器与服务器断开为止，这个过程就是一次会话</strong>。</p>
+<p>HttpServlet包含init方法和destroy方法，这两个方法无须重写，除非在初始化servlet时，完成某些资源初始化的方法，才考虑重写init方法，销毁servlet之前先完成对于某些资源的回收才需要重写destroy。</p>
+<p>为了让servlet响应用户请求，必须将servlet配置在web应用中，配置servlet有两种方式：</p>
+<ol>
+<li>在servlet类中使用@WebServlet注解进行配置。</li>
+<li>通过在web.xml文件中配置。</li>
+</ol>
+<p>metadata-complete=”true”，会在启动时不扫描注解（annotation）。如果不扫描注解的话，用注解进行的配置就无法生效。</p>
+<p>有一种servlet在应用启动的时候就创建，用于某些后台服务的servlet或者是拦截请求的servlet。load-on-startup Servlet，配置的方式有两种：@WebServlet注解的loadOnStartup属性指定。或者是在web.xml中利用load-on-startup子元素进行配置，有一个整数值表示优先级，越小就越先实例化。</p>
+<p>在web.xml中写明的Servlet参数可以通过ServletConfig访问。ServletContext获得的是整个Web应用的配置参数。</p>
+<p>tld文件应该在WEB-INF的任意子路径下（tld文件是对自定义标签库的定义文件），tld文件中的uri是非常关键的，在使用自定义标签的时候需要明确uri才能找到指定的标签库。</p>
+<p>getJspBody()可以获得自定义jsp标签里的标签体。</p>
+<p>以“页面片段”为属性的标签需要在标签处理类中定义类型为JSPFragment的属性，这个属性代表“页面片段”，使用标签库的时候，通过&lt; jsp:attribute…/ &gt;动作指令为标签的属性指定值。</p>
+<p>需要传入自定义标签的属性个数是不确定的，需要动态属性的标签，标签处理类需要实现DynamicAttributes接口，配置标签时通过<dynamic-attributes>子元素指定该标签支持动态属性。</dynamic-attributes></p>
+<p>Filter的种类：（filter的用法）</p>
+<ol>
+<li>用户授权的filter：检查用户请求</li>
+<li>日志filter：详细记录某些特殊的用户请求</li>
+<li>负责解码的filter：对非标准编码的请求编码</li>
+<li>能改变xml内容的XSLT Filter</li>
+</ol>
+<p>ServletContextListener、ServletContextAttributeListener、ServletRequestListener、ServletRequestAttributeListener、HttpSessionListener、HttpSessionAttributeListener</p>
+<p>Servlet底层的IO是通过ServletInputStream和ServletOutputStream支持的，ServletInputStream新增了setReadListener方法，允许非阻塞IO读取数据，输出流也有同样的方法。使用的方法是：</p>
+<ol>
+<li>调用ServletRequest的startAsync（）方法开启异步模式</li>
+<li>通过ServletRequest获取ServletInputStream，并为ServletInputStream设置监听器，实现ReadListener接口来实现监听器。</li>
+</ol>
+<h3 id="Tomcat-8-的WebSocket支持"><a href="#Tomcat-8-的WebSocket支持" class="headerlink" title="Tomcat 8 的WebSocket支持"></a>Tomcat 8 的WebSocket支持</h3><p>使用注解方式开发，被@ServerEndpoint修饰的java类即可作为WebSocket服务器，这个类中有四个需要定义的方法</p>
+<p>Tag File支持：通过建立Tag文件，利用Tag File代替了标签处理类，Tagfile有5个编译指令，分别是taglib、include、tag、attribute（类似于自定义标签处理类的属性）、variable，在使用自定义标签的时候需要先导入标签库，再使用标签，<strong>和tld文件的不同在于这里是prefix和tagdir</strong>，tagdir标签库路径下存放着很多Tag File。每个Tag File对应着一个标签。</p>
+<h3 id="Servlet3-0"><a href="#Servlet3-0" class="headerlink" title="Servlet3.0"></a>Servlet3.0</h3><ol>
+<li>异步处理是通过AsyncContext类来处理的，AsyncContext类的dispatch方法把请求dispatch到指定JSP页面，被异步请求dispatch的目标界面需要在指定session=false，这样新的页面才不会重新创建session，<strong>异步调用需要配置</strong>，异步调用有自己的监听器，监听器需要实现AsyncListener接口  ，<strong>这里的监听器不像是servlet那种只要配置了就会自动运行的监听器，这个异步监听器必须注册在某个异步调用上。</strong></li>
+<li>HttpServletRequest增加了对文件上传的支持</li>
+<li>ServletContext可以通过编程的方式动态注册servlet和filter</li>
+</ol>
+<p>HttpServletRequest提供了获得part（文件上传域）的方法，每个part对应一个文件，part也有write的方法可以将上传文件写入到服务器的磁盘里。在页面中就需要设置input type=file，并且需要将表单域的enctype属性设置为multipart/form-data。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/01/18/JavaEE/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180116-python" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -839,6 +1008,20 @@ chain.doFilter(request,response);
 <li>静态包含在两个文件中不能有相同的变量，动态包含允许。由于静态包含相当于将包含文件内容直接复制到主体文件中，如果出现相同的变量，就会出现覆盖等问题，导致文件出错。而动态包含相当于调用不同的jsp，变量所在的空间不同，自然不会出现覆盖等现象。</li>
 <li>无论是动态包含还是静态包含，其request对象都是相同的。也就是同一个request对象</li>
 </ol>
+<h2 id="1分钟之内只能处理1000个请求，怎么实现"><a href="#1分钟之内只能处理1000个请求，怎么实现" class="headerlink" title="1分钟之内只能处理1000个请求，怎么实现"></a>1分钟之内只能处理1000个请求，怎么实现</h2><ol>
+<li>ApplicationContext 对所有用户访问的次数计数。同时定义一个计时器，单位为一分钟。如果ApplicationContext 中的用户在单位时间内超出请求次数，就拒绝处理该请求。一分钟再刷新application的值为0.</li>
+<li>使用 aop 实现请求的限制，在需要限制的请求方法上加上 aop 逻辑</li>
+</ol>
+<h2 id="四种会话跟踪技术"><a href="#四种会话跟踪技术" class="headerlink" title="四种会话跟踪技术"></a>四种会话跟踪技术</h2><ol>
+<li>表单隐藏域 <input type="hidden" id="xxx" value="xxx"> 在表单的提交中，加入这样一段数据提交的隐藏域，用户在输入时是看不到的，但是可以通过查看网页源代码来看到，在服务端只能通过post的方式获取参数。这种方式在禁用Cookie的情况下也能工作，但是关闭浏览器后就会失效。</li>
+<li>URL重写：在提交请求的URL后面加上请求需要的参数，常见的GET的请求。安全性能不高，参数可以在地址栏中看到，而且对于参数的长度有限制(1024字节),禁用Cookie的情况下也能使用，但是关闭浏览器后就会失效</li>
+<li>Cookie：Cookie实际上是一小段的文本信息。客户端请求服务器，如果服务器需要记录该用户状态，就使用response向客户端浏览器颁发一个Cookie。 客户端浏览器会把Cookie保存起来，并由浏览器通过域名管理不同网站的Cookie。</li>
+<li>Session：因为http是无状态的连接，Session也不能根据连接来识别是否是同一次会话，因此客户端第一次请求JSP/Servlet之后，服务端会自动生成一个名叫JSESSIONID的Cookie，该Cookie的值就是sessionID，发送到客户端，客户端再次连接的时候，会自动带上这个JSESSIONID，找到相应的session。如果客户端端禁用了Cookie，那么这个JSESSIONID会通过URL重写发送到服务端。</li>
+</ol>
+<h2 id="web-xml可以配置的内容"><a href="#web-xml可以配置的内容" class="headerlink" title="web.xml可以配置的内容"></a>web.xml可以配置的内容</h2><p>配置Spring上下文加载监听器，加载Spring配置文件并创建IoC容器；配置Spring的OpenSessionInView过滤器来解决延迟加载和Hibernate会话关闭的矛盾；配置404和Exception的错误页面；配置安全认证方式；监听器（listener）；过滤器（filter）；Servlet</p>
+<h2 id="ServletContext和ApplicationContext"><a href="#ServletContext和ApplicationContext" class="headerlink" title="ServletContext和ApplicationContext"></a>ServletContext和ApplicationContext</h2><p>ServletContext与Spring容器（ApplicationContext）的关系</p>
+<p>1、ServletContext创建之后，然后读取<context-param></context-param>节点内容；2、触发ServletContextEvent事件，ServletContextListener监听这个事件，ServletContextListener有两个抽象方法，分别是ServletContext初始化时调用方法和ServletContext销毁时调用的方法。3、ContextLoaderListener实继承ContextLoader并实现ServletContextListener，所以也监听ServletContextEvent事件，事件触发后ContextLoaderListener会执行初始化方法。<br>1、ContextLoaderListener监听ServletContextEvent事件，执行初始化contextInitialized(ServletContextEvent event)方法；2、先判断是否已经创建过ApplicationContext；3、创建WebApplicationContext对象（Spring容器）；4、转换成ConfigurableWebApplicationContext 对象；5、执行configureAndRefreshWebApplicationContext方法，封装ApplicationContext上下文数据，其中会从ServletContext中读取applicationContext.xml配置，调用refresh方法完成所有bean的解析初始化创建。6、ConfigurableWebApplicationContext 创建之后放到ServletContext中；</p>
+<h2 id="DAO模式"><a href="#DAO模式" class="headerlink" title="DAO模式"></a>DAO模式</h2><p>DAO（Data Access Object）顾名思义是一个为数据库或其他持久化机制提供了抽象接口的对象，在不暴露底层持久化方案实现细节的前提下提供了各种数据访问操作。在实际的开发中，应该将所有对数据源的访问操作进行抽象化后封装在一个公共API中。用程序设计语言来说，就是建立一个接口，接口中定义了此应用程序中将会用到的所有事务方法。在这个应用程序中，当需要和数据源进行交互的时候则使用这个接口，并且编写一个单独的类来实现这个接口，在逻辑上该类对应一个特定的数据存储。DAO模式实际上包含了两个模式，一是Data Accessor（数据访问器），二是Data Object（数据对象），前者要解决如何访问数据的问题，而后者要解决的是如何用对象封装数据。</p>
 
       
 
@@ -1190,6 +1373,27 @@ as select语句
 </ol>
 <p>MySQL提供4种孤立级：<br>READ UNCOMMITTED（读未提交）：在此级别里，事务的修改，即使没有提交，对其他事务也都是可见的。事务可以读取未提交的数据，也就是会产生脏读，在实际应用中一般很少使用。<br>READ COMMITTED（读已提交）：大多数数据库系统的默认隔离级别都是它，但是MySQL不是。它能够避免脏读问题，但是在一个事务里对同一条数据的多次查询可能会得到不同的结果，也就是会产生不可重复读问题。<br>REPEATABLE READ（可重复读）：该隔离级别是MySQL默认的隔离级别，看名字就知道它能够防止不可重复读问题，但是在一个事务里对一段数据的多次读取可能会导致不同的结果，也就是会有幻读的问题（注：这里说的无法解决是MySQL定义层面，对于InnoDB引擎则完美的解决了幻读的问题，如果你正在使用InnoDB引擎，可忽略）<br>SERIALIZABLE（可串行化）：该隔离级别是级别最高的，它通过锁来强制事务串行执行，避免了前面说的所有问题。在高并发下，可能导致大量的超时和锁争用问题。实际应用中也很少用到这个隔离级别，因为RR级别解决了所有问题<br>serializable（序列化）以序列的形式对事务进行处理，只有当事务提交后用户才能从数据库中查看数据的变化<br>repeatable read（可重读 ）不会被看成序列，提交之后才能看到结果<br>read commited（提交后读）用户可以看到其他事务添加的新记录，在同一事务的不同时间内，应用查询语句可能会得到不同的结果<br>read uncommited（读未提交）容易产生虚幻读操作，其他用户可以在该孤立级上看到未提交的事务。</p>
 <p>修改事务的孤立级：（set  事务名 transaction isolation level 孤立级；）<br>select @@tx_isolation；</p>
+<h1 id="索引失效的情况以及底层实现"><a href="#索引失效的情况以及底层实现" class="headerlink" title="索引失效的情况以及底层实现"></a>索引失效的情况以及底层实现</h1><p>如果条件中有or，即使其中有条件带索引也不会使用；like查询以%开头（以%结尾没有关系）；如果mysql估计使用全表扫描要比使用索引快,则不使用索引；查询时，采用is null条件时，不能利用到索引，只能全表扫描（索引无法存储null值）</p>
+<p>MySQL主要提供2种方式的索引：B-Tree索引，Hash索引；B树索引具有范围查找和前缀查找的能力，对于有N节点的B树，检索一条记录的复杂度为O(LogN)。相当于二分查找。哈希索引只能做等于查找，但是无论多大的Hash表，查找复杂度都是O(1)。如果值的差异性大，并且以等值查找（=、 &lt;、&gt;、in）为主，Hash索引是更高效的选择，它有O(1)的查找复杂度。如果值的差异性相对较差，并且以范围查找为主，B树是更好的选择，它支持范围查找。</p>
+<h1 id="数据库的悲观锁和乐观锁"><a href="#数据库的悲观锁和乐观锁" class="headerlink" title="数据库的悲观锁和乐观锁"></a>数据库的悲观锁和乐观锁</h1><p>乐观锁不是数据库自带的，需要我们自己去实现。乐观锁是指操作数据库时(更新操作)，想法很乐观，认为这次的操作不会导致冲突，在操作数据时，并不进行任何其他的特殊处理（也就是不加锁），而在进行更新后，再去判断是否有冲突了。通常实现是这样的：在表中的数据进行操作时(更新)，先给数据表加一个版本(version)字段，每操作一次，将那条记录的版本号加1。也就是先查询出那条记录，获取出version字段,如果要对那条记录进行操作(更新),则先判断此刻version的值是否与刚刚查询出来时的version的值相等，如果相等，则说明这段期间，没有其他程序对其进行操作，则可以执行更新，将version字段的值加1；如果更新时发现此刻的version值与刚刚获取出来的version的值不相等，则说明这段期间已经有其他程序对其进行操作了，则不进行更新操作。乐观锁定的第二种实现方式和第一种差不多，同样是在需要乐观锁控制的table中增加一个时间戳 字段，名称无所谓，字段类型使用时间戳（timestamp）, 和上面的version类似，也是在更新提交的时候检查当前数据库中数据的时间戳和自己更新前取到的时间戳进行对比，如果一致则OK，否则就是版本冲突。</p>
+<p>乐观锁相对应的就是悲观锁了。悲观锁就是在操作数据时，认为此操作会出现数据冲突，所以在进行每次操作时都要通过获取锁才能进行对相同数据的操作。<strong>共享锁</strong>指的就是对于多个不同的事务，对同一个资源共享同一个锁。对于悲观锁，一般数据库已经实现了，共享锁也属于悲观锁的一种，通过在执行语句后面加上<strong>lock in share mode</strong>就代表对某些资源加上共享锁了。<strong>排它锁</strong>与共享锁相对应，就是指对于多个不同的事务，对同一个资源只能有一把锁。与共享锁类型，在需要执行的语句后面加上<strong>for update</strong>就可以了</p>
+<h1 id="关系数据库的三大范式"><a href="#关系数据库的三大范式" class="headerlink" title="关系数据库的三大范式"></a>关系数据库的三大范式</h1><p>第一范式：当关系模式R的所有属性都不能在分解为更基本的数据单位时，称R是满足第一范式的，简记为1NF。满足第一范式是关系模式规范化的最低要求，否则，将有很多基本操作在这样的关系模式中实现不了。（每一列属性都是不可再分的属性值，确保每一列的原子性）<br>第二范式：如果关系模式R满足第一范式，并且R得所有非主属性都完全依赖于R的每一个候选关键属性，称R满足第二范式，简记为2NF。每一行的数据只能与其中一列相关，即一行数据只做一件事。只要数据列中出现数据重复，就要把表拆分开来<br>第三范式：设R是一个满足第一范式条件的关系模式，X是R的任意属性集，如果X非传递依赖于R的任意一个候选关键字，称R满足第三范式，简记为3NF.数据不能存在传递关系，即每个属性都跟主键有直接关系而不是间接关系</p>
+<h1 id="数据库连接池"><a href="#数据库连接池" class="headerlink" title="数据库连接池"></a>数据库连接池</h1><p>最大维持连接数N：没有任何请求时在连接池中可以存在的连接数</p>
+<p>最大连接数M：连接池中最多可以存在的连接个数。</p>
+<p>最大等待时间T：当断开连接时，超过最大维持连接数的连接不会马上销毁，最大等待时间过后它才会销毁。</p>
+<p>连接池是将已经创建好的连接保存在池中，当有请求来时，直接使用已经创建好的连接对数据库进行访问。这样省略了创建连接和销毁连接的过程。</p>
+<p>其过程：最开始在连接池中有N个连接，当有用户申请连接时，其将一个连接分配用户，直到连接池中的现有的所有连接全都分配出去，当大于N个用户申请时，它将创建第N+1个连接并分配给该用户，直到把M个连接都分配给用户，当第M+1个用户申请连接时，它需要等待，直到前面的用户中某一个断开了连接，才会把那个连接分配给第M+1个用户，当用户断开连接时，该连接不会立刻被释放而是需要等待T时间（最大等待时间），才被释放，当没有用户连接时，连接池内还保持这N个连接。</p>
+<p>在开发中，使用连接池时若没有关闭连接（调用连接的close方法）会出现“连接池疲劳的错误；</p>
+<h1 id="使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？"><a href="#使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？" class="headerlink" title="使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？"></a>使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？</h1><ol>
+<li>进行SQL查询,当预期的结果集较大的时候,使用PreparedStatement.setFetchSize(FETCH_SIZE)或者Statement.setFetchSize(FETCH_SIZE),可以成百倍地增加性能</li>
+<li>在进行大量数据插入数据库的操作时,应该使用批量加入,一次执行的策略</li>
+</ol>
+<p>有多种方法可以提高更新的效率. 简单说来：</p>
+<ol>
+<li>暂停索引，更新后恢复.避免在更新的过程中涉及到索引的重建.UPDATE的是索引字段，就会涉及到索引的重建，暂停索引不会提高多少的速度，反而有可能降低UPDATE速度。 如果表比较庞大，停索引后重键需要花比较长的时间 。优点：如果更新的数据量接近整个表，此方法比较好。</li>
+<li>批量更新，每更新一些记录后及时进行提交动作.避免大量占用回滚段和或临时表空间.</li>
+<li>创建一临时的大的表空间用来应对这些更新动作</li>
+</ol>
 
       
 
@@ -1329,147 +1533,6 @@ as select语句
 
 
   
-    <article id="post-20171107" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/07/20171107/">20171107</a>
-    </h1>
-  
-
-        
-        <a href="/2017/11/07/20171107/" class="archive-article-date">
-  	<time datetime="2017-11-07T01:08:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-07</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>mysql有三个比较常用的存储引擎，存储引擎就是定义如何存储数据，如何为存储的数据建立索引和如何更新查询数据等具体问题的技术实现，“show engines；”比较常用的存储引擎有三个：InnoDB、MyISAM、MEMORY。</p>
-<ol>
-<li>InnoDB：可以实现事务处理，支持外键，频繁的更新删除操作可以选用。</li>
-<li>MyISAM：管理非事务表， 占用空间小，处理速度快，主要用于插入新记录和读出记录。</li>
-<li>MEMORY：该存储引擎所有数据都在内存中，处理速度高，但是安全性不高，只能适用于相对较小的数据库</li>
-</ol>
-<hr>
-<p>如果要搜索的内容不区分大小写，可以使用TEXT类型。<br>如果要搜索的内容区分大小写，可以使用BLOB类型。</p>
-<hr>
-<ol>
-<li>在SQL中null不能用=来判断，“=”能判断的字符串相等都是根据ASCII码。如果相等返回1，不相等返回0；</li>
-<li>NULL值可以用运算符（IS NULL和IS NOT NULL）</li>
-<li>NULL和‘NULL’不一样，一个是空值，一个是字符串</li>
-<li>BETWEEN AND技术就是在某个取值范围之内，IN用于判断数据是否存在于某个集合之中。LIKE用来匹配字符串，x1 LIKE s1，如果x1与字符串s1匹配成功，结果将返回1，否则将返回0。REGEXP用于字符串的正则匹配</li>
-<li>&amp;&amp;和“AND”作用一致，除了返回0和1之外，当一个数据为NULL并且没有数据为0，则结果返回NULL。或运算与之相似。</li>
-<li>非运算“NOT”和“！”返回与操作数相反的结果，如果是非0数字，结果返回0；如果操作数是0，则返回1，如果操作数是NULL，结果返回NULL</li>
-<li>异或运算符也是一样，如果其中一个为NULL，那么最后的结果也是NULL。</li>
-<li>位运算符有6种，“&amp;“、”|“、”~“(按位取反)、”^”、”&lt;&lt;”、”&gt;&gt;“</li>
-</ol>
-<hr>
-<h2 id="常用sql语句"><a href="#常用sql语句" class="headerlink" title="常用sql语句"></a>常用sql语句</h2><ol>
-<li>create\drop database 数据库名； use 数据库名（设置默认数据库）；</li>
-<li>列名 类型 [not null | null] [DEFAULT value] [auto_increment] [primary_key] [reference_definition]</li>
-<li>alter table 表名 {具体操作，没有大括号，用逗号可以多个动作连续操作，add，drop，modify，change， rename }；modify和change没有特别大的区别。最后可以加上after|first 列名的关键字，表示这一列将会在哪一列前面或者后面。</li>
-<li>SELECT查询中，distinct去除重复行，like模糊查询，like只有两个通配符”%”和”_”，前者可以匹配一个或多个字符，后者只匹配一个字符。limit限制输出的记录条数。</li>
-<li>update 表名 set 列名=新值 where 条件。</li>
-<li>delete from 表名 where condition</li>
-</ol>
-<hr>
-<h2 id="条件判断函数"><a href="#条件判断函数" class="headerlink" title="条件判断函数"></a>条件判断函数</h2><ol>
-<li>IF（expr，v1，v2）</li>
-<li>IFNULL（v1，v2）</li>
-<li>CASE WHEN expr1 THEN v1 [WHEN expr2 THEN v2] [ELSE vn] END</li>
-<li>CASE  expr WHEN e1 THEN v1[WHEN e2 THEN v2] [ELSE vn]END</li>
-</ol>
-<pre><code>select id,user,case when strcmp(email,&quot;@1995&quot;)=0  then &apos;good&apos; when strcmp(email,&quot;LL1192759422@163.com&quot;)=0 then &apos;very good&apos; else &apos;normal&apos; end level from tb_admin;
-</code></pre><p>sql中条件语句不需要写双等号，判断当某个式子是否成立</p>
-<p>字符串常量一定要记得加引号</p>
-<hr>
-<h2 id="查询语句"><a href="#查询语句" class="headerlink" title="查询语句"></a>查询语句</h2><pre><code>select selection_list
-from 数据表名
-where primary_constraint
-group_by grouping_columns
-order_by sorting_columns
-having secondary_constraint
-limit count
-</code></pre><p>这个里面关键词的顺序是固定的</p>
-<ol>
-<li>一些SQL内置的函数只能用在selection_list中。</li>
-<li>IN，BETWEEN AND，LIKE，IS NULL，AND，OR都是用在where中的</li>
-<li>distinct去除重复记录，select distinct 字段名 from 表名</li>
-</ol>
-<h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><h4 id="内连接查询"><a href="#内连接查询" class="headerlink" title="内连接查询"></a>内连接查询</h4><p> 最正常的查询方式，两个表里有相等的部分。</p>
-<h4 id="外连接查询"><a href="#外连接查询" class="headerlink" title="外连接查询"></a>外连接查询</h4><ol>
-<li>左外连接</li>
-<li>右外连接</li>
-<li>全外连接</li>
-</ol>
-<p>外连接就是将数据进行混合，左外连接就是将左表中每一条数据分别与右表中每条数据进行连接组合，返回的数据除了内连接的数据还包括了左表中不符合条件的数据，并在右表的相应列中增加null值，简单来说就是左外连接最后返回的结果中必须包含左表的所有数据。右外连接亦然。</p>
-<pre><code>select 字段名称 from 左表 left||right join 右表 on 表名1.字段名=表名2.字段名 where conditions
-</code></pre><p>IN关键字（集合）EXISTS关键字（返回真或假）ANY关键字（any（）表示括号内数据的任意一个）ALL关键字（和ANY用法类似）AS关键字（用来给字段起别名）<br>UNION和UNION ALL将两个select语句的结果合并在一起，二者区别在于不带all会去除重复记录。<br>正则匹配中只有匹配字符集合时用到了方括号</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/07/20171107/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
@@ -1551,15 +1614,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1607,6 +1670,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Reflect</a>
               </li>
              
@@ -1628,10 +1695,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

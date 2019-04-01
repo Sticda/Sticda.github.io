@@ -14,7 +14,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/02/26/20190226-算法/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="在合并两个数组（包括字符串）的时候，如果从前往后复制的话，则需要移动每个元素很多次，考虑从后往前复制，就可以减少移动的次数，降低时间复杂度。 在某一种情况下，跳转的结果可能有好几种，这个时候递归的方式可能很容易解决问题。 如果需要统计字符串中多个数字出现的次数，可以考虑使用字符的ASCII码作为数组索引，创建一个简单的hash表，当然java中也可以直接使用hash一类的集合。 一些类似的操作可">
-<meta property="og:updated_time" content="2019-03-17T02:55:35.140Z">
+<meta property="og:updated_time" content="2019-03-29T08:22:22.655Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20190226-算法">
 <meta name="twitter:description" content="在合并两个数组（包括字符串）的时候，如果从前往后复制的话，则需要移动每个元素很多次，考虑从后往前复制，就可以减少移动的次数，降低时间复杂度。 在某一种情况下，跳转的结果可能有好几种，这个时候递归的方式可能很容易解决问题。 如果需要统计字符串中多个数字出现的次数，可以考虑使用字符的ASCII码作为数组索引，创建一个简单的hash表，当然java中也可以直接使用hash一类的集合。 一些类似的操作可">
@@ -189,6 +189,29 @@
 <li>二叉搜索树：左子节点总是小于等于根节点，右子节点总是大于等于根节点，红黑树是把树中的节点定义为红黑两种颜色，并通过规则确保从根节点到叶结点的最长路径的长度不超过最短路径的两倍。</li>
 <li>如果面试题是要求按照一定规则摆放若干个元素，可以先求出这些元素的全排列，然后一一判断这些排列是否符合题目的要求。</li>
 </ol>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p>B树    即二叉搜索树：       1.所有非叶子结点至多拥有两个儿子（Left和Right）；       2.所有结点存储一个关键字；       3.非叶子结点的左指针指向小于其关键字的子树，右指针指向大于其关键字的子树</p>
+<p>如果B树的所有非叶子结点的左右子树的结点数目均保持差不多（平衡），那么B树的搜索性能逼近二分查找；但它比连续内存空间的二分查找的优点是，改变B树结构（插入与删除结点）不需要移动大段的内存数据，甚至通常是常数开销；</p>
+<p><strong>B-树</strong>，它是一种多路搜索树（并不是二叉的）：子节点是父节点的开区间范围节点，<br>B-树的搜索，从根结点开始，对结点内的关键字（有序）序列进行二分查找，如果命中则结束，否则进入查询关键字所属范围的儿子结点；重复，直到所对应的儿子指针为空，或已经是叶子结点<br>除根结点以外的非叶子结点的儿子数为[M/2, M]，M是最大子结点数，B-树的性能总是等价于二分查找（与M值无关），也就没有B树平衡的问题； 由于M/2的限制，在插入结点时，如果结点已满，需要将结点分裂为两个各占M/2的结点；删除结点时，需将两个不足M/2的兄弟结点合并；</p>
+<pre><code>1.关键字集合分布在整颗树中；
+2.任何一个关键字出现且只出现在一个结点中；
+3.搜索有可能在非叶子结点结束
+4.其搜索性能等价于在关键字全集内做一次二分查找；
+</code></pre><p><strong>B+树</strong>是B-树的变体，也是一种多路搜索树：子节点是父节点的左闭右开区间范围节点<br>所有关键字都在叶子结点出现，B+的搜索与B-树也基本相同，区别是B+树只有达到叶子结点才命中（B-树可以在非叶子结点命中），其性能也等价于在关键字全集做一次二分查找<br>B+树的分裂：当一个结点满时，分配一个新的结点，并将原结点中1/2的数据复制到新结点，最后在父结点中增加新结点的指针；B+树的分裂只影响原结点和父结点，而不会影响兄弟结点，所以它不需要指向兄弟的指针；<br>B+的特性：</p>
+<pre><code>1.所有关键字都出现在叶子结点的链表中（稠密索引），且链表中的关键字恰好是有序的；
+2.不可能在非叶子结点命中；
+3.非叶子结点相当于是叶子结点的索引（稀疏索引），叶子结点相当于是存储（关键字）数据的数据层；
+4.更适合文件索引系统；
+</code></pre><p><strong>B*树</strong>是B+树的变体，在B+树的非根和非叶子结点再增加指向兄弟的指针；<br><strong>B*树</strong>定义了非叶子结点关键字个数至少为(2/3)<em>M，即块的最低使用率为2/3（代替B+树的1/2）<br>**B</em>树*<em>的分裂：当一个结点满时，如果它的下一个兄弟结点未满，那么将一部分数据移到兄弟结点中，再在原结点插入关键字，最后修改父结点中兄弟结点的关键字（因为兄弟结点的关键字范围改变了）；如果兄弟也满了，则在原结点与兄弟结点之间增加新结点，并各复制1/3的数据到新结点，最后在父结点增加新结点的指针，B</em>树分配新结点的概率比B+树要低，空间使用率更高</p>
+<h1 id="排序算法"><a href="#排序算法" class="headerlink" title="排序算法"></a>排序算法</h1><p>不稳定：<br>选择排序（selection sort）— O(n2)<br>快速排序（quicksort）— O(nlogn) 平均时间, O(n2) 最坏情况; 对于大的、乱序串列一般认为是最快的已知排序<br>堆排序 （heapsort）— O(nlogn)<br>希尔排序 （shell sort）— O(nlogn)<br>基数排序（radix sort）— O(n·k); 需要 O(n) 额外存储空间 （K为特征个数）</p>
+<p>稳定：<br>插入排序（insertion sort）— O(n2)<br>冒泡排序（bubble sort） — O(n2)<br>归并排序 （merge sort）— O(n log n); 需要 O(n) 额外存储空间<br>二叉树排序（Binary tree sort） — O(nlogn); 需要 O(n) 额外存储空间</p>
+<h1 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h1><ol>
+<li>结点是红色或黑色</li>
+<li>根结点始终是黑色</li>
+<li>叶子结点（NIL 结点）都是黑色</li>
+<li>红色结点的两个直接孩子结点都是黑色（即从叶子到根的所有路径上不存在两个连续的红色结点）</li>
+<li>从任一结点到每个叶子的所有简单路径都包含相同数目的黑色结点，该特性确保没有一条路径会比其他路径长出俩倍。因而，红黑树是相对是接近平衡的二叉树</li>
+</ol>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>第一步: 将红黑树当作一颗二叉查找树，将节点插入<br>第二步：将插入的节点着色为”红色”。将插入的节点着色为红色，不会违背”特性(4)”！少违背一条特性，就意味着我们需要处理的情况越少<br>第三步: 通过一系列的旋转或着色等操作，使之重新成为一颗红黑树。只会违背特性3</p>
 
       
 
@@ -269,7 +292,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录，不存在的…
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#数据结构"><span class="toc-number">1.</span> <span class="toc-text">数据结构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#排序算法"><span class="toc-number"></span> <span class="toc-text">排序算法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#红黑树"><span class="toc-number"></span> <span class="toc-text">红黑树</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#插入"><span class="toc-number">1.</span> <span class="toc-text">插入</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -394,15 +417,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -450,6 +473,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Reflect</a>
               </li>
              
@@ -471,10 +498,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

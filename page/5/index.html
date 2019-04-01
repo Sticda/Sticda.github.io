@@ -139,6 +139,147 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20171107-mysql" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/07/20171107-mysql/">20171107</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/07/20171107-mysql/" class="archive-article-date">
+  	<time datetime="2017-11-07T01:08:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-07</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>mysql有三个比较常用的存储引擎，存储引擎就是定义如何存储数据，如何为存储的数据建立索引和如何更新查询数据等具体问题的技术实现，“show engines；”比较常用的存储引擎有三个：InnoDB、MyISAM、MEMORY。</p>
+<ol>
+<li>InnoDB：可以实现事务处理，支持外键，频繁的更新删除操作可以选用。</li>
+<li>MyISAM：管理非事务表， 占用空间小，处理速度快，主要用于插入新记录和读出记录。</li>
+<li>MEMORY：该存储引擎所有数据都在内存中，处理速度高，但是安全性不高，只能适用于相对较小的数据库</li>
+</ol>
+<hr>
+<p>如果要搜索的内容不区分大小写，可以使用TEXT类型。<br>如果要搜索的内容区分大小写，可以使用BLOB类型。</p>
+<hr>
+<ol>
+<li>在SQL中null不能用=来判断，“=”能判断的字符串相等都是根据ASCII码。如果相等返回1，不相等返回0；</li>
+<li>NULL值可以用运算符（IS NULL和IS NOT NULL）</li>
+<li>NULL和‘NULL’不一样，一个是空值，一个是字符串</li>
+<li>BETWEEN AND技术就是在某个取值范围之内，IN用于判断数据是否存在于某个集合之中。LIKE用来匹配字符串，x1 LIKE s1，如果x1与字符串s1匹配成功，结果将返回1，否则将返回0。REGEXP用于字符串的正则匹配</li>
+<li>&amp;&amp;和“AND”作用一致，除了返回0和1之外，当一个数据为NULL并且没有数据为0，则结果返回NULL。或运算与之相似。</li>
+<li>非运算“NOT”和“！”返回与操作数相反的结果，如果是非0数字，结果返回0；如果操作数是0，则返回1，如果操作数是NULL，结果返回NULL</li>
+<li>异或运算符也是一样，如果其中一个为NULL，那么最后的结果也是NULL。</li>
+<li>位运算符有6种，“&amp;“、”|“、”~“(按位取反)、”^”、”&lt;&lt;”、”&gt;&gt;“</li>
+</ol>
+<hr>
+<h2 id="常用sql语句"><a href="#常用sql语句" class="headerlink" title="常用sql语句"></a>常用sql语句</h2><ol>
+<li>create\drop database 数据库名； use 数据库名（设置默认数据库）；</li>
+<li>列名 类型 [not null | null] [DEFAULT value] [auto_increment] [primary_key] [reference_definition]</li>
+<li>alter table 表名 {具体操作，没有大括号，用逗号可以多个动作连续操作，add，drop，modify，change， rename }；modify和change没有特别大的区别。最后可以加上after|first 列名的关键字，表示这一列将会在哪一列前面或者后面。</li>
+<li>SELECT查询中，distinct去除重复行，like模糊查询，like只有两个通配符”%”和”_”，前者可以匹配一个或多个字符，后者只匹配一个字符。limit限制输出的记录条数。</li>
+<li>update 表名 set 列名=新值 where 条件。</li>
+<li>delete from 表名 where condition</li>
+</ol>
+<hr>
+<h2 id="条件判断函数"><a href="#条件判断函数" class="headerlink" title="条件判断函数"></a>条件判断函数</h2><ol>
+<li>IF（expr，v1，v2）</li>
+<li>IFNULL（v1，v2）</li>
+<li>CASE WHEN expr1 THEN v1 [WHEN expr2 THEN v2] [ELSE vn] END</li>
+<li>CASE  expr WHEN e1 THEN v1[WHEN e2 THEN v2] [ELSE vn]END</li>
+</ol>
+<pre><code>select id,user,case when strcmp(email,&quot;@1995&quot;)=0  then &apos;good&apos; when strcmp(email,&quot;LL1192759422@163.com&quot;)=0 then &apos;very good&apos; else &apos;normal&apos; end level from tb_admin;
+</code></pre><p>sql中条件语句不需要写双等号，判断当某个式子是否成立</p>
+<p>字符串常量一定要记得加引号</p>
+<hr>
+<h2 id="查询语句"><a href="#查询语句" class="headerlink" title="查询语句"></a>查询语句</h2><pre><code>select selection_list
+from 数据表名
+where primary_constraint
+group_by grouping_columns
+order_by sorting_columns
+having secondary_constraint
+limit count
+</code></pre><p>这个里面关键词的顺序是固定的</p>
+<ol>
+<li>一些SQL内置的函数只能用在selection_list中。</li>
+<li>IN，BETWEEN AND，LIKE，IS NULL，AND，OR都是用在where中的</li>
+<li>distinct去除重复记录，select distinct 字段名 from 表名</li>
+</ol>
+<h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><h4 id="内连接查询"><a href="#内连接查询" class="headerlink" title="内连接查询"></a>内连接查询</h4><p> 最正常的查询方式，两个表里有相等的部分。</p>
+<h4 id="外连接查询"><a href="#外连接查询" class="headerlink" title="外连接查询"></a>外连接查询</h4><ol>
+<li>左外连接</li>
+<li>右外连接</li>
+<li>全外连接</li>
+</ol>
+<p>外连接就是将数据进行混合，左外连接就是将左表中每一条数据分别与右表中每条数据进行连接组合，返回的数据除了内连接的数据还包括了左表中不符合条件的数据，并在右表的相应列中增加null值，简单来说就是左外连接最后返回的结果中必须包含左表的所有数据。右外连接亦然。</p>
+<pre><code>select 字段名称 from 左表 left||right join 右表 on 表名1.字段名=表名2.字段名 where conditions
+</code></pre><p>IN关键字（集合）EXISTS关键字（返回真或假）ANY关键字（any（）表示括号内数据的任意一个）ALL关键字（和ANY用法类似）AS关键字（用来给字段起别名）<br>UNION和UNION ALL将两个select语句的结果合并在一起，二者区别在于不带all会去除重复记录。<br>正则匹配中只有匹配字符集合时用到了方括号</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/07/20171107-mysql/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20171105" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -207,19 +348,19 @@
 
 
   
-    <article id="post-20171019" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-20171019-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/16/20171019/">20171019</a>
+      <a class="article-title" href="/2017/10/16/20171019-java/">20171019</a>
     </h1>
   
 
         
-        <a href="/2017/10/16/20171019/" class="archive-article-date">
+        <a href="/2017/10/16/20171019-java/" class="archive-article-date">
   	<time datetime="2017-10-16T02:12:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
 </a>
         
@@ -248,11 +389,11 @@
 <li>首先加载父类的静态变量和静态语句块（按照代码上下顺序执行），然后加载子类的静态变量和静态语句块（按照代码上下顺序执行），然后加载父类的非静态变量和非静态语句块（按照代码上下顺序执行），再加载父类的构造函数。然后加载子类的非静态变量和非静态语句块（按照代码上下顺序执行），最后加载子类的构造函数。</li>
 <li>启动类加载器Bootstrap ClassLoader（lib目录）、扩展类加载器（Extension ClassLoader）lib/ext目录、应用程序类加载器（Application ClassLoader）加载用户类路径（classpath）上指定的类库，ClassLoader的getSystemClassLoader方法返回的是应用程序类加载器。前者是后者的父类。</li>
 <li>双亲委派模型要求除了顶层的启动类加载器之外，剩下所有的加载器都要有自己的父类加载器。双亲委派模型的工作机制是如果一个类加载器收到了类加载的请求，他不去自己先去加载这个类，而是把这个请求委派给自己的父类加载器完成，每一层的类加载器都是这样，因为一个类加载请求应该最终都被传送到启动类加载器，只有当父类加载器反馈自己无法完成这个加载请求的时候，加载器才会选择自己加载</li>
-<li>破坏双亲委派模型的三种情况：双亲委派模型出现之前（解决办法是把自己的类加载逻辑写在findclass方法中，loadclass方法中负类加载失败则调用自己的findclass）；模型固有缺陷，基础类想要调用回用户代码的情况无法实现，例如JNDI服务（解决方法是线程上下文类加载器，setContextClassLoader方法进行设置，如果创建线程时未设置从父线程继承，一直没有设置过的话，默认是应用程序类加载器）；追求程序动态性导致的破坏，在OSGI中类加载器转化为网状结构。</li>
+<li>破坏双亲委派模型的三种情况：双亲委派模型出现之前（解决办法是把自己的类加载逻辑写在findclass方法中，loadclass方法中父类加载失败则调用自己的findclass）；模型固有缺陷，基础类想要调用回用户代码的情况无法实现，例如JNDI服务Java 提供了很多服务提供者接口（Service Provider Interface，SPI），允许第三方为这些接口提供实现。常见的 SPI 有 JDBC、JCE、JNDI、JAXP 和 JBI 等。这些 SPI 的接口由 Java 核心库来提供，而这些 SPI 的实现代码则是作为 Java 应用所依赖的 jar 包被包含进类路径（CLASSPATH）里。SPI接口中的代码经常需要加载具体的实现类。那么问题来了，SPI的接口是Java核心库的一部分，是由<strong>启动类加载器(Bootstrap Classloader)来加载的；SPI的实现类是由系统类加载器(System ClassLoader)</strong>来加载的。引导类加载器是无法找到 SPI 的实现类的，因为依照双亲委派模型，BootstrapClassloader无法委派AppClassLoader来加载类。（解决方法是线程上下文类加载器，setContextClassLoader方法进行设置，如果创建线程时未设置从父线程继承，一直没有设置过的话，默认是应用程序类加载器）；追求程序动态性导致的破坏，在OSGI中类加载器转化为网状结构。</li>
 <li>java内存模型（JMM）所有的变量都必须存储在主内存中，这些变量包括实例字段、静态变量、构成数组对象的元素，不包括线程私有的局部变量和方法参数，每一个线程的工作内存中都留存了自己能够用到的主内存副本拷贝，线程对变量的操作都在工作内存中，与其他线程数据交换也必须通过主内存。</li>
 <li>java内存定义了8种操作实现主内存和工作内存之间的交互：lock（主内存变量的锁定）、unlock（主内存变量的解锁）、read（把主内存的变量传送到工作内存）、load（把主内存的变量值放入工作内存的变量副本）、use（工作内存传递给执行引擎）、assign（执行引擎到工作内存）、store（工作内存传送到主内存）、write（工作内存写入主内存）</li>
 <li>Java内存模型执行8种操作的规则：1.不允许read和load、store和write单独出现（不允许出现read之后工作内存拒收或者store之后被主内存拒收的情况）2.不允许一个线程丢弃他最近的assign（变量在工作内存中改变了之后必须同步回主内存）。3.不允许一个线程无原因地把数据从线程的工作内存同步回主内存中。（没有更新过数据就不用写回到主内存）4.一个新的变量只能在主内存中诞生，不允许在工作内存中直接使用一个未被初始化（load和assign）的变量。5.一个变量在同一时刻只允许一条线程对其进行lock操作，但lock可以被一条线程执行多次。6.对一个变量执行lock操作，将清空工作内存中此变量的值7.没有lock，就不能unlock。8. unlock之前，该变量需要同步回主内存。</li>
-<li>什么时候volatile可以替代加锁：运算结果不依赖变量的当前值，或者只有单一线程修改变量值，变量不需要与其他的状态变量共同参与不变约束（单变量控制，只有他一个决定锁，不是很多变量一起决定的）</li>
+<li>什么时候volatile可以替代加锁：运算结果不依赖变量的当前值，或者只有单一线程修改变量值，变量不需要与其他的状态变量共同参与不变约束（单变量控制）</li>
 <li>JMM对于volatile变量的三个规则：1.load和use相连；2.assign和store相连。3. load和assign早的变量，read和write就要早</li>
 <li>8条happens-before原则：1.程序次序规则（写在前面的操作先行于书写在后面的操作）2.管程锁定规则：一个unlock操作先行发生于后面对同一个锁的lock操作3.volatile变量规则：对一个volatile变量的写操作先行发生于对该变量的读取。4.线程启动规则：thread对象的start方法先行发生于此线程的每一个动作。5. 线程终止规则：线程中所有操作都先行发生于对此线程的终止检测。6. 线程中断规则：对线程interrupt方法的调用先行发生于被中断线程的代码检测到中断事件的发生。7. 对象终结规则：一个对象的初始化完成先行于他的finalize方法开始。8.传递性：A操作先行发生于B操作，B操作先行发生于C操作，那么A操作先行发生于C操作。</li>
 <li>轻量级锁的加锁与解锁：如果同步对象没有被锁定，锁标志位为01，虚拟机首先将在当前线程的栈帧中新建一个lock record，用于存储同步对象的Mark Word，然后使用CAS操作将对象的Mark Word更改为指向lock record的指针，如果更新成功了，该线程就拥有了该对象的锁，并且对象的Mark Word的锁标志位转为00，如果这个更新操作失败了，虚拟机会检查对象的Mark Word是否已经指向当前线程的栈帧，如果是就说明当前线程已经拥有了这个对象的锁，如果不是的话说明锁对象被其他线程抢占了，如果有两条以上的线程争用同一个锁，那轻量级锁就要膨胀成重量级锁，锁标志的状态转变为10,Mark Word中存储指向重量级锁的指针。。。解锁过程也是使用CAS操作实现的，如果所对象的Mark Word仍然指向线程的lock record，就用CAS操作将对象的Mark Word和lock record替换回来，如果替换成功，同步结束，替换不成功说明有其他线程尝试获取过该锁，在释放锁的时候就要唤醒被挂起的线程。</li>
@@ -271,6 +412,10 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		
@@ -281,7 +426,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/16/20171019/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/10/16/20171019-java/">展开全文 >></a>
         </p>
       
 
@@ -415,17 +560,18 @@
 <p>虚拟机运行的时候，内存中 有这么几部分： 方法区，堆，虚拟机栈和本地方法栈，程序计数器。</p>
 <ol>
 <li>程序计数器肯定是线程私有的，因为单核cpu上执行的线程肯定要记录上一个时间片上自己执行到哪里了。字节码解释器通过改变程序计数器来依次读取指令，从而实现代码的流程控制，如：顺序执行、选择、循环、异常处理。在多线程的情况下，程序计数器用于记录当前线程执行的位置，从而当线程被切换回来的时候能够知道该线程上次运行到哪儿了。程序计数器是唯一一个不会出现 OutOfMemoryError 的内存区域</li>
-<li>虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI编写的方法，这里就要说到虚拟机栈和本地方法栈中的内容了，首先这两个栈肯定也是线程私有的，因为每一个线程都有自己调用的不同方法，虚拟机栈和本地方法栈中的最小单元是栈帧，栈帧也就是每一个方法产生的结构，每一个栈帧中都有局部变量表、操作数栈、动态连接和返回地址，局部变量表的最小单位是slot，一般情况下只有float和double需要两个slot存放，操作数栈也是，操作数栈和局部变量表的大小在java代码编译之后就已经写入class文件中了，动态连接的内容是运行时常量池这个方法的一个引用，因为在方法执行过程中可能需要动态连接，所以要在栈帧中保持这个信息，返回地址肯定是需要的，因为每一个栈帧代表一个方法，这个方法执行完成之后肯定需要回到原来的地方，所以就需要每个栈帧拥有自己的返回地址。</li>
+<li>虚拟机栈和本地方法栈的区别在于虚拟机栈中执行的是java方法，而本地方法栈执行的是本地方法，也就是用JNI编写的方法，这里就要说到虚拟机栈和本地方法栈中的内容了，首先这两个栈肯定也是线程私有的，因为每一个线程都有自己调用的不同方法，虚拟机栈和本地方法栈中的最小单元是栈帧，栈帧也就是每一个方法产生的结构，每一个栈帧中都有局部变量表、操作数栈、动态连接和返回地址，局部变量表的最小单位是slot，一般情况下只有float和double需要两个slot存放，操作数栈也是，操作数栈和局部变量表的大小在java代码编译之后就已经写入class文件中了，在Class文件的常量池中存有大量的符号引用，字节码中的方法调用指令就以常量池中指向方法的符号引用为参数。这些符号引用一部分会在类加载阶段或第一次使用的时候转化为直接引用，这种转化称为静态解析。另外一部分将在每一次的运行期期间转化为直接引用，这部分称为动态连接动态连接的内容是运行时常量池这个方法的一个引用，因为在方法执行过程中可能需要动态连接，所以要在栈帧中保持这个信息，返回地址肯定是需要的，因为每一个栈帧代表一个方法，这个方法执行完成之后肯定需要回到原来的地方，所以就需要每个栈帧拥有自己的返回地址。</li>
 <li>方法区和堆是线程共享的，方法区里面包含类的信息，版本，以及经过的编译的代码，方法区内部有运行时常量池，运行时常量池中存放着class编译期生成的各种字面量和符号引用所转变出来的直接引用，堆的主要内容是新建的对象，线程需要使用的时候，从堆里把内容拿出来，然后对照着方法区里类的格式区分堆里对象每一个部分代表的意义。</li>
 </ol>
 <p>class文件中存放的是经过编译的内容，常量池，字段表，方法表，属性表。常量池里面是一些字面量和符号引用，字段表的主要内容是访问标志、名称索引、描述符索引、属性数量和属性值。方法表的内容也是和字段表差不多。<br>另外一块内容是java的垃圾收集器和内存分配策略。java的GC机制算是java的一大特色了。垃圾回收主要有三个主要的问题，判断对象是否已经废弃，怎么回收，何时回收。</p>
-<p>强引用是使用最普遍的引用。如果一个对象具有强引用，那垃圾收器绝不会回收它。当内存空间不足，Java虚拟机宁愿抛出OutOfM moryError错误，使程序异常终止，也不会靠随意回收具有强引用 对象来解决内存不足的问题。软引用是用来描述一些还有用但并非必须的对象。对于软引用关联着的对象，在系统将要发生内存溢出异常之前，将会把这些对象列进回收范围进行第二次回收。如果这次回收还没有足够的内存，才会抛出内存溢出异常；弱引用也是用来描述非必须对象的，他的强度比软引用更弱一些，被弱引用关联的对象，在垃圾回收时，如果这个对象只被弱引用关联（没有任何强引用关联他），那么这个对象就会被回收。一个对象是否有虚引用的存在，完全不会对其生存时间构成影响，也无法通过虚引用来获取一个对象的实例。为一个对象设置虚引用关联的唯一目的就是能在这个对象被收集器回收时收到一个系统通知。虚引用和弱引用对关联对象的回收都不会产生影响，如果只有虚引用活着弱引用关联着对象，那么这个对象就会被回收。它们的不同之处在于弱引用的get方法，虚引用的get方法始终返回null,弱引用可以使用ReferenceQueue,虚引用必须配合ReferenceQueue使用。</p>
+<p><strong>强引用</strong>是使用最普遍的引用。如果一个对象具有强引用，那垃圾收器绝不会回收它。当内存空间不足，Java虚拟机宁愿抛出OutOfMemoryError错误，使程序异常终止，也不会靠随意回收具有强引用 对象来解决内存不足的问题。软引用是用来描述一些还有用但并非必须的对象。对于<strong>软引用</strong>关联着的对象，在系统将要发生内存溢出异常之前，将会把这些对象列进回收范围进行第二次回收。如果这次回收还没有足够的内存，才会抛出内存溢出异常；弱引用也是用来描述非必须对象的，他的强度比软引用更弱一些，被弱引用关联的对象，在垃圾回收时，如果这个对象只被弱引用关联（没有任何强引用关联他），那么这个对象就会被回收。一个对象是否有<strong>虚引用</strong>的存在，完全不会对其生存时间构成影响，也无法通过虚引用来获取一个对象的实例。为一个对象设置虚引用关联的唯一目的就是能在这个对象被收集器回收时收到一个系统通知。虚引用和弱引用对关联对象的回收都不会产生影响，如果只有虚引用活着弱引用关联着对象，那么这个对象就会被回收。</p>
 <ol>
 <li>对象是否已死有两种办法，引用计数算法和可达性分析算法。引用计数算法是为每一个对象保留一个引用计数器，如果这个对象被引用就加1，被引用的对象被销毁就减1，不能解决相互引用的问题，比如说ab相互引用，但ab已经不会被用到了，所以就不能被回收。所以主流算法采用的方法都是可达性分析算法，一般选择GC Roots，当一个对象和GC roots之间不能可达的时候就说明这个对象已经死了。但是真正要回收一个对象所占的内存，还需要观察这个对象是否需要有必要执行finalize()方法，如果一个对象需要执行finalize方法的话，那么这个对象就会被放入一个列表，执行finalize方法。方法区也需要回收</li>
-<li>垃圾回收算法有三个：标记清除算法。复制算法。标记清除算法；标记清除就是标记已死亡的内存然后直接清理。复制算法是有两块半区，一块满了就把所有未死亡的对象复制到另一块上，把原先的那块全部清除（新生代）。标记整理算法是把标记已死亡的内存都清理，然后把活着的对象都向一端移动，直接清除活着的对象之外的所有的内存。</li>
-<li>算法执行在安全点或者安全区，安全点就是程序长时间执行的地方。抢先式中断：把所有线程中断，不在安全点上的线程被恢复，让这些跑到安全点再中断。主动式中断：轮询标志，发现需要中断时自己挂起。</li>
+<li>垃圾回收算法有三个：标记清除算法；标记清除就是标记已死亡的内存然后直接清理。复制算法是有两块半区，一块满了就把所有未死亡的对象复制到另一块上，把原先的那块全部清除（新生代）。标记整理算法是把标记已死亡的内存都清理，然后把活着的对象都向一端移动，直接清除活着的对象之外的所有的内存。</li>
+<li>算法执行在安全点或者安全区，安全点就是程序长时间执行的地方。</li>
+<li><strong>抢先式中断</strong>：把所有线程中断，不在安全点上的线程被恢复，让这些跑到安全点再中断。<strong>主动式中断</strong>：轮询标志，发现需要中断时自己挂起。</li>
 </ol>
-<p>垃圾收集器的种类：<br>Serial、Serial Old，ParNew收集器对于新生代都是复制算法，对于老年代都是标记整理算法，Serial Old是Serial收集器的老年代版本，ParNew是Serial的多线程版本，Parallel Scavenge是新生代收集器，Parallel Old是老年代收集器，Parallel Scavenge和Parallel Old 为了达到更好的吞吐量。CMS收集器是为了获取最短的停顿时间。<br>CMS使用标记清除算法。CMS收集器的过程分为四步：初始标记（直接相连GC roots）、并发标记（可达性分析）、重新标记、并发清除，初始标记和重新标记需要stop theworld<br>CMS收集器的缺点：对CPU资源特别敏感。无法清除浮动垃圾（使用serial Old作为备案），产生内存碎片<br>G1收集器：将java堆分为相同大小的region，维护优先列表，优先回收价值最大的region，初始标记、并发标记、最终标记、筛选回收</p>
+<p>垃圾收集器的种类：<br>Serial、Serial Old，ParNew收集器对于新生代都是复制算法，对于老年代都是标记整理算法，Serial Old是Serial收集器的老年代版本，ParNew是Serial的多线程版本，Parallel Scavenge是新生代收集器，Parallel Old是老年代收集器，Parallel Scavenge和Parallel Old 为了达到更好的吞吐量。CMS收集器是为了获取最短的停顿时间。<br>CMS使用标记清除算法。CMS收集器的过程分为四步：初始标记（直接相连GC roots）、并发标记（可达性分析）、重新标记、并发清除，初始标记和重新标记需要stop the world<br>CMS收集器的缺点：对CPU资源特别敏感。无法清除浮动垃圾（浮动垃圾是在标记过程中产生的垃圾，使用serial Old作为备案），产生内存碎片<br>G1收集器：将java堆分为相同大小的region（维护了remembered set，记录region之间的引用信息），维护优先列表，优先回收价值最大的region，优点：并行与并发、可预测的停顿。初始标记、并发标记、最终标记、筛选回收</p>
 <p>内存分配和回收策略：</p>
 <ol>
 <li>对象优先在Eden分配。</li>
@@ -434,7 +580,7 @@
 <li>动态年龄判定：survivor空间内相同年龄所有对象大小超过了survivor空间的一半，大于等于该年龄的所有对象都可以直接进入老年代</li>
 <li>空间分配担保：在minor gc之前，虚拟机会先计算当前老年代可用空间是否大于survivor所有对象总空间，大于的话就说明Minor GC是安全的，如果不成立，检查虚拟机是否允许担保失败。如果允许的话计算历次进入老年代对象的平均大小，如果目前可用空间大于平均大小将进行一次有风险的Minor GC，如果小于或者不允许担保失败，那么将进行一次full GC</li>
 </ol>
-<p>GC Root<br>Class - 由系统类加载器(system class loader)加载的对象，这些类是不能够被回收的，他们可以以静态字段的方式保存持有其它对象。我们需要注意的一点就是，通过用户自定义的类加载器加载的类，除非相应的java.lang.Class实例以其它的某种（或多种）方式成为roots，否则它们并不是roots，.<br>Thread - 活着的线程<br>Stack Local - Java方法的local变量或参数<br>JNI Local - JNI方法的local变量或参数<br>JNI Global - 全局JNI引用<br>Monitor Used - 用于同步的监控对象<br>Held by JVM - 用于JVM特殊目的由GC保留的对象，但实际上这个与JVM的实现是有关的。可能已知的一些类型是：系统类加载器、一些JVM知道的重要的异常类、一些用于处理异常的预分配对象以及一些自定义的类加载器等</p>
+<p><strong>GC Root</strong><br>Class - 由系统类加载器(system class loader)加载的对象，这些类是不能够被回收的，他们可以以静态字段的方式保存持有其它对象。我们需要注意的一点就是，通过用户自定义的类加载器加载的类，除非相应的java.lang.Class实例以其它的某种（或多种）方式成为roots，否则它们并不是roots，.<br>Thread - 活着的线程<br>Stack Local - Java方法的local变量或参数<br>JNI Local - JNI方法的local变量或参数<br>JNI Global - 全局JNI引用<br>Monitor Used - 用于同步的监控对象<br>Held by JVM - 用于JVM特殊目的由GC保留的对象</p>
 
       
 
@@ -929,15 +1075,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -985,6 +1131,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Reflect</a>
               </li>
              
@@ -1006,10 +1156,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>
