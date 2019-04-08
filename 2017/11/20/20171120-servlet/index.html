@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/11/20/20171120-servlet/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="http中get请求一般用于幂等操作（请求数据但不改变服务器上的数据），post用于非幂等操作（改变服务器上的数据，上传文件等），过长的请求参数也需要使用post。 容器是java的一个应用程序，负责和服务器沟通，容器会把jsp网页转译成Servlet，加载到容器中进行管理，最后的所有jsp都会以servlet的实例中存在于容器中。每次有请求进来时，都是使用同一个容器进行处理，由容器开启一个线程，">
-<meta property="og:updated_time" content="2019-03-12T07:45:52.262Z">
+<meta property="og:updated_time" content="2019-04-02T08:14:03.856Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20171120">
 <meta name="twitter:description" content="http中get请求一般用于幂等操作（请求数据但不改变服务器上的数据），post用于非幂等操作（改变服务器上的数据，上传文件等），过长的请求参数也需要使用post。 容器是java的一个应用程序，负责和服务器沟通，容器会把jsp网页转译成Servlet，加载到容器中进行管理，最后的所有jsp都会以servlet的实例中存在于容器中。每次有请求进来时，都是使用同一个容器进行处理，由容器开启一个线程，">
@@ -180,12 +180,12 @@
 <p>浏览器接受到相应的html必须知道怎么正确解释文字编码，HttpServletResponse有一个setContentType的方法可以设置，除此之外也可以使用字符串的getbytes方法重新编码字符串。</p>
 <p>利用下面的方法可以实现跳转请求，由其他的servlet和jsp负责处理，其中的request和response可以通过ServletRequeatWrapper、ServletResponseWrapper或者其子类将容器产生的request和respond重新包裹</p>
 <pre><code>request.getRequestDispatcher(&quot;相对url&quot;).forward(request, response)
-</code></pre><p>在执行forward（）之前不能给浏览器确切的回应。执行完forward还会回到原来的servlet/jsp，但是没有办法继续响应（http协议的特性）</p>
-<p>如果打算在目前的servlet/JSP中进行一些对浏览器的响应，而中间想将其他Servlet/JSP包括进来回应，则可以执行RequestDispatcher的include（）方法</p>
+</code></pre><p>在执行forward（）之前不能给浏览器确切的回应。<strong>执行完forward</strong>还会回到原来的servlet/jsp，但是没有办法继续响应（http协议的特性）</p>
+<p>如果打算在目前的servlet/JSP中进行一些对浏览器的响应，而中间想将其他Servlet/JSP包括进来回应，则可以执行RequestDispatcher的<strong>include（）方法</strong></p>
 <p>java中常用的输入输出流</p>
 <p>字节流 FileInputStream BufferedInputStream DataInputStream    |||| FileOutputStream  BufferedOutputStream PrintStream</p>
 <p>字符流  BufferedReader FileReader ||||||      BufferedWriter FileWriter PrinterWriter</p>
-<p>使用HttpServletResponse的sendRedirect（）可以要求浏览器重新请求另一个URL，又称为重定向，使用时可指定绝对URL或者相对URL，和Dispatcher 的forward不一样，forward是服务器自己跳转，而sendredirect是让浏览器跳转。</p>
+<p>使用HttpServletResponse的sendRedirect（）可以要求<strong>浏览器重新请求另一个URL，又称为重定向</strong>，使用时可指定绝对URL或者相对URL，和Dispatcher 的forward不一样，forward是服务器自己跳转，而sendredirect是让浏览器跳转。</p>
 <p>可以通过在servletReuqest通过setAttribute（）设置属性，该对象只在此次请求范围内有效，在请求/响应之后该对象会被销毁。</p>
 <p><strong>同一个请求周期中，HttpServletResponse的getWriter（）和getOutputStream（）只能使用一个。</strong></p>
 <h1 id="写在后面"><a href="#写在后面" class="headerlink" title="写在后面"></a>写在后面</h1><p>突然感觉自己好像有点啰嗦，我看书的时候把一些小点记在博客上，但是感觉打字太慢，所以以后需要降低在博客上记载书上已有知识的篇幅</p>

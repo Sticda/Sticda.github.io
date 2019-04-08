@@ -14,7 +14,7 @@
 <meta property="og:url" content="http://yoursite.com/2019/03/20/20190320-tcp-http/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="TCP确认应答机制、超时重传机制 源端口号、目的端口号序号确认序号首部长度、保留6位、6个标识位、窗口大小16位校验和、16位紧急指针选项 三次握手 TCP客户端进程向服务器发出连接请求报文，此时报文首部中的同步标志位SYN=1, 同时选择一个初始序列号 seq = x, 此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定, SYN报文段（SYN=1的报文段）不能携带">
-<meta property="og:updated_time" content="2019-04-01T13:14:17.935Z">
+<meta property="og:updated_time" content="2019-04-01T13:15:44.162Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20190320-tcp&#x2F;http">
 <meta name="twitter:description" content="TCP确认应答机制、超时重传机制 源端口号、目的端口号序号确认序号首部长度、保留6位、6个标识位、窗口大小16位校验和、16位紧急指针选项 三次握手 TCP客户端进程向服务器发出连接请求报文，此时报文首部中的同步标志位SYN=1, 同时选择一个初始序列号 seq = x, 此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定, SYN报文段（SYN=1的报文段）不能携带">
@@ -205,7 +205,6 @@
 <h2 id="GET和POST的区别："><a href="#GET和POST的区别：" class="headerlink" title="GET和POST的区别："></a>GET和POST的区别：</h2><ol>
 <li>GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之间以&amp;相连，如EditPosts.aspx?name=test1&amp;id=123456. POST方法是把提交的数据放在HTTP包的Body中.</li>
 <li>GET提交的数据大小有限制（因为浏览器对URL的长度有限制），而POST方法提交的数据没有限制.</li>
-<li>GET方式需要使用Request.QueryString来取得变量的值，而POST方式通过Request.Form来获取变量的值。</li>
 <li>GET方式提交数据，会带来安全问题，比如一个登录页面，通过GET方式提交数据时，用户名和密码将出现在URL上，如果页面可以被缓存或者其他人可以访问这台机器，就可以从历史记录获得该用户的账号和密</li>
 </ol>
 <h2 id="forward和redirect的区别："><a href="#forward和redirect的区别：" class="headerlink" title="forward和redirect的区别："></a>forward和redirect的区别：</h2><ol>
@@ -218,7 +217,6 @@
 <li>http是超文本传输协议，信息是明文传输，https 则是具有安全性的ssl加密传输协议。</li>
 <li>http和https使用的是完全不同的连接方式用的端口也不一样，前者是80，后者是443。</li>
 <li>http的连接很简单，是无状态的。</li>
-<li>HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全。</li>
 </ol>
 
       

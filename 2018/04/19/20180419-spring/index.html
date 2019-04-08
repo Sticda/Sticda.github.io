@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/19/20180419-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="SpringSpring把容器中的一切对象都称为Bean，但是这个Bean和JavaBean不一样，就只是一个Java类，也不需要满足某些规范。 A对象调用B对象的方法被称为依赖。Spring的容器会负责管理所有的对象，Spring使用xml配置文件管理被指定的Bean，一般，在xml配置文件中都会指明语义约束文件，这个东西的作用我猜测就是语义约束文件里面的内容代表什么以及规范的写法。spring">
-<meta property="og:updated_time" content="2019-03-15T01:18:53.876Z">
+<meta property="og:updated_time" content="2019-04-03T01:09:58.740Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180419 spring">
 <meta name="twitter:description" content="SpringSpring把容器中的一切对象都称为Bean，但是这个Bean和JavaBean不一样，就只是一个Java类，也不需要满足某些规范。 A对象调用B对象的方法被称为依赖。Spring的容器会负责管理所有的对象，Spring使用xml配置文件管理被指定的Bean，一般，在xml配置文件中都会指明语义约束文件，这个东西的作用我猜测就是语义约束文件里面的内容代表什么以及规范的写法。spring">
@@ -171,7 +171,7 @@
 <p><strong>对于一个web应用，由于eclipse部署web应用不会将用户库中的jar文件复制到web应用的WEB-INF/lib路径下。所以还需要主动将用户库所引用的jar文件复制到web应用的WEB-INF/lib路径下。</strong></p>
 <h2 id="依赖注入（Dependency-Injection）"><a href="#依赖注入（Dependency-Injection）" class="headerlink" title="依赖注入（Dependency Injection）"></a>依赖注入（Dependency Injection）</h2><p>A对象需要调用B对象，<strong>在Spring框架下</strong>，调用者不需要主动获取被依赖对象，调用者只要被动接受Spring容器为调用者的成员变量赋值即可（通过property子元素让spring利用setter方法赋值），之前都是想要使用的话调用者自己产生一个实例，现在通过spring框架变成了被动接受，这种叫做控制反转（Inverse of Control，IoC），<strong>控制反转和依赖注入是一样的</strong>。spring容器负责将被依赖对象赋值给调用对象的成员变量，算是一种为调用者注入它依赖的实例。</p>
 <p>有两种方式：设值注入（通过成员变量的setter方法）、构造注入（构造器注入），spring推荐面向接口编程。</p>
-<p>用接口声明变量，不是接口变量，而是一个接口类型的引用指向了一个实现给接口的对象，这是java中的一种多态现象 ，java中的接口不能被实例化，但是可以通过接口引用指向一个对象，这样通过接口来调用方法可以屏蔽掉具体的方法的实现，这是在JAVA编程中经常用到的接口回调，也就是经常说的面向接口的编程。</p>
+<p>用接口声明变量，不是接口变量，而是一个接口类型的引用指向了一个实现该接口的对象，这是java中的一种多态现象 ，java中的接口不能被实例化，但是可以通过接口引用指向一个对象，这样通过接口来调用方法可以屏蔽掉具体的方法的实现，这是在JAVA编程中经常用到的接口回调，也就是经常说的面向接口的编程。</p>
 <p>spring基于XML Schema的XML配置文件指定实例之间的耦合关系。就是在前面说过的配置文件中，beans根元素下的bean子元素，通过设置具体实现的类以及property元素来指明类实例之间的耦合关系。</p>
 <p>构造注入就是spring通过底层实现反射调用有参数的构造器，通过这个有参数的构造器就可以实现依赖注入，完成被依赖实例和调用者实例的绑定，方法就是在配置文件中bean元素下面不使用property（设值注入），使用constructor-arg，里面指定的参数是index（参数的顺序，索引号）、ref（参数值），如果是基本类型，可以使用value（数据值）、index、type（类型） 的组合。</p>
 <p>对于依赖关系无需变化的注入，尽量采用构造注入，而其他依赖关系的注入，则考虑设值注入。</p>

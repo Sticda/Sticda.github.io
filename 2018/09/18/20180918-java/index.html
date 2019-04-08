@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/09/18/20180918-java/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="写在前面这一个月专注于写论文，直到上周末才把中文版论文的初稿给老师，马上就要放中秋了，待到国庆再来。然后开始刷leetcode，加油了，年轻人。 #Java的语法糖  泛型和类型擦除：java中的泛型只存在于源代码中，编译之后的字节码就会类型擦除把泛型擦掉，然后在使用泛型的地方使用强制类型转换。 自动拆装箱：基本数据类型不是对象，通过自动拆装箱互相转换，内部还是通过函数调用实现 变长参数：变长参数">
-<meta property="og:updated_time" content="2019-03-28T08:58:07.980Z">
+<meta property="og:updated_time" content="2019-04-04T09:27:35.735Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180918">
 <meta name="twitter:description" content="写在前面这一个月专注于写论文，直到上周末才把中文版论文的初稿给老师，马上就要放中秋了，待到国庆再来。然后开始刷leetcode，加油了，年轻人。 #Java的语法糖  泛型和类型擦除：java中的泛型只存在于源代码中，编译之后的字节码就会类型擦除把泛型擦掉，然后在使用泛型的地方使用强制类型转换。 自动拆装箱：基本数据类型不是对象，通过自动拆装箱互相转换，内部还是通过函数调用实现 变长参数：变长参数">
@@ -203,7 +203,8 @@
 </ol>
 <h1 id="java的代理模式"><a href="#java的代理模式" class="headerlink" title="java的代理模式"></a>java的代理模式</h1><p>代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务</p>
 <h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>静态代理：由程序员创建或特定工具自动生成源代码，也就是在编译时就已经将接口，被代理类，代理类等确定下来。在程序运行之前，代理类的.class文件就已经生成。在代理类中保存一个被代理类的实例。</p>
-<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>代理类在程序运行时创建的代理方式被成为动态代理。<br>在java的java.lang.reflect包下提供了一个Proxy类和一个InvocationHandler接口，通过这个类和这个接口可以生成JDK动态代理类和动态代理对象。通过实现InvocationHandler接口，在这个接口的实现类里拥有一个被代理对象的实例，接口实现类的方法中增加代理的逻辑，在被代理对象方法被调用的前后要做什么工作，通过Proxy的静态方法newInstance创建代理对象，在这个方法的参数中需要绑定这个接口的实例，代理类构造完成。<br>一个典型的动态代理创建对象过程可分为以下四个步骤：<br>1、通过实现InvocationHandler接口创建自己的调用处理器 IvocationHandler handler = new InvocationHandlerImpl(…);<br>2、通过为Proxy类指定ClassLoader对象和一组interface创建动态代理类<br>Class clazz = Proxy.getProxyClass(classLoader,new Class[]{…});<br>3、通过反射机制获取动态代理类的构造函数，其参数类型是调用处理器接口类型<br>Constructor constructor = clazz.getConstructor(new Class[]{InvocationHandler.class});<br>4、通过构造函数创建代理类实例，此时需将调用处理器对象作为参数被传入<br>Interface Proxy = (Interface)constructor.newInstance(new Object[] (handler));<br>为了简化对象创建过程，Proxy类中的newInstance方法封装了2~4，只需两步即可完成代理对象的创建。</p>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>代理类在程序运行时创建的代理方式被成为动态代理。<br>在java的java.lang.reflect包下提供了一个Proxy类和一个InvocationHandler接口，通过这个类和这个接口可以生成JDK动态代理类和动态代理对象。通过实现InvocationHandler接口，在这个接口的实现类里拥有一个被代理对象的实例，接口实现类的方法中增加代理的逻辑，在被代理对象方法被调用的前后要做什么工作，通过Proxy的静态方法newInstance创建代理对象，在这个方法的参数中需要绑定这个接口的实例，代理类构造完成。<br>一个典型的动态代理创建对象过程可分为以下四个步骤：<br>1、通过实现InvocationHandler接口创建自己的调用处理器 IvocationHandler handler = new InvocationHandlerImpl(…);这个接口需要实现invoke方法实现代理逻辑，通过反射调用方法。<br>2、通过为Proxy类指定ClassLoader对象和一组interface创建动态代理类<br>Class clazz = Proxy.getProxyClass(classLoader,new Class[]{…});<br>3、通过反射机制获取动态代理类的构造函数，其参数类型是调用处理器接口类型<br>Constructor constructor = clazz.getConstructor(new Class[]{InvocationHandler.class});<br>4、通过构造函数创建代理类实例，此时需将调用处理器对象作为参数被传入<br>Interface Proxy = (Interface)constructor.newInstance(new Object[] (handler));<br>为了简化对象创建过程，Proxy类中的Proxy.newProxyInstance方法封装了2~4，只需两步即可完成代理对象的创建。返回的对象要赋给接口变量。</p>
+<p> cglib是针对类来实现代理的，原理是对指定的业务类生成一个子类，并覆盖其中业务方法实现代理。因为采用的是继承，所以不能对final修饰的类进行代理。<br> 1：首先定义业务类，无需实现接口<br>  2：实现 MethodInterceptor方法代理接口，创建代理类，通过enhancer加强器设置父类，设置回调函数callback，enhancer的create函数可以创建动态代理类，不同于jdk的是通过intercept方法实现过滤，通过该方法提供的methodproxy调用业务类的方法，返回的对象要赋给父类对象。</p>
 
       
 

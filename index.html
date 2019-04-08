@@ -163,8 +163,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>单例模式的意思就是只有一个实例。单例模式确保<strong>某一个类只有一个实例</strong>，而且<strong>自行实例化</strong>并<strong>向整个系统提供这个实例</strong>。这个类称为单例类</p>
-<h2 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h2><p>在类加载时，不创建实例，因此类加载速度快，但运行时获取对象的速度慢<br>1）构造函数定义为私有—-不能在别的类中来获取该类的对象，只能在类自身中得到自己的对象<br>2）成员变量为static的，没有初始化—-类加载快，但访问类的唯一实例慢，static保证在自身类中获取自身对象<br>3）公开访问点getInstance： public和synchronized的—–public保证对外公开，同步保证多线程时的正确性（因为类变量不是在加载时初始化的）</p>
-<p>#饿汉式单例模式<br>在类加载时就完成了初始化，所以类加载较慢，但获取对象的速度快<br>1）私有构造函数<br>2）静态私有成员–在类加载时已初始化<br>3）公开访问点getInstance—–不需要同步，因为在类加载时已经初始化完毕，也不需要判断null，直接返回</p>
+<h2 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h2><p>在类加载时，不创建实例，因此类加载速度快，但运行时获取对象的速度慢<br>1）构造函数定义为私有—-不能在别的类中来获取该类的对象，只能在类自身中得到自己的对象<br>2）成员变量为static的，volatile，没有初始化—-类加载快，但访问类的唯一实例慢，static保证在自身类中获取自身对象<br>3）公开访问点getInstance： public和synchronized，—–public保证对外公开，同步保证多线程时的正确性（因为类变量不是在加载时初始化的）</p>
+<p>#饿汉式单例模式<br>在类加载时就完成了初始化，所以类加载较慢，但获取对象的速度快<br>1）私有构造函数<br>2）静态私有成员–在类加载时已初始化static ，final<br>3）公开访问点getInstance—–不需要同步，因为在类加载时已经初始化完毕，也不需要判断null，直接返回</p>
 <p>适配器模式<br>//file 为已定义好的文件流<br>FileInputStream fileInput = new FileInputStream(file);<br>InputStreamReader inputStreamReader = new InputStreamReader(fileInput);</p>
 <p>以上就是适配器模式的体现，FileInputStream是字节流，而并没有字符流读取字符的一些api，因此通过InputStreamReader将其转为Reader子类，因此有了可以操作文本的文件方法。换句话说，就是将FileInputStream读取一个字节流的方法扩展转换为InputStreamReader读取一个字符流的功能。<br>2、装饰者模式</p>
 <p>BufferedReader bufferedReader=new BufferedReader(inputStreamReader);</p>
@@ -276,7 +276,6 @@
 <h2 id="GET和POST的区别："><a href="#GET和POST的区别：" class="headerlink" title="GET和POST的区别："></a>GET和POST的区别：</h2><ol>
 <li>GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之间以&amp;相连，如EditPosts.aspx?name=test1&amp;id=123456. POST方法是把提交的数据放在HTTP包的Body中.</li>
 <li>GET提交的数据大小有限制（因为浏览器对URL的长度有限制），而POST方法提交的数据没有限制.</li>
-<li>GET方式需要使用Request.QueryString来取得变量的值，而POST方式通过Request.Form来获取变量的值。</li>
 <li>GET方式提交数据，会带来安全问题，比如一个登录页面，通过GET方式提交数据时，用户名和密码将出现在URL上，如果页面可以被缓存或者其他人可以访问这台机器，就可以从历史记录获得该用户的账号和密</li>
 </ol>
 <h2 id="forward和redirect的区别："><a href="#forward和redirect的区别：" class="headerlink" title="forward和redirect的区别："></a>forward和redirect的区别：</h2><ol>
@@ -289,7 +288,6 @@
 <li>http是超文本传输协议，信息是明文传输，https 则是具有安全性的ssl加密传输协议。</li>
 <li>http和https使用的是完全不同的连接方式用的端口也不一样，前者是80，后者是443。</li>
 <li>http的连接很简单，是无状态的。</li>
-<li>HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，要比http协议安全。</li>
 </ol>
 
       
@@ -388,7 +386,7 @@
 2.任何一个关键字出现且只出现在一个结点中；
 3.搜索有可能在非叶子结点结束
 4.其搜索性能等价于在关键字全集内做一次二分查找；
-</code></pre><p><strong>B+树</strong>是B-树的变体，也是一种多路搜索树：子节点是父节点的左闭右开区间范围节点<br>所有关键字都在叶子结点出现，B+的搜索与B-树也基本相同，区别是B+树只有达到叶子结点才命中（B-树可以在非叶子结点命中），其性能也等价于在关键字全集做一次二分查找<br>B+树的分裂：当一个结点满时，分配一个新的结点，并将原结点中1/2的数据复制到新结点，最后在父结点中增加新结点的指针；B+树的分裂只影响原结点和父结点，而不会影响兄弟结点，所以它不需要指向兄弟的指针；<br>B+的特性：</p>
+</code></pre><p><strong>B+树</strong>是B-树的变体，也是一种多路搜索树：子节点是父节点的左闭右开区间范围节点<br>所有关键字都在叶子结点出现，B+的搜索与B-树也基本相同，区别是B+树只有达到叶子结点才命中（B-树可以在非叶子结点命中），其性能也等价于在关键字全集做一次二分查找<br>B+树的分裂：当一个结点满时，分配一个新的结点，并将原结点中1/2的数据复制到新结点，最后在父结点中增加新结点的指针；<br>B+的特性：</p>
 <pre><code>1.所有关键字都出现在叶子结点的链表中（稠密索引），且链表中的关键字恰好是有序的；
 2.不可能在非叶子结点命中；
 3.非叶子结点相当于是叶子结点的索引（稀疏索引），叶子结点相当于是存储（关键字）数据的数据层；
@@ -583,6 +581,7 @@ f2.set(p2,&quot;Bob&quot;);
 <li>内部类</li>
 </ol>
 <p>outer.java里面定义了一个内部类inner，一旦编译成功，就会生成两个完全不同的.class文件了，分别是outer.class和outer$inner.class。所以内部类的名字完全可以和它的外部类名字相同</p>
+<h2 id="字符流和字节流的区别"><a href="#字符流和字节流的区别" class="headerlink" title="字符流和字节流的区别"></a>字符流和字节流的区别</h2><p>字节流在操作时本身不会用到缓冲区（内存），是文件本身直接操作的，而字符流在操作时使用了缓冲区，通过缓冲区再操作文件<br>字符流：用于处理文字和字符的 流。操作完成后不关闭流，数据无法传递。<br>字节流：文字以外的都可以用。操作完成后不需关闭流，也可以传递数据。</p>
 
       
 
@@ -1233,7 +1232,8 @@ f2.set(p2,&quot;Bob&quot;);
 </ol>
 <h1 id="java的代理模式"><a href="#java的代理模式" class="headerlink" title="java的代理模式"></a>java的代理模式</h1><p>代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务</p>
 <h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>静态代理：由程序员创建或特定工具自动生成源代码，也就是在编译时就已经将接口，被代理类，代理类等确定下来。在程序运行之前，代理类的.class文件就已经生成。在代理类中保存一个被代理类的实例。</p>
-<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>代理类在程序运行时创建的代理方式被成为动态代理。<br>在java的java.lang.reflect包下提供了一个Proxy类和一个InvocationHandler接口，通过这个类和这个接口可以生成JDK动态代理类和动态代理对象。通过实现InvocationHandler接口，在这个接口的实现类里拥有一个被代理对象的实例，接口实现类的方法中增加代理的逻辑，在被代理对象方法被调用的前后要做什么工作，通过Proxy的静态方法newInstance创建代理对象，在这个方法的参数中需要绑定这个接口的实例，代理类构造完成。<br>一个典型的动态代理创建对象过程可分为以下四个步骤：<br>1、通过实现InvocationHandler接口创建自己的调用处理器 IvocationHandler handler = new InvocationHandlerImpl(…);<br>2、通过为Proxy类指定ClassLoader对象和一组interface创建动态代理类<br>Class clazz = Proxy.getProxyClass(classLoader,new Class[]{…});<br>3、通过反射机制获取动态代理类的构造函数，其参数类型是调用处理器接口类型<br>Constructor constructor = clazz.getConstructor(new Class[]{InvocationHandler.class});<br>4、通过构造函数创建代理类实例，此时需将调用处理器对象作为参数被传入<br>Interface Proxy = (Interface)constructor.newInstance(new Object[] (handler));<br>为了简化对象创建过程，Proxy类中的newInstance方法封装了2~4，只需两步即可完成代理对象的创建。</p>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>代理类在程序运行时创建的代理方式被成为动态代理。<br>在java的java.lang.reflect包下提供了一个Proxy类和一个InvocationHandler接口，通过这个类和这个接口可以生成JDK动态代理类和动态代理对象。通过实现InvocationHandler接口，在这个接口的实现类里拥有一个被代理对象的实例，接口实现类的方法中增加代理的逻辑，在被代理对象方法被调用的前后要做什么工作，通过Proxy的静态方法newInstance创建代理对象，在这个方法的参数中需要绑定这个接口的实例，代理类构造完成。<br>一个典型的动态代理创建对象过程可分为以下四个步骤：<br>1、通过实现InvocationHandler接口创建自己的调用处理器 IvocationHandler handler = new InvocationHandlerImpl(…);这个接口需要实现invoke方法实现代理逻辑，通过反射调用方法。<br>2、通过为Proxy类指定ClassLoader对象和一组interface创建动态代理类<br>Class clazz = Proxy.getProxyClass(classLoader,new Class[]{…});<br>3、通过反射机制获取动态代理类的构造函数，其参数类型是调用处理器接口类型<br>Constructor constructor = clazz.getConstructor(new Class[]{InvocationHandler.class});<br>4、通过构造函数创建代理类实例，此时需将调用处理器对象作为参数被传入<br>Interface Proxy = (Interface)constructor.newInstance(new Object[] (handler));<br>为了简化对象创建过程，Proxy类中的Proxy.newProxyInstance方法封装了2~4，只需两步即可完成代理对象的创建。返回的对象要赋给接口变量。</p>
+<p> cglib是针对类来实现代理的，原理是对指定的业务类生成一个子类，并覆盖其中业务方法实现代理。因为采用的是继承，所以不能对final修饰的类进行代理。<br> 1：首先定义业务类，无需实现接口<br>  2：实现 MethodInterceptor方法代理接口，创建代理类，通过enhancer加强器设置父类，设置回调函数callback，enhancer的create函数可以创建动态代理类，不同于jdk的是通过intercept方法实现过滤，通过该方法提供的methodproxy调用业务类的方法，返回的对象要赋给父类对象。</p>
 
       
 

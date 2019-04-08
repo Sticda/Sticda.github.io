@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/26/20180426-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="写在前面spring的最后一章，也是这本书基础知识介绍的最后一章了，看完这一章基本上spring和struts、hibernate的整合应该没什么问题了，编程这种事一定要提前开始，现在把前面看的基本上忘完了，这本书看完了基本上就要开始自己动手完成一个项目了。 正文Spring框架提供了很好的扩展性，除了与各种第三方框架良好整合之外，IOC容器也允许进行扩展，spring提供了两种常用的后处理器。">
-<meta property="og:updated_time" content="2018-06-27T09:58:25.171Z">
+<meta property="og:updated_time" content="2019-04-03T02:39:14.883Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180426 spring">
 <meta name="twitter:description" content="写在前面spring的最后一章，也是这本书基础知识介绍的最后一章了，看完这一章基本上spring和struts、hibernate的整合应该没什么问题了，编程这种事一定要提前开始，现在把前面看的基本上忘完了，这本书看完了基本上就要开始自己动手完成一个项目了。 正文Spring框架提供了很好的扩展性，除了与各种第三方框架良好整合之外，IOC容器也允许进行扩展，spring提供了两种常用的后处理器。">
@@ -172,7 +172,7 @@
 <li>容器后处理器：这种后处理器对IoC容器进行后处理，用于增强容器功能。</li>
 </ol>
 <p>Bean后处理器的类需要实现BeanPostProcessor，这个接口定义了两个方法，一个是postProcessBeforeInitialization，一个是postProcessAfterInitialization，根据名字已经可以判断执行的时间了，如果spring容器是用ApplicationContext实现的，就不需要在xml文件中为这个Bean后处理器的实现类指定Bean id，容器在初始化所有的Bean之后会检测，如果有Bean的实现类实现了BeanPostProcessor接口，会自动注册为Bean后处理器，但是容器要是用BeanFactory实现的话，就需要手动添加绑定Bean后处理器，所以需要为这个Bean后处理器的实现类注册id。</p>
-<p>spring提供的两个常用的后处理器是BeanNameAutoProxyCreator（根据Bean实例的name属性创建Bean实例的代理）和DefaultAdvisorAutoProxyCreator（根据Advisor对容器中所有的Bean实例创建代理），代理Bean的意思就是对目标Bean进行增强，在目标Bean的基础上进行修改得到的新Bean。</p>
+<p>spring提供的两个常用的bean后处理器是BeanNameAutoProxyCreator（根据Bean实例的name属性创建Bean实例的代理）和DefaultAdvisorAutoProxyCreator（根据Advisor对容器中所有的Bean实例创建代理），代理Bean的意思就是对目标Bean进行增强，在目标Bean的基础上进行修改得到的新Bean。</p>
 <p>容器后处理器必须实现BeanFactoryPostProcessor接口，这个接口定义了postProcessorBeanFactory，在容器初始化之后执行这个方法，类似于bean后处理器，ApplicationContext会自己检测容器后处理器，并且自动注册，BeanFactory需要手动调用。spring提供了几个常用的容器后处理器，容器后处理器通常对spring容器进行处理，在容器实例化Bean之前执行特定操作。</p>
 <p>属性占位符配置器（PropertyPlaceholderConfigurer）是一个容器后处理器，负责读取Properties属性文件里的属性值，并且把这些属性值设置成为spring配置文件的数据。bean的定义中可以写明某个元素的value=“${变量名}”，变量名的具体值在属性文件。<a href="context:property-placeholder...../" target="_blank" rel="noopener">context:property-placeholder...../</a>是对PropertyPlaceholderConfigurer的简化配置。</p>
 <p>重写占位符配置器（PropertyOverrideConfigurer）的属性文件指定的信息可以直接覆盖spring配置文件的元数据。这个属性文件应该保持beanid.property=value的形式。beanID是属性占位符试图覆盖的Bean的id，property是试图覆盖的属性名，也就是这个属性文件中把这个bean的所有属性值全部写明了，所以说这个配置文件中的beanid必须是容器中真实存在的bean的id。如果多次覆盖的话，那么最后一次会获胜。<a href="context:property-override...../" target="_blank" rel="noopener">context:property-override...../</a>是对PropertyOverrideConfigurer的简化配置。</p>

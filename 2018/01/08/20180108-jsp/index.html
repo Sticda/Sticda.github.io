@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/01/08/20180108-jsp/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="写在前面周六晚上熬夜到四点，导致周日没睡好，周日晚上也没睡好，因为周一要去实验室，上一周忙着考试，所以没学什么知识，这周虽然有个很扯的活要干，但是好歹有自己的时间，虽然现在还是很困。 现在在学的部分是jsp中的JSTL，主要作用是来替换JSP页面中的scriptlet。  正文 之前所有的异常都是设置专用的错误网页，将出现的错误转发到其他页面进行处理展示，如果要在发生异常的网页捕捉异常，JSTL的">
-<meta property="og:updated_time" content="2018-06-07T08:05:17.933Z">
+<meta property="og:updated_time" content="2019-04-02T09:33:49.572Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180108">
 <meta name="twitter:description" content="写在前面周六晚上熬夜到四点，导致周日没睡好，周日晚上也没睡好，因为周一要去实验室，上一周忙着考试，所以没学什么知识，这周虽然有个很扯的活要干，但是好歹有自己的时间，虽然现在还是很困。 现在在学的部分是jsp中的JSTL，主要作用是来替换JSP页面中的scriptlet。  正文 之前所有的异常都是设置专用的错误网页，将出现的错误转发到其他页面进行处理展示，如果要在发生异常的网页捕捉异常，JSTL的">
@@ -201,7 +201,7 @@
 <h1 id="Simple-Tag自定义标签（java自定义类）"><a href="#Simple-Tag自定义标签（java自定义类）" class="headerlink" title="Simple Tag自定义标签（java自定义类）"></a>Simple Tag自定义标签（java自定义类）</h1><p>如果自定义标签时需要操作Java对象，可以考虑实现Simple Tag来自定义标签，将Java程序代码写在其中。</p>
 <ol>
 <li>编写标签处理器，继承SimpleTagSupport来实现标签处理器，并重写doTag()方法进行标签处理，getJspBody()方法会返回一个JSPFragment对象，代表两个标签之间的主体内容，调用JSPFragment的invoke方法并传入一个null，表示运行标签之间的主体内容(null表示将使用PageContext取得默认的JSPWriter对象作为输出响应，也就是默认会输出到浏览器，可以把最后的结果传入其他的Writer，最后要输出的时候可以通过PageContext的getOut取得JspWriter对象。而后调用print（）方法输出结果)。在标签处理器定义的过程中需要把属性定义成类变量，在tld文件中声明之后就可以直接在使用的时候赋值。</li>
-<li>为了让web容器了解标签和标签处理期之间的关系，需要写一个tld文件。一个tls文件中可以声明很多个tag </li>
+<li>为了让web容器了解标签和标签处理器之间的关系，需要写一个tld文件。一个tls文件中可以声明很多个tag </li>
 </ol>
 <pre><code>&lt;taglib&gt;
 &lt;tlib-version&gt;库的版本号&lt;/tlib-version&gt;

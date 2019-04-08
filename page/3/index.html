@@ -397,7 +397,6 @@
         <h2 id="关联关系"><a href="#关联关系" class="headerlink" title="关联关系"></a>关联关系</h2><p>关联关系就是访问关系，单项关系就是只能由一方访问另一方，双向关系就是两方可以互 相访问，单向关系有1-N，N-N，N-1，1-1，双向关系有1-N，1-1，N-N，双向关系里的1-N和N-1是相同的。</p>
 <h3 id="单向N-1关联"><a href="#单向N-1关联" class="headerlink" title="单向N-1关联"></a>单向N-1关联</h3><p>对于N-1关联，都需要在N的一端使用@ManyToOne修饰关联实体的属性，cascade属性（指定Hibernate对于关联实体采用怎样的级联策略）的可选值，每个Hibernate session的基本操作包括persist()、merge()、saveOrUpdate(）、delete()、lock()、refresh()、evict()、replicate()，这些操作都有对应的级联风格（cascade style）。这些级联风格（cascade style）风格分别命名为persist、merge、save-update、delete、lock、refresh、evict、replicate。包括CascadeType.ALL（所有的持久化操作）、MERGE（指定Hibernate将merge操作级联到关联实体）、PERSIST、REFRESH、REMOVE，fetch属性包括FetchType.EAGER（立即抓取关联实体）\LAZY（延迟抓取关联实体），targetEntity属性指定关联实体的类名。</p>
 <p>对于无连接表的N-1关联，<strong>程序只需要在N的一端增加外键，使用@joinColumn来修饰代表关联实体的属性。相当于也是1-1的外键，所以应该添加unique属性为true。这个外键列会映射到当前表中。</strong></p>
-<p><strong>ThreadLocal在每个线程中对该变量会创建一个副本，即每个线程内部都会有一个该变量，且在线程内部任何地方都可以使用，线程之间互不影响</strong></p>
 <p>A类里面有B类变量，当A类需要持久化的时候，B类变量还没有被保存，这时候有两种情况可能发生，抛出TransientObjectException异常，另一种是先插入主表记录，再插入从表记录。</p>
 <p>对于需要使用连接表映射的N-1关联，程序必须显式使用@JoinTable注解来映射连接表。属性有name，joinColumns（当前实体对应表的主键列）和inverseJoinColumns（当前实体的关联实体对应表的主键列）。后两个属性中都可以指定@JoinColumn，里面的referencedColumnName，指定的是该列参照的主键列的列名。</p>
 <h3 id="单向1-1关联"><a href="#单向1-1关联" class="headerlink" title="单向1-1关联"></a>单向1-1关联</h3><p>对于基于外键的1-1关联而言，要使用@OneToOne注解，再使用@JoinColumn映射外键列，由于是1-1关联，因此还应该在@JoinColumn中添加unique=true。这个注解中还有一个属性是orphanRemoval（是否删除“孤儿”实体，如果某个实体所关联的父实体不存在，该实体就是所谓的孤儿实体）如果是基于连接表映射同样应该是用@JoinTable注解。</p>
@@ -572,8 +571,6 @@
 </ol>
 <h3 id="改变持久化对象状态的方法"><a href="#改变持久化对象状态的方法" class="headerlink" title="改变持久化对象状态的方法"></a>改变持久化对象状态的方法</h3><p>临时对象在内存中是孤立存在的，它的意义是携带信息载体，不和数据库中的数据由任何的关联。通过Session的save（）方法和saveOrUpdate（）方法可以把一个临时对象和数据库相关联，并把临时对象携带的信息通过配置文件所做的映射插入数据库中，这个临时对象就成为持久化对象。</p>
 <p>使用delete（）方法，持久化对象变为临时对象，并且删除数据库中相应的记录，这个对象不再与数据库有任何的联系。</p>
-<p>当一个session（）执行close（）、clear（）、或evict（）之后，持久化对象就变为离线对象，这时对象的id虽然拥有数据库的识别值，但已经不在Hibernate持久层的管理下，他和临时对象基本上一样的，只不过比临时对象多了数据库标识id。没有任何变量引用时，jvm将对其进行回收。</p>
-<p> 离线状态——&gt;临时状态：执行Delete方法。</p>
 <p> 持久化对象总是与Session和事务(Transaction)关联在一起，在一个session中，对持久化对象的操作不会立即写到数据库，只有当Transaction（事务）结束时也就是提交事务执行commit方法的时候，才真正的对数据库更新，从而完成持久化对象和数据库的同步。在同步之前的持久化对象成为脏对象。</p>
 <p>Hibernate Session提供了save和persist方法，可以在该方法的参数中指明主键。如果持久化类的标识属性是generated类型，那么hibernate会在save的时候就给这个持久化类的实例分配标识属性值，如果标识属性是assigned类型或者是复合主键，那么这个标识属性值应该在调用save之前被手动给定。</p>
 <p>save和persist 的方法区别在于save方法 返回插入的实例的标识属性值，而且save会立刻生成insert语句将该实例插入数据库中。这种方法是瞬态对象转变为持久化状态。</p>
@@ -594,7 +591,7 @@
 <li>@Check：该注解可以通过constraints指定一个SQL表达式，用于为该持久化类所对应的表指定一个Check约束。</li>
 <li>@BatchSize：当hibernate抓取集合属性或者延迟加载的时候，注解的size属性能够指定每批抓取的记录数量。</li>
 </ol>
-<h3 id="映射属性"><a href="#映射属性" class="headerlink" title="映射属性"></a>映射属性</h3><p>默认情况下，使用@Entity注解的持久化类的所有属性都将被映射到底层数据库，为了指定某个属性对应的列的信息，需要使用@Column修饰该属性。@Access用于改变对该属性的访问策略。@Formula用于指定某个属性是根据value指定的表达式动态生成的，这个属性不会被保存到数据库中。@Generated用于指定该属性的值是否由数据库生成，接受的三个值是GenerationTime.INSERT（只在insert的时候生成）、GenerationTime.Never、Generation.ALWAYS（insert和update都会生成）</p>
+<h3 id="映射属性"><a href="#映射属性" class="headerlink" title="映射属性"></a>映射属性</h3><p>默认情况下，使用@Entity注解的持久化类的所有属性都将被映射到底层数据库，为了指定某个属性对应的列的信息，需要使用@Column修饰该属性。@Access用于改变对该属性的访问策略。@Formula用于指定某个属性是根据value指定的表达式动态生成的，这个属性不会被保存到数据库中。<strong>@Generated</strong>用于指定该属性的值是否由数据库生成，接受的三个值是GenerationTime.INSERT（只在insert的时候生成）、GenerationTime.Never、Generation.ALWAYS（insert和update都会生成）</p>
 <p>@Formula的value属性就是计算的表达式，这个表达式就是一个sql语句，value=“（SQL语句）”，如果需要使用参数就直接写，hibernate会自己调用参数值。</p>
 <p>使用@Transient修饰的属性不会被持久化保存。@EmbeddedId可以修饰自定义类作为主键。</p>
 <p>使用@Enumerated修饰枚举类型，这个注解的value属性负责指定保存到数据库中的内容，EnumType.ORDINAL保存的是枚举值的序号，EnumType.STRING保存的是枚举值的名称。</p>
@@ -1337,7 +1334,7 @@ show create{ procedure | function } 存储过程和函数的名字
 <p><strong>在WebContent下面的文件在配置中就是从根目录开始的，如果是WebContent下面的子文件夹，比如是WEB-INF中的content文件下的mo.jsp文件需要设置为/WEB-INF/content/mo.jsp</strong></p>
 <p>Struts2推荐把所有视图页面存放在WEB-INF目录下，避免直接向视图界面发送请求，struts.xml中配置了一个name=“*”的&lt;action……/&gt;，这个元素可以处理所有的请求，直接呈现WEB-INF/content目录下同名的jsp页面。</p>
 <h2 id="Struts2应用的开发步骤"><a href="#Struts2应用的开发步骤" class="headerlink" title="Struts2应用的开发步骤"></a>Struts2应用的开发步骤</h2><ol>
-<li>在web.xml中定义filter拦截用户请求</li>
+<li>在web.xml中定义filter拦截用户请求（StrutsPreparedAndExecuteFilter）</li>
 <li>如果以post方式提交请求，则需要定义包含表单数据的jsp页面，如果仅仅是get方式，则无需经过这一步。</li>
 <li>定义处理用户请求的Action类（ActionSupport）。Action是MVC里的C</li>
 <li>配置Action。指定哪个请求对应于哪个Action进行处理。Convention插件支持“约定优于配置”的思想，采用约定的方式来规定请求和action之间的对应关系。</li>

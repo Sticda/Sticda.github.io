@@ -334,25 +334,26 @@
 <li>修饰变量，被<strong>final</strong>修饰的变量必须要初始化，赋初值后不能再重新赋值。注意：局部变量不在我们讨论的范畴，因为局部变量本身就有作用范围，不使用private、public等词修饰。修饰方法，被final修饰的方法代表不能重写。修饰类，被final修饰的类，不能够被继承。注意：final修饰的类，类中的所有成员方法都被隐式地指定为final方法。</li>
 <li><strong>跳出多层循环的方法</strong>：要想跳出多重循环，可以在外面的循环语句前定义一个标号，然后在里层循环体的代码中使用带有标号的break 语句，即可跳出外层循环，还可以在外部循环上增加条件，在内层循环中更改条件。</li>
 <li><strong>多态</strong>指向子类的父类引用由于向上转型了，它只能访问父类中拥有的方法和属性，而对于子类中存在而父类中不存在的方法，该引用是不能使用的，尽管是重载该方法。若子类重写了父类中的某些方法，在调用该些方法的时候，必定是使用子类中定义的这些方法（动态连接、动态调用）</li>
-<li><strong>“static”关键字</strong>表明一个成员变量或者是成员方法可以在没有所属的类的实例变量的情况下被访问。Java中static方法不能被覆盖，因为方法覆盖是基于运行时动态绑定的，而static方法是编译时静态绑定的。static方法跟类的任何实例都不相关，所以概念上不适用。  java中也不可以覆盖private的方法，因为private修饰的变量和方法只能在当前类中使用，如果是其他的类继承当前类是不能访问到private变量或方法的，当然也不能覆盖。</li>
+<li><strong>“static关键字</strong>表明一个成员变量或者是成员方法可以在没有所属的类的实例变量的情况下被访问。Java中static方法不能被覆盖，因为方法覆盖是基于运行时动态绑定的，而static方法是编译时静态绑定的。static方法跟类的任何实例都不相关，所以概念上不适用。  java中也不可以覆盖private的方法，因为private修饰的变量和方法只能在当前类中使用，如果是其他的类继承当前类是不能访问到private变量或方法的，当然也不能覆盖。</li>
 <li><strong>通过反射创建对象的两种方法</strong>：直接通过class.forName获得class对象，然后使用该对象的newinstance方法，或者是通过class 的getConstructor方法获得constructor对象，然后使用newInstance方法获取对象。</li>
 <li><strong>抽象类和接口</strong>：抽象类不能被实例化，其他和正常类是一样的，abstract方法不能添加方法体，接口是抽象方法的集合，如果一个类实现了某个接口，则必须实现这个接口的所有方法。接口中成员变量默认被修饰为public static final常量。如果你拥有一些方法并且想让它们中的一些有默认实现，那么使用抽象类吧。如果你想实现多重继承，那么你必须使用接口。由于Java不支持多继承，子类不能够继承多个类，但可以实现多个接口。因此你就可以使用接口来解决它。如果基本功能在不断改变，那么就需要使用抽象类。如果不断改变基本功能并且使用接口，那么就需要改变所有实现了该接口的类。</li>
 <li><strong>Comparable和comparator的区别</strong>：某个类实现了Comparable接口就可以实现比较，Comparator接口也是实现了比较的接口，两个的区别在于Comparable是内比较接口，比较方法在类里，然而Comparator接口是外比较器，不需要修改某个比较类的源代码。而且Comparator只能比较两个相同的对象，Comparable可以比较任意两个对象。</li>
 <li><strong>静态内部类和其他内部类的区别：</strong>在静态嵌套类内部, 不能直接访问外部类的非静态成员, 只能通过外部类的实例访问。静态内部类可以直接访问外部类的静态成员。同一个类下定义的非静态内部类是可知的，<strong>方法内的内部类</strong>只能访问本方法的final变量，定义在方法内部的内部类的可见性更小, 它只在方法内部可见, 在外部类(及外部类的其它方法中)中都不可见.同时, 它有一个特点, 就是方法内的内部类连本方法的成员变量都不可访问, 它只能访问本方法的final型成员.同时另一个需引起注意的是方法内部定义成员变量, 只允许final修饰或不加修饰符, 其它像static等均不可用。<strong>非静态内部类</strong>可以直接访问外部类中的成员变量。非静态内部类不能定义静态成员，当内部类中如果有静态成员的时候，该内部类也必须是静态的。内部类的变量成员只在内部类内部可见</li>
 <li>如果抛出的是Exception的类型，则必须进行try ..catch进行处理。如果抛出的是RuntimeException的类型，则可以不使用try。。catch处理，一旦发生异常之后，将由JVM处理。<strong>throws</strong>在方法声明处使用，表明该方法不处理异常，由方法调用者处理异常，<strong>throw</strong>抛出异常。</li>
-<li><strong>浅复制和深复制</strong>：实现了Cloneable接口，重写clone方法只能实现浅复制，也就是说类的基本类型都可以实现复制，但是对于引用类型不能实现复制，浅复制之后的引用类型还是指向同一个副本，因此使用复制构造函数，在构造函数内部，新建引用类型，并实现深复制，这样就可以实现深复制。</li>
-<li><strong>ConcurrentHashMap和HashMap（1.8）</strong>：存入的时候如果数组为空，先进行初始化，求hash，利用hash和长度（n-1）取模获取节点在数组中的具体位置，如果这个地方为空，则把节点插在这个位置，如果不为空的话判断这个位置的key跟我们的key是不是相同，相同的时候把这个节点取出来，不相同的时候判断这个节点是不是红黑树的节点，是的话就利用红黑树的插入办法插入，如果不是的话说明这个地方是一个链表，从前往后找到最后一个节点（取出一个空节点），<strong>插入到链表末尾</strong>，检查这个时候有没有链表长度过长，看是不是需要转化成红黑树，最后判断这个取出来的节点是不是空，非空的话进行值覆盖，最后size如果超出了预支，就需要扩容，阈值就是定义的大小再乘以负载因子。ConcurrentHashMap是线程同步的容器，所以使用了CAS和监视器锁Synchronized实现，put的时候，如果底层数组为空，会先数组初始化。如果没有如果hash值对应的位置为空，则会使用CAS操作对该位置进行赋值，hash值为过等于moved的话，说明ConcurrentHashMap在进行数据迁移，最后的话就说明找到这个位置的头结点了，name就需要获得这个头节点的监视器锁，如果是链表的话就判断是不是相等，相等的话覆盖，不相等的话插到链表的末尾，如果是红黑树的话就使用红黑树的插入。插入之后判断这个节点所在的链表的大小是不是大于临界值，是不是需要转换成红黑树，这个转换成红黑树的函数还负责数组扩容，如果数组长度小于64的时候会选择扩容，而不是转换成红黑树，扩容的时候需要通过CAS获取锁，这个大小是所有人共享的部分，获取到锁之后可以进行初始化，如果没有获取到锁就判断当前数据是否正在数据迁移，帮助数据迁移。</li>
+<li><strong>浅复制和深复制</strong>：实现了Cloneable接口，重写clone方法只能实现浅复制，也就是说类的基本类型都可以实现复制，但是对于引用类型不能实现复制，浅复制之后的引用类型还是指向同一个副本，因此使用复制构造函数，在构造函数内部，新建引用类型，并实现深复制，这样就可以实现深复制。 </li>
+<li><strong>ConcurrentHashMap和HashMap（1.8）</strong>：存入的时候如果数组为空，先进行初始化，求hash，利用hash和长度（n-1）取模获取节点在数组中的具体位置，如果这个地方为空，则把节点插在这个位置，如果不为空的话判断这个位置的key跟我们的key是不是相同，相同的时候把这个节点取出来，不相同的时候判断这个节点是不是红黑树的节点，是的话就利用红黑树的插入办法插入，如果不是的话说明这个地方是一个链表，从前往后找到最后一个节点（取出一个空节点），<strong>插入到链表末尾</strong>，检查这个时候有没有链表长度过长，看是不是需要转化成红黑树，最后判断这个取出来的节点是不是空，非空的话进行值覆盖，最后size如果超出了预支，就需要扩容，阈值就是定义的大小再乘以负载因子。ConcurrentHashMap是线程同步的容器，所以使用了CAS和监视器锁Synchronized实现，put的时候，如果底层数组为空，会先数组初始化。如果hash值对应的位置为空，则会使用CAS操作对该位置进行赋值，hash值为过等于moved的话，说明ConcurrentHashMap在进行数据迁移，最后的话就说明找到这个位置的头结点了，那么就需要获得这个头节点的监视器锁，如果是链表的话就判断是不是相等，相等的话覆盖，不相等的话插到链表的末尾，如果是红黑树的话就使用红黑树的插入。插入之后判断这个节点所在的链表的大小是不是大于临界值，是不是需要转换成红黑树，这个转换成红黑树的函数还负责数组扩容，如果数组长度小于64的时候会选择扩容，而不是转换成红黑树，扩容的时候需要通过CAS获取锁，这个大小是所有人共享的部分，获取到锁之后可以进行初始化，如果没有获取到锁就判断当前数据是否正在数据迁移，帮助数据迁移。</li>
 <li><strong>ConcurrentHashMap和HashMap（1.7）</strong>：存入的时候如果数组为空，先进行初始化，求hash，求hash，利用hash和长度（n-1）取模获取节点在数组中的具体位置，如果这个地方为空，则把节点插在这个位置，如果不为空的话判断这个位置的key跟我们的key是不是相同，在这个链表上从前往后找，如果有相同的话就直接覆盖，<strong>不相同的话就插入到链表表头</strong>，不相同的时候还需要检查是否需要扩容，扩容之后插入到扩容后的表头，扩容之后还需要进行数据迁移。ConcurrentHashMap 由一个个 Segment 组成，Segment 代表”部分“或”一段“的意思，所以很多地方都会将其描述为分段锁。ConcurrentHashMap初始化的时候需要初始化segment数组，并且创建segment[0]，hash值右移n位，留下segment数组的长度对应的二进制位数，hash右移的结果跟segment的长度求与，得到segment的位置，初始化segment[j],这个地方需要使用CAS进行控制，因为可能有多个线程同时初始化，获取到独占锁之后把节点放在链表表头，如果超过了segment的长度并且超过了map 的阈值，进行segment内部的扩容</li>
 <li><strong>HashMap长度为2的n次方</strong>的原因是为了存取高效，需要尽量减少碰撞，就是让链表长度均匀，算法就是取模，hash%length，但是计算机中求余效率比较低，当length为2的n次方的时候，求余和与运算结果一样，这样的话查找存取速度更快。</li>
 <li><strong>集合类没有实现cloneable和serializable接口的原因</strong>是克隆和序列化都是要针对具体的实体类而言的，要克隆什么，怎么克隆，实例化什么，怎么实例化，如果所有的集合类都实现了这两个接口，那么实现类不需要克隆和序列化的时候就需要额外操作。</li>
 <li><strong>Iterator和ListIterator主要区别</strong>在以下方面：iterator()方法在set和list接口中都有定义，但是ListIterator（）仅存在于list接口中（或实现类中）； ListIterator有add()方法，可以向List中添加对象，而Iterator不能；ListIterator和Iterator都有hasNext()和next()方法，可以实现顺序向后遍历，但是ListIterator有hasPrevious()和previous()方法，可以实现逆向（顺序向前）遍历。Iterator就不可以。 ListIterator可以定位当前的索引位置，nextIndex()和previousIndex()可以实现。Iterator没有此功能。 都可实现删除对象，但是ListIterator可以实现对象的修改，set()方法可以实现。Iierator仅能遍历，不能修改。</li>
 <li><strong>fail-fast和fail-safe比较</strong>：Iterator的安全失败是基于对底层集合做拷贝，因此，它不受源集合上修改的影响。java.util包下面的所有的集合类都是快速失败的，而java.util.concurrent包下面的所有的类都是安全失败的。快速失败的迭代器会抛出ConcurrentModificationException异常，而安全失败的迭代器永远不会抛出这样的异常。<strong>CopyOnWrite</strong>容器即写时复制的容器。通俗的理解是当我们往一个容器添加元素的时候，不直接往当前容器添加，而是先将当前容器进行Copy，复制出一个新的容器，然后新的容器里添加元素，添加完元素之后，再将原容器的引用指向新的容器。这样做的好处是我们可以对CopyOnWrite容器进行并发的读，而不需要加锁，因为当前容器不会添加任何元素。所以CopyOnWrite容器也是一种读写分离的思想，读和写不同的容器。但是因为多线程读取的时候仍然读取的是旧容器的值。</li>
 <li><strong>ArrayList、Vector、LinkedList的存储性能和特性</strong>：ArrayList 和Vector他们底层的实现都是一样的，都是使用数组方式存储数据，此数组元素数大于实际存储的数据以便增加和插入元素，它们都允许直接按序号索引元素，但是插入元素要涉及数组元素移动等内存操作，所以索引数据快而插入数据慢。Vector中的方法由于添加了synchronized修饰，因此Vector是线程安全的容器，但性能上较ArrayList差，因此已经是Java中的遗留容器。<strong>LinkedList使用双向链表实现存储</strong>（将内存中零散的内存单元通过附加的引用关联起来，形成一个可以按序号索引的线性结构，这种链式存储方式与数组的连续存储方式相比，内存的利用率更高），按序号索引数据需要进行前向或后向遍历，但是插入数据时只需要记录本项的前后项即可，所以插入速度较快。 Vector属于遗留容器（Java早期的版本中提供的容器，除此之外，Hashtable、Dictionary、BitSet、Stack、Properties都是遗留容器），已经不推荐使用，但是由于ArrayList和LinkedListed都是非线程安全的，如果遇到多个线程操作同一个容器的场景，则可以通过工具类Collections中的synchronizedList方法将其转换成线程安全的容器后再使用（这是对装潢模式的应用，将已有对象传入另一个类的构造器中创建新的对象来增强实现）。</li>
-<li><strong>线程同步（多个线程操作一个资源的情况下，导致资源数据前后不一致。这样就需要协调线程的调度，即线程同步）的方法</strong>：1.同步方法（每个对象都有一个对应的内置锁，当所有的线程共享这个对象的时候，在调用同步的方法时候就必须获得内置锁）2. 同步代码块（跟同步方法获取的是同一个锁）3.volatile实现简单的线程同步（对变量的写操作不依赖于当前值。该变量没有包含在具有其他变量的不变式中。后面这条是意思就是这个变量没有一个要被包含的不变量）4.使用重入锁实现同步（重入锁的功能和synchronized其实是一致的，只是Reentranlock提供了很多高级功能）5.使用局部变量实现线程同步 （ 如果使用ThreadLocal管理变量，则每一个使用该变量的线程都获得该变量的副本，     副本之间相互独立，这样每一个线程都可以随意修改自己的变量副本，而不会对其他线程产生影响。）</li>
+<li><strong>线程同步（多个线程操作一个资源的情况下，导致资源数据前后不一致。这样就需要协调线程的调度，即线程同步）的方法</strong>：1.同步方法（每个对象都有一个对应的内置锁，当所有的线程共享这个对象的时候，在调用同步的方法时候就必须获得内置锁）2. 同步代码块（跟同步方法获取的是同一个锁）3.volatile实现简单的线程同步（对变量的写操作不依赖于当前值。该变量没有包含在具有其他变量的不变式中。后面这条是意思就是这个变量没有一个要被包含的不变量）4.使用重入锁实现同步（重入锁的功能和synchronized其实是一致的，只是Reentranlock提供了很多高级功能）5.使用局部变量实现线程同步 （ 如果使用ThreadLocal管理变量，则每一个使用该变量的线程都获得该变量的副本，副本之间相互独立，这样每一个线程都可以随意修改自己的变量副本，而不会对其他线程产生影响。）</li>
 <li>如果数据将在线程间共享。例如正在写的数据以后可能被另一个线程读到，或者正在读的数据可能已经被另一个线程写过了，那么这些数据就是共享数据，必须进行<strong>同步</strong>存取。当应用程序在对象上调用了一个需要花费很长时间来执行的方法，并且不希望让程序等待方法的返回时，就应该使用异步编程，在很多情况下采用<strong>异步</strong>途径往往更有效率。</li>
 <li><strong>异常</strong>表示程序运行过程中可能出现的非正常状态，<strong>运行时异常（非受检异常、runtime exception）</strong>表示虚拟机的通常操作中可能遇到的异常，是一种常见运行错误。一旦出现了错误操作，建议终止程序，因此Java编译器不检查这种异常。java编译器要求方法必须声明抛出可能发生的<strong>非运行时异常（checked exception）</strong>，编译器强制要求进行catch或者throws。 </li>
 <li>Java 使用<strong>有向图</strong>的方式进行垃圾回收管理，可以消除引用循环的问题，例如有两个对象，相互引用，只要它们和根进程不可达的，那么GC也是可以回收它们的。</li>
-<li><strong>java的内存泄漏</strong>：长生命周期的对象持有短生命周期对象的引用就很可能发生内存泄露，尽管短生命周期对象已经不再需要，但是因为长生命周期对象持有它的引用而导致不能被回收；如果一个外部类的实例对象的方法返回了一个内部类的实例对象，这个内部类对象被长期引用了，即使那个外部类实例对象不再被使用，但由于内部类持久外部类的实例对象，这个外部类对象将不会被垃圾回收，这也会造成内存泄露；当一个对象被存储进HashSet集合中以后，就不能修改这个对象中的那些参与计算哈希值的字段了，否则，对象修改后的哈希值与最初存储进HashSet集合中时的哈希值就不同了，在这种情况下，即使在contains方法使用该对象的当前引用作为的参数去HashSet集合中检索对象，也将返回找不到对象的结果，这也会导致无法从HashSet集合中单独删除当前对象，造成内存泄露<br>51.</li>
+<li><strong>java的内存泄漏</strong>：长生命周期的对象持有短生命周期对象的引用就很可能发生内存泄露，尽管短生命周期对象已经不再需要，但是因为长生命周期对象持有它的引用而导致不能被回收；如果一个外部类的实例对象的方法返回了一个内部类的实例对象，这个内部类对象被长期引用了，即使那个外部类实例对象不再被使用，但由于内部类持久外部类的实例对象，这个外部类对象将不会被垃圾回收，这也会造成内存泄露；当一个对象被存储进HashSet集合中以后，就不能修改这个对象中的那些参与计算哈希值的字段了，否则，对象修改后的哈希值与最初存储进HashSet集合中时的哈希值就不同了，在这种情况下，即使在contains方法使用该对象的当前引用作为的参数去HashSet集合中检索对象，也将返回找不到对象的结果，这也会导致无法从HashSet集合中单独删除当前对象，造成内存泄露。</li>
+<li>java多态的实现机制：本质上多态分两种：1、编译时多态（又称静态多态）2、运行时多态（又称动态多态）重载（overload）就是编译时多态的一个例子，编译时多态在编译时就已经确定，运行时运行的时候调用的是确定的方法；动态多态的实现方法包括子类继承父类和类实现接口；多态通常有两种实现方法：1、子类继承父类（extends）2、类实现接口（implements）无论是哪种方法，其核心之处就在于对父类方法的改写或对接口方法的实现，以取得在运行时不同的执行效果。要使用多态，在声明对象时就应该遵循一条法则：声明的总是父类类型或接口类型，创建的是实际类型，Java的单继承保证了类的线性关系，而接口可以同时实现多个，这样光凭偏移量就很难准确获得方法的指针。<strong>重载的底层实现</strong>是假设Class A是Class B的子类，并且A改写了B的方法method()，那么在B的方法表中，method方法的指针指向的就是B的method方法入口。而对于A来说，它的方法表中的method方法则会指向其自身的method方法而非其父类的（这在类加载器载入该类时已经保证，同时JVM会保证总是能从对象引用指向正确的类型信息）在调用方法时，实际上必须首先完成实例方法的符号引用解析，结果是该符号引用被解析为方法表的偏移量。虚拟机通过对象引用得到方法区中类型信息的入口，查询类的方法表，当将子类对象声明为父类类型时，形式上调用的是父类方法，此时虚拟机会从实际类的方法表（虽然声明的是父类，但是实际上这里的类型信息中存放的是子类的信息）中查找该方法名对应的指针（，方法的偏移量是固定的，所以只需根据偏移量就能获得指针），进而就能指向实际类的方法了；<strong>调用接口引用的多态</strong>的实例方法调用实际上有两种指令：invokevirtual指令用于调用声明为类的方法；invokeinterface指令用于调用声明为接口的方法。当使用invokeinterface指令调用方法时，就不能采用固定偏移量的办法，只能老老实实挨个找了（当然实际实现并不一定如此，JVM规范并没有规定究竟如何实现这种查找，不同的JVM实现可以有不同的优化算法来提高搜索效率）。我们不难看出，在性能上，调用接口引用的方法通常总是比调用类的引用的方法要慢</li>
 </ol>
 
       
@@ -808,7 +809,14 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。</p>
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容实现依赖注入，利用标签库p的res属性配置资源位置，可以通过前缀指明spring采取的资源访问策略，如果不采用前缀，则spring将采用与ApplicationContext相同的资源访问策略。采取依赖注入的方法就允许动态配置资源文件的位置，无须将资源文件位置写在代码中，当资源文件位置发生变化时，直接修改配置文件。</p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>在bean中获取Resource主要有以下几种方式：</p>
+<ol>
+<li>直接通过new各种类型的Resource来获取对应的Resource。</li>
+<li>在bean里面获取到对应的ApplicationContext，再通过ApplicationContext的getResource(String path)方法获取对应的Resource。</li>
+<li>直接创建DefaultResourceLoader的实例，再调用其getResource(String location)方法获取对应的Resource。</li>
+<li>通过依赖注入的方式把Resource注入到bean中。示例如下：</li>
+</ol>
+<p>如果Bean实例需要访问资源，有两种方式：一种是在代码中获取Resource实例，另一种是使用依赖注入，第一种方式总是需要在代码中写入具体的文件位置，所以通常采用第二种方法，让spring为Bean实例依赖注入资源。在beans.xml文件中可以指定某个bean的内容实现依赖注入，利用标签库p的res属性配置资源位置，可以通过前缀指明spring采取的资源访问策略，如果不采用前缀，则spring将采用与ApplicationContext相同的资源访问策略。采取依赖注入的方法就允许动态配置资源文件的位置，无须将资源文件位置写在代码中，当资源文件位置发生变化时，直接修改配置文件。</p>
 <p>在ApplicationContext中确定资源访问策略通常有两种方法，一种是使用ApplicationContext实现类（类似ClassPathXMLApplicationContext一类的。）指定访问策略，另一种是使用前缀指定访问策略。通过前缀指定资源访问策略的方式仅仅对当次访问有效，程序后面进行资源访问的时候，仍然会根据ApplicationContext的实现类来选择对应的资源访问策略。</p>
 <p>classpath*：前缀指定xml配置文件时，系统将搜索类加载路径，找出所有与文件名匹配的文件，然后依次加载文件中的配置定义。classpath就只会加载第一个文件名匹配的文件。一次性加载多个配置文件的方法还有在指定文件的时候使用通配符，A*.xml会加载所有以A开头的xml文件。</p>
 <p>file：前缀可以指定绝对路径和相对路径，但是在FileSystemXMLApplicationContext就会把所有的绝对路径当做相对路径处理。绝对路径以文件系统根路径为路径起点，相对路径以当前工作路径为路径起点。</p>
@@ -893,10 +901,20 @@
 &lt;/bean&gt;
 
 &lt;!-- 使用annotation定义事务 --&gt;
-&lt;tx:annotation-driven  transaction-manager=&quot;transactionManager&quot;   proxy-target-class=&quot;true&quot; /&gt;
+&lt;tx:annotation-driven  transaction-manager=&quot;transactionManager&quot;   /&gt;
 </code></pre><h3 id="aop方式实现事务配置"><a href="#aop方式实现事务配置" class="headerlink" title="aop方式实现事务配置"></a>aop方式实现事务配置</h3><p>同样需要配置transactionManager</p>
 <p>spring提供了tx：命名空间配置事务管理，tx：advice配置事务增强处理，<a href="tx:advice.../" target="_blank" rel="noopener">tx:advice.../</a>元素除了需要transaction-manager属性指定事务管理器之外，还需要配置attributes子元素，这个子元素包含了多个method子元素，method的属性有name、propagation、isolation（隔离级别）、timeout、read-only、rollback-for、no-rollback-for。</p>
-<p>业务Bean里面包含了很多数据库的操作方法，在tx：advice里面可以通过method元素来设置这些方法的事务的规则，通过aop：config元素配置一个切入点（这个切入点需要定义我们关心的是哪个类的哪个方法执行），并且利用aop:advisor元素指定在某个切入点处执行事务增强处理（实际上是利用Bean后处理器完成的，pointcut-ref和advice-ref将这两者组合在一起）。</p>
+<pre><code>&lt;!-- 配置事务的属性 --&gt;    
+    &lt;tx:advice id=&quot;TestAdvice&quot; transaction-manager=&quot;transactionManager&quot;&gt;    
+        &lt;!--配置事务传播性，隔离级别以及超时回滚等问题 --&gt;    
+        &lt;tx:attributes&gt;    
+           &lt;tx:method name=&quot;search*&quot; propagation=&quot;REQUIRED&quot; read-only=&quot;true&quot; isolation=&quot;DEFAUT&quot; TIMEOUT=&quot;-1&quot; /&gt;    
+           &lt;tx:method name=&quot;del*&quot; propagation=&quot;REQUIRED&quot; /&gt;    
+           &lt;tx:method name=&quot;update*&quot; propagation=&quot;REQUIRED&quot; /&gt;    
+           &lt;tx:method name=&quot;add*&quot; propagation=&quot;REQUIRED&quot; /&gt;    
+        &lt;/tx:attributes&gt;    
+    &lt;/tx:advice&gt; 
+</code></pre><p>业务Bean里面包含了很多数据库的操作方法，在tx：advice里面可以通过method元素来设置这些方法的事务的规则，通过aop：config元素配置一个切入点（这个切入点需要定义我们关心的是哪个类的哪个方法执行），并且利用aop:advisor元素指定在某个切入点处执行事务增强处理（实际上是利用Bean后处理器完成的，pointcut-ref和advice-ref将这两者组合在一起）。</p>
 <p>默认情况下，只有方法引发运行时异常和unchecked异常，spring就会回滚事务，如果事务方法抛出checked异常，则事务不会回滚，这个时候就要利用method的rollback-for属性和no-rollback-for属性</p>
 <h3 id="spring事务的几种传播特性："><a href="#spring事务的几种传播特性：" class="headerlink" title="spring事务的几种传播特性："></a>spring事务的几种传播特性：</h3><ol>
 <li>PROPAGATION_REQUIRED: 如果存在一个事务，则支持当前事务。如果没有事务则开启</li>
@@ -1023,7 +1041,7 @@
 <li>容器后处理器：这种后处理器对IoC容器进行后处理，用于增强容器功能。</li>
 </ol>
 <p>Bean后处理器的类需要实现BeanPostProcessor，这个接口定义了两个方法，一个是postProcessBeforeInitialization，一个是postProcessAfterInitialization，根据名字已经可以判断执行的时间了，如果spring容器是用ApplicationContext实现的，就不需要在xml文件中为这个Bean后处理器的实现类指定Bean id，容器在初始化所有的Bean之后会检测，如果有Bean的实现类实现了BeanPostProcessor接口，会自动注册为Bean后处理器，但是容器要是用BeanFactory实现的话，就需要手动添加绑定Bean后处理器，所以需要为这个Bean后处理器的实现类注册id。</p>
-<p>spring提供的两个常用的后处理器是BeanNameAutoProxyCreator（根据Bean实例的name属性创建Bean实例的代理）和DefaultAdvisorAutoProxyCreator（根据Advisor对容器中所有的Bean实例创建代理），代理Bean的意思就是对目标Bean进行增强，在目标Bean的基础上进行修改得到的新Bean。</p>
+<p>spring提供的两个常用的bean后处理器是BeanNameAutoProxyCreator（根据Bean实例的name属性创建Bean实例的代理）和DefaultAdvisorAutoProxyCreator（根据Advisor对容器中所有的Bean实例创建代理），代理Bean的意思就是对目标Bean进行增强，在目标Bean的基础上进行修改得到的新Bean。</p>
 <p>容器后处理器必须实现BeanFactoryPostProcessor接口，这个接口定义了postProcessorBeanFactory，在容器初始化之后执行这个方法，类似于bean后处理器，ApplicationContext会自己检测容器后处理器，并且自动注册，BeanFactory需要手动调用。spring提供了几个常用的容器后处理器，容器后处理器通常对spring容器进行处理，在容器实例化Bean之前执行特定操作。</p>
 <p>属性占位符配置器（PropertyPlaceholderConfigurer）是一个容器后处理器，负责读取Properties属性文件里的属性值，并且把这些属性值设置成为spring配置文件的数据。bean的定义中可以写明某个元素的value=“${变量名}”，变量名的具体值在属性文件。<a href="context:property-placeholder...../" target="_blank" rel="noopener">context:property-placeholder...../</a>是对PropertyPlaceholderConfigurer的简化配置。</p>
 <p>重写占位符配置器（PropertyOverrideConfigurer）的属性文件指定的信息可以直接覆盖spring配置文件的元数据。这个属性文件应该保持beanid.property=value的形式。beanID是属性占位符试图覆盖的Bean的id，property是试图覆盖的属性名，也就是这个属性文件中把这个bean的所有属性值全部写明了，所以说这个配置文件中的beanid必须是容器中真实存在的bean的id。如果多次覆盖的话，那么最后一次会获胜。<a href="context:property-override...../" target="_blank" rel="noopener">context:property-override...../</a>是对PropertyOverrideConfigurer的简化配置。</p>
@@ -1135,7 +1153,7 @@
 <li>实例工厂方法</li>
 </ol>
 <p>如果不采用构造注入，spring容器将使用默认的构造器创建Bean实例，所有基本类型为0或者false，引用类型为null，构造器创建Bean的方式就是构造器注入。</p>
-<p>静态工厂方法的时候，需要在配置文件中bean元素下面指定两个属性，一个是class：静态工厂类的类名，一个是factory-method：指定静态工厂方法，如果这个方法需要参数使用constructor-arg元素传入。主程序中获得spring容器的bean实例无需改变。</p>
+<p>静态工厂方法的时候，需要在配置文件中bean元素下面指定两个属性，一个是class：静态工厂类的类名，一个是factory-method：指定静态工厂方法，如果这个静态工厂方法需要参数的话，只能使用constructor-arg元素传入。主程序中获得spring容器的bean实例无需改变。</p>
 <p>实例工厂方法和静态工厂方法很类似，区别在于实例工厂方法不需要指定class，但是需要指定factory-bean属性，这个里面是工厂类的id，参数也是通过constructor-arg指定的。</p>
 <h2 id="深入理解Bean"><a href="#深入理解Bean" class="headerlink" title="深入理解Bean"></a>深入理解Bean</h2><p>抽象bean的配置就是通过指定abstract的值，抽象bean不会被spring实例化，而且在继承他的bean里面指定parent属性的值为父类抽象bean的id，<strong>子Bean只能继承父bean的参数值和依赖关系，并不能继承父类定义的时候的属性</strong>，比如dependson、autowire、scope等等，spring中的继承是实例之间的关系，java中的是类之间的关系，而且spring的继承不具备多态性。</p>
 <p>工厂Bean和之前看过的bean的创建方法中的工厂模式不太一样，这个工厂Bean的配置和其他的bean没什么异常，但是这个Bean的实现类要继承FactoryBean接口，这个接口有三个方法分别是getObject、getObjectType、isSingleton，继承了FactoryBean接口的bean元素spring不会返回该bean的实例，而是调用getObject方法产生返回值。如果我们想要返回FactoryBean本身，而不是其产品bean的时候，可以在bean id前面加上“&amp;”。</p>
@@ -1160,7 +1178,7 @@
         &lt;!-- 指定son Bean来自目标Bean的哪个getter方法，age代表getAge() --&gt;
         &lt;property name=&quot;propertyPath&quot; value=&quot;son&quot;/&gt;
 </code></pre><h3 id="获取Field值"><a href="#获取Field值" class="headerlink" title="获取Field值"></a>获取Field值</h3><p>通过FieldRetrievingFactoryBean类，可以访问类的静态Field或者对象的实例Field值（要求实例field用public修饰，这个没什么用）。得到值之后可以注入其他Bean，也可以直接定义成新的Bean。</p>
-<p>使用FieldRetrievingFactoryBean访问field分为两种情况，setTargetClass和setTargetField或者setTargetObject和setTargetField。</p>
+<p>使用FieldRetrievingFactoryBean访问field分为两种情况，TargetClass和TargetField或者TargetObject和TargetField。</p>
 <p>在XML文件中就是利用property的name和value属性指定值，name是targetClass和targetField，name还可以是staticField，通过这种方式访问静态field，util：constant元素可以简化配置，id（bean实例的name）和static-field</p>
 <h3 id="获取方法返回值"><a href="#获取方法返回值" class="headerlink" title="获取方法返回值"></a>获取方法返回值</h3><p>MethodInvokingFactoryBean工厂Bean，如果调用的方法是静态方法，则需要指定，setTartgetClass，setTargetMethod，setArguments，如果是实例方法，第一个是setTargetObject，其他的不变。arguments中的参数如果超过一个则需要使用list。</p>
 <h2 id="基于XML-Schema的简化配置方式"><a href="#基于XML-Schema的简化配置方式" class="headerlink" title="基于XML Schema的简化配置方式"></a>基于XML Schema的简化配置方式</h2><p>xmlns:p=”http : // www . springframework.org/schema/p”导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean id。</p>
@@ -1259,7 +1277,7 @@
 <p><strong>对于一个web应用，由于eclipse部署web应用不会将用户库中的jar文件复制到web应用的WEB-INF/lib路径下。所以还需要主动将用户库所引用的jar文件复制到web应用的WEB-INF/lib路径下。</strong></p>
 <h2 id="依赖注入（Dependency-Injection）"><a href="#依赖注入（Dependency-Injection）" class="headerlink" title="依赖注入（Dependency Injection）"></a>依赖注入（Dependency Injection）</h2><p>A对象需要调用B对象，<strong>在Spring框架下</strong>，调用者不需要主动获取被依赖对象，调用者只要被动接受Spring容器为调用者的成员变量赋值即可（通过property子元素让spring利用setter方法赋值），之前都是想要使用的话调用者自己产生一个实例，现在通过spring框架变成了被动接受，这种叫做控制反转（Inverse of Control，IoC），<strong>控制反转和依赖注入是一样的</strong>。spring容器负责将被依赖对象赋值给调用对象的成员变量，算是一种为调用者注入它依赖的实例。</p>
 <p>有两种方式：设值注入（通过成员变量的setter方法）、构造注入（构造器注入），spring推荐面向接口编程。</p>
-<p>用接口声明变量，不是接口变量，而是一个接口类型的引用指向了一个实现给接口的对象，这是java中的一种多态现象 ，java中的接口不能被实例化，但是可以通过接口引用指向一个对象，这样通过接口来调用方法可以屏蔽掉具体的方法的实现，这是在JAVA编程中经常用到的接口回调，也就是经常说的面向接口的编程。</p>
+<p>用接口声明变量，不是接口变量，而是一个接口类型的引用指向了一个实现该接口的对象，这是java中的一种多态现象 ，java中的接口不能被实例化，但是可以通过接口引用指向一个对象，这样通过接口来调用方法可以屏蔽掉具体的方法的实现，这是在JAVA编程中经常用到的接口回调，也就是经常说的面向接口的编程。</p>
 <p>spring基于XML Schema的XML配置文件指定实例之间的耦合关系。就是在前面说过的配置文件中，beans根元素下的bean子元素，通过设置具体实现的类以及property元素来指明类实例之间的耦合关系。</p>
 <p>构造注入就是spring通过底层实现反射调用有参数的构造器，通过这个有参数的构造器就可以实现依赖注入，完成被依赖实例和调用者实例的绑定，方法就是在配置文件中bean元素下面不使用property（设值注入），使用constructor-arg，里面指定的参数是index（参数的顺序，索引号）、ref（参数值），如果是基本类型，可以使用value（数据值）、index、type（类型） 的组合。</p>
 <p>对于依赖关系无需变化的注入，尽量采用构造注入，而其他依赖关系的注入，则考虑设值注入。</p>

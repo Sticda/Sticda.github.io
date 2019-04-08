@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/24/20180424-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。这个类提">
-<meta property="og:updated_time" content="2019-03-27T06:51:58.265Z">
+<meta property="og:updated_time" content="2019-04-03T02:03:13.992Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180424 spring">
 <meta name="twitter:description" content="Spring3.0 提供的Java配置管理 @Configuration：用于修饰一个Java配置类 @Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean @Value：用于修饰一个field，相当于配置一个变量  使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。这个类提">
@@ -179,7 +179,7 @@
 <li>实例工厂方法</li>
 </ol>
 <p>如果不采用构造注入，spring容器将使用默认的构造器创建Bean实例，所有基本类型为0或者false，引用类型为null，构造器创建Bean的方式就是构造器注入。</p>
-<p>静态工厂方法的时候，需要在配置文件中bean元素下面指定两个属性，一个是class：静态工厂类的类名，一个是factory-method：指定静态工厂方法，如果这个方法需要参数使用constructor-arg元素传入。主程序中获得spring容器的bean实例无需改变。</p>
+<p>静态工厂方法的时候，需要在配置文件中bean元素下面指定两个属性，一个是class：静态工厂类的类名，一个是factory-method：指定静态工厂方法，如果这个静态工厂方法需要参数的话，只能使用constructor-arg元素传入。主程序中获得spring容器的bean实例无需改变。</p>
 <p>实例工厂方法和静态工厂方法很类似，区别在于实例工厂方法不需要指定class，但是需要指定factory-bean属性，这个里面是工厂类的id，参数也是通过constructor-arg指定的。</p>
 <h2 id="深入理解Bean"><a href="#深入理解Bean" class="headerlink" title="深入理解Bean"></a>深入理解Bean</h2><p>抽象bean的配置就是通过指定abstract的值，抽象bean不会被spring实例化，而且在继承他的bean里面指定parent属性的值为父类抽象bean的id，<strong>子Bean只能继承父bean的参数值和依赖关系，并不能继承父类定义的时候的属性</strong>，比如dependson、autowire、scope等等，spring中的继承是实例之间的关系，java中的是类之间的关系，而且spring的继承不具备多态性。</p>
 <p>工厂Bean和之前看过的bean的创建方法中的工厂模式不太一样，这个工厂Bean的配置和其他的bean没什么异常，但是这个Bean的实现类要继承FactoryBean接口，这个接口有三个方法分别是getObject、getObjectType、isSingleton，继承了FactoryBean接口的bean元素spring不会返回该bean的实例，而是调用getObject方法产生返回值。如果我们想要返回FactoryBean本身，而不是其产品bean的时候，可以在bean id前面加上“&amp;”。</p>
@@ -204,7 +204,7 @@
         &lt;!-- 指定son Bean来自目标Bean的哪个getter方法，age代表getAge() --&gt;
         &lt;property name=&quot;propertyPath&quot; value=&quot;son&quot;/&gt;
 </code></pre><h3 id="获取Field值"><a href="#获取Field值" class="headerlink" title="获取Field值"></a>获取Field值</h3><p>通过FieldRetrievingFactoryBean类，可以访问类的静态Field或者对象的实例Field值（要求实例field用public修饰，这个没什么用）。得到值之后可以注入其他Bean，也可以直接定义成新的Bean。</p>
-<p>使用FieldRetrievingFactoryBean访问field分为两种情况，setTargetClass和setTargetField或者setTargetObject和setTargetField。</p>
+<p>使用FieldRetrievingFactoryBean访问field分为两种情况，TargetClass和TargetField或者TargetObject和TargetField。</p>
 <p>在XML文件中就是利用property的name和value属性指定值，name是targetClass和targetField，name还可以是staticField，通过这种方式访问静态field，util：constant元素可以简化配置，id（bean实例的name）和static-field</p>
 <h3 id="获取方法返回值"><a href="#获取方法返回值" class="headerlink" title="获取方法返回值"></a>获取方法返回值</h3><p>MethodInvokingFactoryBean工厂Bean，如果调用的方法是静态方法，则需要指定，setTartgetClass，setTargetMethod，setArguments，如果是实例方法，第一个是setTargetObject，其他的不变。arguments中的参数如果超过一个则需要使用list。</p>
 <h2 id="基于XML-Schema的简化配置方式"><a href="#基于XML-Schema的简化配置方式" class="headerlink" title="基于XML Schema的简化配置方式"></a>基于XML Schema的简化配置方式</h2><p>xmlns:p=”http : // www . springframework.org/schema/p”导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean id。</p>

@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/12/15/20171219-servlet/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
-<meta property="og:updated_time" content="2019-03-28T02:33:31.358Z">
+<meta property="og:updated_time" content="2019-04-02T08:24:20.600Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20171219">
 <meta name="twitter:description" content="HttpSessionHttpServletRequest的getSession获得HttpSession对象，getSession可以加布尔类型的参数，默认为true，表示如果request没有HTTPSession的话就直接建立一个新的实例，若传入false，表示若尚未存在HttpSession实例，则直接返回null。 如果想要在浏览器与web应用程序的会话期间，保留请求之间的相关信息，则可">
@@ -187,9 +187,9 @@ chain.doFilter(request,response);
 //service()后置处理
 </code></pre><p>FilterChain执行过后会以堆栈顺序返回<br>    <filter><br>              <filter-name>FilterDemo01</filter-name><br>              <filter-class>me.gacl.web.filter.FilterDemo01</filter-class><br>          </filter></p>
 <pre><code>&lt;filter-mapping&gt;
-&lt;filter-name&gt;PerformanceFilter&lt;/filter-name&gt;
-&lt;url-pattern&gt;/index&lt;/url-pattern&gt;哪些URL请求将应用此过滤器
-&lt;servlet-name&gt;SessionDemo&lt;/servlet-name&gt;或者是通过这个来指定Servlet名称，表示哪些Servlet将应用到此过滤器上
+    &lt;filter-name&gt;PerformanceFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/index&lt;/url-pattern&gt;哪些URL请求将应用此过滤器
+    &lt;servlet-name&gt;SessionDemo&lt;/servlet-name&gt;或者是通过这个来指定Servlet名称，表示哪些Servlet将应用到此过滤器上
 &lt;/filter-mapping&gt;
 </code></pre><p>如果想要一次性符合所有Servlet名称，则可以使用 *号</p>
 <p>触发过滤器的时机，默认是浏览器直接发出请求，如果是通过RequestDispatcher的forward和include的请求，则可以在web.xml中设置dispatcher标签，指定那些请求转发类型可以触发过滤器。</p>
