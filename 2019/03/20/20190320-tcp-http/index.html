@@ -8,16 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>20190320-tcp/http | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="TCP确认应答机制、超时重传机制 源端口号、目的端口号序号确认序号首部长度、保留6位、6个标识位、窗口大小16位校验和、16位紧急指针选项 三次握手 TCP客户端进程向服务器发出连接请求报文，此时报文首部中的同步标志位SYN=1, 同时选择一个初始序列号 seq = x, 此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定, SYN报文段（SYN=1的报文段）不能携带">
+  <meta name="description" content="TCP源端口号、目的端口号序号确认序号首部长度、保留6位、6个标识位、窗口大小16位校验和、16位紧急指针选项 三次握手 TCP客户端进程向服务器发出连接请求报文，此时报文首部中的同步标志位SYN=1, 同时选择一个初始序列号 seq = x, 此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定, SYN报文段（SYN=1的报文段）不能携带数据，但需要消耗掉一个序号。">
+<meta name="keywords" content="计算机网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20190320-tcp&#x2F;http">
 <meta property="og:url" content="http://yoursite.com/2019/03/20/20190320-tcp-http/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="TCP确认应答机制、超时重传机制 源端口号、目的端口号序号确认序号首部长度、保留6位、6个标识位、窗口大小16位校验和、16位紧急指针选项 三次握手 TCP客户端进程向服务器发出连接请求报文，此时报文首部中的同步标志位SYN=1, 同时选择一个初始序列号 seq = x, 此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定, SYN报文段（SYN=1的报文段）不能携带">
-<meta property="og:updated_time" content="2019-04-01T13:15:44.162Z">
+<meta property="og:description" content="TCP源端口号、目的端口号序号确认序号首部长度、保留6位、6个标识位、窗口大小16位校验和、16位紧急指针选项 三次握手 TCP客户端进程向服务器发出连接请求报文，此时报文首部中的同步标志位SYN=1, 同时选择一个初始序列号 seq = x, 此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定, SYN报文段（SYN=1的报文段）不能携带数据，但需要消耗掉一个序号。">
+<meta property="og:updated_time" content="2019-04-18T02:18:15.140Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20190320-tcp&#x2F;http">
-<meta name="twitter:description" content="TCP确认应答机制、超时重传机制 源端口号、目的端口号序号确认序号首部长度、保留6位、6个标识位、窗口大小16位校验和、16位紧急指针选项 三次握手 TCP客户端进程向服务器发出连接请求报文，此时报文首部中的同步标志位SYN=1, 同时选择一个初始序列号 seq = x, 此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定, SYN报文段（SYN=1的报文段）不能携带">
+<meta name="twitter:description" content="TCP源端口号、目的端口号序号确认序号首部长度、保留6位、6个标识位、窗口大小16位校验和、16位紧急指针选项 三次握手 TCP客户端进程向服务器发出连接请求报文，此时报文首部中的同步标志位SYN=1, 同时选择一个初始序列号 seq = x, 此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定, SYN报文段（SYN=1的报文段）不能携带数据，但需要消耗掉一个序号。">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -164,8 +165,7 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><p>确认应答机制、超时重传机制</p>
-<p>源端口号、目的端口号<br>序号<br>确认序号<br>首部长度、保留6位、6个标识位、窗口大小<br>16位校验和、16位紧急指针<br>选项</p>
+        <h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><p>源端口号、目的端口号<br>序号<br>确认序号<br>首部长度、保留6位、6个标识位、窗口大小<br>16位校验和、16位紧急指针<br>选项</p>
 <h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><ol>
 <li>TCP客户端进程向服务器发出连接请求报文，此时报文首部中的同步标志位SYN=1, 同时选择一个初始序列号 seq = x, 此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定, SYN报文段（SYN=1的报文段）不能携带数据，但需要消耗掉一个序号。 </li>
 <li>TCP服务器收到请求报文后, 如果同意连接, 则发出确认报文。确认报文中的 ACK=1, SYN=1, 确认序号是 x+1, 同时也要为自己初始化一个序列号 seq = y, 此时, TCP服务器进程进入了SYN-RCVD（同步收到）状态。这个报文也不能携带数据, 但是同样要消耗一个序号。 </li>
@@ -201,7 +201,8 @@
 <h2 id="http请求类型"><a href="#http请求类型" class="headerlink" title="http请求类型"></a>http请求类型</h2><p>1、options   返回服务器针对特定资源所支持的HTML请求方法   或web服务器发送<em>测试服务器功能（允许客户端查看服务器性能）<br>2、Get   向特定资源发出请求（请求指定页面信息，并返回实体主体）<br>3、Post   向指定资源提交数据进行处理请求（提交表单、上传文件），又可能导致新的资源的建立或原有资源的修改<br>4、Put   向指定资源位置上上传其最新内容（从客户端向服务器传送的数据取代指定文档的内容）<br>5、Head  与服务器索与get请求一致的相应，响应体不会返回，获取包含在小消息头中的原信息（与get请求类似，返回的响应中没有具体内容，用于获取报头）<br>6、Delete   请求服务器删除request-URL所标示的资源</em>（请求服务器删除页面）<br>7、Trace   回显服务器收到的请求，用于测试和诊断<br>8、Connect   HTTP/1.1协议中能够将连接改为管道方式的代理服务器</p>
 <h2 id="HTTP之状态码"><a href="#HTTP之状态码" class="headerlink" title="HTTP之状态码"></a>HTTP之状态码</h2><p>状态代码有三位数字组成，第一个数字定义了响应的类别，共分五种类别:</p>
 <p>1xx：指示信息–表示请求已接收，继续处理<br>2xx：成功–表示请求已被成功接收、理解、接受<br>3xx：重定向–要完成请求必须进行更进一步的操作<br>4xx：客户端错误–请求有语法错误或请求无法实现<br>5xx：服务器端错误–服务器未能实现合法的请求</p>
-<p>200 OK                        //客户端请求成功<br>304 Not Modified          //自从上次请求后，请求的网页未被修改过。服务器返回此响应时，不会返回网页内容。<br>400 Bad Request               //客户端请求有语法错误，不能被服务器所理解<br>401 Unauthorized              //请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用<br>403 Forbidden                 //服务器收到请求，但是拒绝提供服务<br>404 Not Found                 //请求资源不存在，eg：输入了错误的URL<br>500 Internal Server Error     //服务器发生不可预期的错误<br>502  Bad Gateway           //服务器作为网关或者代理时，为了完成请求访问下一个服务器，但该服务器返回了非法的应答。<br>503 Server Unavailable        //服务器当前不能处理客户端的请求，一段时间后可能恢复正常<br>504  Gateway Timeout        //网关超时，由作为代理或网关的服务器使用，表示不能及时地从远程服务器获得应答</p>
+<p>101(“Switching Protocols”)客户端通过在请求里使用Upgrade报头，以通知服务器它想改用除HTTP协议之外的其他协议时，客户端将获得此响应代码。<br>200 OK                        //客户端请求成功<br>301 Moved Permanently //当客户端触发的动作引起了资源URI的变化时发送此响应代码。另外，当客户端向一个资源的旧URI发送请求时，也发送此响应代码<br>304 Not Modified          //自从上次请求后，请求的网页未被修改过。服务器返回此响应时，不会返回网页内容。<br>306 未使用<br>307 Temporary Redirect  //临时重定向<br>400 Bad Request               //客户端请求有语法错误，不能被服务器所理解<br>401 Unauthorized              //请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用<br>403 Forbidden                 //服务器收到请求，但是拒绝提供服务<br>404 Not Found                 //请求资源不存在，eg：输入了错误的URL<br>405(“Method Not Allowd”) 客户端试图使用一个本资源不支持的HTTP方法。<br>500 Internal Server Error     //服务器发生不可预期的错误<br>502 Bad Gateway           //服务器作为网关或者代理时，为了完成请求访问下一个服务器，但该服务器返回了非法的应答。<br>503 Server Unavailable        //服务器当前不能处理客户端的请求，一段时间后可能恢复正常<br>504  Gateway Timeout        //网关超时，由作为代理或网关的服务器使用，表示不能及时地从远程服务器获得应答<br>505(“HTTP Version Not Supported”) 当服务器不支持客户端试图使用的HTTP版本时发送此响应代码。</p>
+<p>1、浏览器搜索自身的DNS缓存<br>2、搜索操作系统自身的DNS缓存（浏览器没有找到缓存或缓存已经过期失效）：chrome://net-internals/#dns查看DNS缓存记录<br>3、读取本地的HOST文件<br>4、浏览器发起一个DNS的一个系统调用，一般向本地主控DNS服务器（递归查询和迭代查询）<br>5、浏览器获得域名对应的IP地址后，发起HTTP “三次握手”<br>6、TCP/IP连接建立起来后，浏览器就可以向服务器发送HTTP请求了，使用了比如说，用HTTP的GET方法请求一个根域里的一个域名，协议可以采用HTTP1.0的一个协议。<br>7、服务器端接收到了这个请求，根据根路径参数，经过后端的一些处理之后，把处理后的一个结果的数据返回浏览器，如果是慕课网的页面就会把完整的HTML页面代码返回给浏览器。<br>8、浏览器拿到了完整的HTML页面代码，在解析和渲染这个页面的时候，里面的JS、CSS、图片静态资源，它们同样也是一个个HTTP请求，都需要经过上面的主要的七个步骤。<br>9、浏览器根据拿到的资源对页面进行渲染，最终把一个完整的页面呈现给了用户。</p>
 <h2 id="GET和POST的区别："><a href="#GET和POST的区别：" class="headerlink" title="GET和POST的区别："></a>GET和POST的区别：</h2><ol>
 <li>GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之间以&amp;相连，如EditPosts.aspx?name=test1&amp;id=123456. POST方法是把提交的数据放在HTTP包的Body中.</li>
 <li>GET提交的数据大小有限制（因为浏览器对URL的长度有限制），而POST方法提交的数据没有限制.</li>
@@ -218,6 +219,12 @@
 <li>http和https使用的是完全不同的连接方式用的端口也不一样，前者是80，后者是443。</li>
 <li>http的连接很简单，是无状态的。</li>
 </ol>
+<h2 id="OSI模型和TCP-IP模型"><a href="#OSI模型和TCP-IP模型" class="headerlink" title="OSI模型和TCP/IP模型"></a>OSI模型和TCP/IP模型</h2><p>1.OSI是严格的分层结构的理论模型，有7层，实现起来比较困难，而TCP/IP是简化的分层结构的使用模型和技术模型，有4层，实现起来比较容易。</p>
+<p>2.OSI模型先有模型后有协议规范，分层模型不偏向任何特定的协议，模型具有通用性。而TCP/IP先有协议后有模型，模型是对协议的分层描述，只适用于TCP/IP协议，对非TCP/IP网络并不适用。</p>
+<p>3.OSI具有明确的协议和服务区别，而TCP/IP并未充分明确区分服务和协议，因此TCP/IP中，N层实体可以越过N-1层调用N-2层服务，灵活性大，在某些情况下可以减少一些不必要的开销。</p>
+<p>4.在通信上进行比较：</p>
+<p>OSI模型的网络层同时支持无连接和面向连接的通信，但是传输层上只支持面向连接的通信；</p>
+<p>TCP/IP模型的网络层只支持无连接的通信（IP），但在传输层上同时支持两种通信模式。TCP/UDP是TCP/IP 模型里的传输层协议，在OSI模型中的传输层只有TCP和SPX，二者都是面向连接的协议。</p>
 
       
 
@@ -247,6 +254,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">计算机网络</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -298,7 +316,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP"><span class="toc-number">1.</span> <span class="toc-text">TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#三次握手"><span class="toc-number">1.1.</span> <span class="toc-text">三次握手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四次挥手"><span class="toc-number">1.2.</span> <span class="toc-text">四次挥手</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#等待2MSL的原因（time-wait状态存在的原因）"><span class="toc-number">1.2.1.</span> <span class="toc-text">等待2MSL的原因（time_wait状态存在的原因）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么建立连接是三次握手，关闭连接确是四次挥手呢？"><span class="toc-number">1.2.2.</span> <span class="toc-text">为什么建立连接是三次握手，关闭连接确是四次挥手呢？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#滑动窗口"><span class="toc-number">1.3.</span> <span class="toc-text">滑动窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流量控制"><span class="toc-number">1.4.</span> <span class="toc-text">流量控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拥塞控制"><span class="toc-number">1.5.</span> <span class="toc-text">拥塞控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#延迟应答"><span class="toc-number">1.6.</span> <span class="toc-text">延迟应答</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#粘包问题"><span class="toc-number">1.7.</span> <span class="toc-text">粘包问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#http协议"><span class="toc-number">2.</span> <span class="toc-text">http协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#http请求类型"><span class="toc-number">2.1.</span> <span class="toc-text">http请求类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP之状态码"><span class="toc-number">2.2.</span> <span class="toc-text">HTTP之状态码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GET和POST的区别："><span class="toc-number">2.3.</span> <span class="toc-text">GET和POST的区别：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#forward和redirect的区别："><span class="toc-number">2.4.</span> <span class="toc-text">forward和redirect的区别：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS和HTTP的区别："><span class="toc-number">2.5.</span> <span class="toc-text">HTTPS和HTTP的区别：</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP"><span class="toc-number">1.</span> <span class="toc-text">TCP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#三次握手"><span class="toc-number">1.1.</span> <span class="toc-text">三次握手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四次挥手"><span class="toc-number">1.2.</span> <span class="toc-text">四次挥手</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#等待2MSL的原因（time-wait状态存在的原因）"><span class="toc-number">1.2.1.</span> <span class="toc-text">等待2MSL的原因（time_wait状态存在的原因）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么建立连接是三次握手，关闭连接确是四次挥手呢？"><span class="toc-number">1.2.2.</span> <span class="toc-text">为什么建立连接是三次握手，关闭连接确是四次挥手呢？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#滑动窗口"><span class="toc-number">1.3.</span> <span class="toc-text">滑动窗口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流量控制"><span class="toc-number">1.4.</span> <span class="toc-text">流量控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拥塞控制"><span class="toc-number">1.5.</span> <span class="toc-text">拥塞控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#延迟应答"><span class="toc-number">1.6.</span> <span class="toc-text">延迟应答</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#粘包问题"><span class="toc-number">1.7.</span> <span class="toc-text">粘包问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#http协议"><span class="toc-number">2.</span> <span class="toc-text">http协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#http请求类型"><span class="toc-number">2.1.</span> <span class="toc-text">http请求类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP之状态码"><span class="toc-number">2.2.</span> <span class="toc-text">HTTP之状态码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GET和POST的区别："><span class="toc-number">2.3.</span> <span class="toc-text">GET和POST的区别：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#forward和redirect的区别："><span class="toc-number">2.4.</span> <span class="toc-text">forward和redirect的区别：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTPS和HTTP的区别："><span class="toc-number">2.5.</span> <span class="toc-text">HTTPS和HTTP的区别：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OSI模型和TCP-IP模型"><span class="toc-number">2.6.</span> <span class="toc-text">OSI模型和TCP/IP模型</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -423,6 +441,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -431,7 +453,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -439,11 +465,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">面试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -467,6 +489,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
@@ -475,11 +501,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -504,6 +526,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

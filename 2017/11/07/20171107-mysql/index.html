@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/11/07/20171107-mysql/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="mysql有三个比较常用的存储引擎，存储引擎就是定义如何存储数据，如何为存储的数据建立索引和如何更新查询数据等具体问题的技术实现，“show engines；”比较常用的存储引擎有三个：InnoDB、MyISAM、MEMORY。  InnoDB：可以实现事务处理，支持外键，频繁的更新插入操作可以选用。 MyISAM：管理非事务表， 占用空间小，处理速度快，保存表的总行数，主要用于读出记录。 MEM">
-<meta property="og:updated_time" content="2019-04-03T10:15:28.963Z">
+<meta property="og:updated_time" content="2019-04-10T10:16:58.684Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20171107">
 <meta name="twitter:description" content="mysql有三个比较常用的存储引擎，存储引擎就是定义如何存储数据，如何为存储的数据建立索引和如何更新查询数据等具体问题的技术实现，“show engines；”比较常用的存储引擎有三个：InnoDB、MyISAM、MEMORY。  InnoDB：可以实现事务处理，支持外键，频繁的更新插入操作可以选用。 MyISAM：管理非事务表， 占用空间小，处理速度快，保存表的总行数，主要用于读出记录。 MEM">
@@ -226,6 +226,55 @@ limit count
 <p>外连接就是将数据进行混合，左外连接就是将左表中每一条数据分别与右表中每条数据进行连接组合，返回的数据除了内连接的数据还包括了左表中不符合条件的数据，并在右表的相应列中增加null值，简单来说就是左外连接最后返回的结果中必须包含左表的所有数据。右外连接亦然。</p>
 <pre><code>select 字段名称 from 左表 left||right join 右表 on 表名1.字段名=表名2.字段名 where conditions
 </code></pre><p>IN关键字（集合）EXISTS关键字（返回真或假）ANY关键字（any（）表示括号内数据的任意一个）ALL关键字（和ANY用法类似）AS关键字（用来给字段起别名）<br>UNION和UNION ALL将两个select语句的结果合并在一起，二者区别在于不带all会去除重复记录。<br>正则匹配中只有匹配字符集合时用到了方括号</p>
+<h1 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h1><p>触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即<strong>表的操作事件触发表上的触发器的执行</strong>。</p>
+<pre><code>CREATE TRIGGER trigger_name
+trigger_time
+trigger_event ON tbl_name
+FOR EACH ROW
+trigger_stmt1
+</code></pre><p>其中：</p>
+<p>trigger_name：标识触发器名称，用户自行指定；<br>trigger_time：标识触发时机，取值为 BEFORE 或 AFTER；<br>trigger_event：标识触发事件，取值为 INSERT、UPDATE 或 DELETE；<br>tbl_name：标识建立触发器的表名，即在哪张表上建立触发器；<br>trigger_stmt：触发器程序体，可以是一句SQL语句，或者用 BEGIN 和 END 包含的多条语句。  </p>
+<p>由此可见，可以建立6种触发器，即：BEFORE INSERT、BEFORE UPDATE、BEFORE DELETE、AFTER INSERT、AFTER UPDATE、AFTER DELETE。</p>
+<p>另外有一个限制是<strong>不能同时在一个表上建立2个相同类型的触发器</strong>，因此在一个表上最多建立6个触发器。</p>
+<p><strong>select语句返回的是结果集，就算最终的结果是表中的一个具体部分，也是一个结果集</strong></p>
+<h3 id="查看触发器"><a href="#查看触发器" class="headerlink" title="查看触发器"></a>查看触发器</h3><p>show triggers 查看数据库中所有的触发器</p>
+<p>select * from information_schema.triggers where trigger_name = ’触发器名称‘</p>
+<h1 id="视图（view）"><a href="#视图（view）" class="headerlink" title="视图（view）"></a>视图（view）</h1><p>数据库中只存放了视图的定义，没有视图的数据，所以每次使用视图获得的都是最新的数据，主要作用是保证了应用程序和数据库表的逻辑数据独立性，以及安全性<br>新建视图前先检查是否具有权限。</p>
+<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
+view 视图名（属性清单）
+as select语句
+[with [CASCADED | LOCAL ] check option];
+</code></pre><p>or replace的意思是如果存在的话进行修改，如果不存在的话创建视图</p>
+<p>algorithm表示视图选择的算法。ALGORITHM可取三个值：MERGE、TEMPTABLE或UNDEFINED。如果没有ALGORITHM子句，默认算法是UNDEFINED（未定义的）。算法会影响MySQL处理视图的方式。对于MERGE，会将引用视图的语句的文本与视图定义合并起来，使得视图定义的某一部分取代语句的对应部分。对于TEMPTABLE，视图的结果将被置于临时表中，然后使用它执行语句。对于UNDEFINED，MySQL自己选择所要使用的算法。如果可能，它倾向于MERGE而不是TEMPTABLE，这是因为MERGE通常更有效，而且如果使用了临时表，视图是不可更新的。</p>
+<p>with check option是可选参数，表示更新视图时要保证在该视图的权限范围内。<br>创建视图时指定了with check option关键字，这也就是说，更新后的每一条数据仍然要满足创建视图时指定的where条件。通过视图进行的修改，必须也能通过该视图看到修改后的结果<br>如果有with check option的话，默认关键字是cascade</p>
+<p>select语句中不能包含from子句中的子查询</p>
+<p>不能将触发程序和视图关联在一起。</p>
+<p>视图是建立在数据库上的</p>
+<h2 id="查看视图"><a href="#查看视图" class="headerlink" title="查看视图"></a>查看视图</h2><ol>
+<li>DESCRIBE（desc）视图名；</li>
+<li>show table status like ‘视图名’；(不带like就是展示目前数据库中的表和视图)</li>
+<li>show create view 视图名；</li>
+</ol>
+<h2 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h2><ol>
+<li>create or replace</li>
+<li><p>和定义时类似，将create改成alter</p>
+<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
+view 视图名（属性清单）
+as select语句
+[with [CASCADED | LOCAL ] check option];
+</code></pre><h2 id="更新视图（insert、update）"><a href="#更新视图（insert、update）" class="headerlink" title="更新视图（insert、update）"></a>更新视图（insert、update）</h2></li>
+</ol>
+<p>由于视图是一个虚表，所以通过视图的更新都将通过转化为基本的表操作，更新时必须保证拥有权限，更新时将视图看做普通的表。</p>
+<p>有几种情况更新视图是不能成功的。</p>
+<ol>
+<li>视图中包括了count、sum、max、min等函数</li>
+<li>视图中包含了union、UNION all 、distinct、group by、having等关键字</li>
+<li>select中包含了常量或者有子查询。</li>
+<li>由不可能更新的视图产生的视图。</li>
+<li>创建视图时算法为temptable类型。</li>
+<li>视图对应的表上存在没有默认值的非空列，并且这一列也不在视图中，所以插入失败。</li>
+</ol>
+<p>drop view if <strong>exists</strong> 视图名 [restrict | cascade ]</p>
 
       
 
@@ -321,7 +370,7 @@ limit count
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用sql语句"><span class="toc-number">1.</span> <span class="toc-text">常用sql语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#条件判断函数"><span class="toc-number">2.</span> <span class="toc-text">条件判断函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询语句"><span class="toc-number">3.</span> <span class="toc-text">查询语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连接查询"><span class="toc-number">3.1.</span> <span class="toc-text">连接查询</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#内连接查询"><span class="toc-number">3.1.1.</span> <span class="toc-text">内连接查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#外连接查询"><span class="toc-number">3.1.2.</span> <span class="toc-text">外连接查询</span></a></li></ol></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用sql语句"><span class="toc-number">1.</span> <span class="toc-text">常用sql语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#条件判断函数"><span class="toc-number">2.</span> <span class="toc-text">条件判断函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查询语句"><span class="toc-number">3.</span> <span class="toc-text">查询语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#连接查询"><span class="toc-number">3.1.</span> <span class="toc-text">连接查询</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#内连接查询"><span class="toc-number">3.1.1.</span> <span class="toc-text">内连接查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#外连接查询"><span class="toc-number">3.1.2.</span> <span class="toc-text">外连接查询</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#触发器"><span class="toc-number"></span> <span class="toc-text">触发器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看触发器"><span class="toc-number">0.1.</span> <span class="toc-text">查看触发器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#视图（view）"><span class="toc-number"></span> <span class="toc-text">视图（view）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看视图"><span class="toc-number">1.</span> <span class="toc-text">查看视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改视图"><span class="toc-number">2.</span> <span class="toc-text">修改视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新视图（insert、update）"><span class="toc-number">3.</span> <span class="toc-text">更新视图（insert、update）</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -446,6 +495,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -454,7 +507,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -462,11 +519,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">面试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -490,6 +543,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
@@ -498,11 +555,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -527,6 +580,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

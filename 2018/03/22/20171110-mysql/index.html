@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>20171110 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="MySQL索引普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、单列索引、多列索引、空间索引（只有 MyISAM支持，只能建立在空间数据类型上）。 create table 表名( 属性名 数据类型[约束条件]， ………… [UNIQUE|FULLTEXT|SPATIAL] INDEX KEY">
+  <meta name="description" content="存储过程delimiter // create procedure 存储过程名（IN/OUT 参数名 参数类型，………） begin  SQL语句 end// sql语句中用“；”作为结束标志，所以在定义存储过程之前应该将语句结束标志换成其他字符，更改结束标志可以用关键字“delimiter”。   IN表示输入参数，OUT表示输出参数，INOUT表示既可以输入也可以输出； 存储函数delimit">
 <meta name="keywords" content="笔记,数据库">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20171110">
 <meta property="og:url" content="http://yoursite.com/2018/03/22/20171110-mysql/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="MySQL索引普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、单列索引、多列索引、空间索引（只有 MyISAM支持，只能建立在空间数据类型上）。 create table 表名( 属性名 数据类型[约束条件]， ………… [UNIQUE|FULLTEXT|SPATIAL] INDEX KEY">
-<meta property="og:updated_time" content="2019-03-12T06:27:44.669Z">
+<meta property="og:description" content="存储过程delimiter // create procedure 存储过程名（IN/OUT 参数名 参数类型，………） begin  SQL语句 end// sql语句中用“；”作为结束标志，所以在定义存储过程之前应该将语句结束标志换成其他字符，更改结束标志可以用关键字“delimiter”。   IN表示输入参数，OUT表示输出参数，INOUT表示既可以输入也可以输出； 存储函数delimit">
+<meta property="og:updated_time" content="2019-04-10T10:19:25.542Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20171110">
-<meta name="twitter:description" content="MySQL索引普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、单列索引、多列索引、空间索引（只有 MyISAM支持，只能建立在空间数据类型上）。 create table 表名( 属性名 数据类型[约束条件]， ………… [UNIQUE|FULLTEXT|SPATIAL] INDEX KEY">
+<meta name="twitter:description" content="存储过程delimiter // create procedure 存储过程名（IN/OUT 参数名 参数类型，………） begin  SQL语句 end// sql语句中用“；”作为结束标志，所以在定义存储过程之前应该将语句结束标志换成其他字符，更改结束标志可以用关键字“delimiter”。   IN表示输入参数，OUT表示输出参数，INOUT表示既可以输入也可以输出； 存储函数delimit">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -165,27 +165,7 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="MySQL索引"><a href="#MySQL索引" class="headerlink" title="MySQL索引"></a>MySQL索引</h1><p>普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、单列索引、多列索引、空间索引（只有 MyISAM支持，只能建立在空间数据类型上）。</p>
-<pre><code>create table 表名(
-属性名 数据类型[约束条件]，
-…………
-[UNIQUE|FULLTEXT|SPATIAL] INDEX KEY
-[别名] (属性名[(长度)] [ASC|DESC])
-);
-</code></pre><p>举个栗子</p>
-<pre><code>create table student（
-id int not null primary key auto_increment,
-abd varchar(50),
-index hahaha(id)）;
-</code></pre><p>索引名是hahaha，索引的内容是id列，哈哈哈是别名，如果不指定别名将直接使用列名作为索引名</p>
-<hr>
-<p>在已有表上新建索引</p>
-<pre><code>CREATE [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name 
-ON table_name(属性 [(length)] [ASC | DESC]);
-</code></pre><p>修改表结构添加索引</p>
-<pre><code>alter table 表名 ADD [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name (属性 [(length)] [ASC | DESC]);
-</code></pre><p>注意上面两种的区别，主要需要注意的地方是前者是表名+列名“table_name(属性 [(length)] [ASC | DESC])”，后者是索引名+列名“INDEX index_name (属性 [(length)] [ASC | DESC])”。<br>用show create table 表名可以查看该表的定义</p>
-<h1 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h1><pre><code>delimiter //
+        <h1 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h1><pre><code>delimiter //
 create procedure 存储过程名（IN/OUT 参数名 参数类型，………）
 begin 
 SQL语句
@@ -349,7 +329,7 @@ show create{ procedure | function } 存储过程和函数的名字
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL索引"><span class="toc-number">1.</span> <span class="toc-text">MySQL索引</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#存储过程"><span class="toc-number">2.</span> <span class="toc-text">存储过程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#存储函数"><span class="toc-number">3.</span> <span class="toc-text">存储函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#局部变量声明"><span class="toc-number">3.1.</span> <span class="toc-text">局部变量声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#会话变量"><span class="toc-number">3.2.</span> <span class="toc-text">会话变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#变量赋值"><span class="toc-number">3.2.1.</span> <span class="toc-text">变量赋值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#游标"><span class="toc-number">3.3.</span> <span class="toc-text">游标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程控制语句"><span class="toc-number">3.4.</span> <span class="toc-text">流程控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if语句"><span class="toc-number">3.4.1.</span> <span class="toc-text">if语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CASE语句"><span class="toc-number">3.4.2.</span> <span class="toc-text">CASE语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#while循环语句"><span class="toc-number">3.4.3.</span> <span class="toc-text">while循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop循环语句"><span class="toc-number">3.4.4.</span> <span class="toc-text">loop循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repeat循环"><span class="toc-number">3.4.5.</span> <span class="toc-text">repeat循环</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用存储过程"><span class="toc-number">3.5.</span> <span class="toc-text">调用存储过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用存储函数"><span class="toc-number">3.6.</span> <span class="toc-text">调用存储函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看存储过程和函数"><span class="toc-number">3.7.</span> <span class="toc-text">查看存储过程和函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#捕获存储过程中的错误"><span class="toc-number">3.8.</span> <span class="toc-text">捕获存储过程中的错误</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#存储过程"><span class="toc-number">1.</span> <span class="toc-text">存储过程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#存储函数"><span class="toc-number">2.</span> <span class="toc-text">存储函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#局部变量声明"><span class="toc-number">2.1.</span> <span class="toc-text">局部变量声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#会话变量"><span class="toc-number">2.2.</span> <span class="toc-text">会话变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#变量赋值"><span class="toc-number">2.2.1.</span> <span class="toc-text">变量赋值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#游标"><span class="toc-number">2.3.</span> <span class="toc-text">游标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程控制语句"><span class="toc-number">2.4.</span> <span class="toc-text">流程控制语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if语句"><span class="toc-number">2.4.1.</span> <span class="toc-text">if语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CASE语句"><span class="toc-number">2.4.2.</span> <span class="toc-text">CASE语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#while循环语句"><span class="toc-number">2.4.3.</span> <span class="toc-text">while循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#loop循环语句"><span class="toc-number">2.4.4.</span> <span class="toc-text">loop循环语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repeat循环"><span class="toc-number">2.4.5.</span> <span class="toc-text">repeat循环</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用存储过程"><span class="toc-number">2.5.</span> <span class="toc-text">调用存储过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调用存储函数"><span class="toc-number">2.6.</span> <span class="toc-text">调用存储函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#查看存储过程和函数"><span class="toc-number">2.7.</span> <span class="toc-text">查看存储过程和函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#捕获存储过程中的错误"><span class="toc-number">2.8.</span> <span class="toc-text">捕获存储过程中的错误</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -474,6 +454,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -482,7 +466,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -490,11 +478,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">面试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -518,6 +502,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
@@ -526,11 +514,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -555,6 +539,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

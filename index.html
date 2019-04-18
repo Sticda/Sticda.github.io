@@ -139,6 +139,231 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20190409-activemq" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/09/20190409-activemq/">20190409-activemq</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/09/20190409-activemq/" class="archive-article-date">
+  	<time datetime="2019-04-09T08:21:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ActiveMQ的常用存储方式</p>
+<ol>
+<li>kahaDB：基于文件的快速存储消息，设计目标是易于使用且尽可能快</li>
+<li>AMQ：AMQ存储使用户能够快速启动和运行，因为它不依赖于第三方数据库。AMQ 消息存储库是可靠持久性和高性能索引的事务日志组合，当消息吞吐量是应用程序的主要需求时，该存储是最佳选择。但因为它为每个索引使用两个分开的文件，并且每个 Destination 都有一个索引，所以当你打算在代理中使用数千个队列的时候，不应该使用它</li>
+<li>JDBC</li>
+<li>内存存储：内存消息存储器将所有持久消息保存在内存中。在仅存储有限数量 Message 的情况下，内存消息存储会很有用，因为 Message 通常会被快速消耗。在 activemq.xml 中将 broker 元素上的 persistent 属性设置为 false 即可</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/09/20190409-activemq/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20190409-redis" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/09/20190409-redis/">20190409-redis</a>
+    </h1>
+  
+
+        
+        <a href="/2019/04/09/20190409-redis/" class="archive-article-date">
+  	<time datetime="2019-04-09T02:14:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-09</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>redis持久化 – 两种方式</p>
+<p>RDB：</p>
+<ol>
+<li>在不同的时间点，将redis存储的数据生成快照并存储到磁盘等介质上；</li>
+<li>redis会单独创建（fork）一个子进程来进行持久化，而主进程是不会进行任何IO操作的，这样就确保了redis极高的性能。</li>
+<li>先将数据写入到一个临时文件中，待持久化过程都结束了，才会用这个临时文件替换上次持久化好的文件。正是这种特性，让我们可以随时来进行备份，因为快照文件总是完整可用的。</li>
+<li>如果需要进行大规模数据的恢复，且对于数据恢复的完整性不是非常敏感，那RDB方式要比AOF方式更加的高效。</li>
+</ol>
+<p>快照保存</p>
+<ol>
+<li>redis 调用 fork,现在有了子进程和父进程。</li>
+<li>父进程继续处理 client 请求，子进程负责将内存内容写入到临时文件。由于 os 的实时复制机制（ copy on write)父子进程会共享相同的物理页面，当父进程处理写请求时 os 会为父进程要修改的页面创建副本，而不是写共享的页面。所以子进程地址空间内的数据是 fork时刻整个数据库的一个快照。</li>
+<li>当子进程将快照写入临时文件完毕后，用临时文件替换原来的快照文件，然后子进程退出。<br>client 也可以使用 save 或者 bgsave 命令通知 redis 做一次快照持久化。 save 操作是在主线程中保存快照的，由于 redis 是用一个主线程来处理所有 client 的请求，这种方式会阻塞所有client 请求。所以不推荐使用。另一点需要注意的是，每次快照持久化都是将内存数据完整写入到磁盘一次，并不是增量的只同步变更数据。如果数据量大的话，而且写操作比较多，必然会引起大量的磁盘 io 操作，可能会严重影响性能。</li>
+</ol>
+<p>优点：RDB 可以最大化 Redis 的性能：父进程在保存 RDB 文件时唯一要做的就是 fork 出一个子进程，然后这个子进程就会处理接下来的所有保存工作，父进程无须执行任何磁盘 I/O 操作。<br>RDB 在恢复大数据集时的速度比 AOF 的恢复速度要快。<br>RDB 非常适用于灾难恢复（disaster recovery）：它只有一个文件，并且内容都非常紧凑，可以（在加密后）将它传送到别的数据中心<br>缺点：如果你需要尽量避免在服务器故障时丢失数据，那么 RDB 不适合你。 虽然 Redis 允许你设置不同的保存点（save point）来控制保存 RDB 文件的频率， 但是， 因为RDB 文件需要保存整个数据集的状态， 所以它并不是一个轻松的操作。 因此你可能会至少 5 分钟才保存一次 RDB 文件。 在这种情况下， 一旦发生故障停机， 你就可能会丢失好几分钟的数据。<br>每次保存 RDB 的时候，Redis 都要 fork() 出一个子进程，并由子进程来进行实际的持久化工作。 在数据集比较庞大时， fork() 可能会非常耗时，造成服务器在某某毫秒内停止处理客户端； 如果数据集非常巨大，并且 CPU 时间非常紧张的话，那么这种停止时间甚至可能会长达整整一秒。 虽然 AOF 重写也需要进行 fork() ，但无论 AOF 重写的执行间隔有多长，数据的耐久性都不会有任何损失。</p>
+<p>AOF：</p>
+<ol>
+<li>则是换了一个角度来实现持久化，那就是将redis执行过的所有写指令记录下来，在下次redis重新启动时，只要把这些写指令从前到后再重复执行一遍，就可以实现数据恢复了。</li>
+<li>默认的AOF持久化策略是每秒钟fsync一次（fsync是指把缓存中的写指令记录到磁盘中），因为在这种情况下，redis仍然可以保持很好的处理性能，即使redis故障，也只会丢失最近1秒钟的数据。</li>
+<li>redis提供了redis-check-aof工具，可以用来进行日志修复。</li>
+<li>redis提供了AOF文件重写（rewrite）机制，即当AOF文件的大小超过所设定的阈值时，redis就会启动AOF文件的内容压缩，只保留可以恢复数据的最小指令集</li>
+</ol>
+<p>AOF重写<br>AOF重写的内部运行原理，我们有必要了解一下。在重写即将开始之际，redis会创建（fork）一个“重写子进程”，这个子进程会首先读取现有的AOF文件，并将其包含的指令进行分析压缩并写入到一个临时文件中。与此同时，主工作进程会将新接收到的写指令一边累积到内存缓冲区中，一边继续写入到原有的AOF文件中，这样做是保证原有的AOF文件的可用性，避免在重写过程中出现意外。当“重写子进程”完成重写工作后，它会给父进程发一个信号，父进程收到信号后就会将内存中缓存的写指令追加到新AOF文件中。当追加结束后，redis就会用新AOF文件来代替旧AOF文件，之后再有新的写指令，就都会追加到新的AOF文件中</p>
+<p>优点：</p>
+<ol>
+<li>使用 AOF 持久化会让 Redis 变得非常耐久（much more durable）：你可以设置不同的 fsync 策略，比如无 fsync ，每秒钟一次 fsync ，或者每次执行写入命令时 fsync 。 AOF 的默认策略为每秒钟 fsync 一次，在这种配置下，Redis 仍然可以保持良好的性能，并且就算发生故障停机，也最多只会丢失一秒钟的数据（ fsync 会在后台线程执行，所以主线程可以继续努力地处理命令请求）。</li>
+<li>AOF 文件是一个只进行追加操作的日志文件（append only log）， 因此对 AOF 文件的写入不需要进行 seek ， 即使日志因为某些原因而包含了未写入完整的命令（比如写入时磁盘已满，写入中途停机，等等）， redis-check-aof 工具也可以轻易地修复这种问题。</li>
+<li>Redis 可以在 AOF 文件体积变得过大时，自动地在后台对 AOF 进行重写： 重写后的新 AOF 文件包含了恢复当前数据集所需的最小命令集合。 整个重写操作是绝对安全的，因为 Redis 在创建新 AOF 文件的过程中，会继续将命令追加到现有的 AOF 文件里面，即使重写过程中发生停机，现有的 AOF 文件也不会丢失。 而一旦新 AOF 文件创建完毕，Redis 就会从旧 AOF 文件切换到新 AOF 文件，并开始对新 AOF 文件进行追加操作。</li>
+<li>AOF 文件有序地保存了对数据库执行的所有写入操作， 这些写入操作以 Redis 协议的格式保存， 因此 AOF 文件的内容非常容易被人读懂， 对文件进行分析（parse）也很轻松。 导出（export） AOF 文件也非常简单： 举个例子， 如果你不小心执行了 FLUSHALL 命令， 但只要 AOF 文件未被重写， 那么只要停止服务器， 移除 AOF 文件末尾的 FLUSHALL 命令， 并重启 Redis ， 就可以将数据集恢复到 FLUSHALL 执行之前的状态<br>缺点：</li>
+<li>对于相同的数据集来说，AOF 文件的体积通常要大于 RDB 文件的体积。</li>
+<li>根据所使用的 fsync 策略，AOF 的速度可能会慢于 RDB 。 在一般情况下， 每秒 fsync 的性能依然非常高， 而关闭 fsync 可以让 AOF 的速度和 RDB 一样快， 即使在高负荷之下也是如此。 不过在处理巨大的写入载入时，RDB 可以提供更有保证的最大延迟时间（latency）。</li>
+</ol>
+<p>主从结构，一是为了纯粹的冗余备份，二是为了提升读性能，比如很消耗性能的SORT就可以由从服务器来承担。<br>redis的主从同步是异步进行的，这意味着主从同步不会影响主逻辑，也不会降低redis的处理性能。<br>主从架构中，可以考虑关闭主服务器的数据持久化功能，只让从服务器进行持久化，这样可以提高主服务器的处理性能。<br>在主从架构中，从服务器通常被设置为只读模式，这样可以避免从服务器的数据被误修改</p>
+<p>主从 – 同步原理</p>
+<ol>
+<li>从服务器会向主服务器发出SYNC指令，</li>
+<li>当主服务器接到此命令后，就会调用BGSAVE指令来创建一个子进程专门进行数据持久化工作，也就是将主服务器的数据写入RDB文件中。在数据持久化期间，主服务器将执行的写指令都缓存在内存中。</li>
+<li>在BGSAVE指令执行完成后，主服务器会将持久化好的RDB文件发送给从服务器，</li>
+<li>从服务器接到此文件后会将其存储到磁盘上，然后再将其读取到内存中。</li>
+<li>主服务器会将这段时间缓存的写指令再以redis协议的格式发送给从服务器。<br>即使有多个从服务器同时发来SYNC指令，主服务器也只会执行一次BGSAVE，然后把持久化好的RDB文件发给多个下游。<br>在redis2.8版本之前，如果从服务器与主服务器因某些原因断开连接的话，都会进行一次主从之间的全量的数据同步；而在2.8版本之后，redis支持了效率更高的增量同步策略，这大大降低了连接断开的恢复成本。主服务器会在内存中维护一个缓冲区，缓冲区中存储着将要发给从服务器的内容。从服务器在与主服务器出现网络瞬断之后，从服务器会尝试再次与主服务器连接，一旦连接成功，从服务器就会把“希望同步的主服务器ID”和“希望请求的数据的偏移位置（replication offset）”发送出去。主服务器接收到这样的同步请求后，首先会验证主服务器ID是否和自己的ID匹配，其次会检查“请求的偏移位置”是否存在于自己的缓冲区中，如果两者都满足的话，主服务器就会向从服务器发送增量内容。增量同步功能，需要服务器端支持全新的PSYNC指令。这个指令，只有在redis-2.8之后才具有。</li>
+</ol>
+<h1 id="redis配置"><a href="#redis配置" class="headerlink" title="redis配置"></a>redis配置</h1><ol>
+<li>当一个redis-client一直没有请求发向server端，那么server端有权主动关闭这个连接，可以通过timeout来设置“空闲超时时限”，0表示永不关闭。</li>
+<li>TCP连接保活策略，可以通过tcp-keepalive配置项来进行设置，单位为秒，如果设置为0，则不会进行保活检测。</li>
+<li>redis支持通过loglevel配置项设置日志等级，共分四级，即debug、verbose、notice、warning</li>
+</ol>
+<p>对于内存移除规则来说，redis提供了多达6种的移除规则。他们是：LRU（最近最少使用）<br>1.volatile-lru：使用LRU算法移除过期集合中的key<br>2.allkeys-lru：使用LRU算法移除key<br>3.volatile-random：在过期集合中移除随机的key<br>4.allkeys-random：移除随机的key<br>5.volatile-ttl：移除那些回收存活时间（TTL值）最小的key，即那些最近才过期的key。<br>6.noeviction：不进行移除。针对写操作，只是返回错误信息。</p>
+<p>redis aof支持三种不同的模式：<br>1.no：不调用fsync()。而是让操作系统自行决定sync的时间。这种模式下，redis的性能会最快。<br>2.always：在每次写请求后都调用fsync()。这种模式下，redis会相对较慢，但数据最安全。<br>3.everysec：每秒钟调用一次fsync()。这是性能和安全的折衷。</p>
+<p>Redis协议规范(RESP)<br>Redis 即 REmote Dictionary Server (远程字典服务)；</p>
+<p>而Redis的协议规范是 Redis Serialization Protocol (Redis序列化协议)协议如下：客户端以规定格式的形式发送命令给服务器；服务器在执行最后一条命令后，返回结果。</p>
+<p>5种类型：<br>间隔符号，在Linux下是\r\n，在Windows下是\n</p>
+<ol>
+<li>简单字符串 Simple Strings, 以 “+”加号 开头</li>
+<li>错误 Errors, 以”-“减号 开头</li>
+<li>整数型 Integer， 以 “:” 冒号开头                       :1000\r\n</li>
+<li>大字符串类型 Bulk Strings, 以 “$”美元符号开头。长度限制512M                   $6\r\nfoobar\r\n</li>
+<li>数组类型 Arrays，以 “<em>“星号开头                         </em>2\r\n$2\r\nfoo\r\n$3\r\nbar\r\n</li>
+</ol>
+<h1 id="Redis-有哪些架构模式"><a href="#Redis-有哪些架构模式" class="headerlink" title="Redis 有哪些架构模式"></a>Redis 有哪些架构模式</h1><h2 id="单机、"><a href="#单机、" class="headerlink" title="单机、"></a>单机、</h2><h2 id="主从复制："><a href="#主从复制：" class="headerlink" title="主从复制："></a>主从复制：</h2><p>特点：<br>1、master/slave 角色<br>2、master/slave 数据相同<br>3、降低 master 读压力在转交从库<br>问题：<br>无法保证高可用<br>没有解决 master 写的压力</p>
+<h2 id="哨兵模式："><a href="#哨兵模式：" class="headerlink" title="哨兵模式："></a>哨兵模式：</h2><p>sentinel一直在监控主从服务器的运行状态，出现故障时通知其他程序，主服务器故障时还需要自动故障迁移<br>特点：<br>1、保证高可用<br>2、监控各个节点<br>3、自动故障迁移<br>缺点：主从模式，切换需要时间丢数据，没有解决 master 写的压力</p>
+<h2 id="集群模式："><a href="#集群模式：" class="headerlink" title="集群模式："></a>集群模式：</h2><p>特点：<br>1、无中心架构（不存在哪个节点影响性能瓶颈），少了 proxy 层。<br>2、数据按照 slot 存储分布在多个节点，节点间数据共享，可动态调整数据分布。<br>3、可扩展性，可线性扩展到 1000 个节点，节点可动态添加或删除。<br>4、高可用性，部分节点不可用时，集群仍可用。通过增加 Slave 做备份数据副本<br>5、实现故障自动 failover，节点之间通过 gossip 协议交换状态信息，用投票机制完成 Slave到 Master 的角色提升。</p>
+<p>缺点：<br>1、资源隔离性较差，容易出现相互影响的情况。<br>2、数据通过异步复制,不保证数据的强一致性</p>
+<p>Redis集群没有使用一致性hash,而是引入了哈希槽的概念，Redis集群有16384个哈希槽，每个key通过CRC16校验后对16384取模来决定放置哪个槽，集群的每个节点负责一部分hash槽。</p>
+<p>failover是redis cluster提供的容错机制，cluster最核心的功能之一。failover支持两种模式：<br>故障failover：自动恢复集群的可用性<br>人为failover：支持集群的可运维操作</p>
+<ol>
+<li>主观下线：当cluster-node-timeout时间内某节点无法与另一个节点顺利完成ping消息通信时（顺利完成表示收到pong），则将该节点标记为主观下线状态。；</li>
+<li>客观下线：当某个节点判断另一个节点主观下线后，该节点的下线报告会通过Gossip消息传播。当接收节点发现消息体中含有主观下线的节点，其会尝试对该节点进行客观下线，依据下线报告是否在有效期内(如果在cluster-node-timeout*2时间内无法收集到一半以上槽节点的下线报告，那么之前的下线报告会过期)，且数量大于槽节点总数的一半。若是，则将该节点更新为客观下线，并向集群广播下线节点的fail消息</li>
+<li>故障恢复：故障节点变为客观下线后，如果下线节点是持有槽的主节点则需要在它的从节点中选出一个替换它，从而保证集群的高可用。下线主节点的所有从节点承担故障恢复的义务，当从节点通过内部定时任务发现自身复制的主节点进入客观下线时，将会触发故障恢复流程<br>（1）资格检查：每个从节点都要检查最后与主节点断线时间，判断是否有资格替换故障的主节点，如果从节点与主节点断线时间超过cluster-node-timeout（节点主观下线时间）*cluster-slave-validity-factor，则当前从节点不具备故障转移资格。参数cluster-slavevalidity-factor用于从节点的有效因子，默认为10。、<br>（2）准备选举时间：从节点符合故障转移资格后，更新触发故障选举时间，只有到达该时间才能执行后续流程。采用延迟触发机制，主要是对多个从节点使用不同的延迟选举时间来支持优先级。复制偏移量越大说明从节点延迟越低，那么它应该具有更高的优先级。<br>（3）发起选举，当从节点到达故障选举时间后，会触发选举流程：a更新配置纪元。配置纪元是一个只增不减的整数，每个主节点自身维护一个配置纪元，标示当前主节点的版本，所有主节点的配置纪元都不相等，从节点会复制主节点的配置纪元。整个集群又维护一个全局的配置纪元，用于记录集群内所有主节点配置纪元的最大版本。每次集群发生重大事件，如新加入主节点或由从节点转换而来，从节点竞争选举，都会递增集群全局配置纪元并赋值给相关主节点，用于记录这一关键事件；b 广播选举消息。在集群内广播选举消息，并记录已发送过消息的状态，保证该从节点在一个配置纪元内只能发起一次选举。</li>
+<li>选举投票：只有持有槽的主节点才会处理故障选举消息，每个持有槽的节点在一个配置纪元内都有唯一的一张选票，当接到第一个请求投票的从节点消息，回复消息作为投票，之后相同配置纪元内其它从节点的选举消息将忽略。投票过程其实是一个领导者选举的过程。每个配置纪元代表了一次选举周期，如果在开始投票后的cluster-node-timeout*2时间内从节点没有获取足够数量的投票，则本次选举作废。从节点对配置纪元自增并发起下一轮投票，直到选举成功为止。优先级高的从节点将提前开始选举投票。</li>
+<li>替换主节点：当前从节点取消复制变为主节点，撤销故障主节点负责的槽，把这些槽委派给自己，并向集群广播告知所有节点当前从节点变为主节点。</li>
+</ol>
+<h2 id="什么是缓存穿透？如何避免？什么是缓存雪崩？何如避免？"><a href="#什么是缓存穿透？如何避免？什么是缓存雪崩？何如避免？" class="headerlink" title="什么是缓存穿透？如何避免？什么是缓存雪崩？何如避免？"></a>什么是缓存穿透？如何避免？什么是缓存雪崩？何如避免？</h2><p>缓存穿透：一般的缓存系统，都是按照key去缓存查询，如果不存在对应的value，就应该去后端系统查找（比如DB）。一些恶意的请求会故意查询不存在的key,请求量很大，就会对后端系统造成很大的压力。这就叫做缓存穿透。</p>
+<p>如何避免？1：对查询结果为空的情况也进行缓存，缓存时间设置短一点，或者该key对应的数据insert了之后清理缓存。<br>2：对一定不存在的key进行过滤。可以把所有的可能存在的key放到一个大的Bitmap中，查询时通过该bitmap过滤。</p>
+<p>缓存雪崩：当缓存服务器重启或者大量缓存集中在某一个时间段失效，这样在失效的时候，会给后端系统带来很大压力。导致系统崩溃。</p>
+<p>如何避免？</p>
+<p>1：在缓存失效后，通过加锁或者队列来控制读数据库写缓存的线程数量。比如对某个key只允许一个线程查询数据和写缓存，其他线程等待。<br>2：做二级缓存，A1为原始缓存，A2为拷贝缓存，A1失效时，可以访问A2，A1缓存失效时间设置为短期，A2设置为长期<br>3：不同的key，设置不同的过期时间，让缓存失效的时间点尽量均匀</p>
+<p>Redis事务相关的命令有哪几个？<br>MULTI：将一系列操作定义为一个事务、<br>EXEC：执行这个事务<br>DISCARD：抛弃这个事务<br>WATCH：监控某些key，只有当受监控的键没有被修改时，EXEC命令才会执行事务中的命令</p>
+<p>Redis key的过期时间和永久有效分别怎么设置？<br>EXPIRE和PERSIST命令</p>
+<p>Redis的并发竞争问题如何解决?<br>Redis为单进程单线程模式，采用队列模式将并发访问变为串行访问。Redis本身没有锁的概念，Redis对于多个客户端连接并不存在竞争，但是在Jedis客户端对Redis进行并发访问时会发生连接超时、数据转换错误、阻塞、客户端关闭连接等问题，这些问题均是由于客户端连接混乱造成。对此有2种解决方法：<br>1.客户端角度，为保证每个客户端间正常有序与Redis进行通信，对连接进行池化，同时对客户端读写Redis操作采用内部锁synchronized。<br>2.服务器角度，利用setnx实现锁。setnx成功表明这个值之前没有被使用，setnx失败表示这个值已经被设置过了，setnx key value ,先拿setnx来争抢锁，抢到之后，再用expire给锁加一个过期时间防止锁忘记了释放。如果在setnx之后执行expire之前进程意外crash或者要重启维护了，那会怎么样？set指令有非常复杂的参数，这个应该是可以同时把setnx和expire合成一条指令来用的！</p>
+<p>redis过期键的删除策略？<br>(1) 定时删除:在设置键的过期时间的同时，创建一个定时器(timer). 让定时器在键的过期时间来临时，立即执行对键的删除操作。<br>(2) 惰性删除:放任键过期不管，但是每次从键空间中获取键时，都检查取得的键是否过期，如果过期的话，就删除该键;如果没有过期，就返回该键。<br>(3) 定期删除:每隔一段时间程序就对数据库进行一次检查，删除里面的过期键。至于要删除多少过期键，以及要检查多少个数据库，则由算法决定</p>
+<p>redis 最适合的场景</p>
+<ol>
+<li>会话缓存</li>
+<li>全页缓存</li>
+<li>队列：双向队列</li>
+<li>排行榜、计数器</li>
+<li>发布、订阅</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/04/09/20190409-redis/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20190328-设计模式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -235,8 +460,7 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><p>确认应答机制、超时重传机制</p>
-<p>源端口号、目的端口号<br>序号<br>确认序号<br>首部长度、保留6位、6个标识位、窗口大小<br>16位校验和、16位紧急指针<br>选项</p>
+        <h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><p>源端口号、目的端口号<br>序号<br>确认序号<br>首部长度、保留6位、6个标识位、窗口大小<br>16位校验和、16位紧急指针<br>选项</p>
 <h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><ol>
 <li>TCP客户端进程向服务器发出连接请求报文，此时报文首部中的同步标志位SYN=1, 同时选择一个初始序列号 seq = x, 此时，TCP客户端进程进入了 SYN-SENT（同步已发送状态）状态。TCP规定, SYN报文段（SYN=1的报文段）不能携带数据，但需要消耗掉一个序号。 </li>
 <li>TCP服务器收到请求报文后, 如果同意连接, 则发出确认报文。确认报文中的 ACK=1, SYN=1, 确认序号是 x+1, 同时也要为自己初始化一个序列号 seq = y, 此时, TCP服务器进程进入了SYN-RCVD（同步收到）状态。这个报文也不能携带数据, 但是同样要消耗一个序号。 </li>
@@ -272,7 +496,8 @@
 <h2 id="http请求类型"><a href="#http请求类型" class="headerlink" title="http请求类型"></a>http请求类型</h2><p>1、options   返回服务器针对特定资源所支持的HTML请求方法   或web服务器发送<em>测试服务器功能（允许客户端查看服务器性能）<br>2、Get   向特定资源发出请求（请求指定页面信息，并返回实体主体）<br>3、Post   向指定资源提交数据进行处理请求（提交表单、上传文件），又可能导致新的资源的建立或原有资源的修改<br>4、Put   向指定资源位置上上传其最新内容（从客户端向服务器传送的数据取代指定文档的内容）<br>5、Head  与服务器索与get请求一致的相应，响应体不会返回，获取包含在小消息头中的原信息（与get请求类似，返回的响应中没有具体内容，用于获取报头）<br>6、Delete   请求服务器删除request-URL所标示的资源</em>（请求服务器删除页面）<br>7、Trace   回显服务器收到的请求，用于测试和诊断<br>8、Connect   HTTP/1.1协议中能够将连接改为管道方式的代理服务器</p>
 <h2 id="HTTP之状态码"><a href="#HTTP之状态码" class="headerlink" title="HTTP之状态码"></a>HTTP之状态码</h2><p>状态代码有三位数字组成，第一个数字定义了响应的类别，共分五种类别:</p>
 <p>1xx：指示信息–表示请求已接收，继续处理<br>2xx：成功–表示请求已被成功接收、理解、接受<br>3xx：重定向–要完成请求必须进行更进一步的操作<br>4xx：客户端错误–请求有语法错误或请求无法实现<br>5xx：服务器端错误–服务器未能实现合法的请求</p>
-<p>200 OK                        //客户端请求成功<br>304 Not Modified          //自从上次请求后，请求的网页未被修改过。服务器返回此响应时，不会返回网页内容。<br>400 Bad Request               //客户端请求有语法错误，不能被服务器所理解<br>401 Unauthorized              //请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用<br>403 Forbidden                 //服务器收到请求，但是拒绝提供服务<br>404 Not Found                 //请求资源不存在，eg：输入了错误的URL<br>500 Internal Server Error     //服务器发生不可预期的错误<br>502  Bad Gateway           //服务器作为网关或者代理时，为了完成请求访问下一个服务器，但该服务器返回了非法的应答。<br>503 Server Unavailable        //服务器当前不能处理客户端的请求，一段时间后可能恢复正常<br>504  Gateway Timeout        //网关超时，由作为代理或网关的服务器使用，表示不能及时地从远程服务器获得应答</p>
+<p>101(“Switching Protocols”)客户端通过在请求里使用Upgrade报头，以通知服务器它想改用除HTTP协议之外的其他协议时，客户端将获得此响应代码。<br>200 OK                        //客户端请求成功<br>301 Moved Permanently //当客户端触发的动作引起了资源URI的变化时发送此响应代码。另外，当客户端向一个资源的旧URI发送请求时，也发送此响应代码<br>304 Not Modified          //自从上次请求后，请求的网页未被修改过。服务器返回此响应时，不会返回网页内容。<br>306 未使用<br>307 Temporary Redirect  //临时重定向<br>400 Bad Request               //客户端请求有语法错误，不能被服务器所理解<br>401 Unauthorized              //请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用<br>403 Forbidden                 //服务器收到请求，但是拒绝提供服务<br>404 Not Found                 //请求资源不存在，eg：输入了错误的URL<br>405(“Method Not Allowd”) 客户端试图使用一个本资源不支持的HTTP方法。<br>500 Internal Server Error     //服务器发生不可预期的错误<br>502 Bad Gateway           //服务器作为网关或者代理时，为了完成请求访问下一个服务器，但该服务器返回了非法的应答。<br>503 Server Unavailable        //服务器当前不能处理客户端的请求，一段时间后可能恢复正常<br>504  Gateway Timeout        //网关超时，由作为代理或网关的服务器使用，表示不能及时地从远程服务器获得应答<br>505(“HTTP Version Not Supported”) 当服务器不支持客户端试图使用的HTTP版本时发送此响应代码。</p>
+<p>1、浏览器搜索自身的DNS缓存<br>2、搜索操作系统自身的DNS缓存（浏览器没有找到缓存或缓存已经过期失效）：chrome://net-internals/#dns查看DNS缓存记录<br>3、读取本地的HOST文件<br>4、浏览器发起一个DNS的一个系统调用，一般向本地主控DNS服务器（递归查询和迭代查询）<br>5、浏览器获得域名对应的IP地址后，发起HTTP “三次握手”<br>6、TCP/IP连接建立起来后，浏览器就可以向服务器发送HTTP请求了，使用了比如说，用HTTP的GET方法请求一个根域里的一个域名，协议可以采用HTTP1.0的一个协议。<br>7、服务器端接收到了这个请求，根据根路径参数，经过后端的一些处理之后，把处理后的一个结果的数据返回浏览器，如果是慕课网的页面就会把完整的HTML页面代码返回给浏览器。<br>8、浏览器拿到了完整的HTML页面代码，在解析和渲染这个页面的时候，里面的JS、CSS、图片静态资源，它们同样也是一个个HTTP请求，都需要经过上面的主要的七个步骤。<br>9、浏览器根据拿到的资源对页面进行渲染，最终把一个完整的页面呈现给了用户。</p>
 <h2 id="GET和POST的区别："><a href="#GET和POST的区别：" class="headerlink" title="GET和POST的区别："></a>GET和POST的区别：</h2><ol>
 <li>GET提交的数据会放在URL之后，以?分割URL和传输数据，参数之间以&amp;相连，如EditPosts.aspx?name=test1&amp;id=123456. POST方法是把提交的数据放在HTTP包的Body中.</li>
 <li>GET提交的数据大小有限制（因为浏览器对URL的长度有限制），而POST方法提交的数据没有限制.</li>
@@ -289,6 +514,12 @@
 <li>http和https使用的是完全不同的连接方式用的端口也不一样，前者是80，后者是443。</li>
 <li>http的连接很简单，是无状态的。</li>
 </ol>
+<h2 id="OSI模型和TCP-IP模型"><a href="#OSI模型和TCP-IP模型" class="headerlink" title="OSI模型和TCP/IP模型"></a>OSI模型和TCP/IP模型</h2><p>1.OSI是严格的分层结构的理论模型，有7层，实现起来比较困难，而TCP/IP是简化的分层结构的使用模型和技术模型，有4层，实现起来比较容易。</p>
+<p>2.OSI模型先有模型后有协议规范，分层模型不偏向任何特定的协议，模型具有通用性。而TCP/IP先有协议后有模型，模型是对协议的分层描述，只适用于TCP/IP协议，对非TCP/IP网络并不适用。</p>
+<p>3.OSI具有明确的协议和服务区别，而TCP/IP并未充分明确区分服务和协议，因此TCP/IP中，N层实体可以越过N-1层调用N-2层服务，灵活性大，在某些情况下可以减少一些不必要的开销。</p>
+<p>4.在通信上进行比较：</p>
+<p>OSI模型的网络层同时支持无连接和面向连接的通信，但是传输层上只支持面向连接的通信；</p>
+<p>TCP/IP模型的网络层只支持无连接的通信（IP），但在传输层上同时支持两种通信模式。TCP/UDP是TCP/IP 模型里的传输层协议，在OSI模型中的传输层只有TCP和SPX，二者都是面向连接的协议。</p>
 
       
 
@@ -297,6 +528,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">计算机网络</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -372,6 +614,7 @@
 <li>动态规划通常是指求最大值和最小值。应用动态规划问题：求一个问题的最优解；整体问题的最优解是依赖各个子问题的最优解；若干子问题之间有重复；从上往下分析问题，从下往上计算问题。</li>
 <li>一个整数减去1之后再和原来的数字位与，得到的结果相当于把整数的二进制表示中最右边的1变成0。</li>
 <li>a%2等于a&amp;0x1</li>
+<li>a % b == (b-1) &amp; a ,当b是2的指数时，等式成立。</li>
 <li>关于n位的整数并且没有限定n的取值范围，或者输入任意大小的整数，字符串是简单有效表示大数的方法。</li>
 <li>如果涉及到链表的操作，人为设置一个头节点能够服务指针的初始化，最后返回头节点的下一个节点。</li>
 <li>用一个指针遍历链表不能解决问题的时候，可以尝试用两个指针，可以让一个指针走快一点或者先走几步。</li>
@@ -1077,223 +1320,9 @@ f2.set(p2,&quot;Bob&quot;);
 
 
   
-    <article id="post-20181031-git" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/31/20181031-git/">20181031-git</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/31/20181031-git/" class="archive-article-date">
-  	<time datetime="2018-10-31T07:04:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-31</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>git reset –hard commit_id可以回退到具体的版本，commit_id输前几位就可以了。</li>
-<li>git log可以查看提交历史</li>
-<li>git reflog可以查看命令的历史（reference log）</li>
-<li>head代表当前版本，head^代表前一个版本，head^^代表前两个版本，head~n代表前n个版本</li>
-<li>git add只是把工作区里的新增内容写入暂存区，然后git commit将暂存区的内容写入某个具体的分支</li>
-<li>.git文件夹是版本库，里面有暂存区、分支以及head指针</li>
-<li>git checkout – filename 可以将file回退到最近一次add或者commit之后的状态，丢弃工作区的修改。</li>
-<li>git reset head filename 可以把file文件在暂存区的修改丢弃，git reset可以丢弃暂存区的内容，然后利用git checkout丢弃工作区的内容。</li>
-<li>要关联一个远程库，使用命令git remote add origin git@server-name:path/repo-name.git；</li>
-<li>关联后，使用命令git push -u origin master第一次推送master分支的所有内容；此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；</li>
-<li>查看分支：git branch</li>
-<li>创建分支：git branch <name></name></li>
-<li>切换分支：git checkout <name></name></li>
-<li>创建+切换分支：git checkout -b <name></name></li>
-<li>合并某分支到当前分支：git merge <name></name></li>
-<li>删除分支：git branch -d <name></name></li>
-<li>当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，再git stash pop，回到工作现场</li>
-<li>如果要丢弃一个没有被合并过的分支，可以通过git branch -D <name>强行删除</name></li>
-<li>如果git pull提示no tracking information，则说明本地分支和远程分支的链接关系没有创建，用命令git branch –set-upstream-to <branch-name> origin/<branch-name></branch-name></branch-name></li>
-<li>命令git tag <tagname>用于新建一个标签，默认为HEAD，也可以指定一个commit id</tagname></li>
-<li>命令git tag -a <tagname> -m “blablabla…”可以指定标签信息；</tagname></li>
-<li>命令git tag可以查看所有标签。git show可以查看某个tag的内容</li>
-<li>命令git push origin <tagname>可以推送一个本地标签；</tagname></li>
-<li>命令git push origin –tags可以推送全部未推送过的本地标签；</li>
-<li>命令git tag -d <tagname>可以删除一个本地标签；</tagname></li>
-<li>命令git push origin :refs/tags/<tagname>可以删除一个远程标签。</tagname></li>
-<li>git merge –no-ff ，禁用fastforward模式合并</li>
-</ol>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/31/20181031-git/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20180918-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/18/20180918-java/">20180918</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/18/20180918-java/" class="archive-article-date">
-  	<time datetime="2018-09-18T06:41:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-18</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>这一个月专注于写论文，直到上周末才把中文版论文的初稿给老师，马上就要放中秋了，待到国庆再来。然后开始刷leetcode，加油了，年轻人。</p>
-<p>#Java的语法糖</p>
-<ol>
-<li>泛型和类型擦除：java中的泛型只存在于源代码中，编译之后的字节码就会类型擦除把泛型擦掉，然后在使用泛型的地方使用强制类型转换。</li>
-<li>自动拆装箱：基本数据类型不是对象，通过自动拆装箱互相转换，内部还是通过函数调用实现</li>
-<li>变长参数：变长参数具有相同类型，位于参数列表的最后，内部实现是java数组</li>
-<li>增强for循环：可以轮询一个数组或者实现了iterable接口的对象。内部使用iterable接口进行遍历</li>
-<li>内部类：定义在一个类内部的类，编译器还是会为内部类生成一个单独的class文件</li>
-<li>枚举类：在Java的类型中并没有enum类型，枚举类会被编译成普通类，继承java.lang.enum，并被final关键词修饰。</li>
-</ol>
-<p># </p>
-<ol>
-<li>当复制大量数据时，使用System.arraycopy()命令</li>
-<li>乘法和除法可以使用移位操作，乘除2的n次方，可以左移或者右移n</li>
-<li>循环内不要不断创建对象引用</li>
-<li>尽量使用HashMap、ArrayList、StringBuilder，除非线程安全需要，否则不推荐使用Hashtable、Vector、StringBuffer，后三者由于使用同步机制而导致了性能开销</li>
-<li>不要将数组声明为public static final</li>
-<li>顺序插入和随机访问比较多的场景使用ArrayList，元素删除和中间插入比较多的场景使用LinkedList</li>
-<li>使用同步代码块替代同步方法</li>
-<li>实现RandomAccess接口的集合比如ArrayList，应当使用最普通的for循环而不是foreach循环来遍历</li>
-<li>字符串变量和字符串常量equals的时候将字符串常量写在前面，这么做主要是可以避免空指针异常</li>
-<li>不要对数组使用toString()方法</li>
-<li>把一个基本数据类型转为字符串，基本数据类型.toString()是最快的方式、String.valueOf(数据)次之、数据+””最慢</li>
-<li>对资源的close()建议分开操作，避免资源泄露</li>
-<li>对于ThreadLocal使用前或者使用后一定要先remove</li>
-<li>所有重写的方法必须保留@Override注解</li>
-<li>循环体内不要使用”+”进行字符串拼接，而直接使用StringBuilder不断append</li>
-<li>单类的初始化顺序：静态变量 &gt; 静态初始块 &gt; 成员变量 &gt; 非静态初始块 &gt; 构造器</li>
-<li>类继承的初始化顺序：父类静态变量 &gt; 父类静态初始块 &gt; 子类静态变量 &gt; 子类静态初始块 &gt; 父类成员变量 &gt; 父类非静态初始块 &gt; 父类构造器 &gt; 子类成员变量 &gt; 子类非静态初始块 &gt; 子类构造器</li>
-<li>成员变量、初始块的初始化顺序：它们的在类中的顺序就决定了它们的初始化顺序，而不是变量一定会优先于初始块</li>
-<li>一个用final定义的变量，不管它是类型的变量，只要用final定义了并同时指定了初始值，并且这个初始值是在编译时就被确定下来的，那么这个final变量就是一个宏变量。编译器会把程序所有用到该变量的地方直接替换成该变量的值，也就是说编译器能对宏变量进行宏替换。</li>
-<li>hashCode方法可以被重写并返回重写后的值，identityHashCode会返回对象的hash值而不管对象是否重写了hashCode方法。】</li>
-<li>final方法表示不能被子类重写，但可以被继承，如果认为一个方法的功能足够完善，子类不需要改变的话，就声明为final</li>
-<li>final修饰类的时候不能被继承，比如包装类Integer等。</li>
-<li><h2 id="Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"><a href="#Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。" class="headerlink" title="Stream ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"></a><strong>Stream</strong> ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。</h2></li>
-</ol>
-<h1 id="java的代理模式"><a href="#java的代理模式" class="headerlink" title="java的代理模式"></a>java的代理模式</h1><p>代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务</p>
-<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>静态代理：由程序员创建或特定工具自动生成源代码，也就是在编译时就已经将接口，被代理类，代理类等确定下来。在程序运行之前，代理类的.class文件就已经生成。在代理类中保存一个被代理类的实例。</p>
-<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>代理类在程序运行时创建的代理方式被成为动态代理。<br>在java的java.lang.reflect包下提供了一个Proxy类和一个InvocationHandler接口，通过这个类和这个接口可以生成JDK动态代理类和动态代理对象。通过实现InvocationHandler接口，在这个接口的实现类里拥有一个被代理对象的实例，接口实现类的方法中增加代理的逻辑，在被代理对象方法被调用的前后要做什么工作，通过Proxy的静态方法newInstance创建代理对象，在这个方法的参数中需要绑定这个接口的实例，代理类构造完成。<br>一个典型的动态代理创建对象过程可分为以下四个步骤：<br>1、通过实现InvocationHandler接口创建自己的调用处理器 IvocationHandler handler = new InvocationHandlerImpl(…);这个接口需要实现invoke方法实现代理逻辑，通过反射调用方法。<br>2、通过为Proxy类指定ClassLoader对象和一组interface创建动态代理类<br>Class clazz = Proxy.getProxyClass(classLoader,new Class[]{…});<br>3、通过反射机制获取动态代理类的构造函数，其参数类型是调用处理器接口类型<br>Constructor constructor = clazz.getConstructor(new Class[]{InvocationHandler.class});<br>4、通过构造函数创建代理类实例，此时需将调用处理器对象作为参数被传入<br>Interface Proxy = (Interface)constructor.newInstance(new Object[] (handler));<br>为了简化对象创建过程，Proxy类中的Proxy.newProxyInstance方法封装了2~4，只需两步即可完成代理对象的创建。返回的对象要赋给接口变量。</p>
-<p> cglib是针对类来实现代理的，原理是对指定的业务类生成一个子类，并覆盖其中业务方法实现代理。因为采用的是继承，所以不能对final修饰的类进行代理。<br> 1：首先定义业务类，无需实现接口<br>  2：实现 MethodInterceptor方法代理接口，创建代理类，通过enhancer加强器设置父类，设置回调函数callback，enhancer的create函数可以创建动态代理类，不同于jdk的是通过intercept方法实现过滤，通过该方法提供的methodproxy调用业务类的方法，返回的对象要赋给父类对象。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/18/20180918-java/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -1372,6 +1401,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -1380,7 +1413,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1388,11 +1425,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">面试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1416,6 +1449,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
@@ -1424,11 +1461,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1453,6 +1486,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

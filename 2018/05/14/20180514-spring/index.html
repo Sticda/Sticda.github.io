@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/05/14/20180514-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文在bean中获取Resource主要有以下几种方式：  直接通过new各种类型的Resource来获取对应的Resource。 在bean里面获取到对应的ApplicationContext，再通过ApplicationContext的getResource(Stri">
-<meta property="og:updated_time" content="2019-04-03T10:48:02.959Z">
+<meta property="og:updated_time" content="2019-04-13T13:04:07.607Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180514 spring">
 <meta name="twitter:description" content="写在前面身体是革命的本钱啊，上周基本上完全处在感冒发烧的过程中，所以到现在基本上上周什么都没干。健身也总找不到一个伴，很难受。 正文在bean中获取Resource主要有以下几种方式：  直接通过new各种类型的Resource来获取对应的Resource。 在bean里面获取到对应的ApplicationContext，再通过ApplicationContext的getResource(Stri">
@@ -215,7 +215,7 @@
 <li>访问目标方法的参数就是通过JointPoint类型，ProceedingJoinPoint是JointPoint的子类。</li>
 </ol>
 <p>织入的时候，在进入连接点的时候，优先级高的增强处理会被优先织入（优先级高的先执行），离开连接点的时候，优先级高的增强处理会最后被织入（优先级高的最后执行）</p>
-<p>当不同切面的增强处理需要在同一个连接点被织入的时候，spring AOP将会以随机的顺序插入，要有先后的顺序可以通过@Order注解指定一个int型的value，这个值越小优先级越高，也可以实现一个springframwork的Ordered接口，同样返回值越小优先级越高。</p>
+<p>当不同切面的增强处理需要在同一个连接点被织入的时候，spring AOP将会以随机的顺序插入，要有先后的顺序可以通过@Order注解指定一个int型的value，这个值越小优先级越高，也可以让切面类实现一个springframwork的Ordered接口，同样返回值越小优先级越高。</p>
 <p>spring还提供了一种在切入点定义的时候利用args表达式绑定目标方法的参数，@AfterReturning（returning=“rvt”，pointcut=“execution（<em> 全限定包名.</em>..*”(..)) &amp;&amp; args(arg0,arg1)”)，通过在pointcut中增加args（arg0，arg1）会限制目标方法必须有两个形参，在注解修饰的方法中指定了这两个参数的类型之后，这个增强处理就只会匹配指定类型和形参数目的目标方法。args（hhh，..）表示可以匹配多个参数。</p>
 <p>Spring AOP只支持将Spring Bean的方法执行作为连接点，所以可以把切入点看成所有能和切入点表达式匹配的Bean方法。</p>
 <p>切入点定义包含两个部分，一个切入点表达式和一个包含名字和任意参数的方法签名。简单来说就是这个方法签名就是这个切入点的名字，而@Pointcut就是表明这是一个切入点定义，该注解的值就是注入点表达式，切入点签名用一个方法体为空，返回值为void的方法定义提供。这个方法签名中的权限修饰符（private、public等）决定了其他切面类和其他包里的切面类是否可以使用这个切入点。pointcut=“切入点名称（）”，如果是调用其他切面类的切入点必须加上类名前缀。  </p>
@@ -251,7 +251,8 @@
 <li>编程式事务管理：程序直接获取容器的TransactionManager Bean，该Bean总是PlatformTransactionManager的实现类，可以利用这个bean的方法处理事务。</li>
 <li>声明式事务管理：通过在XML文件中为业务组件配置事务代理（AOP代理的一种）。</li>
 </ol>
-<h3 id="注解式事务"><a href="#注解式事务" class="headerlink" title="注解式事务"></a>注解式事务</h3><p>使用@Transactional注解可以在java类重定义，他的属性有isolation(隔离级别)、noRollbackFor（默认遇到运行期例外(throw new RuntimeException(“注释”);)会回滚，用这个参数表示不回滚）、noRollbackForClassName、propagation（传播性）、readOnly（事务的只读性，true表示只读，false表示读写，默认false）、rollbackFor（当该方法抛出指定异常时回滚）、rollbackForClassName、timeout（超时性），光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
+<h3 id="注解式事务"><a href="#注解式事务" class="headerlink" title="注解式事务"></a>注解式事务</h3><p>默认遇到运行期例外(throw new RuntimeException(“注释”);)会回滚，</p>
+<p>使用@Transactional注解可以在java类重定义，他的属性有isolation(隔离级别)、noRollbackFor（用这个参数表示不回滚）、noRollbackForClassName、propagation（传播性）、readOnly（事务的只读性，true表示只读，false表示读写，默认false）、rollbackFor（当该方法抛出指定异常时回滚）、rollbackForClassName、timeout（超时性），光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
 <pre><code>&lt;!-- 事务管理器配置,单数据源事务 --&gt;
 &lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.orm.hibernate3.HibernateTransactionManager&quot;&gt;
     &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot; /&gt;
@@ -531,6 +532,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -539,7 +544,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -547,11 +556,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">面试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -575,6 +580,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
@@ -583,11 +592,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -612,6 +617,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

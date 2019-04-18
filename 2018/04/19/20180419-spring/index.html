@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/04/19/20180419-spring/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="SpringSpring把容器中的一切对象都称为Bean，但是这个Bean和JavaBean不一样，就只是一个Java类，也不需要满足某些规范。 A对象调用B对象的方法被称为依赖。Spring的容器会负责管理所有的对象，Spring使用xml配置文件管理被指定的Bean，一般，在xml配置文件中都会指明语义约束文件，这个东西的作用我猜测就是语义约束文件里面的内容代表什么以及规范的写法。spring">
-<meta property="og:updated_time" content="2019-04-03T01:09:58.740Z">
+<meta property="og:updated_time" content="2019-04-08T03:25:00.734Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20180419 spring">
 <meta name="twitter:description" content="SpringSpring把容器中的一切对象都称为Bean，但是这个Bean和JavaBean不一样，就只是一个Java类，也不需要满足某些规范。 A对象调用B对象的方法被称为依赖。Spring的容器会负责管理所有的对象，Spring使用xml配置文件管理被指定的Bean，一般，在xml配置文件中都会指明语义约束文件，这个东西的作用我猜测就是语义约束文件里面的内容代表什么以及规范的写法。spring">
@@ -181,7 +181,7 @@
 <p>只要一个类继承了ApplicationEvent类，那么这个类的实例对象就可以作为Spring容器的容器事件。一个类实现了ApplicationListener的接口，并且在配置文件中指明就可以作为监听器了，这个接口实现的方法主要是onApplicationEvent方法，每当spring容器被创建加载的时候，这个监听器就会自己开始工作，除此之外还可以使用ApplicationContext的publishEvent显式触发ApplicationEvent。</p>
 <p>如果某个Bean想要发布容器事件，这个Bean就需要获得对spring容器的引用，那这个Bean类就需要实现ApplicationContextAware或者BeanFactoryAware接口。</p>
 <p>spring容器提供了一些内置事件。</p>
-<h3 id="让Bean获取Spring容器"><a href="#让Bean获取Spring容器" class="headerlink" title="让Bean获取Spring容器"></a>让Bean获取Spring容器</h3><p>在web应用中，Spring容器都是声明方式配置产生的，开发者只要在web.xml中配置一个listener，这个listener会负责初始化spring容器。前端MVC框架可以直接调用spring容器中的Bean，无需访问Spring容器，但是有时候我们需要Bean获取spring容器，那么这个Bean就需要实现ApplicationContextAware或者BeanFactoryAware接口，这两个接口分别需要实现setApplicationContext或者setBeanFactory方法，spring一旦发现在配置文件中声明的Bean实现了上面的两个接口，就会在创建之后为他们调用方法把spring容器的引用传递给他。</p>
+<h3 id="让Bean获取Spring容器"><a href="#让Bean获取Spring容器" class="headerlink" title="让Bean获取Spring容器"></a>让Bean获取Spring容器</h3><p>在web应用中，Spring容器都是声明方式配置产生的，开发者只要在web.xml中配置一个ContextLoaderlistener，这个listener会负责初始化spring容器。前端MVC框架可以直接调用spring容器中的Bean，无需访问Spring容器，但是有时候我们需要Bean获取spring容器，那么这个Bean就需要实现ApplicationContextAware或者BeanFactoryAware接口，这两个接口分别需要实现setApplicationContext或者setBeanFactory方法，spring一旦发现在配置文件中声明的Bean实现了上面的两个接口，就会在创建之后为他们调用方法把spring容器的引用传递给他。</p>
 <h2 id="Spring容器中的Bean"><a href="#Spring容器中的Bean" class="headerlink" title="Spring容器中的Bean"></a>Spring容器中的Bean</h2><p>beans元素是spring配置文件的根元素，如果bean和beans配置不一致，bean的配置会覆盖beans的配置。bean元素的两个属性是id 和class，id一般来说都是这个类的名称，当然还可以指明name属性，是这个Bean的别名，通过别名也可以访问实例。name中可以指定多个别名。通过&lt;alias…………/&gt;有两个属性，一个是name，一个是alias。</p>
 <p>spring容器不仅可以创建Bean实例，还可以指定特定的作用域，singleton（只生成一个，默认使用）、prototype（每次getBean都是新的Bean）、request（每次http请求）、session、global session，后面三个只会在web应用有效，通过bean元素的scope属性指定作用域。</p>
 <p>request和session作用域只在web应用中有效，并且必须在web应用中增加额外配置才会生效，也就是在web.xml中增加listener，RequestContextListener</p>
@@ -416,6 +416,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -424,7 +428,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -432,11 +440,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">面试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -460,6 +464,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
@@ -468,11 +476,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -497,6 +501,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

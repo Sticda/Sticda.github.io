@@ -139,6 +139,220 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20181031-git" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/31/20181031-git/">20181031-git</a>
+    </h1>
+  
+
+        
+        <a href="/2018/10/31/20181031-git/" class="archive-article-date">
+  	<time datetime="2018-10-31T07:04:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-31</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>git reset –hard commit_id可以回退到具体的版本，commit_id输前几位就可以了。</li>
+<li>git log可以查看提交历史</li>
+<li>git reflog可以查看命令的历史（reference log）</li>
+<li>head代表当前版本，head^代表前一个版本，head^^代表前两个版本，head~n代表前n个版本</li>
+<li>git add只是把工作区里的新增内容写入暂存区，然后git commit将暂存区的内容写入某个具体的分支</li>
+<li>.git文件夹是版本库，里面有暂存区、分支以及head指针</li>
+<li>git checkout – filename 可以将file回退到最近一次add或者commit之后的状态，丢弃工作区的修改。</li>
+<li>git reset head filename 可以把file文件在暂存区的修改丢弃，git reset可以丢弃暂存区的内容，然后利用git checkout丢弃工作区的内容。</li>
+<li>要关联一个远程库，使用命令git remote add origin git@server-name:path/repo-name.git；</li>
+<li>关联后，使用命令git push -u origin master第一次推送master分支的所有内容；此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；</li>
+<li>查看分支：git branch</li>
+<li>创建分支：git branch <name></name></li>
+<li>切换分支：git checkout <name></name></li>
+<li>创建+切换分支：git checkout -b <name></name></li>
+<li>合并某分支到当前分支：git merge <name></name></li>
+<li>删除分支：git branch -d <name></name></li>
+<li>当手头工作没有完成时，先把工作现场git stash一下，然后去修复bug，修复后，再git stash pop，回到工作现场</li>
+<li>如果要丢弃一个没有被合并过的分支，可以通过git branch -D <name>强行删除</name></li>
+<li>如果git pull提示no tracking information，则说明本地分支和远程分支的链接关系没有创建，用命令git branch –set-upstream-to <branch-name> origin/<branch-name></branch-name></branch-name></li>
+<li>命令git tag <tagname>用于新建一个标签，默认为HEAD，也可以指定一个commit id</tagname></li>
+<li>命令git tag -a <tagname> -m “blablabla…”可以指定标签信息；</tagname></li>
+<li>命令git tag可以查看所有标签。git show可以查看某个tag的内容</li>
+<li>命令git push origin <tagname>可以推送一个本地标签；</tagname></li>
+<li>命令git push origin –tags可以推送全部未推送过的本地标签；</li>
+<li>命令git tag -d <tagname>可以删除一个本地标签；</tagname></li>
+<li>命令git push origin :refs/tags/<tagname>可以删除一个远程标签。</tagname></li>
+<li>git merge –no-ff ，禁用fastforward模式合并</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/10/31/20181031-git/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-20180918-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/18/20180918-java/">20180918</a>
+    </h1>
+  
+
+        
+        <a href="/2018/09/18/20180918-java/" class="archive-article-date">
+  	<time datetime="2018-09-18T06:41:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-18</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>这一个月专注于写论文，直到上周末才把中文版论文的初稿给老师，马上就要放中秋了，待到国庆再来。然后开始刷leetcode，加油了，年轻人。</p>
+<p>#Java的语法糖</p>
+<ol>
+<li>泛型和类型擦除：java中的泛型只存在于源代码中，编译之后的字节码就会类型擦除把泛型擦掉，然后在使用泛型的地方使用强制类型转换。</li>
+<li>自动拆装箱：基本数据类型不是对象，通过自动拆装箱互相转换，内部还是通过函数调用实现</li>
+<li>变长参数：变长参数具有相同类型，位于参数列表的最后，内部实现是java数组</li>
+<li>增强for循环：可以轮询一个数组或者实现了iterable接口的对象。内部使用iterable接口进行遍历</li>
+<li>内部类：定义在一个类内部的类，编译器还是会为内部类生成一个单独的class文件</li>
+<li>枚举类：在Java的类型中并没有enum类型，枚举类会被编译成普通类，继承java.lang.enum，并被final关键词修饰。</li>
+</ol>
+<p># </p>
+<ol>
+<li>当复制大量数据时，使用System.arraycopy()命令</li>
+<li>乘法和除法可以使用移位操作，乘除2的n次方，可以左移或者右移n</li>
+<li>循环内不要不断创建对象引用</li>
+<li>尽量使用HashMap、ArrayList、StringBuilder，除非线程安全需要，否则不推荐使用Hashtable、Vector、StringBuffer，后三者由于使用同步机制而导致了性能开销</li>
+<li>不要将数组声明为public static final</li>
+<li>顺序插入和随机访问比较多的场景使用ArrayList，元素删除和中间插入比较多的场景使用LinkedList</li>
+<li>使用同步代码块替代同步方法</li>
+<li>实现RandomAccess接口的集合比如ArrayList，应当使用最普通的for循环而不是foreach循环来遍历</li>
+<li>字符串变量和字符串常量equals的时候将字符串常量写在前面，这么做主要是可以避免空指针异常</li>
+<li>不要对数组使用toString()方法</li>
+<li>把一个基本数据类型转为字符串，基本数据类型.toString()是最快的方式、String.valueOf(数据)次之、数据+””最慢</li>
+<li>对资源的close()建议分开操作，避免资源泄露</li>
+<li>对于ThreadLocal使用前或者使用后一定要先remove</li>
+<li>所有重写的方法必须保留@Override注解</li>
+<li>循环体内不要使用”+”进行字符串拼接，而直接使用StringBuilder不断append</li>
+<li>单类的初始化顺序：静态变量 &gt; 静态初始块 &gt; 成员变量 &gt; 非静态初始块 &gt; 构造器</li>
+<li>类继承的初始化顺序：父类静态变量 &gt; 父类静态初始块 &gt; 子类静态变量 &gt; 子类静态初始块 &gt; 父类成员变量 &gt; 父类非静态初始块 &gt; 父类构造器 &gt; 子类成员变量 &gt; 子类非静态初始块 &gt; 子类构造器</li>
+<li>成员变量、初始块的初始化顺序：它们的在类中的顺序就决定了它们的初始化顺序，而不是变量一定会优先于初始块</li>
+<li>一个用final定义的变量，不管它是类型的变量，只要用final定义了并同时指定了初始值，并且这个初始值是在编译时就被确定下来的，那么这个final变量就是一个宏变量。编译器会把程序所有用到该变量的地方直接替换成该变量的值，也就是说编译器能对宏变量进行宏替换。</li>
+<li>hashCode方法可以被重写并返回重写后的值，identityHashCode会返回对象的hash值而不管对象是否重写了hashCode方法。】</li>
+<li>final方法表示不能被子类重写，但可以被继承，如果认为一个方法的功能足够完善，子类不需要改变的话，就声明为final</li>
+<li>final修饰类的时候不能被继承，比如包装类Integer等。</li>
+<li><h2 id="Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"><a href="#Stream-：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。" class="headerlink" title="Stream ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。"></a><strong>Stream</strong> ## ：多种方式生成stream（集合方法和Arrays的静态方法），流的操作类型（intermediate和terminal），intermediate都可以并列，基本类型stream（IntStream，LongStream，DoubleStream），Collectors负责将stream和其他的集合类型进行转化。</h2></li>
+</ol>
+<h1 id="java的代理模式"><a href="#java的代理模式" class="headerlink" title="java的代理模式"></a>java的代理模式</h1><p>代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务</p>
+<h2 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h2><p>静态代理：由程序员创建或特定工具自动生成源代码，也就是在编译时就已经将接口，被代理类，代理类等确定下来。在程序运行之前，代理类的.class文件就已经生成。在代理类中保存一个被代理类的实例。</p>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>代理类在程序运行时创建的代理方式被成为动态代理。<br>在java的java.lang.reflect包下提供了一个Proxy类和一个InvocationHandler接口，通过这个类和这个接口可以生成JDK动态代理类和动态代理对象。通过实现InvocationHandler接口，在这个接口的实现类里拥有一个被代理对象的实例，接口实现类的方法中增加代理的逻辑，在被代理对象方法被调用的前后要做什么工作，通过Proxy的静态方法newInstance创建代理对象，在这个方法的参数中需要绑定这个接口的实例，代理类构造完成。<br>一个典型的动态代理创建对象过程可分为以下四个步骤：<br>1、通过实现InvocationHandler接口创建自己的调用处理器 IvocationHandler handler = new InvocationHandlerImpl(…);这个接口需要实现invoke方法实现代理逻辑，通过反射调用方法。<br>2、通过为Proxy类指定ClassLoader对象和一组interface创建动态代理类<br>Class clazz = Proxy.getProxyClass(classLoader,new Class[]{…});<br>3、通过反射机制获取动态代理类的构造函数，其参数类型是调用处理器接口类型<br>Constructor constructor = clazz.getConstructor(new Class[]{InvocationHandler.class});<br>4、通过构造函数创建代理类实例，此时需将调用处理器对象作为参数被传入<br>Interface Proxy = (Interface)constructor.newInstance(new Object[] (handler));<br>为了简化对象创建过程，Proxy类中的Proxy.newProxyInstance方法封装了2~4，只需两步即可完成代理对象的创建。返回的对象要赋给接口变量。</p>
+<p> cglib是针对类来实现代理的，原理是对指定的业务类生成一个子类，并覆盖其中业务方法实现代理。因为采用的是继承，所以不能对final修饰的类进行代理。<br> 1：首先定义业务类，无需实现接口<br>  2：实现 MethodInterceptor方法代理接口，创建代理类，通过enhancer加强器设置父类，设置回调函数callback，enhancer的create函数可以创建动态代理类，不同于jdk的是通过intercept方法实现过滤，通过该方法提供的methodproxy调用业务类的方法，返回的对象要赋给父类对象。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/09/18/20180918-java/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20180813-java" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -712,7 +926,7 @@
 <h2 id="常见的架构设计策略"><a href="#常见的架构设计策略" class="headerlink" title="常见的架构设计策略"></a>常见的架构设计策略</h2><p>目前轻量级的Java EE应用的架构比较统一，使用Spring作为核心，向上整合MVC框架，向下整合ORM框架，使用Spring的IoC容器来管理各组件的依赖关系，Spring的声明事务将负责业务逻辑层组件的事务管理。业务逻辑层需要把Domain Object和DAO对象组织在一起，执行持久化操作。</p>
 <ol>
 <li>贫血模式（阉割过的面向对象）：Domain Object只是单纯的数据类（属性组合，并且提供setter和getter方法），不包含业务逻辑方法，业务逻辑由业务逻辑组件实现。</li>
-<li>领域对象模型（完整的面向对象编程）：每个java类都应该提供与其相关的业务方法，这种模型的问题是业务逻辑组件比较负责，该组件需要作为DAO组件的门面，还需要包装Domain Object里的业务逻辑方法，暴露这种业务逻辑方法，让Action可以调用。</li>
+<li>领域对象模型（完整的面向对象编程）：每个java类都应该提供与其相关的业务方法，这种模型的问题是业务逻辑组件比较复杂，该组件需要作为DAO组件的门面，还需要包装Domain Object里的业务逻辑方法，暴露这种业务逻辑方法，让Action可以调用。</li>
 <li>合并业务逻辑对象和DAO对象：DAO对象包含了各种CRUD方法，还包含了各种业务逻辑方法。</li>
 <li>合并业务逻辑对象和Domain Object：业务逻辑都放在Domain object里面，业务逻辑层基本上已经没有内容，DO直接依赖于DAO对象进行持久化操作，如果将事务控制、权限控制等逻辑以AOP形式织入到DO中，就可以不要业务逻辑层了。</li>
 </ol>
@@ -724,7 +938,14 @@
 <ol>
 <li><strong>@Controller和@RestController的区别</strong>：@Controller类中的方法可以直接通过返回String跳转到jsp、ftl、html等模版页面。在方法上加@ResponseBody注解，也可以返回实体对象。@RestController类中的所有方法只能返回String、Object、Json等实体对象，不能跳转到模版页面。@RestController相当于@ResponseBody + @Controller。@RestController中的方法如果想跳转页面，则用ModelAndView进行封装</li>
 </ol>
-<h1 id="spring-MVC运行机制、工作原理"><a href="#spring-MVC运行机制、工作原理" class="headerlink" title="spring MVC运行机制、工作原理"></a>spring MVC运行机制、工作原理</h1><p>核心架构的具体流程步骤如下：<br>1、首先用户发送请求——&gt;DispatcherServlet，前端控制器收到请求后自己不进行处理，而是委托给其他的解析器进行处理，作为统一访问点，进行全局的流程控制；<br>2、DispatcherServlet——&gt;HandlerMapping， HandlerMapping 将会把请求映射为HandlerExecutionChain 对象（包含一个Handler 处理器（页面控制器）对象、多个HandlerInterceptor 拦截器）对象，通过这种策略模式，很容易添加新的映射策略；<br>3、DispatcherServlet——&gt;HandlerAdapter，HandlerAdapter 将会把处理器包装为适配器，从而支持多种类型的处理器，即适配器设计模式的应用，从而很容易支持很多类型的处理器；<br>4、HandlerAdapter——&gt;处理器功能处理方法的调用，HandlerAdapter 将会根据适配的结果调用真正的处理器的功能处理方法，完成功能处理；并返回一个ModelAndView 对象（包含模型数据、逻辑视图名）；<br>5、ModelAndView的逻辑视图名——&gt; ViewResolver， ViewResolver 将把逻辑视图名解析为具体的View，通过这种策略模式，很容易更换其他视图技术；<br>6、View——&gt;渲染，View会根据传进来的Model模型数据进行渲染，此处的Model实际是一个Map数据结构，因此很容易支持其他视图技术；<br>7、返回控制权给DispatcherServlet，由DispatcherServlet返回响应给用户，到此一个流程结束。</p>
+<h1 id="spring-MVC运行机制、工作原理"><a href="#spring-MVC运行机制、工作原理" class="headerlink" title="spring MVC运行机制、工作原理"></a>spring MVC运行机制、工作原理</h1><p>1、客户端用户发送请求至前端控制器DispatcherServlet。</p>
+<p>2、 DispatcherServlet收到请求调用HandlerMapping处理器映射器。</p>
+<p>3、 HandlerMapping处理器映射器找到具体的处理器(可以根据xml配置、注解进行查找)，生成处理器对象及处理器拦截器(如果有则生成)一并返回给DispatcherServlet。</p>
+<p>4、DispatcherServlet调用HandlerAdapter处理器适配器，HandlerAdapter经过适配调用具体的处理器(Controller，也叫后端控制器)。</p>
+<p>5、Controller控制器执行完成返回ModelAndView，HandlerAdapter将controller执行结果ModelAndView返回给DispatcherServlet。</p>
+<p>6、  DispatcherServlet前端控制器将ModelAndView传给ViewReslover视图解析器。</p>
+<p>7、  ViewReslover解析后返回具体View。</p>
+<p>8、DispatcherServlet根据View进行渲染视图（即将模型数据填充至视图中），并返回给客户端用户。</p>
 <p>下边两个组件通常情况下需要开发：</p>
 <p>Handler：处理器，即后端控制器用controller表示。</p>
 <p>View：视图，即展示给用户的界面，视图中通常需要标签语言展示模型数据。</p>
@@ -858,7 +1079,7 @@
 <li>访问目标方法的参数就是通过JointPoint类型，ProceedingJoinPoint是JointPoint的子类。</li>
 </ol>
 <p>织入的时候，在进入连接点的时候，优先级高的增强处理会被优先织入（优先级高的先执行），离开连接点的时候，优先级高的增强处理会最后被织入（优先级高的最后执行）</p>
-<p>当不同切面的增强处理需要在同一个连接点被织入的时候，spring AOP将会以随机的顺序插入，要有先后的顺序可以通过@Order注解指定一个int型的value，这个值越小优先级越高，也可以实现一个springframwork的Ordered接口，同样返回值越小优先级越高。</p>
+<p>当不同切面的增强处理需要在同一个连接点被织入的时候，spring AOP将会以随机的顺序插入，要有先后的顺序可以通过@Order注解指定一个int型的value，这个值越小优先级越高，也可以让切面类实现一个springframwork的Ordered接口，同样返回值越小优先级越高。</p>
 <p>spring还提供了一种在切入点定义的时候利用args表达式绑定目标方法的参数，@AfterReturning（returning=“rvt”，pointcut=“execution（<em> 全限定包名.</em>..*”(..)) &amp;&amp; args(arg0,arg1)”)，通过在pointcut中增加args（arg0，arg1）会限制目标方法必须有两个形参，在注解修饰的方法中指定了这两个参数的类型之后，这个增强处理就只会匹配指定类型和形参数目的目标方法。args（hhh，..）表示可以匹配多个参数。</p>
 <p>Spring AOP只支持将Spring Bean的方法执行作为连接点，所以可以把切入点看成所有能和切入点表达式匹配的Bean方法。</p>
 <p>切入点定义包含两个部分，一个切入点表达式和一个包含名字和任意参数的方法签名。简单来说就是这个方法签名就是这个切入点的名字，而@Pointcut就是表明这是一个切入点定义，该注解的值就是注入点表达式，切入点签名用一个方法体为空，返回值为void的方法定义提供。这个方法签名中的权限修饰符（private、public等）决定了其他切面类和其他包里的切面类是否可以使用这个切入点。pointcut=“切入点名称（）”，如果是调用其他切面类的切入点必须加上类名前缀。  </p>
@@ -894,7 +1115,8 @@
 <li>编程式事务管理：程序直接获取容器的TransactionManager Bean，该Bean总是PlatformTransactionManager的实现类，可以利用这个bean的方法处理事务。</li>
 <li>声明式事务管理：通过在XML文件中为业务组件配置事务代理（AOP代理的一种）。</li>
 </ol>
-<h3 id="注解式事务"><a href="#注解式事务" class="headerlink" title="注解式事务"></a>注解式事务</h3><p>使用@Transactional注解可以在java类重定义，他的属性有isolation(隔离级别)、noRollbackFor（默认遇到运行期例外(throw new RuntimeException(“注释”);)会回滚，用这个参数表示不回滚）、noRollbackForClassName、propagation（传播性）、readOnly（事务的只读性，true表示只读，false表示读写，默认false）、rollbackFor（当该方法抛出指定异常时回滚）、rollbackForClassName、timeout（超时性），光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
+<h3 id="注解式事务"><a href="#注解式事务" class="headerlink" title="注解式事务"></a>注解式事务</h3><p>默认遇到运行期例外(throw new RuntimeException(“注释”);)会回滚，</p>
+<p>使用@Transactional注解可以在java类重定义，他的属性有isolation(隔离级别)、noRollbackFor（用这个参数表示不回滚）、noRollbackForClassName、propagation（传播性）、readOnly（事务的只读性，true表示只读，false表示读写，默认false）、rollbackFor（当该方法抛出指定异常时回滚）、rollbackForClassName、timeout（超时性），光使用注解还不够，还需要在spring配置文件中声明让spring根据注解配置事务代理。</p>
 <pre><code>&lt;!-- 事务管理器配置,单数据源事务 --&gt;
 &lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.orm.hibernate3.HibernateTransactionManager&quot;&gt;
     &lt;property name=&quot;sessionFactory&quot; ref=&quot;sessionFactory&quot; /&gt;
@@ -1116,252 +1338,9 @@
 
 
   
-    <article id="post-20180424-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/24/20180424-spring/">20180424 spring</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/24/20180424-spring/" class="archive-article-date">
-  	<time datetime="2018-04-24T07:39:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-24</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Spring3-0-提供的Java配置管理"><a href="#Spring3-0-提供的Java配置管理" class="headerlink" title="Spring3.0 提供的Java配置管理"></a>Spring3.0 提供的Java配置管理</h3><ol>
-<li>@Configuration：用于修饰一个Java配置类</li>
-<li>@Bean：用于修饰一个方法，将该方法的返回值定义成容器中的一个Bean</li>
-<li>@Value：用于修饰一个field，相当于配置一个变量</li>
-</ol>
-<p>使用了这种方式管理spring中的bean和依赖关系就需要通过AnnotationConfigApplicationContext方法获取spring容器。这个类提供了一个register方法可以动态添加Java配置类。这个java配置类要在类里新建依赖对象，并且自己通过构造函数完成依赖注入。</p>
-<p>@Import（当前Java配置类导入其他配置类）、@Scope（修饰一个方法，指定该方法对应的Bean的生命域）、@Lazy（修饰一个方法，指定该方法对应的Bean是否需要延迟加载）、@DependsOn（修饰一个方法，指定在初始化该方法对应的Bean之前需要初始化的Bean）@ImportResource（让Java配置类加载指定的xml文件）</p>
-<p><strong>调用者是A，属性对象是B，A依赖B，B被依赖</strong></p>
-<h2 id="创建Bean的3种方式"><a href="#创建Bean的3种方式" class="headerlink" title="创建Bean的3种方式"></a>创建Bean的3种方式</h2><ol>
-<li>构造器</li>
-<li>静态工厂方法</li>
-<li>实例工厂方法</li>
-</ol>
-<p>如果不采用构造注入，spring容器将使用默认的构造器创建Bean实例，所有基本类型为0或者false，引用类型为null，构造器创建Bean的方式就是构造器注入。</p>
-<p>静态工厂方法的时候，需要在配置文件中bean元素下面指定两个属性，一个是class：静态工厂类的类名，一个是factory-method：指定静态工厂方法，如果这个静态工厂方法需要参数的话，只能使用constructor-arg元素传入。主程序中获得spring容器的bean实例无需改变。</p>
-<p>实例工厂方法和静态工厂方法很类似，区别在于实例工厂方法不需要指定class，但是需要指定factory-bean属性，这个里面是工厂类的id，参数也是通过constructor-arg指定的。</p>
-<h2 id="深入理解Bean"><a href="#深入理解Bean" class="headerlink" title="深入理解Bean"></a>深入理解Bean</h2><p>抽象bean的配置就是通过指定abstract的值，抽象bean不会被spring实例化，而且在继承他的bean里面指定parent属性的值为父类抽象bean的id，<strong>子Bean只能继承父bean的参数值和依赖关系，并不能继承父类定义的时候的属性</strong>，比如dependson、autowire、scope等等，spring中的继承是实例之间的关系，java中的是类之间的关系，而且spring的继承不具备多态性。</p>
-<p>工厂Bean和之前看过的bean的创建方法中的工厂模式不太一样，这个工厂Bean的配置和其他的bean没什么异常，但是这个Bean的实现类要继承FactoryBean接口，这个接口有三个方法分别是getObject、getObjectType、isSingleton，继承了FactoryBean接口的bean元素spring不会返回该bean的实例，而是调用getObject方法产生返回值。如果我们想要返回FactoryBean本身，而不是其产品bean的时候，可以在bean id前面加上“&amp;”。</p>
-<p>如果有个Bean类需要知道自己被配置的时候的ID，那么可以实现BeanNameAware接口，这个接口就只有一个setBeanName方法，当spring需要产生该类的实例的时候，检测到这个接口就会把id通过setBeanName的方法传递到Bean类中，Bean类中可以有一个变量存储这个值。</p>
-<p>Bean的依赖关系是由spring完成依赖注入，当A依赖于B,程序请求A的时候，会先初始化B，再把B注入到A，返回A，有的时候可能spring没有自主完成这个操作，所以要在BeanA中利用depends-on属性指定要依赖的B，spring就会完成依赖注入。</p>
-<p>spring可以管理singleton作用域的Bean 的生命周期，spring可以精确的知道该Bean创建，初始化、销毁的时间。</p>
-<h3 id="管理Bean的生命周期"><a href="#管理Bean的生命周期" class="headerlink" title="管理Bean的生命周期"></a>管理Bean的生命周期</h3><p>spring管理生命周期行为的时机主要有两个： 一个是依赖注入之后，一个是即将销毁Bean之前。</p>
-<h3 id="依赖关系注入之后"><a href="#依赖关系注入之后" class="headerlink" title="依赖关系注入之后"></a>依赖关系注入之后</h3><p>有两种方式：一种是使用init-method属性，一种是实现initializingBean接口（侵入式设计，不推荐），这个接口提供了afterPropertiesSet方法，这个方法里指定我们要实现的部分。<strong>两个同时存在的时候先执行afterPropertiesSet，再执行init-method指定的方法。</strong></p>
-<p>init-method的值是这个Bean的某个方法名，指定这个方法在属性设置完成之后执行，BeanNameAware和ApplicationContextAware的执行顺序是先setBeanNameAware，然后setApplicationContext</p>
-<h3 id="Bean销毁之前"><a href="#Bean销毁之前" class="headerlink" title="Bean销毁之前"></a>Bean销毁之前</h3><p>有两种方式：一种是destroy-method属性，一种是实现DisposableBean接口，这个接口有一个destroy方法。在销毁之前执行destroy方法。<strong>两个同时存在的时候先执行destroy方法，再执行destroy-method指定的方法。</strong></p>
-<p>singleton作用域的Bean通常会随着容器关闭而销毁。在web应用环境下ApplicationContext的关闭不需要考虑，在一个非web应用环境下，需要在JVM里面注册一个关闭钩子，就是调用AbstractApplicationContext中提供的registerShutdownHook（）方法。</p>
-<p>如果说很多bean都需要设置init-method和destroy-method，那么就可以利用default-init-method和default-destroy-method，这两个属性将对beans下面的所有bean生效。</p>
-<h3 id="协调作用域不同步的Bean"><a href="#协调作用域不同步的Bean" class="headerlink" title="协调作用域不同步的Bean"></a>协调作用域不同步的Bean</h3><p>如果一个singleton作用域的Bean A依赖于一个Prototype作用域的Bean B，当spring初始化A的时候，会先初始化B，然后把B注入到A中，形成一个singleton作用域的Bean，每一次通过singleton Bean访问prototype Bean的时候，得到的永远是最初的那个prototype Bean，为了解决这个问题，可以使用方法注入，方法注入通常使用lookup方法注入，有两步：第一步是将调用者Bean的实现类定义为抽象类，并定义一个抽象方法来返回被依赖的Bean。在bean元素中添加lookup-method子元素，这个子元素有两个属性，一个是name（方法名），一个是bean（被依赖的prototype的bean的id），相当于指定了这个方法的返回值是去寻找某个id的bean</p>
-<h2 id="高级依赖关系配置"><a href="#高级依赖关系配置" class="headerlink" title="高级依赖关系配置"></a>高级依赖关系配置</h2><p>Spring框架的本质是开发者在spring配置文件中使用xml元素进行配置，实际驱动spring执行相应的代码。</p>
-<h3 id="获取其他Bean的属性值"><a href="#获取其他Bean的属性值" class="headerlink" title="获取其他Bean的属性值"></a>获取其他Bean的属性值</h3><p>PropertyPathFactoryBean用来获取目标Bean的属性值，实际上就是利用了getter方法。</p>
-<p>使用PropertyPathFactoryBean来调用其他Bean的getter方法需要指定如下信息：调用哪个对象和调用哪个getter方法。</p>
-<p>在xml配置文件中需要指明的是targetBeanName和propertyPath的值，通过property的name和value指明，class一定要写明是PropertyPathFactoryBean。value支持复合属性，就是某某类的某某类的某某属性值。如果目标Bean是Bean实例的话，则需要将targetBeanName改成targetObject</p>
-<pre><code>&lt;property name=&quot;son&quot;&gt;
-    &lt;bean class=&quot;org.springframework.beans.factory.config.PropertyPathFactoryBean&quot;&gt;
-        &lt;!-- 确定目标Bean，指定son Bean来自哪个Bean的getter方法 --&gt;
-        &lt;property name=&quot;targetBeanName&quot; value=&quot;father&quot;/&gt;
-        &lt;!-- 指定son Bean来自目标Bean的哪个getter方法，age代表getAge() --&gt;
-        &lt;property name=&quot;propertyPath&quot; value=&quot;son&quot;/&gt;
-</code></pre><h3 id="获取Field值"><a href="#获取Field值" class="headerlink" title="获取Field值"></a>获取Field值</h3><p>通过FieldRetrievingFactoryBean类，可以访问类的静态Field或者对象的实例Field值（要求实例field用public修饰，这个没什么用）。得到值之后可以注入其他Bean，也可以直接定义成新的Bean。</p>
-<p>使用FieldRetrievingFactoryBean访问field分为两种情况，TargetClass和TargetField或者TargetObject和TargetField。</p>
-<p>在XML文件中就是利用property的name和value属性指定值，name是targetClass和targetField，name还可以是staticField，通过这种方式访问静态field，util：constant元素可以简化配置，id（bean实例的name）和static-field</p>
-<h3 id="获取方法返回值"><a href="#获取方法返回值" class="headerlink" title="获取方法返回值"></a>获取方法返回值</h3><p>MethodInvokingFactoryBean工厂Bean，如果调用的方法是静态方法，则需要指定，setTartgetClass，setTargetMethod，setArguments，如果是实例方法，第一个是setTargetObject，其他的不变。arguments中的参数如果超过一个则需要使用list。</p>
-<h2 id="基于XML-Schema的简化配置方式"><a href="#基于XML-Schema的简化配置方式" class="headerlink" title="基于XML Schema的简化配置方式"></a>基于XML Schema的简化配置方式</h2><p>xmlns:p=”http : // www . springframework.org/schema/p”导入p:命名空间，就不需要使用property进行设值注入了，而是p:属性名=属性值，p:属性名-ref=Bean id。</p>
-<p>p:命名空间用于简化设值注入，c:命名空间用于简化构造注入。c:构造器参数名=值或者c:构造器参数名-ref=其他Bean的id，除此之外spring还支持通过索引来配置构造器参数的方式，c:_0-ref=”id”,c:_1=”值”，c:_N中的N代表第几个构造器参数。</p>
-<p>使用util：命名空间也可以简化配置，constant（FieldRetrievingFactoryBean的简化版），property-path（PropertyPathFactoryBean），List（该元素用于定义一个list bean，支持使用value\ref\bean子元素定义list集合元素，id、list-class、scope）set和list类似。</p>
-<p>map元素用于定义一个Map Bean，支持使用entry定义key-value对 ，properties元素用于加载资源文件，根据加载的资源文件创建一个properties bean实例，使用该标签可指定id、location、scope。</p>
-<h2 id="spring3-0提供的表达式语言（SpEL）"><a href="#spring3-0提供的表达式语言（SpEL）" class="headerlink" title="spring3.0提供的表达式语言（SpEL）"></a>spring3.0提供的表达式语言（SpEL）</h2><p>三个接口：ExpressionParser、Expression、EvaluationContext</p>
-<p>ExpressionParser调用parseExpression方法返回一个Expression实例（表达式对象），程序调用Expression对象的getValue方法即可获取该表达式的值。EvaluationContext里面可以放入对象，使用setVariable，这个EvaluationContext就相当于一个变量集合，在SpEl中访问EvaluationContext，需要使用“#name”的格式。在SpEL中访问root对象的属性时，可以省略root对象前缀。SpEL中提供了一个特殊的运算符：T()，这个运算符用于告诉SpEL将该运算符内的字符串当成类（推荐使用全限定名）处理。</p>
-<p>在XML配置文件和Annotation中使用SpEL时，在表达式外面增加#{}包围即可。</p>
-<p>一旦在evaluationContext中设置了变量，就可以在SpEL中通过#name来访问该变量，#this和#root是两个特殊的变量。</p>
-<p>有的时候使用了A.B的访问语句，但是这时候A为null，前面的A.B肯定会出错，这个时候可以使用A?.B，如果A是null，计算结果也是null。不会出错。</p>
-<p>SpEL中提供了一种过滤集合的方法：collection.？[condition_expr]，当操作list集合时，condition_expr中的每个属性、方法都是以集合元素为主调的，而map集合需要用key引用Map Entry的key，用value引Map Entry的value。除此之外还提供了一种集合投影的方法，将结果存入一个新的集合中，collection.![condition_expr]</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/24/20180424-spring/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-20180419-spring" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/19/20180419-spring/">20180419 spring</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/19/20180419-spring/" class="archive-article-date">
-  	<time datetime="2018-04-19T01:12:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-19</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h1><p>Spring把容器中的一切对象都称为Bean，但是这个Bean和JavaBean不一样，就只是一个Java类，也不需要满足某些规范。</p>
-<p>A对象调用B对象的方法被称为依赖。Spring的容器会负责管理所有的对象，Spring使用xml配置文件管理被指定的Bean，一般，在xml配置文件中都会指明语义约束文件，这个东西的作用我猜测就是语义约束文件里面的内容代表什么以及规范的写法。spring的配置文件的根元素是spring-beans-4.0.xsd，根标签是beans，子标签是bean，属性指定了名称和class实现的全限定名，spring底层是通过反射的方式创建对象的，调用的是这个类无参数的构造器。这个配置文件中还可以有property子元素，他可以使spring在底层反射执行一次setter方法，这个property有两个子元素，name和ref/value，name就是决定执行哪个setter，value和ref的区别主要在于setter肯定有传入参数，这个参数要是容器中其他bean就是ref，如果是基本类型及其包装类，就用value。调用对应setter的方法也是反射。</p>
-<p>spring中要通过ApplicationContext访问Bean，两个实现类，ClassPathXmlApplicationContext（一般配置文件放在src文件下，类加载路径）、FileSystemXMLApplicationContext（从文件路径的相对路径或者绝对路径下搜索配置文件）</p>
-<p><strong>对于一个web应用，由于eclipse部署web应用不会将用户库中的jar文件复制到web应用的WEB-INF/lib路径下。所以还需要主动将用户库所引用的jar文件复制到web应用的WEB-INF/lib路径下。</strong></p>
-<h2 id="依赖注入（Dependency-Injection）"><a href="#依赖注入（Dependency-Injection）" class="headerlink" title="依赖注入（Dependency Injection）"></a>依赖注入（Dependency Injection）</h2><p>A对象需要调用B对象，<strong>在Spring框架下</strong>，调用者不需要主动获取被依赖对象，调用者只要被动接受Spring容器为调用者的成员变量赋值即可（通过property子元素让spring利用setter方法赋值），之前都是想要使用的话调用者自己产生一个实例，现在通过spring框架变成了被动接受，这种叫做控制反转（Inverse of Control，IoC），<strong>控制反转和依赖注入是一样的</strong>。spring容器负责将被依赖对象赋值给调用对象的成员变量，算是一种为调用者注入它依赖的实例。</p>
-<p>有两种方式：设值注入（通过成员变量的setter方法）、构造注入（构造器注入），spring推荐面向接口编程。</p>
-<p>用接口声明变量，不是接口变量，而是一个接口类型的引用指向了一个实现该接口的对象，这是java中的一种多态现象 ，java中的接口不能被实例化，但是可以通过接口引用指向一个对象，这样通过接口来调用方法可以屏蔽掉具体的方法的实现，这是在JAVA编程中经常用到的接口回调，也就是经常说的面向接口的编程。</p>
-<p>spring基于XML Schema的XML配置文件指定实例之间的耦合关系。就是在前面说过的配置文件中，beans根元素下的bean子元素，通过设置具体实现的类以及property元素来指明类实例之间的耦合关系。</p>
-<p>构造注入就是spring通过底层实现反射调用有参数的构造器，通过这个有参数的构造器就可以实现依赖注入，完成被依赖实例和调用者实例的绑定，方法就是在配置文件中bean元素下面不使用property（设值注入），使用constructor-arg，里面指定的参数是index（参数的顺序，索引号）、ref（参数值），如果是基本类型，可以使用value（数据值）、index、type（类型） 的组合。</p>
-<p>对于依赖关系无需变化的注入，尽量采用构造注入，而其他依赖关系的注入，则考虑设值注入。</p>
-<p>spring有两个核心接口：BeanFactory、ApplicationContext，其中ApplicationContext是BeanFactory的子接口，都可以代表spring容器，在基于Java EE应用中，所有组件都被当成Bean处理，包括数据源、hibernate的Session Factory、事务管理器。任何的Java对象、Java组件都被当成Bean处理。对于spring而言，一切java对象都是bean。BeanFactory的基本方法就是getBean、getType、containsBean。BeanFactory的常用实现类是DefaultListableBeanFactory，但是大部分情况下都是用ApplicationContext的实现类，他有三个实现类，FileSystemXmlApplicationContext、ClassPathXMLApplicationContext、AnnotationConfigWebApplicationContext，后两个在web应用中经常用。Resource是spring提供的资源访问接口。可以在参数中指定多个xml文件创建spring容器。</p>
-<p>ApplicationContext与BeanFactory相比的额外功能是ApplicationContext默认会预初始化所有的singleton Bean，继承了MessageSource（实现国际化），加载多个配置文件、访问资源、事件机制，以声明方式创建spring，但是BeanFactory就不会预初始化。如果不想预初始化的话可以在bean元素里面指定lazy-init为true。ApplicationContext的国际化支持是通过继承MessageSource的接口实现的，getMessage。程序创建ApplicationContext的时候会自动查找配置文件中为MessageSource的Bean实例，一旦找到getmessage的调用就会给Messagesource的实例，要是找不到就找父容器，以此类推。实在找不到也会创建一个空的StaticMessageSource的Bean，bean的id是MessageSource，class一般使用ResourceBundleMessageSource类，配置文件中property里面是basenames，这个里面是一个list属性，value值就是我们的国际化资源文件。</p>
-<h3 id="ApplicationContext的事件机制"><a href="#ApplicationContext的事件机制" class="headerlink" title="ApplicationContext的事件机制"></a>ApplicationContext的事件机制</h3><p>spring容器中如果有一个ApplicationListener的Bean，那么当ApplicationContext发出一个ApplicationEvent的时候，ApplicationListener  Bean将会自动被触发。</p>
-<p>只要一个类继承了ApplicationEvent类，那么这个类的实例对象就可以作为Spring容器的容器事件。一个类实现了ApplicationListener的接口，并且在配置文件中指明就可以作为监听器了，这个接口实现的方法主要是onApplicationEvent方法，每当spring容器被创建加载的时候，这个监听器就会自己开始工作，除此之外还可以使用ApplicationContext的publishEvent显式触发ApplicationEvent。</p>
-<p>如果某个Bean想要发布容器事件，这个Bean就需要获得对spring容器的引用，那这个Bean类就需要实现ApplicationContextAware或者BeanFactoryAware接口。</p>
-<p>spring容器提供了一些内置事件。</p>
-<h3 id="让Bean获取Spring容器"><a href="#让Bean获取Spring容器" class="headerlink" title="让Bean获取Spring容器"></a>让Bean获取Spring容器</h3><p>在web应用中，Spring容器都是声明方式配置产生的，开发者只要在web.xml中配置一个listener，这个listener会负责初始化spring容器。前端MVC框架可以直接调用spring容器中的Bean，无需访问Spring容器，但是有时候我们需要Bean获取spring容器，那么这个Bean就需要实现ApplicationContextAware或者BeanFactoryAware接口，这两个接口分别需要实现setApplicationContext或者setBeanFactory方法，spring一旦发现在配置文件中声明的Bean实现了上面的两个接口，就会在创建之后为他们调用方法把spring容器的引用传递给他。</p>
-<h2 id="Spring容器中的Bean"><a href="#Spring容器中的Bean" class="headerlink" title="Spring容器中的Bean"></a>Spring容器中的Bean</h2><p>beans元素是spring配置文件的根元素，如果bean和beans配置不一致，bean的配置会覆盖beans的配置。bean元素的两个属性是id 和class，id一般来说都是这个类的名称，当然还可以指明name属性，是这个Bean的别名，通过别名也可以访问实例。name中可以指定多个别名。通过&lt;alias…………/&gt;有两个属性，一个是name，一个是alias。</p>
-<p>spring容器不仅可以创建Bean实例，还可以指定特定的作用域，singleton（只生成一个，默认使用）、prototype（每次getBean都是新的Bean）、request（每次http请求）、session、global session，后面三个只会在web应用有效，通过bean元素的scope属性指定作用域。</p>
-<p>request和session作用域只在web应用中有效，并且必须在web应用中增加额外配置才会生效，也就是在web.xml中增加listener，RequestContextListener</p>
-<p>不建议使用配置文件管理Bean的基本类型的属性值，通常只使用配置文件管理容器中Bean与Bean的依赖关系，在配置bean的时候ref的值是另外一个bean，value是基本类型及其包装类型。</p>
-<p>Spring可以自动装配Bean与Bean之间的依赖关系，通过beans和bean元素的autowire属性指定，这个属性有5个值：no、byName（根据setter方法名自动匹配）、byType（根据setter方法的参数自动匹配）、constructor（根据构造器的参数自动匹配）、autodetect（spring自主选择bytype或者constructor）</p>
-<p>byName如果找不到名称的bean的话就不会依赖注入，byType如果没有类型相同的实例就不会调用setter方法，如果有多个类型相同的实例就会抛出异常。</p>
-<p>有的时候，程序希望将某些Bean排除在自动装配之外，只需要在bean元素配置的时候设置autowire-candidate=‘false’，在beans元素下面的default-autowire-candidates属性允许使用多个模式字符串的组合。</p>
-<p>如果某个Bean所依赖的Bean不想被spring容器访问，那么就可以使用嵌套Bean，可以把bean元素配置成property或者constructor-args的子元素</p>
-<p><strong>注入集合值</strong>如果需要调用形参类型为集合的setter方法，或者调用形参类型为集合的构造器，可以使用集合元素为&lt;list…./&gt;&lt;set…/&gt;&lt;map…./&gt;和&lt;props…/&gt;，list的子元素就是value，map的子元素是entry，属性有key,key-ref或者value和value-ref的组合，ref就是引用其他的Bean实例；props的子元素是prop，属性有key和value。</p>
-<p>集合元素的值又可以是基本类型值（value）、引用容器中的其他bean（ref）、嵌套Bean（bean）或者集合属性（list、set、map、props）等</p>
-<p>props元素用于配置properties类型的参数值，key和value只能是字符串，<prop key="key">value</prop>。</p>
-<p>Spring中还支持集合的合并，子Bean中的集合属性可以从其父Bean的集合属性继承和覆盖而来。而且子Bean集合中的元素可以覆盖父Bean集合中对应的元素。</p>
-<p>Spring还支持组合属性的方式，比如说A.B.C，除了最后一个属性之外，其他的属性值不允许为空。这种方式就是先执行一个getter，再执行一次setter。</p>
-<p>传统的JavaBean和spring中的bean的用法不同，传统的JavaBean更多作为值对象传递参数，传统的JavaBean要求所有的属性都要有setter和getter，JavaBean不接受任何容器管理其生命周期，而spring中的Bean只需要为接受设值注入的属性提供setter方法即可。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/19/20180419-spring/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 
@@ -1440,6 +1419,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -1448,7 +1431,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1456,11 +1443,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">面试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1484,6 +1467,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
@@ -1492,11 +1479,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1521,6 +1504,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

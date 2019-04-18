@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/16/20171019-java/index.html">
 <meta property="og:site_name" content="Sticda">
 <meta property="og:description" content="volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。 java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器">
-<meta property="og:updated_time" content="2019-04-01T12:19:53.913Z">
+<meta property="og:updated_time" content="2019-04-11T09:33:43.090Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20171019">
 <meta name="twitter:description" content="volatile关键字有两个作用：一个是保证所修饰的变量的更改对所有使用他的进程都可见；另一个是禁止优化时的指令重排序。volatile保证了多线程操作时变量的可见性，并不能保证原子性，如果要对volatile变量进行运算，就需要同步。 java的双亲委派模型，启动类加载器（Bootstrap ClassLoader），扩展类加载器（Extension ClassLoader），应用程序类加载器">
@@ -190,8 +190,8 @@
 <li>什么时候volatile可以替代加锁：运算结果不依赖变量的当前值，或者只有单一线程修改变量值，变量不需要与其他的状态变量共同参与不变约束（单变量控制）</li>
 <li>JMM对于volatile变量的三个规则：1.load和use相连；2.assign和store相连。3. load和assign早的变量，read和write就要早</li>
 <li>8条happens-before原则：1.程序次序规则（写在前面的操作先行于书写在后面的操作）2.管程锁定规则：一个unlock操作先行发生于后面对同一个锁的lock操作3.volatile变量规则：对一个volatile变量的写操作先行发生于对该变量的读取。4.线程启动规则：thread对象的start方法先行发生于此线程的每一个动作。5. 线程终止规则：线程中所有操作都先行发生于对此线程的终止检测。6. 线程中断规则：对线程interrupt方法的调用先行发生于被中断线程的代码检测到中断事件的发生。7. 对象终结规则：一个对象的初始化完成先行于他的finalize方法开始。8.传递性：A操作先行发生于B操作，B操作先行发生于C操作，那么A操作先行发生于C操作。</li>
-<li>轻量级锁的加锁与解锁：如果同步对象没有被锁定，锁标志位为01，虚拟机首先将在当前线程的栈帧中新建一个lock record，用于存储同步对象的Mark Word，然后使用CAS操作将对象的Mark Word更改为指向lock record的指针，如果更新成功了，该线程就拥有了该对象的锁，并且对象的Mark Word的锁标志位转为00，如果这个更新操作失败了，虚拟机会检查对象的Mark Word是否已经指向当前线程的栈帧，如果是就说明当前线程已经拥有了这个对象的锁，如果不是的话说明锁对象被其他线程抢占了，如果有两条以上的线程争用同一个锁，那轻量级锁就要膨胀成重量级锁，锁标志的状态转变为10,Mark Word中存储指向重量级锁的指针。。。解锁过程也是使用CAS操作实现的，如果所对象的Mark Word仍然指向线程的lock record，就用CAS操作将对象的Mark Word和lock record替换回来，如果替换成功，同步结束，替换不成功说明有其他线程尝试获取过该锁，在释放锁的时候就要唤醒被挂起的线程。</li>
-<li>偏向锁：虚拟机启动了偏向锁才会有这一步，当锁对象第一次被线程获取的时候，虚拟机将会把对象头的标志位设为01，表示偏向模式，然后利用CAS操作将线程Id写入Mark word中，如果CAS操作成功的话，持有偏向锁的对象在之后再使用这个锁的时候就不需要进行任何同步操作了，当有另外一个线程尝试获取这个锁的时候，偏向模式就结束了，根据锁的状态恢复到未锁定或者轻量级锁。</li>
+<li>轻量级锁的加锁与解锁：如果同步对象没有被锁定，锁标志位为01，虚拟机首先将在当前线程的栈帧中新建一个lock record，用于存储同步对象的Mark Word，然后使用CAS操作将对象的Mark Word更改为指向lock record的指针，如果更新成功了，该线程就拥有了该对象的锁，并且对象的Mark Word的锁标志位转为00，如果这个更新操作失败了，虚拟机会检查对象的Mark Word是否已经指向当前线程的栈帧，如果是就说明当前线程已经拥有了这个对象的锁，如果不是的话说明锁对象被其他线程抢占了，如果有两条以上的线程争用同一个锁，那轻量级锁就要膨胀成重量级锁，锁标志的状态转变为10,Mark Word中存储指向重量级锁Monitor的指针。。。解锁过程也是使用CAS操作实现的，如果所对象的Mark Word仍然指向线程的lock record，就用CAS操作将对象的Mark Word和lock record替换回来，如果替换成功，同步结束，替换不成功说明有其他线程尝试获取过该锁，在释放锁的时候就要唤醒被挂起的线程。</li>
+<li>偏向锁：虚拟机启动了偏向锁才会有这一步，当锁对象第一次被线程获取的时候，虚拟机将会把对象头的标志位设为01，表示偏向模式，然后利用CAS操作将线程Id写入Mark word中，如果CAS操作成功的话，持有偏向锁的对象在之后再使用这个锁的时候就不需要进行任何同步操作了，当有另外一个线程尝试获取这个锁的时候，开始撤销偏向锁，在全局安全点判断持有偏向锁的线程是否已经结束同步块的执行，如果结束了，就将锁恢复到无锁状态，两个线程竞争thread id；没有结束同步块的执行的话就锁升级成轻量级锁，原来持有偏向锁的线程会继续执行，两个线程竞争轻量级锁。</li>
 </ol>
 
       
@@ -413,6 +413,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -421,7 +425,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -429,11 +437,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">面试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -457,6 +461,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
@@ -465,11 +473,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -494,6 +498,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

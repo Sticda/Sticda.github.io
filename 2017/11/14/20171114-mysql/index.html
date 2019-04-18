@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>20171114 | Sticda</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="触发器触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即表的操作事件触发表上的触发器的执行。 CREATE TRIGGER trigger_name trigger_time trigger_event ON tbl_name FOR EACH ROW trigger_stmt1 其中： trigger_name：标识触发器名称，用户自行指定；trigger_t">
-<meta name="keywords" content="数据库">
+  <meta name="description" content="mysql有三个比较常用的存储引擎，存储引擎就是定义如何存储数据，如何为存储的数据建立索引和如何更新查询数据等具体问题的技术实现，“show engines；”比较常用的存储引擎有三个：InnoDB、MyISAM、MEMORY。  InnoDB：可以实现事务处理，支持外键，频繁的更新插入操作可以选用，两个文件（数据，日志）缓存数据和索引。一行一行删除表格。 MyISAM：管理非事务表， 占用空间小">
+<meta name="keywords" content="数据库,面试">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20171114">
 <meta property="og:url" content="http://yoursite.com/2017/11/14/20171114-mysql/index.html">
 <meta property="og:site_name" content="Sticda">
-<meta property="og:description" content="触发器触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即表的操作事件触发表上的触发器的执行。 CREATE TRIGGER trigger_name trigger_time trigger_event ON tbl_name FOR EACH ROW trigger_stmt1 其中： trigger_name：标识触发器名称，用户自行指定；trigger_t">
-<meta property="og:updated_time" content="2019-04-04T06:59:57.535Z">
+<meta property="og:description" content="mysql有三个比较常用的存储引擎，存储引擎就是定义如何存储数据，如何为存储的数据建立索引和如何更新查询数据等具体问题的技术实现，“show engines；”比较常用的存储引擎有三个：InnoDB、MyISAM、MEMORY。  InnoDB：可以实现事务处理，支持外键，频繁的更新插入操作可以选用，两个文件（数据，日志）缓存数据和索引。一行一行删除表格。 MyISAM：管理非事务表， 占用空间小">
+<meta property="og:updated_time" content="2019-04-10T10:19:42.459Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20171114">
-<meta name="twitter:description" content="触发器触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即表的操作事件触发表上的触发器的执行。 CREATE TRIGGER trigger_name trigger_time trigger_event ON tbl_name FOR EACH ROW trigger_stmt1 其中： trigger_name：标识触发器名称，用户自行指定；trigger_t">
+<meta name="twitter:description" content="mysql有三个比较常用的存储引擎，存储引擎就是定义如何存储数据，如何为存储的数据建立索引和如何更新查询数据等具体问题的技术实现，“show engines；”比较常用的存储引擎有三个：InnoDB、MyISAM、MEMORY。  InnoDB：可以实现事务处理，支持外键，频繁的更新插入操作可以选用，两个文件（数据，日志）缓存数据和索引。一行一行删除表格。 MyISAM：管理非事务表， 占用空间小">
   
     <link rel="alternative" href="/atom.xml" title="Sticda" type="application/atom+xml">
   
@@ -165,56 +165,36 @@
 <!-- 目录内容结束 -->
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h1><p>触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即<strong>表的操作事件触发表上的触发器的执行</strong>。</p>
-<pre><code>CREATE TRIGGER trigger_name
-trigger_time
-trigger_event ON tbl_name
-FOR EACH ROW
-trigger_stmt1
-</code></pre><p>其中：</p>
-<p>trigger_name：标识触发器名称，用户自行指定；<br>trigger_time：标识触发时机，取值为 BEFORE 或 AFTER；<br>trigger_event：标识触发事件，取值为 INSERT、UPDATE 或 DELETE；<br>tbl_name：标识建立触发器的表名，即在哪张表上建立触发器；<br>trigger_stmt：触发器程序体，可以是一句SQL语句，或者用 BEGIN 和 END 包含的多条语句。  </p>
-<p>由此可见，可以建立6种触发器，即：BEFORE INSERT、BEFORE UPDATE、BEFORE DELETE、AFTER INSERT、AFTER UPDATE、AFTER DELETE。</p>
-<p>另外有一个限制是<strong>不能同时在一个表上建立2个相同类型的触发器</strong>，因此在一个表上最多建立6个触发器。</p>
-<p><strong>select语句返回的是结果集，就算最终的结果是表中的一个具体部分，也是一个结果集</strong></p>
-<h3 id="查看触发器"><a href="#查看触发器" class="headerlink" title="查看触发器"></a>查看触发器</h3><p>show triggers 查看数据库中所有的触发器</p>
-<p>select * from information_schema.triggers where trigger_name = ’触发器名称‘</p>
-<h1 id="视图（view）"><a href="#视图（view）" class="headerlink" title="视图（view）"></a>视图（view）</h1><p>数据库中只存放了视图的定义，没有视图的数据，所以每次使用视图获得的都是最新的数据，主要作用是保证了应用程序和数据库表的逻辑数据独立性，以及安全性<br>新建视图前先检查是否具有权限。</p>
-<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
-view 视图名（属性清单）
-as select语句
-[with [CASCADED | LOCAL ] check option];
-</code></pre><p>or replace的意思是如果存在的话进行修改，如果不存在的话创建视图</p>
-<p>algorithm表示视图选择的算法。ALGORITHM可取三个值：MERGE、TEMPTABLE或UNDEFINED。如果没有ALGORITHM子句，默认算法是UNDEFINED（未定义的）。算法会影响MySQL处理视图的方式。对于MERGE，会将引用视图的语句的文本与视图定义合并起来，使得视图定义的某一部分取代语句的对应部分。对于TEMPTABLE，视图的结果将被置于临时表中，然后使用它执行语句。对于UNDEFINED，MySQL自己选择所要使用的算法。如果可能，它倾向于MERGE而不是TEMPTABLE，这是因为MERGE通常更有效，而且如果使用了临时表，视图是不可更新的。</p>
-<p>with check option是可选参数，表示更新视图时要保证在该视图的权限范围内。<br>创建视图时指定了with check option关键字，这也就是说，更新后的每一条数据仍然要满足创建视图时指定的where条件。通过视图进行的修改，必须也能通过该视图看到修改后的结果<br>如果有with check option的话，默认关键字是cascade</p>
-<p>select语句中不能包含from子句中的子查询</p>
-<p>不能将触发程序和视图关联在一起。</p>
-<p>视图是建立在数据库上的</p>
-<h2 id="查看视图"><a href="#查看视图" class="headerlink" title="查看视图"></a>查看视图</h2><ol>
-<li>DESCRIBE（desc）视图名；</li>
-<li>show table status like ‘视图名’；(不带like就是展示目前数据库中的表和视图)</li>
-<li>show create view 视图名；</li>
-</ol>
-<h2 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h2><ol>
-<li>create or replace</li>
-<li><p>和定义时类似，将create改成alter</p>
-<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
-view 视图名（属性清单）
-as select语句
-[with [CASCADED | LOCAL ] check option];
-</code></pre><h2 id="更新视图（insert、update）"><a href="#更新视图（insert、update）" class="headerlink" title="更新视图（insert、update）"></a>更新视图（insert、update）</h2></li>
-</ol>
-<p>由于视图是一个虚表，所以通过视图的更新都将通过转化为基本的表操作，更新时必须保证拥有权限，更新时将视图看做普通的表。</p>
-<p>有几种情况更新视图是不能成功的。</p>
+        <p>mysql有三个比较常用的存储引擎，存储引擎就是定义如何存储数据，如何为存储的数据建立索引和如何更新查询数据等具体问题的技术实现，“show engines；”比较常用的存储引擎有三个：InnoDB、MyISAM、MEMORY。</p>
 <ol>
-<li>视图中包括了count、sum、max、min等函数</li>
-<li>视图中包含了union、UNION all 、distinct、group by、having等关键字</li>
-<li>select中包含了常量或者有子查询。</li>
-<li>由不可能更新的视图产生的视图。</li>
-<li>创建视图时算法为temptable类型。</li>
-<li>视图对应的表上存在没有默认值的非空列，并且这一列也不在视图中，所以插入失败。</li>
+<li>InnoDB：可以实现事务处理，支持外键，频繁的更新插入操作可以选用，两个文件（数据，日志）缓存数据和索引。一行一行删除表格。</li>
+<li>MyISAM：管理非事务表， 占用空间小，处理速度快，保存表的总行数，存储三个文件（表定义、数据、索引）主要用于读出记录。只缓存索引、可以没有主键，删表</li>
+<li>MEMORY：该存储引擎所有数据都在内存中，处理速度高，但是安全性不高，只能适用于相对较小的数据库</li>
 </ol>
-<p>drop view if <strong>exists</strong> 视图名 [restrict | cascade ]</p>
-<h1 id="事务（transaction）"><a href="#事务（transaction）" class="headerlink" title="事务（transaction）"></a>事务（transaction）</h1><p>ACID：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）<br>原子性（Atomicity）：一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部失败回滚。<br>一致性（consistency）：数据库总是从一个一致性的状态转换到另一个一致性的状态。（其实原子性和隔离性间接的保证了一致性）<br>隔离性（isolation）：通常来说，一个事务所做的修改在最终提交以前，对其他事务是不可见的。<br>持久性（durability）：一旦事务提交，则其所做的修改就会永久保存到数据库中。</p>
+<h1 id="MySQL索引"><a href="#MySQL索引" class="headerlink" title="MySQL索引"></a>MySQL索引</h1><p>分为单列和多列索引</p>
+<p>普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、主键索引、组合索引、</p>
+<pre><code>create table 表名(
+属性名 数据类型[约束条件]，
+…………
+[UNIQUE|FULLTEXT|SPATIAL] INDEX KEY
+[别名] (属性名[(长度)] [ASC|DESC])
+);
+</code></pre><p>举个栗子</p>
+<pre><code>create table student（
+id int not null primary key auto_increment,
+abd varchar(50),
+index hahaha(id)）;
+</code></pre><p>索引名是hahaha，索引的内容是id列，哈哈哈是别名，如果不指定别名将直接使用列名作为索引名</p>
+<hr>
+<p>在已有表上新建索引</p>
+<pre><code>CREATE [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name 
+ON table_name(属性 [(length)] [ASC | DESC]);
+</code></pre><p>修改表结构添加索引</p>
+<pre><code>alter table 表名 ADD [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name (属性 [(length)] [ASC | DESC]);
+</code></pre><p>注意上面两种的区别，主要需要注意的地方是前者是表名+列名“table_name(属性 [(length)] [ASC | DESC])”，后者是索引名+列名“INDEX index_name (属性 [(length)] [ASC | DESC])”。<br>用show create table 表名可以查看该表的定义</p>
+<h1 id="事务（transaction）"><a href="#事务（transaction）" class="headerlink" title="事务（transaction）"></a>事务（transaction）</h1><p>ACID：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）<br><strong>原子性（Atomicity）</strong>：一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部失败回滚。MySQL通过Redo Log重做日志实现了原子性，在将执行SQL语句时，会先写入redo log buffer，再执行SQL语句，若SQL语句执行出错就会根据redo log buffer中的记录来执行回滚操作，由此拥有原子性<br><strong>一致性（consistency）</strong>：数据库总是从一个一致性的状态转换到另一个一致性的状态。（其实原子性和隔离性间接的保证了一致性）<br>MySQL通过undo Log实现一致性，执行SQL语句时，会先写入undo log再写入 redo log buffer。undo是逻辑日志，会根据之前的SQL语句进行相应回滚，比如之前是insert那么回滚时会执行一个delete，一个update会执行 一个相反的update。并且除了回滚，undo log还有一个作用是MVCC，当用户读取一行记录时，若该记录已经被其他事务占用，当前事务可通过undo读取之前的行版本信息，实现非锁定读取。并且undo log也会产生redo log，因为undo log也需要持久性的保护<br><strong>隔离性（isolation）</strong>：通常来说，一个事务所做的修改在最终提交以前，对其他事务是不可见的。通过加锁实现。<br><strong>持久性（durability）</strong>：一旦事务提交，则其所做的修改就会永久保存到数据库中。</p>
+<p>MVCC是为了实现数据库的并发控制而设计的一种协议。要实现数据库的并发访问控制，最简单的做法就是加锁访问，即读的时候不能写（允许多个线程同时读，即共享锁，S锁），写的时候不能读（一次最多只能有一个线程对同一份数据进行写操作，即排它锁，X锁）。这样的加锁访问，其实并不算是真正的并发，或者说它只能实现并发的读，因为它最终实现的是读写串行化，这样就大大降低了数据库的读写性能。加锁访问其实就是和MVCC相对的LBCC，即基于锁的并发控制（Lock-Based Concurrent Control），是四种隔离级别中级别最高的Serialize隔离级别。为了提出比LBCC更优越的并发性能方法，MVCC便应运而生。</p>
+<p>MVCC的最大好处便是，读不加锁，读写不冲突。在MVCC中，读操作可以分成两类，快照读（Snapshot read）和当前读（current read）。快照读，读取的是记录的可见版本（可能是历史版本，即最新的数据可能正在被当前执行的事务并发修改），不会对返回的记录加锁；而当前读，读取的是记录的最新版本，并且会对返回的记录加锁，保证其他事务不会并发修改这条记录。在MySQL InnoDB中，简单的select操作，如 select <em> from table where ? 都属于快照读；属于当前读的包含以下操作：<br>select </em> from table where ? lock in share mode; （加S锁）<br>select * from table where ? for update; （加X锁，下同）<br>insert, update, delete操作<br> 以上需要加X锁的都是当前读，而普通的select（除了for update）都是快照读，每次insert、update、delete之前都是会进行一次当前读的，这个时候会上锁，防止其他事务对某些行数据的修改，从而造成数据的不一致性。我们广义上说的幻读现象是通过MVCC解决的，意思是通过MVCC的快照读可以使得事务返回相同的数据集。</p>
 <p>start transaction；后面紧跟由begin和end包含的一些sql语句<br>commit提交事务，rollback回滚事务。<br>事务不支持嵌套功能</p>
 <ol>
 <li>自动提交：autocommit，该变量为1时自动向数据库提交结果，用户在操作数据库的时候不需要start transaction等，如果设置为0，则需要用户输入commit才会将数据表中的资料提交到数据库中(set autocommit=0)；</li>
@@ -222,7 +202,6 @@ as select语句
 </ol>
 <p>脏读：指一个线程中的事务读取到了另外一个线程中未提交的数据。<br>不可重复读（虚读）：指一个线程中的事务读取到了另外一个线程中提交的update的数据。<br>幻读：一个事务按相同的查询条件重新读取以前检索过的数据，却发现其他事务插入了满足其查询条件的新数据。一个线程中的事务读取到了另外一个线程中提交的insert的数据。</p>
 <p>MySQL提供4种孤立级：<br>READ UNCOMMITTED（读未提交）：在此级别里，事务的修改，即使没有提交，对其他事务也都是可见的。事务可以读取未提交的数据，也就是会产生脏读，在实际应用中一般很少使用。<br>READ COMMITTED（读已提交）：大多数数据库系统的默认隔离级别都是它，但是MySQL不是。它能够避免脏读问题，但是在一个事务里对同一条数据的多次查询可能会得到不同的结果，也就是会产生不可重复读问题。<br>REPEATABLE READ（可重复读）：该隔离级别是MySQL默认的隔离级别，看名字就知道它能够防止不可重复读问题，但是在一个事务里对一段数据的多次读取可能会导致不同的结果，也就是会有幻读的问题（注：这里说的无法解决是MySQL定义层面，对于InnoDB引擎则完美的解决了幻读的问题，如果你正在使用InnoDB引擎，可忽略）<br>SERIALIZABLE（可串行化）：该隔离级别是级别最高的，它通过锁来强制事务串行执行，避免了前面说的所有问题。在高并发下，可能导致大量的超时和锁争用问题。实际应用中也很少用到这个隔离级别，因为RR级别解决了所有问题<br>serializable（序列化）以序列的形式对事务进行处理，只有当事务提交后用户才能从数据库中查看数据的变化<br>repeatable read（可重读 ）不会被看成序列，提交之后才能看到结果<br>read commited（提交后读）用户可以看到其他事务添加的新记录，在同一事务的不同时间内，应用查询语句可能会得到不同的结果<br>read uncommited（读未提交）容易产生虚幻读操作，其他用户可以在该孤立级上看到未提交的事务。</p>
-<p>修改事务的孤立级：（set  事务名 transaction isolation level 孤立级；）<br>select @@tx_isolation；</p>
 <h1 id="索引失效的情况以及底层实现"><a href="#索引失效的情况以及底层实现" class="headerlink" title="索引失效的情况以及底层实现"></a>索引失效的情况以及底层实现</h1><p>如果条件中有or，即使其中有条件带索引也不会使用；like查询以%开头（以%结尾没有关系）；如果mysql估计使用全表扫描要比使用索引快,则不使用索引；查询时，采用is null条件时，不能利用到索引，只能全表扫描（索引无法存储null值）</p>
 <p>MySQL主要提供2种方式的索引：B-Tree索引，Hash索引；B树索引具有范围查找和前缀查找的能力，对于有N节点的B树，检索一条记录的复杂度为O(LogN)。相当于二分查找。哈希索引只能做等于查找，但是无论多大的Hash表，查找复杂度都是O(1)。如果值的差异性大，并且以等值查找（=、 &lt;、&gt;、in）为主，Hash索引是更高效的选择，它有O(1)的查找复杂度。如果值的差异性相对较差，并且以范围查找为主，B树是更好的选择，它支持范围查找。</p>
 <h1 id="数据库的悲观锁和乐观锁"><a href="#数据库的悲观锁和乐观锁" class="headerlink" title="数据库的悲观锁和乐观锁"></a>数据库的悲观锁和乐观锁</h1><p>乐观锁不是数据库自带的，需要我们自己去实现。乐观锁是指操作数据库时(更新操作)，想法很乐观，认为这次的操作不会导致冲突，在操作数据时，并不进行任何其他的特殊处理（也就是不加锁），而在进行更新后，再去判断是否有冲突了。通常实现是这样的：在表中的数据进行操作时(更新)，先给数据表加一个版本(version)字段，每操作一次，将那条记录的版本号加1。也就是先查询出那条记录，获取出version字段,如果要对那条记录进行操作(更新),则先判断此刻version的值是否与刚刚查询出来时的version的值相等，如果相等，则说明这段期间，没有其他程序对其进行操作，则可以执行更新，将version字段的值加1；如果更新时发现此刻的version值与刚刚获取出来的version的值不相等，则说明这段期间已经有其他程序对其进行操作了，则不进行更新操作。乐观锁定的第二种实现方式和第一种差不多，同样是在需要乐观锁控制的table中增加一个时间戳 字段，名称无所谓，字段类型使用时间戳（timestamp）, 和上面的version类似，也是在更新提交的时候检查当前数据库中数据的时间戳和自己更新前取到的时间戳进行对比，如果一致则OK，否则就是版本冲突。</p>
@@ -249,10 +228,18 @@ as select语句
 <p>不同的引擎有不同的锁机制</p>
 <p>MySQL表级锁有两种模式：表共享锁（Table Read Lock）和表独占写锁（Table Write Lock）。<br>对MyISAM的读操作，不会阻塞其他用户对同一表请求，但会阻塞对同一表的写请求；<br>对MyISAM的写操作，则会阻塞其他用户对同一表的读和写操作；<br>MyISAM表的读操作和写操作之间，以及写操作之间是串行的。<br>当一个线程获得对一个表的写锁后，只有持有锁线程可以对表进行更新操作。其他线程的读、写操作都会等待，直到锁被释放为止。</p>
 <p>MyISAM在执行查询语句（SELECT）前，会自动给涉及的所有表加读锁，在执行更新操作（UPDATE、DELETE、INSERT等）前，会自动给涉及的表加写锁<br>MySQL一次获得SQL语句所需要的全部锁。这也正是MyISAM表不会出现死锁的原因，两个进程分别请求读锁和写锁的时候，请求写锁的进程先获得锁，后来的请求写锁的进程也比读请求进程先获得锁。这也是MyISAM不适合查找的原因</p>
-<p>InnoDB 行锁</p>
-<p>InnoDB实现了以下两种类型的行锁。<br>共享锁（s）：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁。lock in share mode<br>排他锁（Ｘ）：允许获取排他锁的事务更新数据，阻止其他事务取得相同的数据集共享读锁和排他写锁。  for update<br>意向共享锁（IS）：事务打算给数据行共享锁，事务在给一个数据行加共享锁前必须先取得该表的IS锁。<br>意向排他锁（IX）：事务打算给数据行加排他锁，事务在给一个数据行加排他锁前必须先取得该表的IX锁。</p>
+<p>InnoDB 行锁<br>InnoDB实现了以下两种类型的行锁。<br>共享锁（s）：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁。lock in share mode<br>排他锁（Ｘ）：允许获取排他锁的事务更新数据，阻止其他事务取得相同的数据集共享读锁和排他写锁。  for update<br>意向共享锁（IS）：事务打算给数据行共享锁，事务在给一个数据行加共享锁前必须先取得该表的IS锁。<br>意向排他锁（IX）：事务打算给数据行加排他锁，事务在给一个数据行加排他锁前必须先取得该表的IX锁。</p>
 <p> InnoDB行锁是通过索引上的索引项来实现的，这一点ＭySQL与Oracle不同，后者是通过在数据中对相应数据行加锁来实现的。InnoDB这种行锁实现特点意味者：只有通过索引条件检索数据，InnoDB才会使用行级锁，否则，InnoDB将使用表锁！</p>
-<p>## </p>
+<h2 id="MySQL主从复制"><a href="#MySQL主从复制" class="headerlink" title="MySQL主从复制"></a>MySQL主从复制</h2><p>MySQL 主从复制概念<br>MySQL 主从复制是指数据可以从一个MySQL数据库服务器主节点复制到一个或多个从节点。MySQL 默认采用异步复制方式，这样从节点不用一直访问主服务器来更新自己的数据，数据的更新可以在远程连接上进行，从节点可以复制主数据库中的所有数据库或者特定的数据库，或者特定的表。<br>MySQL 主从复制主要用途<br>l 读写分离<br>在开发工作中，有时候会遇见某个sql 语句需要锁表，导致暂时不能使用读的服务，这样就会影响现有业务，使用主从复制，让主库负责写，从库负责读，这样，即使主库出现了锁表的情景，通过读从库也可以保证业务的正常运作。<br>l 数据实时备份，当系统中某个节点发生故障时，可以方便的故障切换<br>l 高可用HA<br>l 架构扩展</p>
+<p>随着系统中业务访问量的增大，如果是单机部署数据库，就会导致I/O访问频率过高。有了主从复制，增加多个数据存储节点，将负载分布在多个从节点上，降低单机磁盘I/O访问的频率，提高单个机器的I/O性能。</p>
+<p>MySQL 主从形式<br>一主一从<br>一主多从，提高系统的读性能<br>一主一从和一主多从是最常见的主从架构，实施起来简单并且有效，不仅可以实现HA，而且还能读写分离，进而提升集群的并发能力。<br>多主一从 （从5.7开始支持）<br>多主一从可以将多个mysql数据库备份到一台存储性能比较好的服务器上。<br>双主复制<br>双主复制，也就是互做主从复制，每个master既是master，又是另外一台服务器的slave。这样任何一方所做的变更，都会通过复制应用到另外一方的数据库中。<br>级联复制<br>级联复制模式下，部分slave的数据同步不连接主节点，而是连接从节点。因为如果主节点有太多的从节点，就会损耗一部分性能用于replication，那么我们可以让3~5个从节点连接主节点，其它从节点作为二级或者三级与从节点连接，这样不仅可以缓解主节点的压力，并且对数据一致性没有负面影响</p>
+<p>MySQL 主从复制原理<br>MySQL主从复制涉及到三个线程，一个运行在主节点（log dump thread），其余两个(I/O thread, SQL thread)运行在从节点，</p>
+<p>l 主节点 binary log dump 线程<br>当从节点连接主节点时，主节点会创建一个log dump 线程，用于发送bin-log的内容。在读取bin-log中的操作时，此线程会对主节点上的bin-log加锁，当读取完成，甚至在发动给从节点之前，锁会被释放。<br>l 从节点I/O线程<br>当从节点上执行<code>start slave</code>命令之后，从节点会创建一个I/O线程用来连接主节点，请求主库中更新的bin-log。I/O线程接收到主节点binlog dump 进程发来的更新之后，保存在本地relay-log中。<br>l 从节点SQL线程<br>SQL线程负责读取relay log中的内容，解析成具体的操作并执行，最终保证主从数据的一致性。<br>对于每一个主从连接，都需要三个进程来完成。当主节点有多个从节点时，主节点会为每一个当前连接的从节点建一个binary log dump 进程，而每个从节点都有自己的I/O进程，SQL进程。从节点用两个线程将从主库拉取更新和执行分成独立的任务，这样在执行同步数据任务的时候，不会降低读操作的性能。比如，如果从节点没有运行，此时I/O进程可以很快从主节点获取更新，尽管SQL进程还没有执行。如果在SQL进程执行之前从节点服务停止，至少I/O进程已经从主节点拉取到了最新的变更并且保存在本地relay日志中，当服务再次起来之后，就可以完成数据的同步。</p>
+<p>MySQL 主从复制模式</p>
+<p>l 异步模式（mysql async-mode）<br>异步模式如下图所示，这种模式下，主节点不会主动push bin log到从节点，这样有可能导致failover的情况下，也许从节点没有即时地将最新的bin log同步到本地。<br>|半同步模式(mysql semi-sync)</p>
+<p>这种模式下主节点只需要接收到其中一台从节点的返回信息，就会commit；否则需要等待直到超时时间然后切换成异步模式再提交；这样做的目的可以使主从数据库的数据延迟缩小，可以提高数据安全性，确保了事务提交后，binlog至少传输到了一个从节点上，不能保证从节点将此事务更新到db中。性能上会有一定的降低，响应时间会变长。如下图所示：</p>
+<p>l 全同步模式</p>
+<p>全同步模式是指主节点和从节点全部执行了commit并确认才会向客户端返回成功。</p>
 
       
 
@@ -288,6 +275,10 @@ as select语句
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
         		</li>
       		
 		</ul>
@@ -344,7 +335,7 @@ as select语句
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#触发器"><span class="toc-number">1.</span> <span class="toc-text">触发器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看触发器"><span class="toc-number">1.0.1.</span> <span class="toc-text">查看触发器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#视图（view）"><span class="toc-number">2.</span> <span class="toc-text">视图（view）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查看视图"><span class="toc-number">2.1.</span> <span class="toc-text">查看视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改视图"><span class="toc-number">2.2.</span> <span class="toc-text">修改视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新视图（insert、update）"><span class="toc-number">2.3.</span> <span class="toc-text">更新视图（insert、update）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#事务（transaction）"><span class="toc-number">3.</span> <span class="toc-text">事务（transaction）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#索引失效的情况以及底层实现"><span class="toc-number">4.</span> <span class="toc-text">索引失效的情况以及底层实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库的悲观锁和乐观锁"><span class="toc-number">5.</span> <span class="toc-text">数据库的悲观锁和乐观锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关系数据库的三大范式"><span class="toc-number">6.</span> <span class="toc-text">关系数据库的三大范式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库连接池"><span class="toc-number">7.</span> <span class="toc-text">数据库连接池</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？"><span class="toc-number">8.</span> <span class="toc-text">使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL锁"><span class="toc-number">9.</span> <span class="toc-text">MySQL锁</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL索引"><span class="toc-number">1.</span> <span class="toc-text">MySQL索引</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#事务（transaction）"><span class="toc-number">2.</span> <span class="toc-text">事务（transaction）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#索引失效的情况以及底层实现"><span class="toc-number">3.</span> <span class="toc-text">索引失效的情况以及底层实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库的悲观锁和乐观锁"><span class="toc-number">4.</span> <span class="toc-text">数据库的悲观锁和乐观锁</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关系数据库的三大范式"><span class="toc-number">5.</span> <span class="toc-text">关系数据库的三大范式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库连接池"><span class="toc-number">6.</span> <span class="toc-text">数据库连接池</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？"><span class="toc-number">7.</span> <span class="toc-text">使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MySQL锁"><span class="toc-number">8.</span> <span class="toc-text">MySQL锁</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL主从复制"><span class="toc-number">8.1.</span> <span class="toc-text">MySQL主从复制</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -469,6 +460,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -477,7 +472,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -485,11 +484,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">面试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -513,6 +508,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
@@ -521,11 +520,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -550,6 +545,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>

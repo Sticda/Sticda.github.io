@@ -139,6 +139,247 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-20171114-mysql" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/14/20171114-mysql/">20171114</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/14/20171114-mysql/" class="archive-article-date">
+  	<time datetime="2017-11-14T01:21:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-14</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>mysql有三个比较常用的存储引擎，存储引擎就是定义如何存储数据，如何为存储的数据建立索引和如何更新查询数据等具体问题的技术实现，“show engines；”比较常用的存储引擎有三个：InnoDB、MyISAM、MEMORY。</p>
+<ol>
+<li>InnoDB：可以实现事务处理，支持外键，频繁的更新插入操作可以选用，两个文件（数据，日志）缓存数据和索引。一行一行删除表格。</li>
+<li>MyISAM：管理非事务表， 占用空间小，处理速度快，保存表的总行数，存储三个文件（表定义、数据、索引）主要用于读出记录。只缓存索引、可以没有主键，删表</li>
+<li>MEMORY：该存储引擎所有数据都在内存中，处理速度高，但是安全性不高，只能适用于相对较小的数据库</li>
+</ol>
+<h1 id="MySQL索引"><a href="#MySQL索引" class="headerlink" title="MySQL索引"></a>MySQL索引</h1><p>分为单列和多列索引</p>
+<p>普通索引、唯一索引（索引值唯一，unique关键字）、全文索引（fulltext关键字可以设置，只能创建在char，varchar，text类型的字段上）、主键索引、组合索引、</p>
+<pre><code>create table 表名(
+属性名 数据类型[约束条件]，
+…………
+[UNIQUE|FULLTEXT|SPATIAL] INDEX KEY
+[别名] (属性名[(长度)] [ASC|DESC])
+);
+</code></pre><p>举个栗子</p>
+<pre><code>create table student（
+id int not null primary key auto_increment,
+abd varchar(50),
+index hahaha(id)）;
+</code></pre><p>索引名是hahaha，索引的内容是id列，哈哈哈是别名，如果不指定别名将直接使用列名作为索引名</p>
+<hr>
+<p>在已有表上新建索引</p>
+<pre><code>CREATE [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name 
+ON table_name(属性 [(length)] [ASC | DESC]);
+</code></pre><p>修改表结构添加索引</p>
+<pre><code>alter table 表名 ADD [UNIQUE | FULLTEXT | SPATIAL ] INDEX index_name (属性 [(length)] [ASC | DESC]);
+</code></pre><p>注意上面两种的区别，主要需要注意的地方是前者是表名+列名“table_name(属性 [(length)] [ASC | DESC])”，后者是索引名+列名“INDEX index_name (属性 [(length)] [ASC | DESC])”。<br>用show create table 表名可以查看该表的定义</p>
+<h1 id="事务（transaction）"><a href="#事务（transaction）" class="headerlink" title="事务（transaction）"></a>事务（transaction）</h1><p>ACID：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）、持久性（Durability）<br><strong>原子性（Atomicity）</strong>：一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部失败回滚。MySQL通过Redo Log重做日志实现了原子性，在将执行SQL语句时，会先写入redo log buffer，再执行SQL语句，若SQL语句执行出错就会根据redo log buffer中的记录来执行回滚操作，由此拥有原子性<br><strong>一致性（consistency）</strong>：数据库总是从一个一致性的状态转换到另一个一致性的状态。（其实原子性和隔离性间接的保证了一致性）<br>MySQL通过undo Log实现一致性，执行SQL语句时，会先写入undo log再写入 redo log buffer。undo是逻辑日志，会根据之前的SQL语句进行相应回滚，比如之前是insert那么回滚时会执行一个delete，一个update会执行 一个相反的update。并且除了回滚，undo log还有一个作用是MVCC，当用户读取一行记录时，若该记录已经被其他事务占用，当前事务可通过undo读取之前的行版本信息，实现非锁定读取。并且undo log也会产生redo log，因为undo log也需要持久性的保护<br><strong>隔离性（isolation）</strong>：通常来说，一个事务所做的修改在最终提交以前，对其他事务是不可见的。通过加锁实现。<br><strong>持久性（durability）</strong>：一旦事务提交，则其所做的修改就会永久保存到数据库中。</p>
+<p>MVCC是为了实现数据库的并发控制而设计的一种协议。要实现数据库的并发访问控制，最简单的做法就是加锁访问，即读的时候不能写（允许多个线程同时读，即共享锁，S锁），写的时候不能读（一次最多只能有一个线程对同一份数据进行写操作，即排它锁，X锁）。这样的加锁访问，其实并不算是真正的并发，或者说它只能实现并发的读，因为它最终实现的是读写串行化，这样就大大降低了数据库的读写性能。加锁访问其实就是和MVCC相对的LBCC，即基于锁的并发控制（Lock-Based Concurrent Control），是四种隔离级别中级别最高的Serialize隔离级别。为了提出比LBCC更优越的并发性能方法，MVCC便应运而生。</p>
+<p>MVCC的最大好处便是，读不加锁，读写不冲突。在MVCC中，读操作可以分成两类，快照读（Snapshot read）和当前读（current read）。快照读，读取的是记录的可见版本（可能是历史版本，即最新的数据可能正在被当前执行的事务并发修改），不会对返回的记录加锁；而当前读，读取的是记录的最新版本，并且会对返回的记录加锁，保证其他事务不会并发修改这条记录。在MySQL InnoDB中，简单的select操作，如 select <em> from table where ? 都属于快照读；属于当前读的包含以下操作：<br>select </em> from table where ? lock in share mode; （加S锁）<br>select * from table where ? for update; （加X锁，下同）<br>insert, update, delete操作<br> 以上需要加X锁的都是当前读，而普通的select（除了for update）都是快照读，每次insert、update、delete之前都是会进行一次当前读的，这个时候会上锁，防止其他事务对某些行数据的修改，从而造成数据的不一致性。我们广义上说的幻读现象是通过MVCC解决的，意思是通过MVCC的快照读可以使得事务返回相同的数据集。</p>
+<p>start transaction；后面紧跟由begin和end包含的一些sql语句<br>commit提交事务，rollback回滚事务。<br>事务不支持嵌套功能</p>
+<ol>
+<li>自动提交：autocommit，该变量为1时自动向数据库提交结果，用户在操作数据库的时候不需要start transaction等，如果设置为0，则需要用户输入commit才会将数据表中的资料提交到数据库中(set autocommit=0)；</li>
+<li>事务的孤立级：不同的用户通过不同的会话执行不同的事务，为了保证事务互不影响，保证数据库性能不受到影响，采用事务的孤立级是十分必要的。 </li>
+</ol>
+<p>脏读：指一个线程中的事务读取到了另外一个线程中未提交的数据。<br>不可重复读（虚读）：指一个线程中的事务读取到了另外一个线程中提交的update的数据。<br>幻读：一个事务按相同的查询条件重新读取以前检索过的数据，却发现其他事务插入了满足其查询条件的新数据。一个线程中的事务读取到了另外一个线程中提交的insert的数据。</p>
+<p>MySQL提供4种孤立级：<br>READ UNCOMMITTED（读未提交）：在此级别里，事务的修改，即使没有提交，对其他事务也都是可见的。事务可以读取未提交的数据，也就是会产生脏读，在实际应用中一般很少使用。<br>READ COMMITTED（读已提交）：大多数数据库系统的默认隔离级别都是它，但是MySQL不是。它能够避免脏读问题，但是在一个事务里对同一条数据的多次查询可能会得到不同的结果，也就是会产生不可重复读问题。<br>REPEATABLE READ（可重复读）：该隔离级别是MySQL默认的隔离级别，看名字就知道它能够防止不可重复读问题，但是在一个事务里对一段数据的多次读取可能会导致不同的结果，也就是会有幻读的问题（注：这里说的无法解决是MySQL定义层面，对于InnoDB引擎则完美的解决了幻读的问题，如果你正在使用InnoDB引擎，可忽略）<br>SERIALIZABLE（可串行化）：该隔离级别是级别最高的，它通过锁来强制事务串行执行，避免了前面说的所有问题。在高并发下，可能导致大量的超时和锁争用问题。实际应用中也很少用到这个隔离级别，因为RR级别解决了所有问题<br>serializable（序列化）以序列的形式对事务进行处理，只有当事务提交后用户才能从数据库中查看数据的变化<br>repeatable read（可重读 ）不会被看成序列，提交之后才能看到结果<br>read commited（提交后读）用户可以看到其他事务添加的新记录，在同一事务的不同时间内，应用查询语句可能会得到不同的结果<br>read uncommited（读未提交）容易产生虚幻读操作，其他用户可以在该孤立级上看到未提交的事务。</p>
+<h1 id="索引失效的情况以及底层实现"><a href="#索引失效的情况以及底层实现" class="headerlink" title="索引失效的情况以及底层实现"></a>索引失效的情况以及底层实现</h1><p>如果条件中有or，即使其中有条件带索引也不会使用；like查询以%开头（以%结尾没有关系）；如果mysql估计使用全表扫描要比使用索引快,则不使用索引；查询时，采用is null条件时，不能利用到索引，只能全表扫描（索引无法存储null值）</p>
+<p>MySQL主要提供2种方式的索引：B-Tree索引，Hash索引；B树索引具有范围查找和前缀查找的能力，对于有N节点的B树，检索一条记录的复杂度为O(LogN)。相当于二分查找。哈希索引只能做等于查找，但是无论多大的Hash表，查找复杂度都是O(1)。如果值的差异性大，并且以等值查找（=、 &lt;、&gt;、in）为主，Hash索引是更高效的选择，它有O(1)的查找复杂度。如果值的差异性相对较差，并且以范围查找为主，B树是更好的选择，它支持范围查找。</p>
+<h1 id="数据库的悲观锁和乐观锁"><a href="#数据库的悲观锁和乐观锁" class="headerlink" title="数据库的悲观锁和乐观锁"></a>数据库的悲观锁和乐观锁</h1><p>乐观锁不是数据库自带的，需要我们自己去实现。乐观锁是指操作数据库时(更新操作)，想法很乐观，认为这次的操作不会导致冲突，在操作数据时，并不进行任何其他的特殊处理（也就是不加锁），而在进行更新后，再去判断是否有冲突了。通常实现是这样的：在表中的数据进行操作时(更新)，先给数据表加一个版本(version)字段，每操作一次，将那条记录的版本号加1。也就是先查询出那条记录，获取出version字段,如果要对那条记录进行操作(更新),则先判断此刻version的值是否与刚刚查询出来时的version的值相等，如果相等，则说明这段期间，没有其他程序对其进行操作，则可以执行更新，将version字段的值加1；如果更新时发现此刻的version值与刚刚获取出来的version的值不相等，则说明这段期间已经有其他程序对其进行操作了，则不进行更新操作。乐观锁定的第二种实现方式和第一种差不多，同样是在需要乐观锁控制的table中增加一个时间戳 字段，名称无所谓，字段类型使用时间戳（timestamp）, 和上面的version类似，也是在更新提交的时候检查当前数据库中数据的时间戳和自己更新前取到的时间戳进行对比，如果一致则OK，否则就是版本冲突。</p>
+<p>乐观锁相对应的就是悲观锁了。悲观锁就是在操作数据时，认为此操作会出现数据冲突，所以在进行每次操作时都要通过获取锁才能进行对相同数据的操作。<strong>共享锁</strong>指的就是对于多个不同的事务，对同一个资源共享同一个锁。对于悲观锁，一般数据库已经实现了，共享锁也属于悲观锁的一种，通过在执行语句后面加上<strong>lock in share mode</strong>就代表对某些资源加上共享锁了。<strong>排它锁</strong>与共享锁相对应，就是指对于多个不同的事务，对同一个资源只能有一把锁。与共享锁类型，在需要执行的语句后面加上<strong>for update</strong>就可以了</p>
+<h1 id="关系数据库的三大范式"><a href="#关系数据库的三大范式" class="headerlink" title="关系数据库的三大范式"></a>关系数据库的三大范式</h1><p>第一范式：当关系模式R的所有属性都不能在分解为更基本的数据单位时，称R是满足第一范式的，简记为1NF。满足第一范式是关系模式规范化的最低要求，否则，将有很多基本操作在这样的关系模式中实现不了。（每一列属性都是不可再分的属性值，确保每一列的原子性）<br>第二范式：如果关系模式R满足第一范式，并且R得所有非主属性都完全依赖于R的每一个候选关键属性，称R满足第二范式，简记为2NF。每一行的数据只能与其中一列相关，即一行数据只做一件事。只要数据列中出现数据重复，就要把表拆分开来，所有属性都必须依赖于主键。<br>第三范式：设R是一个满足第一范式条件的关系模式，X是R的任意属性集，如果X非传递依赖于R的任意一个候选关键字，称R满足第三范式，简记为3NF.数据不能存在传递关系，即每个属性都跟主键有直接关系而不是间接关系</p>
+<h1 id="数据库连接池"><a href="#数据库连接池" class="headerlink" title="数据库连接池"></a>数据库连接池</h1><p>最大维持连接数N：没有任何请求时在连接池中可以存在的连接数</p>
+<p>最大连接数M：连接池中最多可以存在的连接个数。</p>
+<p>最大等待时间T：当断开连接时，超过最大维持连接数的连接不会马上销毁，最大等待时间过后它才会销毁。</p>
+<p>连接池是将已经创建好的连接保存在池中，当有请求来时，直接使用已经创建好的连接对数据库进行访问。这样省略了创建连接和销毁连接的过程。</p>
+<p>其过程：最开始在连接池中有N个连接，当有用户申请连接时，其将一个连接分配用户，直到连接池中的现有的所有连接全都分配出去，当大于N个用户申请时，它将创建第N+1个连接并分配给该用户，直到把M个连接都分配给用户，当第M+1个用户申请连接时，它需要等待，直到前面的用户中某一个断开了连接，才会把那个连接分配给第M+1个用户，当用户断开连接时，该连接不会立刻被释放而是需要等待T时间（最大等待时间），才被释放，当没有用户连接时，连接池内还保持这N个连接。</p>
+<p>在开发中，使用连接池时若没有关闭连接（调用连接的close方法）会出现“连接池疲劳的错误；</p>
+<p>ComboPooledDataSource类<br>C3P0可以使用xml配置方式或者代码注入属性值，配置文件一定到放置到src下，命名为：c3p0-config.xml<br>无论是使用DBCP还是使用C3P0连接池，在写成工具类后都要对外提供一个数据源DateSource和一个连接Connection。</p>
+<h1 id="使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？"><a href="#使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？" class="headerlink" title="使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？"></a>使用JDBC操作数据库时，如何提升读取数据的性能？如何提升更新数据的性能？</h1><ol>
+<li>进行SQL查询,当预期的结果集较大的时候,使用PreparedStatement.setFetchSize(FETCH_SIZE)或者Statement.setFetchSize(FETCH_SIZE),可以成百倍地增加性能</li>
+<li>在进行大量数据插入数据库的操作时,应该使用批量加入,一次执行的策略</li>
+</ol>
+<p>有多种方法可以提高更新的效率. 简单说来：</p>
+<ol>
+<li>暂停索引，更新后恢复.避免在更新的过程中涉及到索引的重建.UPDATE的是索引字段，就会涉及到索引的重建，暂停索引不会提高多少的速度，反而有可能降低UPDATE速度。 如果表比较庞大，停索引后重键需要花比较长的时间 。优点：如果更新的数据量接近整个表，此方法比较好。</li>
+<li>批量更新，每更新一些记录后及时进行提交动作.避免大量占用回滚段和或临时表空间.</li>
+<li>创建一临时的大的表空间用来应对这些更新动作</li>
+</ol>
+<h1 id="MySQL锁"><a href="#MySQL锁" class="headerlink" title="MySQL锁"></a>MySQL锁</h1><p>MySQL大致可归纳为以下3种锁：<br>表级锁：开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低。<br>行级锁：开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度也最高。<br>页面锁：开销和加锁时间界于表锁和行锁之间；会出现死锁；锁定粒度界于表锁和行锁之间，并发度一般</p>
+<p>不同的引擎有不同的锁机制</p>
+<p>MySQL表级锁有两种模式：表共享锁（Table Read Lock）和表独占写锁（Table Write Lock）。<br>对MyISAM的读操作，不会阻塞其他用户对同一表请求，但会阻塞对同一表的写请求；<br>对MyISAM的写操作，则会阻塞其他用户对同一表的读和写操作；<br>MyISAM表的读操作和写操作之间，以及写操作之间是串行的。<br>当一个线程获得对一个表的写锁后，只有持有锁线程可以对表进行更新操作。其他线程的读、写操作都会等待，直到锁被释放为止。</p>
+<p>MyISAM在执行查询语句（SELECT）前，会自动给涉及的所有表加读锁，在执行更新操作（UPDATE、DELETE、INSERT等）前，会自动给涉及的表加写锁<br>MySQL一次获得SQL语句所需要的全部锁。这也正是MyISAM表不会出现死锁的原因，两个进程分别请求读锁和写锁的时候，请求写锁的进程先获得锁，后来的请求写锁的进程也比读请求进程先获得锁。这也是MyISAM不适合查找的原因</p>
+<p>InnoDB 行锁<br>InnoDB实现了以下两种类型的行锁。<br>共享锁（s）：允许一个事务去读一行，阻止其他事务获得相同数据集的排他锁。lock in share mode<br>排他锁（Ｘ）：允许获取排他锁的事务更新数据，阻止其他事务取得相同的数据集共享读锁和排他写锁。  for update<br>意向共享锁（IS）：事务打算给数据行共享锁，事务在给一个数据行加共享锁前必须先取得该表的IS锁。<br>意向排他锁（IX）：事务打算给数据行加排他锁，事务在给一个数据行加排他锁前必须先取得该表的IX锁。</p>
+<p> InnoDB行锁是通过索引上的索引项来实现的，这一点ＭySQL与Oracle不同，后者是通过在数据中对相应数据行加锁来实现的。InnoDB这种行锁实现特点意味者：只有通过索引条件检索数据，InnoDB才会使用行级锁，否则，InnoDB将使用表锁！</p>
+<h2 id="MySQL主从复制"><a href="#MySQL主从复制" class="headerlink" title="MySQL主从复制"></a>MySQL主从复制</h2><p>MySQL 主从复制概念<br>MySQL 主从复制是指数据可以从一个MySQL数据库服务器主节点复制到一个或多个从节点。MySQL 默认采用异步复制方式，这样从节点不用一直访问主服务器来更新自己的数据，数据的更新可以在远程连接上进行，从节点可以复制主数据库中的所有数据库或者特定的数据库，或者特定的表。<br>MySQL 主从复制主要用途<br>l 读写分离<br>在开发工作中，有时候会遇见某个sql 语句需要锁表，导致暂时不能使用读的服务，这样就会影响现有业务，使用主从复制，让主库负责写，从库负责读，这样，即使主库出现了锁表的情景，通过读从库也可以保证业务的正常运作。<br>l 数据实时备份，当系统中某个节点发生故障时，可以方便的故障切换<br>l 高可用HA<br>l 架构扩展</p>
+<p>随着系统中业务访问量的增大，如果是单机部署数据库，就会导致I/O访问频率过高。有了主从复制，增加多个数据存储节点，将负载分布在多个从节点上，降低单机磁盘I/O访问的频率，提高单个机器的I/O性能。</p>
+<p>MySQL 主从形式<br>一主一从<br>一主多从，提高系统的读性能<br>一主一从和一主多从是最常见的主从架构，实施起来简单并且有效，不仅可以实现HA，而且还能读写分离，进而提升集群的并发能力。<br>多主一从 （从5.7开始支持）<br>多主一从可以将多个mysql数据库备份到一台存储性能比较好的服务器上。<br>双主复制<br>双主复制，也就是互做主从复制，每个master既是master，又是另外一台服务器的slave。这样任何一方所做的变更，都会通过复制应用到另外一方的数据库中。<br>级联复制<br>级联复制模式下，部分slave的数据同步不连接主节点，而是连接从节点。因为如果主节点有太多的从节点，就会损耗一部分性能用于replication，那么我们可以让3~5个从节点连接主节点，其它从节点作为二级或者三级与从节点连接，这样不仅可以缓解主节点的压力，并且对数据一致性没有负面影响</p>
+<p>MySQL 主从复制原理<br>MySQL主从复制涉及到三个线程，一个运行在主节点（log dump thread），其余两个(I/O thread, SQL thread)运行在从节点，</p>
+<p>l 主节点 binary log dump 线程<br>当从节点连接主节点时，主节点会创建一个log dump 线程，用于发送bin-log的内容。在读取bin-log中的操作时，此线程会对主节点上的bin-log加锁，当读取完成，甚至在发动给从节点之前，锁会被释放。<br>l 从节点I/O线程<br>当从节点上执行<code>start slave</code>命令之后，从节点会创建一个I/O线程用来连接主节点，请求主库中更新的bin-log。I/O线程接收到主节点binlog dump 进程发来的更新之后，保存在本地relay-log中。<br>l 从节点SQL线程<br>SQL线程负责读取relay log中的内容，解析成具体的操作并执行，最终保证主从数据的一致性。<br>对于每一个主从连接，都需要三个进程来完成。当主节点有多个从节点时，主节点会为每一个当前连接的从节点建一个binary log dump 进程，而每个从节点都有自己的I/O进程，SQL进程。从节点用两个线程将从主库拉取更新和执行分成独立的任务，这样在执行同步数据任务的时候，不会降低读操作的性能。比如，如果从节点没有运行，此时I/O进程可以很快从主节点获取更新，尽管SQL进程还没有执行。如果在SQL进程执行之前从节点服务停止，至少I/O进程已经从主节点拉取到了最新的变更并且保存在本地relay日志中，当服务再次起来之后，就可以完成数据的同步。</p>
+<p>MySQL 主从复制模式</p>
+<p>l 异步模式（mysql async-mode）<br>异步模式如下图所示，这种模式下，主节点不会主动push bin log到从节点，这样有可能导致failover的情况下，也许从节点没有即时地将最新的bin log同步到本地。<br>|半同步模式(mysql semi-sync)</p>
+<p>这种模式下主节点只需要接收到其中一台从节点的返回信息，就会commit；否则需要等待直到超时时间然后切换成异步模式再提交；这样做的目的可以使主从数据库的数据延迟缩小，可以提高数据安全性，确保了事务提交后，binlog至少传输到了一个从节点上，不能保证从节点将此事务更新到db中。性能上会有一定的降低，响应时间会变长。如下图所示：</p>
+<p>l 全同步模式</p>
+<p>全同步模式是指主节点和从节点全部执行了commit并确认才会向客户端返回成功。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">面试</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/14/20171114-mysql/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-正则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/09/正则/">正则表达式</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/09/正则/" class="archive-article-date">
+  	<time datetime="2017-11-09T01:41:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-09</time>
+</a>
+        
+      </header>
+    
+	<!-- 目录内容 -->
+
+<!-- 目录内容结束 -->
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>正则表达式一直是一个我搞不懂的点，虽然我知道他是用来字符串匹配的，但是各种符号的使用总是没搞明白，想着自己搞一遍但是我写博客肯定费劲，先看吧，看完再说。</p>
+<hr>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">数据库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/09/正则/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-20171107-mysql" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -223,6 +464,55 @@ limit count
 <p>外连接就是将数据进行混合，左外连接就是将左表中每一条数据分别与右表中每条数据进行连接组合，返回的数据除了内连接的数据还包括了左表中不符合条件的数据，并在右表的相应列中增加null值，简单来说就是左外连接最后返回的结果中必须包含左表的所有数据。右外连接亦然。</p>
 <pre><code>select 字段名称 from 左表 left||right join 右表 on 表名1.字段名=表名2.字段名 where conditions
 </code></pre><p>IN关键字（集合）EXISTS关键字（返回真或假）ANY关键字（any（）表示括号内数据的任意一个）ALL关键字（和ANY用法类似）AS关键字（用来给字段起别名）<br>UNION和UNION ALL将两个select语句的结果合并在一起，二者区别在于不带all会去除重复记录。<br>正则匹配中只有匹配字符集合时用到了方括号</p>
+<h1 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h1><p>触发器是一种与表操作有关的数据库对象，当触发器所在表上出现指定事件时，将调用该对象，即<strong>表的操作事件触发表上的触发器的执行</strong>。</p>
+<pre><code>CREATE TRIGGER trigger_name
+trigger_time
+trigger_event ON tbl_name
+FOR EACH ROW
+trigger_stmt1
+</code></pre><p>其中：</p>
+<p>trigger_name：标识触发器名称，用户自行指定；<br>trigger_time：标识触发时机，取值为 BEFORE 或 AFTER；<br>trigger_event：标识触发事件，取值为 INSERT、UPDATE 或 DELETE；<br>tbl_name：标识建立触发器的表名，即在哪张表上建立触发器；<br>trigger_stmt：触发器程序体，可以是一句SQL语句，或者用 BEGIN 和 END 包含的多条语句。  </p>
+<p>由此可见，可以建立6种触发器，即：BEFORE INSERT、BEFORE UPDATE、BEFORE DELETE、AFTER INSERT、AFTER UPDATE、AFTER DELETE。</p>
+<p>另外有一个限制是<strong>不能同时在一个表上建立2个相同类型的触发器</strong>，因此在一个表上最多建立6个触发器。</p>
+<p><strong>select语句返回的是结果集，就算最终的结果是表中的一个具体部分，也是一个结果集</strong></p>
+<h3 id="查看触发器"><a href="#查看触发器" class="headerlink" title="查看触发器"></a>查看触发器</h3><p>show triggers 查看数据库中所有的触发器</p>
+<p>select * from information_schema.triggers where trigger_name = ’触发器名称‘</p>
+<h1 id="视图（view）"><a href="#视图（view）" class="headerlink" title="视图（view）"></a>视图（view）</h1><p>数据库中只存放了视图的定义，没有视图的数据，所以每次使用视图获得的都是最新的数据，主要作用是保证了应用程序和数据库表的逻辑数据独立性，以及安全性<br>新建视图前先检查是否具有权限。</p>
+<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
+view 视图名（属性清单）
+as select语句
+[with [CASCADED | LOCAL ] check option];
+</code></pre><p>or replace的意思是如果存在的话进行修改，如果不存在的话创建视图</p>
+<p>algorithm表示视图选择的算法。ALGORITHM可取三个值：MERGE、TEMPTABLE或UNDEFINED。如果没有ALGORITHM子句，默认算法是UNDEFINED（未定义的）。算法会影响MySQL处理视图的方式。对于MERGE，会将引用视图的语句的文本与视图定义合并起来，使得视图定义的某一部分取代语句的对应部分。对于TEMPTABLE，视图的结果将被置于临时表中，然后使用它执行语句。对于UNDEFINED，MySQL自己选择所要使用的算法。如果可能，它倾向于MERGE而不是TEMPTABLE，这是因为MERGE通常更有效，而且如果使用了临时表，视图是不可更新的。</p>
+<p>with check option是可选参数，表示更新视图时要保证在该视图的权限范围内。<br>创建视图时指定了with check option关键字，这也就是说，更新后的每一条数据仍然要满足创建视图时指定的where条件。通过视图进行的修改，必须也能通过该视图看到修改后的结果<br>如果有with check option的话，默认关键字是cascade</p>
+<p>select语句中不能包含from子句中的子查询</p>
+<p>不能将触发程序和视图关联在一起。</p>
+<p>视图是建立在数据库上的</p>
+<h2 id="查看视图"><a href="#查看视图" class="headerlink" title="查看视图"></a>查看视图</h2><ol>
+<li>DESCRIBE（desc）视图名；</li>
+<li>show table status like ‘视图名’；(不带like就是展示目前数据库中的表和视图)</li>
+<li>show create view 视图名；</li>
+</ol>
+<h2 id="修改视图"><a href="#修改视图" class="headerlink" title="修改视图"></a>修改视图</h2><ol>
+<li>create or replace</li>
+<li><p>和定义时类似，将create改成alter</p>
+<pre><code>create  [ or replace] [algorithm=[undefined | merge | temptable ]]
+view 视图名（属性清单）
+as select语句
+[with [CASCADED | LOCAL ] check option];
+</code></pre><h2 id="更新视图（insert、update）"><a href="#更新视图（insert、update）" class="headerlink" title="更新视图（insert、update）"></a>更新视图（insert、update）</h2></li>
+</ol>
+<p>由于视图是一个虚表，所以通过视图的更新都将通过转化为基本的表操作，更新时必须保证拥有权限，更新时将视图看做普通的表。</p>
+<p>有几种情况更新视图是不能成功的。</p>
+<ol>
+<li>视图中包括了count、sum、max、min等函数</li>
+<li>视图中包含了union、UNION all 、distinct、group by、having等关键字</li>
+<li>select中包含了常量或者有子查询。</li>
+<li>由不可能更新的视图产生的视图。</li>
+<li>创建视图时算法为temptable类型。</li>
+<li>视图对应的表上存在没有默认值的非空列，并且这一列也不在视图中，所以插入失败。</li>
+</ol>
+<p>drop view if <strong>exists</strong> 视图名 [restrict | cascade ]</p>
 
       
 
@@ -396,8 +686,8 @@ limit count
 <li>什么时候volatile可以替代加锁：运算结果不依赖变量的当前值，或者只有单一线程修改变量值，变量不需要与其他的状态变量共同参与不变约束（单变量控制）</li>
 <li>JMM对于volatile变量的三个规则：1.load和use相连；2.assign和store相连。3. load和assign早的变量，read和write就要早</li>
 <li>8条happens-before原则：1.程序次序规则（写在前面的操作先行于书写在后面的操作）2.管程锁定规则：一个unlock操作先行发生于后面对同一个锁的lock操作3.volatile变量规则：对一个volatile变量的写操作先行发生于对该变量的读取。4.线程启动规则：thread对象的start方法先行发生于此线程的每一个动作。5. 线程终止规则：线程中所有操作都先行发生于对此线程的终止检测。6. 线程中断规则：对线程interrupt方法的调用先行发生于被中断线程的代码检测到中断事件的发生。7. 对象终结规则：一个对象的初始化完成先行于他的finalize方法开始。8.传递性：A操作先行发生于B操作，B操作先行发生于C操作，那么A操作先行发生于C操作。</li>
-<li>轻量级锁的加锁与解锁：如果同步对象没有被锁定，锁标志位为01，虚拟机首先将在当前线程的栈帧中新建一个lock record，用于存储同步对象的Mark Word，然后使用CAS操作将对象的Mark Word更改为指向lock record的指针，如果更新成功了，该线程就拥有了该对象的锁，并且对象的Mark Word的锁标志位转为00，如果这个更新操作失败了，虚拟机会检查对象的Mark Word是否已经指向当前线程的栈帧，如果是就说明当前线程已经拥有了这个对象的锁，如果不是的话说明锁对象被其他线程抢占了，如果有两条以上的线程争用同一个锁，那轻量级锁就要膨胀成重量级锁，锁标志的状态转变为10,Mark Word中存储指向重量级锁的指针。。。解锁过程也是使用CAS操作实现的，如果所对象的Mark Word仍然指向线程的lock record，就用CAS操作将对象的Mark Word和lock record替换回来，如果替换成功，同步结束，替换不成功说明有其他线程尝试获取过该锁，在释放锁的时候就要唤醒被挂起的线程。</li>
-<li>偏向锁：虚拟机启动了偏向锁才会有这一步，当锁对象第一次被线程获取的时候，虚拟机将会把对象头的标志位设为01，表示偏向模式，然后利用CAS操作将线程Id写入Mark word中，如果CAS操作成功的话，持有偏向锁的对象在之后再使用这个锁的时候就不需要进行任何同步操作了，当有另外一个线程尝试获取这个锁的时候，偏向模式就结束了，根据锁的状态恢复到未锁定或者轻量级锁。</li>
+<li>轻量级锁的加锁与解锁：如果同步对象没有被锁定，锁标志位为01，虚拟机首先将在当前线程的栈帧中新建一个lock record，用于存储同步对象的Mark Word，然后使用CAS操作将对象的Mark Word更改为指向lock record的指针，如果更新成功了，该线程就拥有了该对象的锁，并且对象的Mark Word的锁标志位转为00，如果这个更新操作失败了，虚拟机会检查对象的Mark Word是否已经指向当前线程的栈帧，如果是就说明当前线程已经拥有了这个对象的锁，如果不是的话说明锁对象被其他线程抢占了，如果有两条以上的线程争用同一个锁，那轻量级锁就要膨胀成重量级锁，锁标志的状态转变为10,Mark Word中存储指向重量级锁Monitor的指针。。。解锁过程也是使用CAS操作实现的，如果所对象的Mark Word仍然指向线程的lock record，就用CAS操作将对象的Mark Word和lock record替换回来，如果替换成功，同步结束，替换不成功说明有其他线程尝试获取过该锁，在释放锁的时候就要唤醒被挂起的线程。</li>
+<li>偏向锁：虚拟机启动了偏向锁才会有这一步，当锁对象第一次被线程获取的时候，虚拟机将会把对象头的标志位设为01，表示偏向模式，然后利用CAS操作将线程Id写入Mark word中，如果CAS操作成功的话，持有偏向锁的对象在之后再使用这个锁的时候就不需要进行任何同步操作了，当有另外一个线程尝试获取这个锁的时候，开始撤销偏向锁，在全局安全点判断持有偏向锁的线程是否已经结束同步块的执行，如果结束了，就将锁恢复到无锁状态，两个线程竞争thread id；没有结束同步块的执行的话就锁升级成轻量级锁，原来持有偏向锁的线程会继续执行，两个线程竞争轻量级锁。</li>
 </ol>
 
       
@@ -914,89 +1204,9 @@ limit count
 
 
   
-    <article id="post-20170802" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/03/20170802/">算是个开始吧</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/03/20170802/" class="archive-article-date">
-  	<time datetime="2017-08-03T03:17:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-03</time>
-</a>
-        
-      </header>
-    
-	<!-- 目录内容 -->
-
-<!-- 目录内容结束 -->
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>进入了大学好几年，语文的作文功底真的都没有了，我都不敢说还给老师，估计我的功底老师都看不上了，写什么的时候也是想到哪里写到哪里，所以我准备记个从大学开始的流水账，反正随便写写，以后老了还能看，哈哈哈（滑稽脸）。</p>
-<h2 id="本科篇"><a href="#本科篇" class="headerlink" title="本科篇"></a>本科篇</h2><p>高考完之后就在家里待了两个月，基本上一个人没出过远门，虽然爷爷奶奶极力要求父母来送我，但是因为父母要上班也没人送我，我哥也开学了，一个人第一次坐火车，坐地铁，从西安来到了北京某211高校，报完名之后就被快拉到乡里了，哈哈，高中的时候虽然在学校也算是个学习不错的孩子，但是我知道天外有天，人外有人，所以我对自己在大学的学习成绩啥的也不在意，只要不挂科就可以了，事实证明我做到了，我也没准备在大学好好学习，哈哈哈哈，可能是高中被压迫太久了，军训的时候就给班里的一个妹子表白，那个妹子和我一样高，虽然身高不是最重要的原因，反正最后也失败了，而且关系尴尬了四年，大一第一学期就是很不习惯，那时候也没买电脑，玩玩手机，无聊了就去自习，成绩也还行，反正差不多能看得过去，每天其实挺无聊的，认识的人都是宿舍的，因为高中的时候不怎么和不熟的人交流导致比较害羞（现在认识我的人听了估计想打人），就每天吃的比较多，然后从不到100飙升到120，从矮子变成矮胖子了（真的心疼自己），那时候参加了学校的志愿者协会还有社团，慢慢的变得大方并且能说会道，不断bb，大二回到城里之后，就给一个妹子表白了，我从那时候就觉得自己在这方面的情商为0了，妹子也没拒绝我，但是也没正式答应我，感觉那意思就是让我追她，我这个人也是有点懒，但是妹子都这样了，说明有戏啊，然后妹子和闺蜜一起喝酒之后，我问要不要去接妹子，妹子的闺蜜接了电话怼了我之后，我就知道这事估计没戏了，因为我知道闺蜜要是这样子，结果也不会好，所以就自动放弃了（妹子估计觉得我是个傻子），强迫自己去想别的，和别人一起玩，娱乐生活还比较多了，搞搞老乡聚会啊之类的，周围的人也比较多了，用上了某著名yp软件，从此打开了新世界,算是变得越来越不要脸了，大二得了奖学金小小的挥霍了之后就觉得钱是个好东西，所以大三就去兼职，实习，基本上整个大三都在实习，但是没找什么正经公司，也算是个小遗憾吧，大三下思考完人生之后就决定考研了，主要还是觉得自己学的一般般，本科出去估计也找不到好工作，所以就下定决心考上了研究生。</p>
-<h2 id="研0篇"><a href="#研0篇" class="headerlink" title="研0篇"></a>研0篇</h2><p>刚进实验室的时候就想着要做安卓安全方面的工作，所以ycx师兄就建议我在github上搭个博客，把自己学习到的一些不错的东西写下来，一个是别人可以看，另一个是自己也可以时不时地复习，这个博客就搭了一两个月，刚开始死活不成功，在本地上可以看，但是不能上传到github，隔了一个月之后又想要自己做个项目，所以就想写点东西，所以又开始搭，这一次是在本地上不能打开，但是能上传到github，发现可以了，然后主题又换不了，自己折腾了好久最后一切都成功了，所以没什么搭建的教程，因为我tm也不明白到底怎么就成功了，哪天申请个域名这事就算完了，今天就想写点东西，还能练练markdown的常用语法,赶紧让我说说废话，不然我要憋死了，因为能聊的基友要不就回家了，要不就退学重新念高三了，感觉自己这个人有毒。</p>
-<p>（睡了一晚上感觉bb的愿望不强了）从大四下进实验室到现在也有三个多月了，经历了很多，所以也有很多想说刚开始信誓旦旦地觉得自己本科是信息安全，研究生就想做网络安全相关的研究，研究生的专业也是网络空间安全，梦想着做个黑客，然而却没有想过，大学四年其实有无数的机会进入这个方向，但是自己都想过，也怯弱过，因为做一个黑客技术流，如果催动的兴趣不是很强，在这条路上可能很难长久地走下去，所以尽管研究生的时候想要去钻研安卓安全，但是自己好像对这方面真的不感兴趣，我个人探索的兴趣貌似不太强烈，所以到现在我就准备学好java，原本准备写一些关于安卓安全的博客，目前看来要变成java和android开发了，结果最后还是变成了程序猿，就是因为对自己定位不明确，一直在摇摆，所以wb老师才会让我去跟着wch老师做社会工程学的项目吧，其实我想把研究生当技校上，但很明显是不科学的，以后要读的论文还多着呢，本科的时候从来都觉得自己从某211高校毕业了就要去工作，总是觉得三年的工作经验要比三年的研究生生涯更有用，可是那时候的事情谁说的准呢，因为研究生，我还认识了自己喜欢的那个ta，虽然整个过程都tm很魔幻，但总归是遇见了，希望能长久吧，之前也算是被伤害过的男人吧，也不想谈恋爱，总觉得两个人在一起很麻烦，拒绝了那么几个人，那时候还不想做程序猿，可是现在想想自己好像也只能做程序员，吹逼的能力还不能达到产品经理，刚开始说要做安卓安全，看了看smali和dex之后，就觉得搞安全都没什么方向，我这个人比较讨厌这种没有目标的事，让我觉得自己是个无头苍蝇，所以就在安卓安全和安卓开发或者java后台中纠结，到现在算是下定决心了，以后不会再搞安全了，先踏踏实实的深入学习java开发吧。<br>最近在做个完全是由于兴趣驱动的，其次是想要巩固一下之前的java se的一些开发知识，不能总是纸上谈兵，还有那些年开发过的渣渣安卓，感觉都很表层，准备拿出来深挖一下，目前这个暑假感觉也没什么活，就先做这个小项目吧，主要是安卓客户端和java服务器，一个类似于微信的东东，主要是自己想玩一下，自己做出来一个简易版微信还是很有成就感的，哈哈哈，最近可能会写这个吧，<strong>以后每周都准备写一篇，最少写一篇吧</strong>，这周的这篇就是这个了，哈哈，个人也是很懒的，虽然一直致力于成为一个勤快人，最近就先搞搞这个，然后再学习一下java的spring框架和java底层的东西吧，我现在都不知道spring是干嘛的，哈哈哈，就这样吧。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/03/20170802/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 
@@ -1075,6 +1285,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -1083,7 +1297,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+                <a href="javascript:void(0)" class="js-tag color3">后台</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1091,11 +1309,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">后台</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">servlet</a>
+                <a href="javascript:void(0)" class="js-tag color3">面试</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1119,6 +1333,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">线程</a>
               </li>
              
@@ -1127,11 +1345,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">hadoop</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+                <a href="javascript:void(0)" class="js-tag color1">计算机网络</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1156,6 +1370,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编码</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
               </li>
             
             <div class="clearfix"></div>
